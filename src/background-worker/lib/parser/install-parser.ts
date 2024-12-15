@@ -1,3 +1,4 @@
+import { JPDBToken } from '@shared/jpdb';
 import { receiveTabMessage, sendToTab } from '@shared/messages';
 import { queueRequest } from '../queue-request';
 import { Parser } from './parser';
@@ -13,7 +14,7 @@ const queueParagraph = (
   sender: chrome.runtime.MessageSender,
   text: string,
 ): Promise<unknown> =>
-  new Promise<unknown>((resolve, reject) =>
+  new Promise<JPDBToken[]>((resolve, reject) =>
     pendingParagraphs.set(sequenceId, {
       resolve,
       reject,

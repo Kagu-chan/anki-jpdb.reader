@@ -46,8 +46,8 @@ export abstract class IntegrationScript {
     receiveBackgroundMessage('sequenceError', (sequenceId: number, error: string) =>
       withSequence(sequenceId, (request) => request.reject(new Error(error))),
     );
-    receiveBackgroundMessage('sequenceSuccess', (sequenceId: number, ...parameters: unknown[]) =>
-      withSequence(sequenceId, (request) => request.resolve(parameters)),
+    receiveBackgroundMessage('sequenceSuccess', (sequenceId: number, data: unknown[]) =>
+      withSequence(sequenceId, (request) => request.resolve(data)),
     );
   }
 
