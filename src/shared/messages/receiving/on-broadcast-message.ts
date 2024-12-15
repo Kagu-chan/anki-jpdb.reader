@@ -9,14 +9,12 @@ export const onBroadcastMessage = <TEvent extends keyof BroadcastEvents>(
   handler: BroadcastEventFunction<TEvent>,
 ): void => {
   chrome.runtime.onMessage.addListener(
-    (message: ExtensionMessage<BroadcastEvents, TEvent>): boolean => {
+    (message: ExtensionMessage<BroadcastEvents, TEvent>): void => {
       if (message.event !== event) {
-        return false;
+        return;
       }
 
       void handler(...(message.args as BroadcastEventArgs<TEvent>));
-
-      return true;
     },
   );
 };
