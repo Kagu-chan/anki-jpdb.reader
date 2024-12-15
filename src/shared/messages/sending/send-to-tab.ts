@@ -9,7 +9,7 @@ function send<T>(
 ): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     chrome.tabs.sendMessage(tabId, { event, isBroadcast, args }, (response: T) => {
-      if (chrome.runtime.lastError) {
+      if (chrome.runtime.lastError && !isBroadcast) {
         reject(chrome.runtime.lastError as Error);
       }
 

@@ -4,7 +4,7 @@ import { BroadcastEventArgs, BroadcastEvents } from '../types/broadcast';
 function send<T>(event: string, isBroadcast: boolean, ...args: unknown[]): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     chrome.runtime.sendMessage({ event, isBroadcast, args }, (response: T) => {
-      if (chrome.runtime.lastError) {
+      if (chrome.runtime.lastError && !isBroadcast) {
         reject(chrome.runtime.lastError as Error);
       }
 
