@@ -1,4 +1,5 @@
-import { MessageSender } from '@shared/extension';
+import { getConfiguration } from '@shared/configuration';
+import { injectStyle, MessageSender } from '@shared/extension';
 import { JPDBToken } from '@shared/jpdb';
 import { receiveTabMessage, sendToTab } from '@shared/messages';
 import { queueRequest } from '../queue-request';
@@ -57,6 +58,10 @@ const createParagraphBatches = (): Batch[] => {
 
 export const installParser = (): void => {
   receiveTabMessage('parse', (sender, data) => {
+    void getConfiguration('customWordCSS').then((customWordCSS) =>
+      injectStyle(sender.tab!.id!, 'word', customWordCSS),
+    );
+
     // Queue all paragraphs for parsing - those can then be packed into a batch
     data.forEach(([sequenceId, text]) => void queueParagraph(sequenceId, sender, text));
 

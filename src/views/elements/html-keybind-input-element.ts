@@ -69,7 +69,7 @@ export class HTMLKeybindInputElement extends HTMLElement {
   }
 
   protected installStyles(): void {
-    ['css/theme', 'css/common', 'css/settings'].forEach((style) => {
+    ['theme', 'common', 'settings'].forEach((style) => {
       this._shadow.appendChild(
         createElement('link', {
           attributes: {
