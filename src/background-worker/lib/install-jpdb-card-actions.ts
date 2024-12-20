@@ -1,9 +1,10 @@
 import { getConfiguration } from '@shared/configuration';
+import { MessageSender } from '@shared/extension';
 import { getCardState } from '@shared/jpdb';
 import { broadcast, sendToTab, receiveTabMessage } from '@shared/messages';
 
 async function getDeck(
-  sender: chrome.runtime.MessageSender,
+  sender: MessageSender,
   key: 'mining' | 'blacklist' | 'neverForget',
 ): Promise<string | false> {
   const deck = await getConfiguration(
@@ -23,7 +24,7 @@ async function getDeck(
 }
 
 async function manageDeck(
-  sender: chrome.runtime.MessageSender,
+  sender: MessageSender,
   vid: number,
   sid: number,
   deck: 'mining' | 'blacklist' | 'neverForget',
@@ -57,7 +58,7 @@ export const installJpdbCardActions = (): void => {
   receiveTabMessage(
     'addToDeck',
     async (
-      sender: chrome.runtime.MessageSender,
+      sender: MessageSender,
       vid: number,
       sid: number,
       // TODO: Add more context!
@@ -70,7 +71,7 @@ export const installJpdbCardActions = (): void => {
   receiveTabMessage(
     'removeFromDeck',
     async (
-      sender: chrome.runtime.MessageSender,
+      sender: MessageSender,
       vid: number,
       sid: number,
       // TODO: Add more context!

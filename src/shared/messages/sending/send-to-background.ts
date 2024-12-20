@@ -1,11 +1,14 @@
+import { getLastError, runtime } from '@shared/extension';
 import { BackgroundEventArgs, BackgroundEventResult, BackgroundEvents } from '../types/background';
 import { BroadcastEventArgs, BroadcastEvents } from '../types/broadcast';
 
 function send<T>(event: string, isBroadcast: boolean, ...args: unknown[]): Promise<T> {
   return new Promise<T>((resolve, reject) => {
-    chrome.runtime.sendMessage({ event, isBroadcast, args }, (response: T) => {
-      if (chrome.runtime.lastError && !isBroadcast) {
-        reject(chrome.runtime.lastError as Error);
+    runtime.sendMessage({ event, isBroadcast, args }, (response: T) => {
+      const lastError = getLastError();
+
+      if (lastError && !isBroadcast) {
+        reject(lastError as Error);
       }
 
       resolve(response);

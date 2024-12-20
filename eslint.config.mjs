@@ -129,6 +129,14 @@ export default [{
             next: ["if", "for", "do", "while", "try"],
         }],
 
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": "[name='chrome']",
+            "message": "Do not use browser namespaces directly as they may behave differently between browsers. Use @shared/extension instead."
+          }
+        ],
+
         "@typescript-eslint/lines-between-class-members": "off",
         "@typescript-eslint/no-explicit-any": "error",
 
@@ -187,5 +195,10 @@ export default [{
         "@typescript-eslint/no-empty-object-type": "error",
         "@typescript-eslint/no-unsafe-function-type": "error",
         "@typescript-eslint/no-wrapper-object-types": "error",
-    },
+    }
+}, {
+    "files": ["src/shared/extension/*.ts"],
+    "rules": {
+        "no-restricted-syntax": "off"
+    }
 }];

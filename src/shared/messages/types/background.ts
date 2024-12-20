@@ -1,3 +1,5 @@
+import { MessageSender } from '@shared/extension';
+
 /**
  * Defines events emitted from the browser to the extension
  */
@@ -15,6 +17,6 @@ export interface BackgroundEvents {
 export type BackgroundEventArgs<T extends keyof BackgroundEvents> = BackgroundEvents[T][0];
 export type BackgroundEventResult<T extends keyof BackgroundEvents> = BackgroundEvents[T][1];
 export type BackgroundEventFunction<T extends keyof BackgroundEvents = keyof BackgroundEvents> = (
-  sender: chrome.runtime.MessageSender,
+  sender: MessageSender,
   ...args: BackgroundEventArgs<T>
 ) => BackgroundEventResult<T>;

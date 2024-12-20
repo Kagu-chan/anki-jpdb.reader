@@ -1,3 +1,4 @@
+import { getLastError, tabs } from '@shared/extension';
 import { BroadcastEventArgs, BroadcastEvents } from '../types/broadcast';
 import { TabEventArgs, TabEventResult, TabEvents } from '../types/tab';
 
@@ -8,9 +9,11 @@ function send<T>(
   ...args: unknown[]
 ): Promise<T> {
   return new Promise<T>((resolve, reject) => {
-    chrome.tabs.sendMessage(tabId, { event, isBroadcast, args }, (response: T) => {
-      if (chrome.runtime.lastError && !isBroadcast) {
-        reject(chrome.runtime.lastError as Error);
+    tabs.sendMessage(tabId, { event, isBroadcast, args }, (response: T) => {
+      const lastError = getLastError();
+
+      if (lastError && !isBroadcast) {
+        reject(lastError as Error);
       }
 
       resolve(response);

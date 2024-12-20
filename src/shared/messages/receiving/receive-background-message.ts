@@ -1,3 +1,4 @@
+import { runtime } from '@shared/extension';
 import { PotentialPromise } from '@shared/types';
 import { ExtensionMessage } from '../types/extension-message';
 import { TabEventArgs, TabEventFunction, TabEventResult, TabEvents } from '../types/tab';
@@ -12,7 +13,7 @@ export const receiveBackgroundMessage = <TEvent extends keyof TabEvents>(
   event: TEvent,
   handler: TabEventFunction<TEvent>,
 ): void => {
-  chrome.runtime.onMessage.addListener(
+  runtime.onMessage.addListener(
     (request: ExtensionMessage<TabEvents, TEvent>, _, sendResponse): boolean => {
       const args = request.args as TabEventArgs<TEvent>;
 
