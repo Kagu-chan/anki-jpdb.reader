@@ -54,6 +54,10 @@ function wrap(node: Node, wrapper: HTMLElement): void {
   wrapper.append(node);
 }
 
+function pascalToKebabCase(input: string): string {
+  return input.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
+}
+
 export const applyTokens = (fragments: Fragment[], tokens: JPDBToken[]): void => {
   let fragmentIndex = 0;
   let curOffset = 0;
@@ -90,7 +94,7 @@ export const applyTokens = (fragments: Fragment[], tokens: JPDBToken[]): void =>
         splitFragment(fragments, fragmentIndex, token.end);
       }
 
-      const classes = ['jpdb-word', ...token.card.cardState];
+      const classes = ['jpdb-word', ...token.card.cardState.map(pascalToKebabCase)];
       const wrapper =
         token.rubies.length > 0 && !fragment.hasRuby
           ? createElement('ruby', {
