@@ -35,6 +35,24 @@ type JPDBLookupVocabularyResult = {
   vocabulary_info: [[JPDBCardState]];
 };
 
+type JPDBListUserDecksRequest = {
+  fields: JPDBDeckFields[];
+};
+type JPDBListUserDecksResult = {
+  decks: Exclude<JPDBDeck[keyof JPDBDeck], undefined>[][];
+};
+
+export type JPDBDeck = {
+  id?: string | number;
+  name?: string;
+  vocabulary_count?: number;
+  word_count?: number;
+  vocabulary_known_coverage?: number;
+  vocabulary_in_progress_coverage?: number;
+  is_built_in?: boolean;
+};
+export type JPDBDeckFields = keyof JPDBDeck;
+
 export type JPDBRequestOptions = {
   apiToken?: string;
 };
@@ -46,4 +64,5 @@ export type JPDBEndpoints = {
   ping: [Empty, void];
   parse: [JPDBParseRequest, JPDBParseResult];
   'lookup-vocabulary': [JPDBLookupVocabularyRequest, JPDBLookupVocabularyResult];
+  'list-user-decks': [JPDBListUserDecksRequest, JPDBListUserDecksResult];
 };

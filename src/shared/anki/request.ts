@@ -30,10 +30,11 @@ export const request = async <Key extends keyof AnkiEndpoints>(
         error: string;
       }
     | {
+        error: null;
         result: AnkiEndpoints[Key][1];
       };
 
-  if ('error' in responseObject) {
+  if ('error' in responseObject && responseObject.error !== null) {
     throw new Error(responseObject.error);
   }
 

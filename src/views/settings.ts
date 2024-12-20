@@ -5,8 +5,15 @@ import {
   ConfigurationSchema,
   Keybind,
 } from '@shared/configuration';
-import { displayToast, findElement, findElements, withElement, withElements } from '@shared/dom';
-import { ping } from '@shared/jpdb';
+import {
+  createElement,
+  displayToast,
+  findElement,
+  findElements,
+  withElement,
+  withElements,
+} from '@shared/dom';
+import { listUserDecks, ping } from '@shared/jpdb';
 import { broadcast } from '@shared/messages';
 import { HTMLKeybindInputElement } from './elements/html-keybind-input-element';
 import { HTMLMiningInputElement } from './elements/html-mining-input-element';
@@ -25,39 +32,47 @@ class SettingsController {
 
   private _saveButton = findElement<'button'>('#save-all-settings');
 
+  /**
+   * FOR DEBUGGING PURPOSES ONLY!
+   */
+  private _ENABLE_ANKI = true;
+
   constructor() {
     customElements.define('mining-input', HTMLMiningInputElement);
     customElements.define('keybind-input', HTMLKeybindInputElement);
 
-    void (async (): Promise<void> => {
-      await this._setupSimpleInputs();
-      await this._setupSelectFields();
+    void this.setup();
+  }
 
-      this._setupJPDBInteraction();
-      // this._setupAnkiInteraction();
+  private async setup(): Promise<void> {
+    await this._setupSimpleFields();
 
-      await this._testJPDB();
-      // await this._testAnki();
-      // await this._testAnkiProxy();
+    await this._setupJPDB();
+    await this._setupAnki();
 
-      this._setupSaveButton();
+    await this._setupApiFields();
 
-      this._setupCollapsibleTriggers();
-    })();
+    this._setupSaveButton();
+    this._setupCollapsibleTriggers();
   }
 
   /**
    * Load the configuration from the storage and populate the settings page with the values.
    * Also, install listeners to keep track of the local changes.
    */
-  private async _setupSimpleInputs(): Promise<void> {
-    await this._setupFields('input, textarea, mining-input, keybind-input', [''], (type) =>
+  private async _setupSimpleFields(): Promise<void> {
+    await this._setupFields('input, textarea, keybind-input', [''], (type) =>
       type === 'checkbox' ? 'checked' : 'value',
     );
   }
 
-  private async _setupSelectFields(): Promise<void> {
-    await this._setupFields('select[type="deck"], select[type="model"]', undefined, undefined);
+  /**
+   * Setup the fields that are dependent on the JPDB or Anki API.
+   *
+   * They require the API fields to be set up first as well as the API to be tested.
+   */
+  private async _setupApiFields(): Promise<void> {
+    await this._setupFields('select[type=jpdb], mining-input');
   }
 
   private async _setupFields(
@@ -152,6 +167,14 @@ class SettingsController {
     this._saveButton.disabled = localChanges.length === 0 || invalidFields.length > 0;
   }
 
+  //#region JPDB
+
+  private async _setupJPDB(): Promise<void> {
+    this._setupJPDBInteraction();
+
+    await this._testJPDB();
+  }
+
   private _setupJPDBInteraction(): void {
     this._setupInteraction(
       'input[name="jpdbApiToken"]',
@@ -160,16 +183,54 @@ class SettingsController {
     );
   }
 
+  private async _testJPDB(): Promise<void> {
+    await this._testEndpoint(
+      '#apiTokenButton',
+      '[name="jpdbApiToken"]',
+      (apiToken) => ping({ apiToken }),
+      false,
+      async (apiToken: string): Promise<void> => {
+        const decks = await listUserDecks(['id', 'name', 'is_built_in'], { apiToken });
+        const usableDecks = decks.filter((deck) => !deck.is_built_in);
+
+        usableDecks.unshift(
+          { id: '', name: '[None]' },
+          { id: 'blacklist', name: '[backlist]' },
+          { id: 'never-forget', name: '[never-forget]' },
+          { id: 'forq', name: '[forq]' },
+        );
+
+        withElements('select[type=jpdb]', (element: HTMLSelectElement) => {
+          element.replaceChildren(
+            ...usableDecks.map((deck) =>
+              createElement('option', {
+                innerText: deck.name,
+                attributes: { value: deck.id!.toString() },
+              }),
+            ),
+          );
+        });
+      },
+    );
+  }
+
+  //#endregion
+  //#region Anki
+
+  private async _setupAnki(): Promise<void> {
+    if (!this._ENABLE_ANKI) {
+      // !DEBUG ONLY - Remove this condition when the feature is ready for everyone
+      return;
+    }
+    document.getElementById('DEBUG_ANKI')!.style.display = '';
+
+    this._setupAnkiInteraction();
+
+    await this._testAnki();
+    await this._testAnkiProxy();
+  }
+
   private _setupAnkiInteraction(): void {
-    // TODO: Check what this commented code does
-    // this._view.withElement('input[name="enableAnkiIntegration"]', (inputElement: HTMLInputElement) => {
-    //   this._collapsible('anki-endpoints', inputElement.checked);
-
-    //   inputElement.addEventListener('change', () => {
-    //     this._collapsible('anki-endpoints', inputElement.checked);
-    //   });
-    // });
-
     this._setupInteraction(
       'input[name="ankiUrl"]',
       '#ankiUrlButton',
@@ -179,29 +240,6 @@ class SettingsController {
       'input[name="ankiProxyUrl"]',
       '#ankiProxyUrlButton',
       (): Promise<void> => this._testAnkiProxy(),
-    );
-  }
-
-  private _setupInteraction(
-    inputSelector: string,
-    buttonSelector: string,
-    testFunction: () => void | Promise<void>,
-  ): void {
-    withElement(inputSelector, (inputElement: HTMLInputElement) => {
-      inputElement.addEventListener('change', (): void => void testFunction());
-    });
-
-    withElement(buttonSelector, (buttonElement: HTMLButtonElement) => {
-      buttonElement.addEventListener('click', (): void => void testFunction());
-    });
-  }
-
-  private async _testJPDB(): Promise<void> {
-    await this._testEndpoint(
-      '#apiTokenButton',
-      '[name="jpdbApiToken"]',
-      (apiToken) => ping({ apiToken }),
-      false,
     );
   }
 
@@ -229,6 +267,23 @@ class SettingsController {
       (ankiConnectUrl) => getApiVersion({ ankiConnectUrl }),
       true,
     );
+  }
+
+  //#endregion
+  //#region Interaction Helpers
+
+  private _setupInteraction(
+    inputSelector: string,
+    buttonSelector: string,
+    testFunction: () => void | Promise<void>,
+  ): void {
+    withElement(inputSelector, (inputElement: HTMLInputElement) => {
+      inputElement.addEventListener('change', (): void => void testFunction());
+    });
+
+    withElement(buttonSelector, (buttonElement: HTMLButtonElement) => {
+      buttonElement.addEventListener('click', (): void => void testFunction());
+    });
   }
 
   private async _testEndpoint<T>(
@@ -300,6 +355,7 @@ class SettingsController {
     }
   }
 
+  //#endregion
   //#region Collapsible
   private _collapsible(collapsible: HTMLElement, show: boolean): void {
     const targetHeight = Number(collapsible.getAttribute('data-height') ?? 1000);
