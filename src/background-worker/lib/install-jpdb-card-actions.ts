@@ -1,12 +1,12 @@
 import { getConfiguration } from '@shared/configuration';
 import { MessageSender } from '@shared/extension';
-import { getCardState } from '@shared/jpdb';
+import { addVocabulary, getCardState, JPDBSpecialDeckNames, removeVocabulary } from '@shared/jpdb';
 import { broadcast, sendToTab, receiveTabMessage } from '@shared/messages';
 
 async function getDeck(
   sender: MessageSender,
   key: 'mining' | 'blacklist' | 'neverForget',
-): Promise<string | false> {
+): Promise<JPDBSpecialDeckNames | number | false> {
   const deck = await getConfiguration(
     `jpdb${key[0].toUpperCase()}${key.slice(1)}Deck` as
       | 'jpdbMiningDeck'
@@ -20,7 +20,12 @@ async function getDeck(
     return false;
   }
 
-  return deck;
+  // if deck is a number...
+  if (!Number.isNaN(Number(deck))) {
+    return Number(deck);
+  }
+
+  return deck as JPDBSpecialDeckNames;
 }
 
 async function manageDeck(
@@ -31,20 +36,17 @@ async function manageDeck(
   action: 'add' | 'remove',
 ): Promise<void> {
   // TODO: Ignore events when user is not logged in
-  const deckName = await getDeck(sender, deck);
+  const deckIdOrName = await getDeck(sender, deck);
 
-  if (!deckName) {
+  if (!deckIdOrName) {
     return;
   }
 
   if (action === 'add') {
-    // TODO: Implement
-    // eslint-disable-next-line no-console
-    console.log(`Adding ${vid}:${sid} to ${deckName}...`);
+    await addVocabulary(deckIdOrName, vid, sid);
+    // TODO Sentence, forq and such needs to be implemented. Can we reverse engineer the image api?
   } else {
-    // TODO: Implement
-    // eslint-disable-next-line no-console
-    console.log(`Removing ${vid}:${sid} from ${deckName}...`);
+    await removeVocabulary(deckIdOrName, vid, sid);
   }
 }
 

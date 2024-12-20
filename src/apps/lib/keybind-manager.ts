@@ -86,9 +86,20 @@ export class KeybindManager extends IntegrationScript {
       return;
     }
 
-    const keybind = Object.keys(this._keyMap).find(
-      (keybind: FilterKeys<ConfigurationSchema, Keybind>) =>
-        this.checkKeybind(this._keyMap[keybind], e),
+    // Sort the keybinds by the number of modifiers they have, then by the key code
+    // This way we can prioritize keybinds with more modifiers, as they may extend other keybinds (e.g. ALT + KEY should have a lower priority than ALT + SHIFT + KEY)
+    const sorted = Object.entries(this._keyMap)
+      .sort(([, lBind], [, rBind]) => {
+        if (lBind.modifiers.length !== rBind.modifiers.length) {
+          return rBind.modifiers.length - lBind.modifiers.length;
+        }
+
+        return lBind.code.localeCompare(rBind.code);
+      })
+      .map(([key]) => key);
+
+    const keybind = sorted.find((keybind: FilterKeys<ConfigurationSchema, Keybind>) =>
+      this.checkKeybind(this._keyMap[keybind], e),
     );
 
     if (keybind) {

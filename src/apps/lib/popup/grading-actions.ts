@@ -111,11 +111,11 @@ export class GradingActions extends IntegrationScript {
       }
 
       if (nf && !bl) {
-        await this._miningActions.setDecks({ neverForget: false, blacklisted: true });
+        await this._miningActions.setDecks({ neverForget: false, blacklist: true });
       }
 
       if (!nf && bl) {
-        await this._miningActions.setDecks({ blacklisted: false });
+        await this._miningActions.setDecks({ blacklist: false });
       }
 
       this._miningActions.resumeUpdateWordStates();
@@ -124,7 +124,7 @@ export class GradingActions extends IntegrationScript {
     }
 
     if (!nf && !bl) {
-      await this._miningActions.setDecks({ blacklisted: true });
+      await this._miningActions.setDecks({ blacklist: true });
     }
 
     if (nf && !bl) {
@@ -132,7 +132,7 @@ export class GradingActions extends IntegrationScript {
     }
 
     if (!nf && bl) {
-      await this._miningActions.setDecks({ blacklisted: false, neverForget: true });
+      await this._miningActions.setDecks({ blacklist: false, neverForget: true });
     }
 
     this._miningActions.resumeUpdateWordStates();

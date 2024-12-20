@@ -1,5 +1,5 @@
 import { Empty } from '@shared/types';
-import { JPDBCardState, JPDBParseResult } from './types';
+import { JPDBCardState, JPDBParseResult, JPDBSpecialDeckNames } from './types';
 
 type JPDBFieldNames =
   | 'vid'
@@ -42,6 +42,15 @@ type JPDBListUserDecksResult = {
   decks: Exclude<JPDBDeck[keyof JPDBDeck], undefined>[][];
 };
 
+export type JPDBAddVocabularyRequest = {
+  id: number | JPDBSpecialDeckNames;
+  vocabulary: JPDBVidSidTuple;
+  occurences?: number[];
+  replace_existing_occurences?: boolean;
+  ignore_unknown?: boolean;
+};
+export type JPDBRemoveVocabularyRequest = Pick<JPDBAddVocabularyRequest, 'id' | 'vocabulary'>;
+
 export type JPDBDeck = {
   id?: string | number;
   name?: string;
@@ -65,4 +74,6 @@ export type JPDBEndpoints = {
   parse: [JPDBParseRequest, JPDBParseResult];
   'lookup-vocabulary': [JPDBLookupVocabularyRequest, JPDBLookupVocabularyResult];
   'list-user-decks': [JPDBListUserDecksRequest, JPDBListUserDecksResult];
+  'deck/add-vocabulary': [JPDBAddVocabularyRequest, void];
+  'deck/remove-vocabulary': [JPDBRemoveVocabularyRequest, void];
 };

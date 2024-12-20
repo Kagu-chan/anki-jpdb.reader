@@ -18,6 +18,7 @@ export type JPDBParseResult = {
   vocabulary: JPDBRawVocabulary[];
 };
 
+export type JPDBSpecialDeckNames = 'blacklist' | 'never-forget';
 export type JPDBCardState = 'notInDeck' | 'blacklisted' | 'suspended' | 'redundant' | 'neverForget';
 export type JPDBRawVocabulary = [
   vid: number,

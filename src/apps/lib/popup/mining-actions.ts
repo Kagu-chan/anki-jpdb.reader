@@ -33,17 +33,17 @@ export class MiningActions extends IntegrationScript {
 
   public async setDecks(decks: {
     mining?: boolean;
-    blacklisted?: boolean;
+    blacklist?: boolean;
     neverForget?: boolean;
   }): Promise<void> {
-    const promises = ['mining', 'blacklisted', 'neverForget'].map(
-      (key: 'mining' | 'blacklisted' | 'neverForget') => {
+    const promises = ['mining', 'blacklist', 'neverForget'].map(
+      (key: 'mining' | 'blacklist' | 'neverForget') => {
         if (decks[key]) {
-          return this.addToDeck(key as 'mining' | 'blacklist' | 'neverForget');
+          return this.addToDeck(key);
         }
 
         if (decks[key] === false) {
-          return this.removeFromDeck(key as 'mining' | 'blacklist' | 'neverForget');
+          return this.removeFromDeck(key);
         }
 
         return Promise.resolve();
