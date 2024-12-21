@@ -4,9 +4,9 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   schemaVersion: 1,
 
   jpdbApiToken: '',
-  jpdbMiningDeck: '',
-  jpdbBlacklistDeck: '',
-  jpdbForqDeck: '',
+  jpdbMiningDeck: 'never-forget',
+  jpdbBlacklistDeck: 'blacklist',
+  jpdbForqDeck: 'forq',
   jpdbNeverForgetDeck: '',
   jpdbAddToForq: false,
   jpdbUseTwoGrades: false,

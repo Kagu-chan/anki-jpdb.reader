@@ -60,45 +60,11 @@
         <div id="jpdb-decks" class="collapsible" hidden skip-animation>
           <h6>Mining Configuration</h6>
 
-          <p style="opacity: 0.8">
-            To find the deck ID for a specific deck, open that deck's page on jpdb and look at the URL.
-            <br />
-            You will see something like <code>https://jpdb.io/deck?id=32</code>. The number at the end is
-            the deck ID. <br />
-            The following special deck IDs are also allowed: <code>blacklist</code>,
-            <code>never-forget</code>, <code>forq</code> (= front of review queue)<br />
-          </p>
-          <div class="form-box-parent distance-after">
-            <div class="form-box">
-              <div>
-                <label for="jpdbMiningDeck">Mining Deck</label>
-                <select type="jpdb" id="jpdbMiningDeck" name="jpdbMiningDeck"></select>
-              </div>
-
-              <div>
-                <label for="jpdbBlacklistDeck">Blacklist Deck</label>
-                <select type="jpdb" id="jpdbBlacklistDeck" name="jpdbBlacklistDeck"></select>
-              </div>
-            </div>
-
-            <div class="form-box">
-              <div>
-                <label for="jpdbForqDeck">FORQ Deck</label>
-                <select type="jpdb" id="jpdbForqDeck" name="jpdbForqDeck"></select>
-              </div>
-
-              <div>
-                <label for="jpdbNeverForgetDeck">Never Forget Deck</label>
-                <select type="jpdb" id="jpdbNeverForgetDeck" name="jpdbNeverForgetDeck"></select>
-              </div>
-            </div>
-          </div>
-
           <div class="form-box-parent distance-after">
             <div class="form-box">
               <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="jpdbAddToForq" name="jpdbAddToForq" />
+                  <input type="checkbox" id="jpdbAddToForq" name="jpdbAddToForq" shows="#forq" />
                   <label for="jpdbAddToForq">Add to FORQ when mining</label>
                 </div>
               </div>
@@ -110,7 +76,7 @@
               </div>
               <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="jpdbRotateFlags" name="jpdbRotateFlags" shows=".rotate-flags" />
+                  <input type="checkbox" id="jpdbRotateFlags" name="jpdbRotateFlags" shows="#rotate-flags" />
                   <label for="jpdbRotateFlags">Rotate flags (<code>never-forget</code> -> <code>blacklisted</code> -> <code>none</code>)</label>
                 </div>
               </div>
@@ -129,7 +95,7 @@
             Additionally, Left Mouse Click (without modifiers) as well as Right Mouse Click (no matter the modifiers) are not supported.
           </p>
 
-          <div class="form-box-parent grade-five" hidden skip-animation>
+          <div class="form-box-parent grade-five" hidden>
             <div class="form-box">
               <div>
                 <label for="jpdbReviewNothing">Review word as nothing</label>
@@ -143,7 +109,8 @@
               </div>
             </div>
           </div>
-          <div class="form-box-parent grade-five" hidden skip-animation>
+
+          <div class="form-box-parent grade-five" hidden>
             <div class="form-box">
               <div>
                 <label for="jpdbReviewHard">Review word as hard</label>
@@ -180,7 +147,7 @@
             </div>
           </div>
 
-          <div class="form-box-parent rotate-flags" hidden skip-animation>
+          <div id="rotate-flags" class="form-box-parent" hidden>
             <div class="form-box">
               <div>
                 <label for="jpdbRotateForward">Rotate flags forward</label>
@@ -192,6 +159,32 @@
               <div>
                 <label for="jpdbRotateBackward">Rotate flags backward</label>
                 <keybind-input id="jpdbRotateBackward" name="jpdbRotateBackward"></keybind-input>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-box-parent distance-before">
+            <div class="form-box">
+              <div>
+                <label for="jpdbMiningDeck">Mining Deck</label>
+                <select type="jpdb" id="jpdbMiningDeck" name="jpdbMiningDeck"></select>
+              </div>
+
+              <div>
+                <label for="jpdbBlacklistDeck">Blacklist Deck</label>
+                <select type="jpdb" id="jpdbBlacklistDeck" name="jpdbBlacklistDeck"></select>
+              </div>
+            </div>
+
+            <div class="form-box">
+              <div>
+                <label for="jpdbNeverForgetDeck">Never Forget Deck</label>
+                <select type="jpdb" id="jpdbNeverForgetDeck" name="jpdbNeverForgetDeck"></select>
+              </div>
+
+              <div id="forq" hidden>
+                <label for="jpdbForqDeck">FORQ Deck</label>
+                <select type="jpdb" id="jpdbForqDeck" name="jpdbForqDeck"></select>
               </div>
             </div>
           </div>
