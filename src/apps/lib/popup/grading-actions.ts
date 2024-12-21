@@ -34,7 +34,7 @@ export class GradingActions extends IntegrationScript {
     this.on('jpdbReviewNothing', () => this.reviewCard('nothing'));
     this.on('jpdbReviewSomething', () => this.reviewCard('something'));
     this.on('jpdbReviewHard', () => this.reviewCard('hard'));
-    this.on('jpdbReviewGood', () => this.reviewCard('good'));
+    this.on('jpdbReviewOkay', () => this.reviewCard('okay'));
     this.on('jpdbReviewEasy', () => this.reviewCard('easy'));
     this.on('jpdbReviewFail', () => this.reviewCard('fail'));
     this.on('jpdbReviewPass', () => this.reviewCard('pass'));
@@ -52,7 +52,7 @@ export class GradingActions extends IntegrationScript {
       'jpdbReviewNothing',
       'jpdbReviewSomething',
       'jpdbReviewHard',
-      'jpdbReviewGood',
+      'jpdbReviewOkay',
       'jpdbReviewEasy',
     ];
     const twoGradeKeys: FilterKeys<ConfigurationSchema, Keybind>[] = [
@@ -86,7 +86,7 @@ export class GradingActions extends IntegrationScript {
   }
 
   private reviewCard(
-    _grade: 'nothing' | 'something' | 'hard' | 'good' | 'easy' | 'fail' | 'pass',
+    _grade: 'nothing' | 'something' | 'hard' | 'okay' | 'easy' | 'fail' | 'pass',
   ): void {
     // TODO implement "addReview" function -> this._currentContext?.ajbContext?.token;
   }

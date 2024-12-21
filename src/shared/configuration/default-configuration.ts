@@ -14,7 +14,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   jpdbReviewNothing: { key: '', code: '', modifiers: [] },
   jpdbReviewSomething: { key: '', code: '', modifiers: [] },
   jpdbReviewHard: { key: '', code: '', modifiers: [] },
-  jpdbReviewGood: { key: '', code: '', modifiers: [] },
+  jpdbReviewOkay: { key: '', code: '', modifiers: [] },
   jpdbReviewEasy: { key: '', code: '', modifiers: [] },
   jpdbReviewFail: { key: '', code: '', modifiers: [] },
   jpdbReviewPass: { key: '', code: '', modifiers: [] },

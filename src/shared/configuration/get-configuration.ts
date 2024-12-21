@@ -23,7 +23,7 @@ const OBJECT_KEYS: ConfigurationObjectKeys = [
   'jpdbReviewNothing',
   'jpdbReviewSomething',
   'jpdbReviewHard',
-  'jpdbReviewGood',
+  'jpdbReviewOkay',
   'jpdbReviewEasy',
   'jpdbReviewFail',
   'jpdbReviewPass',

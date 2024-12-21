@@ -11,7 +11,7 @@ export interface LocalEvents {
   jpdbReviewNothing: KeybindEvent;
   jpdbReviewSomething: KeybindEvent;
   jpdbReviewHard: KeybindEvent;
-  jpdbReviewGood: KeybindEvent;
+  jpdbReviewOkay: KeybindEvent;
   jpdbReviewEasy: KeybindEvent;
   jpdbReviewFail: KeybindEvent;
   jpdbReviewPass: KeybindEvent;

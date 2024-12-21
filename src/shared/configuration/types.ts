@@ -14,7 +14,7 @@ export type ConfigurationSchema = {
   jpdbReviewNothing: Keybind;
   jpdbReviewSomething: Keybind;
   jpdbReviewHard: Keybind;
-  jpdbReviewGood: Keybind;
+  jpdbReviewOkay: Keybind;
   jpdbReviewEasy: Keybind;
   jpdbReviewFail: Keybind;
   jpdbReviewPass: Keybind;
