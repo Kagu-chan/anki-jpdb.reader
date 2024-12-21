@@ -283,6 +283,35 @@
           <div class="form-box"></div>
         </div>
 
+        <div class="form-box-parent">
+          <div class="form-box">
+            <div>
+              <div class="checkbox">
+                <input type="checkbox" id="hidePopupAutomatically" name="hidePopupAutomatically" shows="#hidePopupDelayBox" />
+                <label for="hidePopupAutomatically">Hide popup automatically after leaving it</label>
+              </div>
+              <p style="opacity: 0.8">
+                If enabled, the popup will hide itself after you move your mouse out of it.<br />
+                It will also hide after you interacted with the API (e.g. added a word to your deck).
+              </p>
+            </div>
+
+            <div id="hidePopupDelayBox" hidden>
+              <label for="hidePopupDelay">Delay to hide in milliseconds</label>
+              <input
+                style="width: 100%"
+                type="number"
+                id="hidePopupDelay"
+                name="hidePopupDelay"
+                min="0"
+              />
+              <p style="opacity: 0.8">
+                Delay to hide the popup in milliseconds. If set to 0, the popup will hide immediately.
+              </p>
+            </div>
+          </div>
+        </div>
+
         <h6>Accessibility</h6>
         <div class="form-box-parent">
           <div class="form-box">

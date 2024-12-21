@@ -30,6 +30,8 @@ export type ConfigurationSchema = {
   ankiReadonlyConfigs: DiscoverWordConfiguration[];
 
   contextWidth: number;
+  hidePopupAutomatically: boolean;
+  hidePopupDelay: number;
 
   showPopupOnHover: boolean;
   touchscreenSupport: boolean;

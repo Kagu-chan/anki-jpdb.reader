@@ -9,13 +9,14 @@ import {
 } from './keys.types';
 import { ConfigurationSchema } from './types';
 
-const NUMBER_KEYS: ConfigurationNumberKeys = ['schemaVersion', 'contextWidth'];
+const NUMBER_KEYS: ConfigurationNumberKeys = ['schemaVersion', 'contextWidth', 'hidePopupDelay'];
 const BOOLEAN_KEYS: ConfigurationBooleanKeys = [
   'jpdbAddToForq',
   'jpdbUseTwoGrades',
   'jpdbRotateFlags',
   'enableAnkiIntegration',
   'showPopupOnHover',
+  'hidePopupAutomatically',
   'touchscreenSupport',
   'disableFadeAnimation',
 ];
@@ -63,7 +64,7 @@ export const getConfiguration = async <K extends keyof ConfigurationSchema>(
       return JSON.parse(value) as ConfigurationSchema[K];
     } catch {
       // Catch broken persisted values and return the default value
-      return defaultValue as ConfigurationSchema[K];
+      return defaultValue! as ConfigurationSchema[K];
     }
   }
 
