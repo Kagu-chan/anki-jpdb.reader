@@ -558,8 +558,8 @@ input[type='radio'] {
   box-shadow: 0 0 3px var(--checkbox-box-shadow-color);
 }
 
-input[hidden] {
-  display: none;
+input[hidden], div[hidden] {
+  display: none !important;
 }
 
 input[type='radio'] {

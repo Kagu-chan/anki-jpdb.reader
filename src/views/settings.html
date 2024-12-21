@@ -104,13 +104,13 @@
               </div>
               <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="jpdbUseTwoGrades" name="jpdbUseTwoGrades" disables=".grade-five" enables=".grade-two" />
+                  <input type="checkbox" id="jpdbUseTwoGrades" name="jpdbUseTwoGrades" hides=".grade-five" shows=".grade-two" />
                   <label for="jpdbUseTwoGrades">Use a 2-point pass/fail grading scale</label>
                 </div>
               </div>
               <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="jpdbRotateFlags" name="jpdbRotateFlags" enables=".rotate-flags" />
+                  <input type="checkbox" id="jpdbRotateFlags" name="jpdbRotateFlags" shows=".rotate-flags" />
                   <label for="jpdbRotateFlags">Rotate flags (<code>never-forget</code> -> <code>blacklisted</code> -> <code>none</code>)</label>
                 </div>
               </div>
@@ -129,7 +129,7 @@
             Additionally, Left Mouse Click (without modifiers) as well as Right Mouse Click (no matter the modifiers) are not supported.
           </p>
 
-          <div class="form-box-parent grade-five collapsible" hidden skip-animation>
+          <div class="form-box-parent grade-five" hidden skip-animation>
             <div class="form-box">
               <div>
                 <label for="jpdbReviewNothing">Review word as nothing</label>
@@ -143,7 +143,7 @@
               </div>
             </div>
           </div>
-          <div class="form-box-parent grade-five collapsible" hidden skip-animation>
+          <div class="form-box-parent grade-five" hidden skip-animation>
             <div class="form-box">
               <div>
                 <label for="jpdbReviewHard">Review word as hard</label>
@@ -164,7 +164,7 @@
             </div>
           </div>
 
-          <div class="form-box-parent grade-two collapsible" hidden skip-animation>
+          <div class="form-box-parent grade-two" hidden skip-animation>
             <div class="form-box">
               <div>
                 <label for="jpdbReviewFail">Review word as fail</label>
@@ -180,7 +180,7 @@
             </div>
           </div>
 
-          <div class="form-box-parent rotate-flags collapsible" hidden skip-animation>
+          <div class="form-box-parent rotate-flags" hidden skip-animation>
             <div class="form-box">
               <div>
                 <label for="jpdbRotateForward">Rotate flags forward</label>
@@ -288,7 +288,7 @@
           <div class="form-box">
             <div>
               <div class="checkbox">
-                <input type="checkbox" id="showPopupOnHover" name="showPopupOnHover" />
+                <input type="checkbox" id="showPopupOnHover" name="showPopupOnHover" hides="#showPopupKeyBox" />
                 <label for="showPopupOnHover">Show the popup on hover</label>
               </div>
             </div>
@@ -332,7 +332,7 @@
               <label for="parseKey">Parse page or selection</label>
               <keybind-input id="parseKey" name="parseKey"></keybind-input>
             </div>
-            <div>
+            <div id="showPopupKeyBox">
               <label for="showPopupKey">Show popup</label>
               <keybind-input id="showPopupKey" name="showPopupKey"></keybind-input>
             </div>

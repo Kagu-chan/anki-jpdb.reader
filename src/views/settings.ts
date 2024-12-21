@@ -356,8 +356,9 @@ class SettingsController {
   }
 
   //#endregion
-  //#region Collapsible
-  private _collapsible(collapsible: HTMLElement, show: boolean): void {
+  //#region Collapsible and Hideable
+
+  private _collapsible(this: void, collapsible: HTMLElement, show: boolean): void {
     const targetHeight = Number(collapsible.getAttribute('data-height') ?? 1000);
     const skipAnimation = collapsible.hasAttribute('skip-animation');
 
@@ -402,33 +403,40 @@ class SettingsController {
     }
   }
 
+  private _hidable(this: void, hideable: HTMLElement, show: boolean): void {
+    if (show) {
+      hideable.removeAttribute('hidden');
+    } else {
+      hideable.setAttribute('hidden', '');
+    }
+  }
+
   private _setupCollapsibleTriggers(): void {
-    const enablers = findElements<'input'>('[enables]');
-    const disablers = findElements<'input'>('[disables]');
+    const setupElement = (
+      key: string,
+      reverse: boolean,
+      fn: (e: HTMLDivElement, state: boolean) => void,
+    ): void => {
+      const items = findElements<'input'>(`[${key}]`);
 
-    enablers.forEach((enabler) => {
-      enabler.addEventListener('change', () => {
-        const targets = findElements<'div'>(enabler.getAttribute('enables')!);
+      items.forEach((item) => {
+        item.addEventListener('change', () => {
+          const targets = findElements<'div'>(item.getAttribute(key)!);
 
-        targets.forEach((target) => {
-          this._collapsible(target, enabler.checked);
+          targets.forEach((target) => {
+            fn(target, reverse ? !item.checked : item.checked);
+          });
         });
+
+        item.dispatchEvent(new Event('change'));
       });
+    };
 
-      enabler.dispatchEvent(new Event('change'));
-    });
+    setupElement('enables', false, this._collapsible);
+    setupElement('disables', true, this._collapsible);
 
-    disablers.forEach((disabler) => {
-      disabler.addEventListener('change', () => {
-        const targets = findElements<'div'>(disabler.getAttribute('disables')!);
-
-        targets.forEach((target) => {
-          this._collapsible(target, !disabler.checked);
-        });
-      });
-
-      disabler.dispatchEvent(new Event('change'));
-    });
+    setupElement('hides', true, this._hidable);
+    setupElement('shows', false, this._hidable);
   }
   //#endregion
 }
