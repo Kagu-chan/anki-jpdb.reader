@@ -118,9 +118,7 @@ export class GradingActions extends IntegrationScript {
         await this._miningActions.setDecks({ blacklist: false });
       }
 
-      this._miningActions.resumeUpdateWordStates();
-
-      return;
+      return this._miningActions.resumeUpdateWordStates();
     }
 
     if (!nf && !bl) {
