@@ -19,6 +19,7 @@ export type JPDBParseResult = {
 };
 
 export type JPDBSpecialDeckNames = 'blacklist' | 'never-forget';
+export type JPDBGrade = 'nothing' | 'something' | 'hard' | 'okay' | 'easy' | 'fail' | 'pass';
 export type JPDBCardState =
   | 'not-in-deck'
   | 'blacklisted'

@@ -84,7 +84,7 @@ export class MiningActions extends IntegrationScript {
       return;
     }
 
-    await sendToBackground('addToDeck', vid, sid, key);
+    await sendToBackground('runDeckAction', vid, sid, key, 'add');
   }
 
   private async removeFromDeck(key: 'mining' | 'blacklist' | 'neverForget'): Promise<void> {
@@ -94,6 +94,6 @@ export class MiningActions extends IntegrationScript {
       return;
     }
 
-    await sendToBackground('removeFromDeck', vid, sid, key);
+    await sendToBackground('runDeckAction', vid, sid, key, 'remove');
   }
 }

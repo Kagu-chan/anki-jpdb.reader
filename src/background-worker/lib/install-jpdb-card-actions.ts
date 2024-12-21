@@ -1,6 +1,13 @@
 import { getConfiguration } from '@shared/configuration';
 import { MessageSender } from '@shared/extension';
-import { addVocabulary, getCardState, JPDBSpecialDeckNames, removeVocabulary } from '@shared/jpdb';
+import {
+  addVocabulary,
+  getCardState,
+  JPDBGrade,
+  JPDBSpecialDeckNames,
+  removeVocabulary,
+  review,
+} from '@shared/jpdb';
 import { broadcast, sendToTab, receiveTabMessage } from '@shared/messages';
 
 async function getDeck(
@@ -35,19 +42,14 @@ async function manageDeck(
   deck: 'mining' | 'blacklist' | 'neverForget',
   action: 'add' | 'remove',
 ): Promise<void> {
-  // TODO: Ignore events when user is not logged in
   const deckIdOrName = await getDeck(sender, deck);
+  const fn = action === 'add' ? addVocabulary : removeVocabulary;
 
   if (!deckIdOrName) {
     return;
   }
 
-  if (action === 'add') {
-    await addVocabulary(deckIdOrName, vid, sid);
-    // TODO Sentence, forq and such needs to be implemented. Can we reverse engineer the image api?
-  } else {
-    await removeVocabulary(deckIdOrName, vid, sid);
-  }
+  await fn(deckIdOrName, vid, sid);
 }
 
 export const installJpdbCardActions = (): void => {
@@ -58,28 +60,19 @@ export const installJpdbCardActions = (): void => {
   });
 
   receiveTabMessage(
-    'addToDeck',
+    'runDeckAction',
     async (
       sender: MessageSender,
       vid: number,
       sid: number,
-      // TODO: Add more context!
       deck: 'mining' | 'blacklist' | 'neverForget',
+      action: 'add' | 'remove',
     ) => {
-      await manageDeck(sender, vid, sid, deck, 'add');
+      await manageDeck(sender, vid, sid, deck, action);
     },
   );
 
-  receiveTabMessage(
-    'removeFromDeck',
-    async (
-      sender: MessageSender,
-      vid: number,
-      sid: number,
-      // TODO: Add more context!
-      deck: 'mining' | 'blacklist' | 'neverForget',
-    ) => {
-      await manageDeck(sender, vid, sid, deck, 'remove');
-    },
+  receiveTabMessage('gradeCard', (_, vid: number, sid: number, grade: JPDBGrade) =>
+    review(grade, vid, sid),
   );
 };

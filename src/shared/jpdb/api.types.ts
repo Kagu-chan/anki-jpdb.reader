@@ -1,5 +1,5 @@
 import { Empty } from '@shared/types';
-import { JPDBCardState, JPDBParseResult, JPDBSpecialDeckNames } from './types';
+import { JPDBCardState, JPDBGrade, JPDBParseResult, JPDBSpecialDeckNames } from './types';
 
 type JPDBFieldNames =
   | 'vid'
@@ -33,6 +33,12 @@ type JPDBLookupVocabularyRequest = {
 };
 type JPDBLookupVocabularyResult = {
   vocabulary_info: [[JPDBCardState[]]];
+};
+
+type JPDBReviewRequest = {
+  vid: number;
+  sid: number;
+  grade: JPDBGrade;
 };
 
 type JPDBListUserDecksRequest = {
@@ -72,6 +78,7 @@ export type JPDBErrorResponse = {
 export type JPDBEndpoints = {
   ping: [Empty, void];
   parse: [JPDBParseRequest, JPDBParseResult];
+  review: [JPDBReviewRequest, void];
   'lookup-vocabulary': [JPDBLookupVocabularyRequest, JPDBLookupVocabularyResult];
   'list-user-decks': [JPDBListUserDecksRequest, JPDBListUserDecksResult];
   'deck/add-vocabulary': [JPDBAddVocabularyRequest, void];

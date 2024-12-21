@@ -1,5 +1,6 @@
 import { getConfiguration, ConfigurationSchema, Keybind } from '@shared/configuration';
-import { onBroadcastMessage } from '@shared/messages';
+import { JPDBGrade } from '@shared/jpdb';
+import { onBroadcastMessage, sendToBackground } from '@shared/messages';
 import { FilterKeys } from '@shared/types';
 import { IntegrationScript } from '../integration-script';
 import { KeybindManager } from '../keybind-manager';
@@ -85,10 +86,17 @@ export class GradingActions extends IntegrationScript {
     await this._keyManager.removeKeys(twoGradeKeys);
   }
 
-  private reviewCard(
-    _grade: 'nothing' | 'something' | 'hard' | 'okay' | 'easy' | 'fail' | 'pass',
-  ): void {
-    // TODO implement "addReview" function -> this._currentContext?.ajbContext?.token;
+  private async reviewCard(grade: JPDBGrade): Promise<void> {
+    const { token } = this._currentContext?.ajbContext ?? {};
+
+    if (!token) {
+      return;
+    }
+
+    const { vid, sid } = token.card;
+
+    await sendToBackground('gradeCard', vid, sid, grade);
+    await sendToBackground('updateCardState', vid, sid);
   }
 
   private async rotateFlag(forward: boolean): Promise<void> {

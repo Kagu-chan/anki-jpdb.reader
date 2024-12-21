@@ -1,4 +1,5 @@
 import { MessageSender } from '@shared/extension';
+import { JPDBGrade } from '@shared/jpdb';
 
 /**
  * Defines events emitted from the browser to the extension
@@ -8,11 +9,16 @@ export interface BackgroundEvents {
   lookupText: [[text: string], void];
   abortRequest: [[sequence: number], Promise<void>];
   updateCardState: [[vid: number, sid: number], void];
-  addToDeck: [[vid: number, sid: number, key: 'mining' | 'blacklist' | 'neverForget'], void];
-  removeFromDeck: [
-    [vid: number, sid: number, key: 'mining' | 'blacklist' | 'neverForget'],
-    Promise<void>,
+  runDeckAction: [
+    [
+      vid: number,
+      sid: number,
+      key: 'mining' | 'blacklist' | 'neverForget',
+      action: 'add' | 'remove',
+    ],
+    void,
   ];
+  gradeCard: [[vid: number, sid: number, grade: JPDBGrade], void];
 }
 export type BackgroundEventArgs<T extends keyof BackgroundEvents> = BackgroundEvents[T][0];
 export type BackgroundEventResult<T extends keyof BackgroundEvents> = BackgroundEvents[T][1];
