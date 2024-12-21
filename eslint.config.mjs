@@ -17,6 +17,20 @@ const compat = new FlatCompat({
     allConfig: js.configs.all
 });
 
+const noRestrictedImportsPatterns = [{
+    group: ["src/**/*"],
+    message: "Use relative imports instead.",
+}, {
+    group: ["**/../shared/**/*", "**/../styles/**/*"],
+    message: "Use @* instead.",
+}, {
+    group: ["@shared/*/**/*"],
+    message: "Use @shared/moduleName instead.",
+}, {
+    group: ["**/apps/**/*", "**/background-worker/**/*", "**/views/**/*"],
+    message: "This import hints to a missscoped module.",
+}];
+
 export default [{
     ignores: ["**/anki-jpdb.breader/", "src/alt/", "src/alt_orig/", "**/webpack.*.js"],
 }, ...compat.extends(
@@ -174,19 +188,7 @@ export default [{
         }],
 
         "no-restricted-imports": ["error", {
-            patterns: [{
-                group: ["src/**/*"],
-                message: "Use relative imports instead.",
-            }, {
-                group: ["**/../shared/**/*", "**/../styles/**/*"],
-                message: "Use @* instead.",
-            }, {
-                group: ["@shared/*/**/*"],
-                message: "Use @shared/moduleName instead.",
-            }, {
-                group: ["**/apps/**/*", "**/background-worker/**/*", "**/views/**/*"],
-                message: "This import hints to a missscoped module.",
-            }],
+            patterns: noRestrictedImportsPatterns
         }],
 
         "@typescript-eslint/prefer-nullish-coalescing": "off",
@@ -200,5 +202,17 @@ export default [{
     "files": ["src/shared/extension/*.ts"],
     "rules": {
         "no-restricted-syntax": "off"
+    }
+}, {
+    "files": ["src/apps/**/*.ts"],
+    "rules": {
+        "no-restricted-imports": ["error", {
+            patterns: [...noRestrictedImportsPatterns, {
+                group: ["@shared/anki", "@shared/jpdb"],
+                allowImportNamePattern: "^[A-Z]",
+                caseSensitive: true,
+                message: "Only use those APIs in background context.",
+            }]
+        }]
     }
 }];
