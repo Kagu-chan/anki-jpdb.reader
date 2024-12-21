@@ -1,6 +1,7 @@
 import { JPDBToken } from '@shared/jpdb';
 import { sendToBackground } from '@shared/messages';
 import { IntegrationScript } from '../../integration-script';
+import { PopupManager } from '../../popup/popup-manager';
 import { AbortableSequence } from '../../types';
 import { applyTokens } from './apply-tokens';
 import { getParagraphs } from './get-paragraphs';
@@ -107,6 +108,8 @@ export class BatchController extends IntegrationScript {
     const sequenceData = sequences.map(
       (s) => [s.sequence, s.data.map((f) => f.node.data).join('')] as [number, string],
     );
+
+    PopupManager.initialize();
 
     sequences.forEach((s) => {
       void s.promise.then((tokens) => {
