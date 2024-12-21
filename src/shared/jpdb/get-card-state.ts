@@ -15,6 +15,8 @@ export const getCardState = async (
     },
     options,
   );
+  const [firstWord] = result.vocabulary_info;
+  const [firstField] = firstWord;
 
-  return [result.vocabulary_info[0][0] ?? 'notInDeck'];
+  return firstField?.length ? firstField : ['not-in-deck'];
 };

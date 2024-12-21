@@ -19,7 +19,12 @@ export type JPDBParseResult = {
 };
 
 export type JPDBSpecialDeckNames = 'blacklist' | 'never-forget';
-export type JPDBCardState = 'notInDeck' | 'blacklisted' | 'suspended' | 'redundant' | 'neverForget';
+export type JPDBCardState =
+  | 'not-in-deck'
+  | 'blacklisted'
+  | 'suspended'
+  | 'redundant'
+  | 'never-forget';
 export type JPDBRawVocabulary = [
   vid: number,
   sid: number,

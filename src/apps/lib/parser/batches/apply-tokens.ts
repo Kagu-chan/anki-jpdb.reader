@@ -3,14 +3,6 @@ import { JPDBToken } from '@shared/jpdb';
 import { PopupManager } from '../../popup/popup-manager';
 import { Fragment } from './types';
 
-export const reverseIndex = new Map<
-  string,
-  {
-    classes: string[];
-    elements: HTMLElement[];
-  }
->();
-
 function splitFragment(fragments: Fragment[], fragmentIndex: number, splitOffset: number): void {
   const oldFragment = fragments[fragmentIndex];
   const newNode = oldFragment.node.splitText(splitOffset - oldFragment.start);
@@ -54,11 +46,17 @@ function wrap(node: Node, wrapper: HTMLElement): void {
   wrapper.append(node);
 }
 
-function pascalToKebabCase(input: string): string {
-  return input.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
-}
-
-export const applyTokens = (fragments: Fragment[], tokens: JPDBToken[]): void => {
+export const applyTokens = (
+  fragments: Fragment[],
+  tokens: JPDBToken[],
+  reverseIndex: Map<
+    string,
+    {
+      classes: string[];
+      elements: HTMLElement[];
+    }
+  >,
+): void => {
   let fragmentIndex = 0;
   let curOffset = 0;
   let fragment = fragments[fragmentIndex];
@@ -94,7 +92,7 @@ export const applyTokens = (fragments: Fragment[], tokens: JPDBToken[]): void =>
         splitFragment(fragments, fragmentIndex, token.end);
       }
 
-      const classes = ['jpdb-word', ...token.card.cardState.map(pascalToKebabCase)];
+      const classes = ['jpdb-word', ...token.card.cardState];
       const wrapper =
         token.rubies.length > 0 && !fragment.hasRuby
           ? createElement('ruby', {

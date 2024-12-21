@@ -12,10 +12,42 @@ import { Paragraph } from './types';
  * Nodes will be split in fragments, which will then be parsed in batches. Those batches can be canceled if they are no longer needed.
  */
 export class BatchController extends IntegrationScript {
+  protected _reverseIndex = new Map<
+    string,
+    {
+      classes: string[];
+      elements: HTMLElement[];
+    }
+  >();
   protected batches = new Map<
     Element | Node,
     { abort: () => void; sent: boolean; sequences: AbortableSequence<JPDBToken[], Paragraph>[] }
   >();
+
+  constructor() {
+    super();
+
+    this.onBroadcast('cardStateUpdated', (vid, sid, state) => {
+      const key = `${vid}/${sid}`;
+      const elements = this._reverseIndex.get(key);
+
+      if (!elements) {
+        return;
+      }
+
+      const classesToRemove = elements.classes.filter((c) => c !== 'jpdb-word');
+      const newClasses = ['jpdb-word', ...state];
+
+      elements.elements.forEach((e) => {
+        e.classList.remove(...classesToRemove);
+        e.classList.add(...newClasses);
+        // TODO: Reused cards?
+        e.ajbContext!.token.card.cardState = state;
+      });
+
+      this._reverseIndex.set(key, { classes: newClasses, elements: elements.elements });
+    });
+  }
 
   /**
    * Register a node for later parsing.
@@ -78,7 +110,7 @@ export class BatchController extends IntegrationScript {
 
     sequences.forEach((s) => {
       void s.promise.then((tokens) => {
-        applyTokens(s.data, tokens);
+        applyTokens(s.data, tokens, this._reverseIndex);
       });
     });
 

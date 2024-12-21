@@ -61,10 +61,10 @@ export class PopupManager extends IntegrationScript {
   }
 
   private showPopup(): void {
-    // console.log('showing popup');
+    // TODO: Show the poup
   }
 
   private showAdvancedDialog(): void {
-    // console.log('showing advanced dialog');
+    // TODO: Show the advanced dialog
   }
 }

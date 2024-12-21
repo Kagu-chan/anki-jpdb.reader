@@ -32,7 +32,7 @@ type JPDBLookupVocabularyRequest = {
   fields: JPDBFieldList;
 };
 type JPDBLookupVocabularyResult = {
-  vocabulary_info: [[JPDBCardState]];
+  vocabulary_info: [[JPDBCardState[]]];
 };
 
 type JPDBListUserDecksRequest = {

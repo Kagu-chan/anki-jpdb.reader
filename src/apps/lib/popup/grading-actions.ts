@@ -88,7 +88,7 @@ export class GradingActions extends IntegrationScript {
   private reviewCard(
     _grade: 'nothing' | 'something' | 'hard' | 'good' | 'easy' | 'fail' | 'pass',
   ): void {
-    // console.log('grading crad', grade, this._currentContext?.ajbContext?.token);
+    // TODO implement "addReview" function -> this._currentContext?.ajbContext?.token;
   }
 
   private async rotateFlag(forward: boolean): Promise<void> {
@@ -100,7 +100,7 @@ export class GradingActions extends IntegrationScript {
 
     const state = token.card.cardState ?? [];
 
-    const nf = state.includes('neverForget');
+    const nf = state.includes('never-forget');
     const bl = state.includes('blacklisted');
 
     this._miningActions.suspendUpdateWordStates();

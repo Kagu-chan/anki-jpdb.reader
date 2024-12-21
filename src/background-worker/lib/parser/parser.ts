@@ -44,7 +44,7 @@ export class Parser {
           glosses,
           partOfSpeech: meaningsPartOfSpeech[i],
         })),
-        cardState: cardState?.length ? cardState : ['notInDeck'],
+        cardState: cardState?.length ? cardState : ['not-in-deck'],
         pitchAccent: pitchAccent ?? [],
         wordWithReading: null,
       };
