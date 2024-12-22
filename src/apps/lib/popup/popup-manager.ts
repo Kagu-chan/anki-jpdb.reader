@@ -1,4 +1,5 @@
 import { getConfiguration } from '@shared/configuration';
+import { onBroadcastMessage } from '@shared/messages';
 import { IntegrationScript } from '../integration-script';
 import { KeybindManager } from '../keybind-manager';
 import { GradingActions } from './grading-actions';
@@ -99,7 +100,7 @@ export class PopupManager extends IntegrationScript {
     });
     this.on('showAdvancedDialogKey', () => this.showAdvancedDialog());
 
-    this.onBroadcast('configurationUpdated', async () => {
+    onBroadcastMessage('configurationUpdated', async () => {
       this._showPopupOnHover = await getConfiguration('showPopupOnHover');
     });
   }
