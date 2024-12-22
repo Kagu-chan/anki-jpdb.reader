@@ -7,9 +7,6 @@ import {
   LocalEvents,
   TabEventFunction,
   TabEvents,
-  BroadcastEvents,
-  BroadcastEventFunction,
-  onBroadcastMessage,
 } from '@shared/messages';
 import { AbortableSequence, Sequence, PreparedRequest } from './types';
 import { EventCollection } from './utils/event-collection';
@@ -77,13 +74,6 @@ export abstract class IntegrationScript {
     listener: TabEventFunction<TEvent>,
   ): void {
     receiveBackgroundMessage(event, listener);
-  }
-
-  protected onBroadcast<TEvent extends keyof BroadcastEvents>(
-    event: TEvent,
-    listener: BroadcastEventFunction<TEvent>,
-  ): void {
-    onBroadcastMessage(event, listener);
   }
 
   protected async lookupText(text: string | undefined): Promise<void> {

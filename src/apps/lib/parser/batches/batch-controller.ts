@@ -1,5 +1,5 @@
 import { JPDBToken } from '@shared/jpdb';
-import { sendToBackground } from '@shared/messages';
+import { onBroadcastMessage, sendToBackground } from '@shared/messages';
 import { IntegrationScript } from '../../integration-script';
 import { PopupManager } from '../../popup/popup-manager';
 import { AbortableSequence } from '../../types';
@@ -28,7 +28,7 @@ export class BatchController extends IntegrationScript {
   constructor() {
     super();
 
-    this.onBroadcast('cardStateUpdated', (vid, sid, state) => {
+    onBroadcastMessage('cardStateUpdated', (vid, sid, state) => {
       const key = `${vid}/${sid}`;
       const elements = this._reverseIndex.get(key);
 
