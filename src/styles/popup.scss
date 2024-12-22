@@ -1,0 +1,21 @@
+.animated {
+  &.popup-visible {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 2s linear;
+  }
+
+  &.popup-hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 2s, opacity 2s linear;
+  }
+}
+
+.popup {
+  all: initial;
+  position: fixed;
+  top: 2rem;
+  right: 1.5rem;
+  z-index: 2147483647;
+}

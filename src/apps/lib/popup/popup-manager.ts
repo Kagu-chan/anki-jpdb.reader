@@ -4,6 +4,7 @@ import { IntegrationScript } from '../integration-script';
 import { KeybindManager } from '../keybind-manager';
 import { GradingActions } from './grading-actions';
 import { MiningActions } from './mining-actions';
+import { Popup } from './popup';
 
 export class PopupManager extends IntegrationScript {
   private static _instance: PopupManager;
@@ -21,6 +22,7 @@ export class PopupManager extends IntegrationScript {
   private _gradingActions: GradingActions;
 
   private _currentContext?: HTMLElement;
+  private _popup?: Popup;
   private _showPopupOnHover = false;
 
   private constructor() {
@@ -80,8 +82,7 @@ export class PopupManager extends IntegrationScript {
     this._miningActions.deactivate();
     this._gradingActions.deactivate();
 
-    // TODO: Hide Popup
-    // TODO: Start timeout to hide popup
+    this._popup?.hide();
   }
 
   private async setup(): Promise<void> {
@@ -103,13 +104,12 @@ export class PopupManager extends IntegrationScript {
     onBroadcastMessage('configurationUpdated', async () => {
       this._showPopupOnHover = await getConfiguration('showPopupOnHover');
     });
+
+    this._popup = new Popup();
   }
 
   private showPopup(): void {
-    // TODO: Cancel the timeout if it is running
-    // TODO: Show the poup
-    // eslint-disable-next-line no-console
-    console.log('showPopup');
+    this._popup?.show(this._currentContext!);
   }
 
   private showAdvancedDialog(): void {
