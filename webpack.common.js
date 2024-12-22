@@ -1,7 +1,6 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlBundlerPlugin = require('html-bundler-webpack-plugin');
-const ESLintPlugin = require('eslint-webpack-plugin');
 
 const views = ['settings', 'popup'];
 const styles = ['toast', 'word'];
@@ -37,16 +36,6 @@ module.exports = {
         },
       },
       plugins: [
-        new ESLintPlugin({
-          overrideConfigFile: path.resolve(__dirname, "eslint.config.mjs"),
-          configType: 'flat',
-          extensions: ['ts', 'tsx'],
-          files: ['src/**/*'],
-          emitError: true,
-          emitWarning: true,
-          failOnError: true,
-          failOnWarning: true,
-        }),
         new CopyPlugin({
           patterns: [
             { from: 'assets', to: 'assets' },
