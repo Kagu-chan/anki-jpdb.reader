@@ -8,7 +8,7 @@
     "service_worker": "js/background-worker.js"
   },
   "action": {
-    "default_popup": "views/popup.html",
+    "default_popup": "views/widget.html",
     "default_icon": {
       "16": "assets/16.png",
       "24": "assets/24.png",

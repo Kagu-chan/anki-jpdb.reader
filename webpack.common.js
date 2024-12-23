@@ -2,10 +2,10 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlBundlerPlugin = require('html-bundler-webpack-plugin');
 
-const views = ['settings', 'popup'];
-const styles = ['toast', 'word'];
+const views = ['settings', 'widget'];
+const styles = ['toast', 'word', 'popup'];
 
-const apps = ['ajb']; // ['ajb', 'asbplayer', 'nhk.or.jp', 'netflix.com', 'crunchyroll.com'];
+const apps = ['ajb'];
 
 const generate = (array, prefix, target, source = 'ts', targetExt = 'js') =>
   array.reduce(
