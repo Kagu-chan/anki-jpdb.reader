@@ -1,0 +1,10 @@
+@import '@styles/theme/common';
+@import '@styles/theme/forms';
+@import '@styles/theme/outline';
+
+#template-list {
+  div {
+    display: flex;
+    gap: 1rem;
+  }
+}

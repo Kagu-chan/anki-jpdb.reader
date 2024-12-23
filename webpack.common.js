@@ -4,6 +4,7 @@ const HtmlBundlerPlugin = require('html-bundler-webpack-plugin');
 
 const views = ['settings', 'widget'];
 const styles = ['toast', 'word', 'popup'];
+const elementStyles = ['html-keybind-input', 'html-mining-input'];
 
 const apps = ['ajb'];
 
@@ -49,6 +50,7 @@ module.exports = {
             ...generate(views, 'views', 'views', 'html', 'html'),
             ...generate(apps, 'apps', 'apps', 'ts', 'js'),
             ...generate(styles, 'styles', 'css', 'scss', 'css'),
+            ...generate(elementStyles, 'views/elements', 'css', 'scss', 'css'),
           },
           js: { outputPath: 'js' },
           css: { outputPath: 'css' },

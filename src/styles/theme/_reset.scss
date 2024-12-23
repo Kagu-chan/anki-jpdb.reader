@@ -1,0 +1,65 @@
+blockquote,
+body,
+dd,
+dl,
+dt,
+fieldset,
+figure,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+html,
+legend,
+li,
+ol,
+p,
+pre,
+textarea,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 0.3rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+  font-weight: normal;
+  padding-bottom: 0.5rem;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  padding-bottom: 0.6rem;
+}
+
+button,
+input,
+select,
+textarea {
+  margin: 0;
+}
+
+html {
+  box-sizing: border-box;
+  line-height: 1.45;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}

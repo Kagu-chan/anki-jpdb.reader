@@ -115,16 +115,14 @@ export class HTMLMiningInputElement extends HTMLElement {
   }
 
   protected installStyles(): void {
-    ['theme', 'common', 'settings'].forEach((style) => {
-      this._shadow.appendChild(
-        createElement('link', {
-          attributes: {
-            rel: 'stylesheet',
-            href: getStyleUrl(style),
-          },
-        }),
-      );
-    });
+    this._shadow.appendChild(
+      createElement('link', {
+        attributes: {
+          rel: 'stylesheet',
+          href: getStyleUrl('html-mining-input'),
+        },
+      }),
+    );
   }
 
   protected registerSelectElementListeners(): void {

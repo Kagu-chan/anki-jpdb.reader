@@ -1,0 +1,80 @@
+
+
+$outlines: (
+  v1: #ff3b3b,
+  v2: #a0a0a0,
+  v3: #df6d2b,
+  v4: #4fa825,
+);
+
+$states: (
+  new: #4b8dff,
+  not-in-deck: #4b8dff,
+
+  blacklisted: #777,
+  locked: #777,
+  suspended: #777,
+
+  known: #70c000,
+  never-forget: #70c000,
+
+  due: orangered,
+  failed: red,
+  learning: #5ea780,
+);
+
+$grades: (
+  nothing: map-get($outlines, v1),
+  something: map-get($outlines, v1),
+  hard: map-get($outlines, v3),
+  okay: map-get($outlines, v4),
+  easy: map-get($states, new),
+
+  fail: map-get($outlines, v1),
+  pass: map-get($outlines, v4),
+);
+
+$decks: (
+  mining: map-get($states, new),
+  never-forget: map-get($states, known),
+  blacklist: map-get($states, blacklisted),
+);
+
+$buttons: (
+  button-background-color: #214177,
+  button-text-color: #ddd,
+  button-shadow-color: #000,
+  button-focused-shadow-color: transparent,
+  button-hover-shadow-color: transparent,
+
+  button-focused-border-color: #3b7def,
+  button-hover-border-color: #3b7def,
+);
+
+$inputs: (
+  input-text-color: #aaa,
+  input-background-color: #191919,
+  input-border-color: #3a3a3a,
+  input-focused-border-color: #3b7def,
+
+  input-box-shadow-color: #111,
+  input-focused-box-shadow-color: transparent,
+
+  checkbox-color: #3b7def,
+  checkbox-background-color: #111,
+  checkbox-border-color: #444,
+  checkbox-focused-border-color: #3b7def,
+  checkbox-box-shadow-color: #000,
+  checkbox-focused-box-shadow-color: #3b7def,
+  checkbox-focused-text-underline-color: #aaa,
+);
+
+$colors: (
+  background-color: #181818,
+  text-color: #bbb,
+
+  link-color: #4b8dff,
+  link-underline-color: #555,
+
+  accordion-border-color: #444,
+);

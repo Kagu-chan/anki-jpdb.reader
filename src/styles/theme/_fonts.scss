@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&display=swap');
+
+body,
+input {
+  font-family: 'Nunito Sans', 'Noto Sans Symbols 2', 'Segoe UI', 'Noto Sans JP', 'Noto Sans CJK JP',
+    'Hiragino Sans GB', 'Meiryo', sans-serif;
+}
+
+input[type='text'],
+textarea {
+  font-family: 'Nunito Sans', 'Segoe UI', 'Noto Sans JP', 'Noto Sans CJK JP', 'Hiragino Sans GB',
+    'Meiryo', sans-serif;
+}

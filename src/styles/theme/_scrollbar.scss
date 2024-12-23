@@ -1,0 +1,20 @@
+$scrollbar-color: #3b7def;
+$scrollbar-background-color: #111;
+
+* {
+  scrollbar-width: 1rem;
+  scrollbar-color: $scrollbar-color $scrollbar-background-color;
+}
+
+*::-webkit-scrollbar {
+  width: 1rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: $scrollbar-background-color;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: $scrollbar-color;
+  border: 3px solid $scrollbar-background-color;
+}

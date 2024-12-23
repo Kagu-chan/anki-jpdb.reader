@@ -69,16 +69,14 @@ export class HTMLKeybindInputElement extends HTMLElement {
   }
 
   protected installStyles(): void {
-    ['theme', 'common', 'settings'].forEach((style) => {
-      this._shadow.appendChild(
-        createElement('link', {
-          attributes: {
-            rel: 'stylesheet',
-            href: getStyleUrl(style),
-          },
-        }),
-      );
-    });
+    this._shadow.appendChild(
+      createElement('link', {
+        attributes: {
+          rel: 'stylesheet',
+          href: getStyleUrl('html-keybind-input'),
+        },
+      }),
+    );
   }
 
   protected buildInputElements(): void {

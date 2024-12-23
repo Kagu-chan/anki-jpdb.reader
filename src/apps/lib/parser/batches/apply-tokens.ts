@@ -75,7 +75,7 @@ export const applyTokens = (
         splitFragment(fragments, fragmentIndex, token.start);
       }
 
-      wrap(fragment.node, createElement('span', { class: ['jpdb-word', 'unparsed'] }));
+      wrap(fragment.node, createElement('span', { class: ['jpdb-word', 'unparsed'], id: false }));
 
       curOffset += fragment.length;
       fragment = fragments[++fragmentIndex];
@@ -97,6 +97,11 @@ export const applyTokens = (
         token.rubies.length > 0 && !fragment.hasRuby
           ? createElement('ruby', {
               class: classes,
+              attributes: {
+                'data-vid': token.card.vid.toString(),
+                'data-sid': token.card.sid.toString(),
+                'data-state': token.card.cardState.join(' '),
+              },
               events: {
                 onmouseenter: (event: MouseEvent) => PopupManager.instance.enter(event),
                 onmouseleave: () => PopupManager.instance.leave(),
@@ -104,6 +109,11 @@ export const applyTokens = (
             })
           : createElement('span', {
               class: classes,
+              attributes: {
+                'data-vid': token.card.vid.toString(),
+                'data-sid': token.card.sid.toString(),
+                'data-state': token.card.cardState.join(' '),
+              },
               events: {
                 onmouseenter: (event: MouseEvent) => PopupManager.instance.enter(event),
                 onmouseleave: () => PopupManager.instance.leave(),

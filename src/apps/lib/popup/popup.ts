@@ -129,9 +129,7 @@ export class Popup {
 
     this._shadowRoot = shadowRootContainer.attachShadow({ mode: 'open' });
     this._shadowRoot.append(
-      ...['theme', 'common', 'popup'].map((s) =>
-        createElement('link', { attributes: { rel: 'stylesheet', href: getStyleUrl(s) } }),
-      ),
+      createElement('link', { attributes: { rel: 'stylesheet', href: getStyleUrl('popup') } }),
       this._popup,
     );
 
@@ -173,9 +171,9 @@ export class Popup {
     const add = (deck: string, id: string, text?: string, handler?: () => void): void => {
       if (deck?.length) {
         miningButtons.push(
-          createElement('span', {
+          createElement('a', {
             id: `${id}-deck`,
-            class: ['mining-button', 'button', 'outline', id],
+            class: ['outline', id],
             innerText: text,
             handler,
           }),
@@ -212,9 +210,9 @@ export class Popup {
       : ['nothing', 'something', 'hard', 'okay', 'easy'];
 
     const gradeButtons = buttons.map((grade) =>
-      createElement('span', {
+      createElement('a', {
         id: grade,
-        class: ['grading-button', 'button', 'outline', grade],
+        class: ['outline', grade],
         innerText: grade,
         handler: () => {
           const { vid, sid } = this._cardContext!.ajbContext!.token.card;
