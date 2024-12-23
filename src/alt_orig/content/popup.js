@@ -284,13 +284,19 @@ export class Popup {
                 lastPOS = meaning.partOfSpeech;
             }
         }
-        this.#vocabSection.replaceChildren(jsxCreateElement("div", { id: 'header' },
+        this.#vocabSection.replaceChildren(
+          jsxCreateElement("div", { id: 'header' },
             jsxCreateElement("a", { lang: 'ja', href: url, target: '_blank' },
-                jsxCreateElement("span", { class: 'spelling' }, card.spelling),
-                jsxCreateElement("span", { class: 'reading' }, card.spelling !== card.reading ? `(${card.reading})` : '')),
-            jsxCreateElement("div", { class: 'state' }, card.state.map(s => (jsxCreateElement("span", { class: s }, s))))), jsxCreateElement("div", { class: 'metainfo' },
+              jsxCreateElement("span", { class: 'spelling' }, card.spelling),
+              jsxCreateElement("span", { class: 'reading' }, card.spelling !== card.reading ? `(${card.reading})` : '')
+            ),
+            jsxCreateElement("div", { class: 'state' }, card.state.map(s => (jsxCreateElement("span", { class: s }, s))))
+          ),
+          jsxCreateElement("div", { class: 'metainfo' },
             jsxCreateElement("span", { class: 'freq' }, card.frequencyRank ? `Top ${card.frequencyRank}` : ''),
-            card.pitchAccent.map(pitch => renderPitch(card.reading, pitch))), ...groupedMeanings.flatMap(meanings => [
+            card.pitchAccent.map(pitch => renderPitch(card.reading, pitch))
+          ),
+          ...groupedMeanings.flatMap(meanings => [
             jsxCreateElement("h2", null, meanings.partOfSpeech
                 .map(pos => PARTS_OF_SPEECH[pos] ?? `(Unknown part of speech #${pos}, please report)`)
                 .filter(x => x.length > 0)
