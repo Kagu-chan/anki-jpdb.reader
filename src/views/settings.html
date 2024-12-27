@@ -66,12 +66,21 @@
                   <label for="jpdbAddToForq">Add to FORQ when mining</label>
                 </div>
               </div>
+
               <div>
+                <div class="checkbox">
+                  <input type="checkbox" id="jpdbDisableReviews" name="jpdbDisableReviews" hides=".review" runlast />
+                  <label for="jpdbDisableReviews">Disable review actions</label>
+                </div>
+              </div>
+
+              <div class="review">
                 <div class="checkbox">
                   <input type="checkbox" id="jpdbUseTwoGrades" name="jpdbUseTwoGrades" hides=".grade-five" shows=".grade-two" />
                   <label for="jpdbUseTwoGrades">Use a 2-point pass/fail grading scale</label>
                 </div>
               </div>
+
               <div>
                 <div class="checkbox">
                   <input type="checkbox" id="jpdbRotateFlags" name="jpdbRotateFlags" shows="#rotate-flags" />
@@ -93,7 +102,7 @@
             Additionally, Left Mouse Click (without modifiers) as well as Right Mouse Click (no matter the modifiers) are not supported.
           </p>
 
-          <div class="form-box-parent grade-five" hidden>
+          <div class="form-box-parent grade-five review" hidden>
             <div class="form-box">
               <div>
                 <label for="jpdbReviewNothing">Review word as nothing</label>
@@ -108,7 +117,7 @@
             </div>
           </div>
 
-          <div class="form-box-parent grade-five" hidden>
+          <div class="form-box-parent grade-five review" hidden>
             <div class="form-box">
               <div>
                 <label for="jpdbReviewHard">Review word as hard</label>
@@ -129,7 +138,7 @@
             </div>
           </div>
 
-          <div class="form-box-parent grade-two" hidden skip-animation>
+          <div class="form-box-parent grade-two review" hidden skip-animation>
             <div class="form-box">
               <div>
                 <label for="jpdbReviewFail">Review word as fail</label>
@@ -278,12 +287,18 @@
           <div class="form-box">
             <div>
               <div class="checkbox">
+                <input type="checkbox" id="hideAfterAction" name="hideAfterAction" />
+                <label for="hideAfterAction">Hide popup after interacting with the API</label>
+              </div>
+            </div>
+
+            <div>
+              <div class="checkbox">
                 <input type="checkbox" id="hidePopupAutomatically" name="hidePopupAutomatically" shows="#hidePopupDelayBox" />
                 <label for="hidePopupAutomatically">Hide popup automatically after leaving it</label>
               </div>
               <p style="opacity: 0.8">
-                If enabled, the popup will hide itself after you move your mouse out of it.<br />
-                It will also hide after you interacted with the API (e.g. added a word to your deck).
+                If enabled, the popup will hide itself after you move your mouse out of it.
               </p>
             </div>
 
@@ -356,7 +371,7 @@
               <label for="showPopupKey">Show popup</label>
               <keybind-input id="showPopupKey" name="showPopupKey"></keybind-input>
             </div>
-            <div>
+            <div class="not-implemented">
               <label for="showAdvancedDialogKey">Show advanced mining dialog</label>
               <keybind-input id="showAdvancedDialogKey" name="showAdvancedDialogKey"></keybind-input>
             </div>

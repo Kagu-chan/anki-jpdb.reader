@@ -13,10 +13,12 @@ const NUMBER_KEYS: ConfigurationNumberKeys = ['schemaVersion', 'contextWidth', '
 const BOOLEAN_KEYS: ConfigurationBooleanKeys = [
   'jpdbAddToForq',
   'jpdbUseTwoGrades',
+  'jpdbDisableReviews',
   'jpdbRotateFlags',
   'enableAnkiIntegration',
   'showPopupOnHover',
   'hidePopupAutomatically',
+  'hideAfterAction',
   'touchscreenSupport',
   'disableFadeAnimation',
 ];

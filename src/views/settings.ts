@@ -35,7 +35,7 @@ class SettingsController {
   /**
    * FOR DEBUGGING PURPOSES ONLY!
    */
-  private _ENABLE_ANKI = true;
+  private _ENABLE_ANKI = false;
 
   constructor() {
     customElements.define('mining-input', HTMLMiningInputElement);
@@ -417,18 +417,38 @@ class SettingsController {
       reverse: boolean,
       fn: (e: HTMLDivElement, state: boolean) => void,
     ): void => {
-      const items = findElements<'input'>(`[${key}]`);
+      const items = findElements<'input'>(`[${key}]`).sort((a, b) => {
+        if (a.hasAttribute('runlast')) {
+          return 1;
+        }
+
+        if (b.hasAttribute('runlast')) {
+          return -1;
+        }
+
+        if (a.hasAttribute('runfirst')) {
+          return -1;
+        }
+
+        if (b.hasAttribute('runfirst')) {
+          return 1;
+        }
+
+        return 0;
+      });
 
       items.forEach((item) => {
-        item.addEventListener('change', () => {
+        const localFn = (): void => {
           const targets = findElements<'div'>(item.getAttribute(key)!);
 
           targets.forEach((target) => {
             fn(target, reverse ? !item.checked : item.checked);
           });
-        });
+        };
 
-        item.dispatchEvent(new Event('change'));
+        item.addEventListener('change', localFn);
+
+        localFn();
       });
     };
 
