@@ -110,6 +110,7 @@ export class PopupManager extends IntegrationScript {
       return;
     }
 
+    // TODO: Implement touchscreen support
     this._popup.show(this._currentHover);
   }
 

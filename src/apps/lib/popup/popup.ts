@@ -3,10 +3,14 @@ import { createElement, findElements, withElement } from '@shared/dom';
 import { getStyleUrl } from '@shared/extension';
 import { JPDBCard, JPDBGrade } from '@shared/jpdb';
 import { onBroadcastMessage, sendToBackground } from '@shared/messages';
+import { KeybindManager } from '../keybind-manager';
 import { PARTS_OF_SPEECH } from './part-of-speech';
-// import { PARTS_OF_SPEECH } from './part-of-speech';
 
 export class Popup {
+  private _keyManager = new KeybindManager([], {
+    keydown: (e: MouseEvent | KeyboardEvent): void => this.handleKeydown(e),
+  });
+
   /**
    * This is the root element of the popup, which is attached to the host page or iframe.
    * It manages the shadow root isolating the actual popup content.
@@ -50,15 +54,10 @@ export class Popup {
    */
   private _popup: HTMLDivElement = createElement('div', {
     class: ['popup'],
-    // events: {
-    //   onmouseenter: () => this.startHover(),
-    //   onmouseleave: () => this.stopHover(),
-    //   keydown: (ev: KeyboardEvent) => {
-    //     if (ev.key === 'Escape' && this._isVisible) {
-    //       this.processHide();
-    //     }
-    //   },
-    // },
+    events: {
+      onmouseenter: () => this.startHover(),
+      onmouseleave: () => this.stopHover(),
+    },
     children: [this._mineButtons, this._gradeButtons, this._context, this._details],
   });
 
@@ -73,12 +72,10 @@ export class Popup {
   private _neverForgetDeck?: string;
   private _blacklistDeck?: string;
 
-  // private _hideTimer?: NodeJS.Timeout;
-  // private _isVisible = false;
-  // private _isHover = false;
+  private _hideTimer?: NodeJS.Timeout;
+  private _isHover?: boolean;
 
   private _cardContext?: HTMLElement;
-  //
 
   constructor() {
     this.renderNodes();
@@ -90,6 +87,7 @@ export class Popup {
   public show(_context: HTMLElement): void {
     this._cardContext = _context;
 
+    this.clearTimer();
     this.updateParentElement();
     this.rerender();
     this.setPosition();
@@ -99,6 +97,8 @@ export class Popup {
       opacity: '1',
       visibility: 'visible',
     });
+
+    this._keyManager.activate();
   }
 
   public hide(): void {
@@ -107,6 +107,8 @@ export class Popup {
       opacity: '0',
       visibility: 'hidden',
     });
+
+    this._keyManager.deactivate();
   }
 
   public disablePointerEvents(): void {
@@ -617,6 +619,61 @@ export class Popup {
     if (this._hideAfterAction) {
       this.hide();
     }
+  }
+
+  private isVisibile(): boolean {
+    return this._root.style.visibility === 'visible';
+  }
+
+  private startHover(): void {
+    if (!this.isVisibile()) {
+      return;
+    }
+
+    this._isHover = true;
+    this.clearTimer();
+  }
+
+  private stopHover(): void {
+    this._isHover = false;
+
+    if (!this.isVisibile()) {
+      return;
+    }
+
+    if (!this._hidePopupAutomatically) {
+      return;
+    }
+
+    if (!this._hidePopupDelay) {
+      this.hide();
+
+      return;
+    }
+
+    this.startTimer();
+  }
+
+  private handleKeydown(e: MouseEvent | KeyboardEvent): void {
+    if (e && 'key' in e && e.key === 'Escape' && this.isVisibile()) {
+      this.hide();
+    }
+
+    if ('button' in e && e.button === 0 && this.isVisibile() && !this._isHover) {
+      this.hide();
+    }
+  }
+
+  private clearTimer(): void {
+    if (this._hideTimer) {
+      clearTimeout(this._hideTimer);
+    }
+  }
+
+  private startTimer(): void {
+    this.clearTimer();
+
+    this._hideTimer = setTimeout(() => this.hide(), this._hidePopupDelay);
   }
 
   //#endregion
