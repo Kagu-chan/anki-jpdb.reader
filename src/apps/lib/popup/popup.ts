@@ -64,6 +64,8 @@ export class Popup {
 
   private _hidePopupAutomatically: boolean;
   private _hidePopupDelay: number;
+  private _hideAfterAction: boolean;
+  private _disableReviews: boolean;
   private _disableFadeAnimation: boolean;
   private _useTwoPointGrading: boolean;
 
@@ -122,8 +124,10 @@ export class Popup {
   private async applyConfiguration(): Promise<void> {
     this._hidePopupAutomatically = await getConfiguration('hidePopupAutomatically');
     this._hidePopupDelay = await getConfiguration('hidePopupDelay');
+    this._hideAfterAction = await getConfiguration('hideAfterAction');
     this._disableFadeAnimation = await getConfiguration('disableFadeAnimation');
     this._useTwoPointGrading = await getConfiguration('jpdbUseTwoGrades');
+    this._disableReviews = await getConfiguration('jpdbDisableReviews');
 
     this._miningDeck = await getConfiguration('jpdbMiningDeck');
     this._neverForgetDeck = await getConfiguration('jpdbNeverForgetDeck');
@@ -338,9 +342,9 @@ export class Popup {
     ): void => {
       const { vid, sid } = this._cardContext!.ajbContext!.token.card;
 
-      void sendToBackground('runDeckAction', vid, sid, key, action).then(() =>
-        sendToBackground('updateCardState', vid, sid),
-      );
+      void sendToBackground('runDeckAction', vid, sid, key, action)
+        .then(() => sendToBackground('updateCardState', vid, sid))
+        .then(() => this.hideOnAction());
     };
     const performFlaggedDeckAction = (key: 'neverForget' | 'blacklist'): void => {
       const action = this.cardHasState(key) ? 'remove' : 'add';
@@ -395,14 +399,16 @@ export class Popup {
         handler: () => {
           const { vid, sid } = this._cardContext!.ajbContext!.token.card;
 
-          void sendToBackground('gradeCard', vid, sid, grade).then(() =>
-            sendToBackground('updateCardState', vid, sid),
-          );
+          void sendToBackground('gradeCard', vid, sid, grade)
+            .then(() => sendToBackground('updateCardState', vid, sid))
+            .then(() => this.hideOnAction());
         },
       }),
     );
 
     this._gradeButtons.replaceChildren(...gradeButtons);
+
+    this._gradeButtons.style.display = this._disableReviews ? 'none' : '';
   }
 
   //#endregion
@@ -602,6 +608,15 @@ export class Popup {
     }
 
     return groupedMeanings;
+  }
+
+  //#endregion
+  //#region Others
+
+  private hideOnAction(): void {
+    if (this._hideAfterAction) {
+      this.hide();
+    }
   }
 
   //#endregion

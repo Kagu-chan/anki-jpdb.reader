@@ -11,6 +11,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   jpdbAddToForq: false,
   jpdbUseTwoGrades: false,
   jpdbRotateFlags: false,
+  jpdbDisableReviews: false,
   jpdbReviewNothing: { key: '', code: '', modifiers: [] },
   jpdbReviewSomething: { key: '', code: '', modifiers: [] },
   jpdbReviewHard: { key: '', code: '', modifiers: [] },
@@ -53,6 +54,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   contextWidth: 1,
   hidePopupAutomatically: true,
   hidePopupDelay: 500,
+  hideAfterAction: true,
 
   showPopupOnHover: true,
   touchscreenSupport: false,

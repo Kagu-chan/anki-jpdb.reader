@@ -10,6 +10,7 @@ export type ConfigurationSchema = {
   jpdbNeverForgetDeck: string;
   jpdbAddToForq: boolean;
   jpdbUseTwoGrades: boolean;
+  jpdbDisableReviews: boolean;
   jpdbRotateFlags: boolean;
   jpdbReviewNothing: Keybind;
   jpdbReviewSomething: Keybind;
@@ -32,6 +33,7 @@ export type ConfigurationSchema = {
   contextWidth: number;
   hidePopupAutomatically: boolean;
   hidePopupDelay: number;
+  hideAfterAction: boolean;
 
   showPopupOnHover: boolean;
   touchscreenSupport: boolean;

@@ -17,8 +17,7 @@ export class GradingActions extends IntegrationScript {
 
     this.installEvents();
 
-    onBroadcastMessage('configurationUpdated', () => this.updateGradingKeys());
-    void this.updateGradingKeys();
+    onBroadcastMessage('configurationUpdated', () => this.updateGradingKeys(), true);
   }
 
   public activate(context: HTMLElement): void {
@@ -48,6 +47,7 @@ export class GradingActions extends IntegrationScript {
     const isAnkiEnabled = await getConfiguration('enableAnkiIntegration');
     const useTwoButtonGradingSystem = await getConfiguration('jpdbUseTwoGrades');
     const useFlagRotation = await getConfiguration('jpdbRotateFlags');
+    const disableReviews = await getConfiguration('jpdbDisableReviews');
 
     const fiveGradeKeys: FilterKeys<ConfigurationSchema, Keybind>[] = [
       'jpdbReviewNothing',
@@ -73,6 +73,10 @@ export class GradingActions extends IntegrationScript {
       this._keyManager.addKeys(flagKeys, true);
     } else {
       this._keyManager.removeKeys(flagKeys, true);
+    }
+
+    if (disableReviews) {
+      return this._keyManager.removeKeys([...fiveGradeKeys, ...twoGradeKeys]);
     }
 
     if (useTwoButtonGradingSystem) {
