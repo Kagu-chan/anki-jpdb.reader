@@ -482,9 +482,7 @@ export class Popup {
 
     return createElement('div', {
       id: 'state',
-      children: [...cardState, ...cardState].map((s) =>
-        createElement('span', { class: [s], innerText: s }),
-      ),
+      children: cardState.map((s) => createElement('span', { class: [s], innerText: s })),
     });
   }
 
