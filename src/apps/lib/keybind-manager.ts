@@ -10,10 +10,19 @@ export class KeybindManager extends IntegrationScript {
   private _downListener = this.handleKeydown.bind(this) as (e: KeyboardEvent | MouseEvent) => void;
   private _upListener = this.handleKeyUp.bind(this) as (e: KeyboardEvent | MouseEvent) => void;
 
-  constructor(private _events: FilterKeys<ConfigurationSchema, Keybind>[]) {
+  private _keydown?: (e: MouseEvent | KeyboardEvent) => void;
+  private _keyup?: (e: MouseEvent | KeyboardEvent) => void;
+
+  constructor(
+    private _events: FilterKeys<ConfigurationSchema, Keybind>[],
+    extraListeners?: Partial<Record<'keydown' | 'keyup', (e: MouseEvent | KeyboardEvent) => void>>,
+  ) {
     super();
 
     onBroadcastMessage('configurationUpdated', () => this.buildKeyMap(), true);
+
+    this._keydown = extraListeners?.keydown;
+    this._keyup = extraListeners?.keyup;
   }
 
   public addKeys(
@@ -98,6 +107,7 @@ export class KeybindManager extends IntegrationScript {
     }
 
     this.emit('keydown', e);
+    this._keydown?.(e);
 
     const keybind = this.getActiveKeybind(e);
 
@@ -117,6 +127,7 @@ export class KeybindManager extends IntegrationScript {
     }
 
     this.emit('keyup', e);
+    this._keyup?.(e);
 
     const keybind = this.getActiveKeybind(e);
 
