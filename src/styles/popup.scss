@@ -5,12 +5,8 @@
 @import 'theme/outline';
 
 .popup {
-  all: initial;
-
-  position: fixed;
-  z-index: 2147483647;
-  border-radius: 0.7rem;
   width: 350px;
+  max-height: 250px;
 
   display: flex;
   flex-direction: column;
@@ -18,33 +14,20 @@
 
   margin: 0;
   padding: 1em;
+  border-radius: .5em;
 
   color: map-get(colors.$colors, text-color);
   background-color: map-get(colors.$colors, background-color);
   box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.5);
 
-  &.animated {
-    &.popup-visible {
-      visibility: visible;
-      opacity: 1;
-      transition: opacity 60ms ease-in, visibility 60ms;
-    }
-
-    &.popup-hidden {
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity 200ms ease-in, visibility 200ms;
-    }
-  }
-
   section {
-    &#mining, &#grading {
+    &.controls {
       display: flex;
       flex-direction: row;
       gap: .5rem;
 
-      .outline {
-        line-height: 0.7rem;
+      a {
+        line-height: .7rem;
         height: 1.2rem;
         font-size: .7rem;
         padding: 0.5rem 0.5rem 0 0.5rem;
@@ -57,104 +40,106 @@
           filter: brightness(0.8);
         }
       }
-    }
 
-    &#mining {
-      @each $id, $color in colors.$decks {
-        .#{$id} {
-          color: $color;
-          border-color: $color;
-          box-shadow: inset 0 0 3px $color;
+      &#mining {
+        @each $id, $color in colors.$decks {
+          .#{$id} {
+            color: $color;
+            border-color: $color;
+            box-shadow: inset 0 0 3px $color;
+          }
         }
       }
-    }
-
-    &#grading {
-      @each $id, $color in colors.$grades {
-        .#{$id} {
-          color: $color;
-          border-color: $color;
-          box-shadow: inset 0 0 3px $color;
+      &#grading {
+        @each $id, $color in colors.$grades {
+          .#{$id} {
+            color: $color;
+            border-color: $color;
+            box-shadow: inset 0 0 3px $color;
+          }
         }
       }
     }
 
     &#context {
-      #header {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+
+      .subsection {
         display: flex;
         flex-direction: row;
-        justify-content: left;
-        align-items: center;
-        gap: 0.5em;
+        justify-content: space-between;
 
-        margin: 0;
-        padding: 0;
-
-        font-size: 150%;
-
-        a {
-          color: map-get(colors.$colors, link-color);
-          text-decoration: none;
-          border-bottom: 1px solid map-get(colors.$colors, link-underline-color);
+        #link {
+          font-size: 150%;
+          border-bottom: 1px dashed map-get(colors.$colors, link-underline-color);
 
           &:hover {
-            color: map-get(colors.$colors, link-color);
-            text-decoration: none;
-            border-bottom: 2px solid map-get(colors.$colors, link-color);
+            border-bottom-style: solid;
           }
         }
 
-        .state {
+        #state {
           display: flex;
-          flex-direction: column;
-          margin-left: auto;
+          flex-direction: row;
+          gap: .5rem;
+          align-items: flex-end;
 
-          font-size: 50%;
-          line-height: 100%;
-        }
-      }
-
-      #metainfo {
-        display: flex;
-        flex-direction: row;
-        font-size: 12px;
-        gap: 0.5em;
-        white-space: nowrap;
-        margin: 0.75em 0;
-
-        .pitch {
           span {
-            padding: 1px 1px 1px 2px;
-            line-height: 1em;
+            font-size: 75%;
+            line-height: 100%;
+
+            border-width: 1px;
             border-style: solid;
-            border-image-slice: 2;
-            border-image-source: linear-gradient(to bottom, rgba(232, 104, 123, 0.8), rgba(75, 141, 255, 0.8));
-          }
 
-          .low {
-            border-width: 0 2px 2px 0;
-            margin-right: -2px;
-          }
+            padding: .5em;
+            border-radius: .5em;
 
-          .high {
-            border-width: 2px 2px 0 0;
-            margin-right: -2px;
+            @each $id, $color in colors.$states {
+              &.#{$id} {
+                color: $color;
+                border-color: $color;
+              }
+            }
           }
+        }
 
-          .low-final {
-            border-width: 0 0 2px 0;
-          }
+        &#meta {
+          font-size: 12px;
+          white-space: nowrap;
 
-          .high-final {
-            border-width: 2px 0 0 0;
-          }
+          #pitch-accent {
+            display: flex;
+            flex-direction: row;
+            gap: .5rem;
 
-          .low-final {
-            border-width: 0 0 2px 0;
-          }
+            .pitch span {
+              padding: 1px 1px 1px 2px;
+              line-height: 1em;
 
-          .high-final {
-            border-width: 2px 0 0 0;
+              border-style: solid;
+              border-image-slice: 2;
+              border-image-source: linear-gradient(to bottom, rgba(232, 104, 123, 0.8), rgba(75, 141, 255, 0.8));
+            }
+
+            .pitch .low {
+              border-width: 0 2px 2px 0;
+              margin-right: -2px;
+            }
+
+            .pitch .high {
+              border-width: 2px 2px 0 0;
+              margin-right: -2px;
+            }
+
+            .pitch .low-final {
+              border-width: 0 0 2px 0;
+            }
+
+            .pitch .high-final {
+              border-width: 2px 0 0 0;
+            }
           }
         }
       }
@@ -162,20 +147,31 @@
 
     &#details {
       overflow: auto;
-      max-height: 130px;
+      padding-top: 1em;
 
-      h2 {
-        font-size: 120%;
-        filter: brightness(85%) saturate(140%);
-        padding-bottom: 0.5rem;
+      .pos {
+        display: flex;
+        flex-direction: row;
+        gap: .5rem;
+        padding-bottom: .5em;
+
+        span {
+          font-size: 75%;
+          line-height: 100%;
+
+          border-width: 1px;
+          border-style: solid;
+
+          padding: .5em;
+          border-radius: .5em;
+          border-color: map-get(colors.$colors, text-color);
+        }
       }
 
       ol {
         margin: 0;
-        padding: 0 0 1rem;
-        padding-left: 1em;
+        padding-left: 1.5em;
       }
     }
   }
-
 }
