@@ -213,23 +213,55 @@ export class Popup {
     }
     constructor(demoMode = false) {
         this.#demoMode = demoMode;
-        this.#element = (jsxCreateElement("div", { id: 'jpdb-popup', onmousedown: event => {
-                event.stopPropagation();
-            }, onclick: event => {
-                event.stopPropagation();
-            }, onwheel: event => {
-                event.stopPropagation();
-            }, style: `all:initial;z-index:2147483647;${demoMode ? '' : 'position:absolute;top:0;left:0;opacity:0;visibility:hidden;'};` }));
+
+        this.#element = (
+          jsxCreateElement("div", {
+            id: 'jpdb-popup',
+            onmousedown: (event) => event.stopPropagation(),
+            onclick: (event) => event.stopPropagation(),
+            onwheel: (event) => event.stopPropagation(),
+            style: `all:initial;z-index:2147483647;${
+              demoMode
+                ? ''
+                : 'position:absolute;top:0;left:0;opacity:0;visibility:hidden;'
+              };`
+            }
+          )
+        );
+
+        this.#customStyle = jsxCreateElement("style", null);
+        this.#mineButtons = jsxCreateElement("section", { id: 'mine-buttons' });
+        this.#vocabSection = jsxCreateElement("section", { id: 'vocab-content' });
+
         const shadow = this.#element.attachShadow({ mode: 'closed' });
-        shadow.append(jsxCreateElement("link", { rel: 'stylesheet', href: browser.runtime.getURL('/themes.css') }), jsxCreateElement("link", { rel: 'stylesheet', href: browser.runtime.getURL('/content/popup.css') }), (this.#customStyle = jsxCreateElement("style", null)), jsxCreateElement("article", { lang: 'ja' },
-            (this.#mineButtons = jsxCreateElement("section", { id: 'mine-buttons' })),
-            jsxCreateElement("section", { id: 'review-buttons' },
-                jsxCreateElement("button", { class: 'nothing', onclick: demoMode ? undefined : async () => await requestReview(this.#data.token.card, 'nothing') }, "Nothing"),
-                jsxCreateElement("button", { class: 'something', onclick: demoMode ? undefined : async () => await requestReview(this.#data.token.card, 'something') }, "Something"),
-                jsxCreateElement("button", { class: 'hard', onclick: demoMode ? undefined : async () => await requestReview(this.#data.token.card, 'hard') }, "Hard"),
-                jsxCreateElement("button", { class: 'good', onclick: demoMode ? undefined : async () => await requestReview(this.#data.token.card, 'good') }, "Good"),
-                jsxCreateElement("button", { class: 'easy', onclick: demoMode ? undefined : async () => await requestReview(this.#data.token.card, 'easy') }, "Easy")),
-            (this.#vocabSection = jsxCreateElement("section", { id: 'vocab-content' }))));
+
+        shadow.append(
+          jsxCreateElement("link", {
+            rel: 'stylesheet',
+            href: browser.runtime.getURL('/themes.css')
+          }),
+          jsxCreateElement("link", {
+            rel: 'stylesheet',
+            href: browser.runtime.getURL('/content/popup.css')
+          }),
+          this.#customStyle,
+          jsxCreateElement(
+            "article",
+            { lang: 'ja' },
+            this.#mineButtons,
+            jsxCreateElement(
+              "section",
+              { id: 'review-buttons' },
+              jsxCreateElement("button", { class: 'nothing', onclick: demoMode ? undefined : async () => await requestReview(this.#data.token.card, 'nothing') }, "Nothing"),
+              jsxCreateElement("button", { class: 'something', onclick: demoMode ? undefined : async () => await requestReview(this.#data.token.card, 'something') }, "Something"),
+              jsxCreateElement("button", { class: 'hard', onclick: demoMode ? undefined : async () => await requestReview(this.#data.token.card, 'hard') }, "Hard"),
+              jsxCreateElement("button", { class: 'good', onclick: demoMode ? undefined : async () => await requestReview(this.#data.token.card, 'good') }, "Good"),
+              jsxCreateElement("button", { class: 'easy', onclick: demoMode ? undefined : async () => await requestReview(this.#data.token.card, 'easy') }, "Easy"),
+            ),
+            this.#vocabSection
+          )
+        );
+
         this.#outerStyle = this.#element.style;
     }
     fadeIn() {
