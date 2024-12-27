@@ -21,14 +21,32 @@ export class PopupManager extends IntegrationScript {
   private _miningActions: MiningActions;
   private _gradingActions: GradingActions;
 
-  private _currentContext?: HTMLElement;
-  private _popup?: Popup;
-  private _showPopupOnHover = false;
+  private _showPopupOnHover: boolean;
+  private _touchscreenSupport: boolean;
+
+  private _popup = new Popup();
+
+  private _currentHover?: HTMLElement;
+  private _currentHoverPosition?: { x: number; y: number };
 
   private constructor() {
     super();
 
-    void this.setup();
+    onBroadcastMessage(
+      'configurationUpdated',
+      async () => {
+        this._showPopupOnHover = await getConfiguration('showPopupOnHover');
+        this._touchscreenSupport = await getConfiguration('touchscreenSupport');
+      },
+      true,
+    );
+
+    this._keyManager = new KeybindManager(['showPopupKey', 'showAdvancedDialogKey']);
+    this._miningActions = new MiningActions();
+    this._gradingActions = new GradingActions(this._miningActions);
+
+    this.on('showPopupKey', () => this.handlePopup());
+    this.on('showAdvancedDialogKey', () => this.handleAdvancedDialog());
   }
 
   /**
@@ -49,24 +67,21 @@ export class PopupManager extends IntegrationScript {
    * @returns {void}
    */
   public enter(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
+    const { target, x, y } = event;
 
-    if (this._currentContext === target) {
+    if (!target) {
       return;
     }
 
-    if (!target?.ajbContext) {
-      return;
-    }
-
-    this._currentContext = target;
+    this._currentHover = target as HTMLElement;
+    this._currentHoverPosition = { x, y };
 
     this._keyManager.activate();
-    this._miningActions.activate(this._currentContext);
-    this._gradingActions.activate(this._currentContext);
+    this._miningActions.activate(this._currentHover);
+    this._gradingActions.activate(this._currentHover);
 
     if (this._showPopupOnHover) {
-      this.showPopup();
+      this.handlePopup();
     }
   }
 
@@ -76,43 +91,29 @@ export class PopupManager extends IntegrationScript {
    * @returns {void}
    */
   public leave(): void {
-    this._currentContext = undefined;
+    this._currentHover = undefined;
+    this._currentHoverPosition = undefined;
 
     this._keyManager.deactivate();
     this._miningActions.deactivate();
     this._gradingActions.deactivate();
-
-    this._popup?.hide();
   }
 
-  private async setup(): Promise<void> {
-    this._showPopupOnHover = await getConfiguration('showPopupOnHover');
+  /**
+   * Event handler is reached if an element is hovered and the keybind for popup is pressed.
+   * Also called if the popup is configured to show on hover and the mouse is moved over an element.
+   *
+   * @returns
+   */
+  private handlePopup(): void {
+    if (!this._currentHover) {
+      return;
+    }
 
-    this._keyManager = new KeybindManager(['showPopupKey', 'showAdvancedDialogKey']);
-    this._miningActions = new MiningActions();
-    this._gradingActions = new GradingActions(this._miningActions);
-
-    this.on('showPopupKey', () => {
-      if (this._showPopupOnHover) {
-        return;
-      }
-
-      this.showPopup();
-    });
-    this.on('showAdvancedDialogKey', () => this.showAdvancedDialog());
-
-    onBroadcastMessage('configurationUpdated', async () => {
-      this._showPopupOnHover = await getConfiguration('showPopupOnHover');
-    });
-
-    this._popup = new Popup();
+    this._popup.show(this._currentHover);
   }
 
-  private showPopup(): void {
-    this._popup?.show(this._currentContext!);
-  }
-
-  private showAdvancedDialog(): void {
+  private handleAdvancedDialog(): void {
     // TODO: Show the advanced dialog
   }
 }

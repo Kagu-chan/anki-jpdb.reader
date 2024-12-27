@@ -7,12 +7,13 @@ export class KeybindManager extends IntegrationScript {
   /** Map of configured keybinds */
   private _keyMap: Partial<Record<FilterKeys<ConfigurationSchema, Keybind>, Keybind>> = {};
   /** Reference which can be added or removed as event listener */
-  private _listener = this.handleKeydown.bind(this) as (e: KeyboardEvent | MouseEvent) => void;
+  private _downListener = this.handleKeydown.bind(this) as (e: KeyboardEvent | MouseEvent) => void;
+  private _upListener = this.handleKeyUp.bind(this) as (e: KeyboardEvent | MouseEvent) => void;
 
   constructor(private _events: FilterKeys<ConfigurationSchema, Keybind>[]) {
     super();
 
-    void this.setup();
+    onBroadcastMessage('configurationUpdated', () => this.buildKeyMap(), true);
   }
 
   public addKeys(
@@ -50,19 +51,32 @@ export class KeybindManager extends IntegrationScript {
   }
 
   public activate(): void {
-    window.addEventListener('keydown', this._listener);
-    window.addEventListener('mousedown', this._listener);
+    window.addEventListener('keydown', this._downListener);
+    window.addEventListener('mousedown', this._downListener);
+
+    window.addEventListener('keyup', this._upListener);
+    window.addEventListener('mouseup', this._upListener);
   }
 
   public deactivate(): void {
-    window.removeEventListener('keydown', this._listener);
-    window.removeEventListener('mousedown', this._listener);
+    window.removeEventListener('keydown', this._downListener);
+    window.removeEventListener('mousedown', this._downListener);
+
+    window.removeEventListener('keyup', this._upListener);
+    window.removeEventListener('mouseup', this._upListener);
   }
 
-  private async setup(): Promise<void> {
-    onBroadcastMessage('configurationUpdated', () => this.buildKeyMap());
+  public isKeybind(
+    key: FilterKeys<ConfigurationSchema, Keybind>,
+    event: KeyboardEvent | MouseEvent,
+  ): boolean;
+  public isKeybind(key: Keybind, event: KeyboardEvent | MouseEvent): boolean;
 
-    await this.buildKeyMap();
+  public isKeybind(
+    key: FilterKeys<ConfigurationSchema, Keybind> | Keybind,
+    event: KeyboardEvent | MouseEvent,
+  ): boolean {
+    return this.checkKeybind(typeof key === 'string' ? this._keyMap[key] : key, event);
   }
 
   private async buildKeyMap(): Promise<void> {
@@ -78,14 +92,50 @@ export class KeybindManager extends IntegrationScript {
   }
 
   private handleKeydown(e: KeyboardEvent | MouseEvent): void {
-    if (
-      document.activeElement?.tagName === 'INPUT' ||
-      document.activeElement?.tagName === 'TEXTAREA'
-    ) {
+    if (this.shouldCancel()) {
       // Ignore events on input elements! Otherwise we may interfere with typing.
       return;
     }
 
+    this.emit('keydown', e);
+
+    const keybind = this.getActiveKeybind(e);
+
+    if (keybind) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+
+      this.emit(keybind, e);
+    }
+  }
+
+  private handleKeyUp(e: KeyboardEvent | MouseEvent): void {
+    if (this.shouldCancel()) {
+      // Ignore events on input elements! Otherwise we may interfere with typing.
+      return;
+    }
+
+    this.emit('keyup', e);
+
+    const keybind = this.getActiveKeybind(e);
+
+    if (keybind) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+
+      this.emit(`${keybind}Released` as FilterKeys<ConfigurationSchema, Keybind>, e);
+    }
+  }
+
+  private shouldCancel(): boolean {
+    return ['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName ?? '');
+  }
+
+  private getActiveKeybind(
+    e: KeyboardEvent | MouseEvent,
+  ): FilterKeys<ConfigurationSchema, Keybind> | undefined {
     // Sort the keybinds by the number of modifiers they have, then by the key code
     // This way we can prioritize keybinds with more modifiers, as they may extend other keybinds (e.g. ALT + KEY should have a lower priority than ALT + SHIFT + KEY)
     const sorted = Object.entries(this._keyMap)
@@ -96,19 +146,9 @@ export class KeybindManager extends IntegrationScript {
 
         return lBind.code.localeCompare(rBind.code);
       })
-      .map(([key]) => key);
+      .map(([key]) => key) as FilterKeys<ConfigurationSchema, Keybind>[];
 
-    const keybind = sorted.find((keybind: FilterKeys<ConfigurationSchema, Keybind>) =>
-      this.checkKeybind(this._keyMap[keybind], e),
-    );
-
-    if (keybind) {
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-
-      this.emit(keybind as FilterKeys<ConfigurationSchema, Keybind>, e);
-    }
+    return sorted.find((keybind) => this.checkKeybind(this._keyMap[keybind], e));
   }
 
   private checkKeybind(keybind: Keybind | undefined, event: KeyboardEvent | MouseEvent): boolean {
