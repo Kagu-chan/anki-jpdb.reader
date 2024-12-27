@@ -1,6 +1,7 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlBundlerPlugin = require('html-bundler-webpack-plugin');
+const ZipPlugin = require('zip-webpack-plugin');
 
 const views = ['settings', 'widget'];
 const styles = ['toast', 'word', 'popup'];
@@ -42,6 +43,8 @@ module.exports = {
             { from: 'assets', to: 'assets' },
             { from: 'manifest.json', to: 'manifest.json' },
             { from: 'hosts.json', to: 'hosts.json' },
+            { from: 'README.md', to: 'README.md' },
+            { from: 'LICENSE.md', to: 'LICENSE.md' },
           ],
         }),
         new HtmlBundlerPlugin({
@@ -55,7 +58,10 @@ module.exports = {
           js: { outputPath: 'js' },
           css: { outputPath: 'css' },
         }),
-      ],
+        env === 'production' && new ZipPlugin({
+          filename: 'anki-jpdb.reader.zip',
+        })
+      ].filter(Boolean),
       module: {
         rules: [
           {
