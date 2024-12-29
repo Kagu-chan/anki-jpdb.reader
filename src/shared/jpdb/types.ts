@@ -18,6 +18,16 @@ export type JPDBParseResult = {
   vocabulary: JPDBRawVocabulary[];
 };
 
+export type JPDBDeck = {
+  id?: string | number;
+  name?: string;
+  vocabulary_count?: number;
+  word_count?: number;
+  vocabulary_known_coverage?: number;
+  vocabulary_in_progress_coverage?: number;
+  is_built_in?: boolean;
+};
+
 export type JPDBSpecialDeckNames = 'blacklist' | 'never-forget';
 export type JPDBGrade = 'nothing' | 'something' | 'hard' | 'okay' | 'easy' | 'fail' | 'pass';
 export type JPDBCardState =

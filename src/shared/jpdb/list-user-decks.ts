@@ -1,5 +1,6 @@
-import { JPDBDeck, JPDBDeckFields, JPDBRequestOptions } from './api.types';
+import { JPDBDeckFields, JPDBRequestOptions } from './api.types';
 import { request } from './request';
+import { JPDBDeck } from './types';
 
 export const listUserDecks = (
   fields: JPDBDeckFields[],

@@ -1,5 +1,5 @@
 import { Empty } from '@shared/types';
-import { JPDBCardState, JPDBGrade, JPDBParseResult, JPDBSpecialDeckNames } from './types';
+import { JPDBCardState, JPDBDeck, JPDBGrade, JPDBParseResult, JPDBSpecialDeckNames } from './types';
 
 type JPDBFieldNames =
   | 'vid'
@@ -57,15 +57,6 @@ export type JPDBAddVocabularyRequest = {
 };
 export type JPDBRemoveVocabularyRequest = Pick<JPDBAddVocabularyRequest, 'id' | 'vocabulary'>;
 
-export type JPDBDeck = {
-  id?: string | number;
-  name?: string;
-  vocabulary_count?: number;
-  word_count?: number;
-  vocabulary_known_coverage?: number;
-  vocabulary_in_progress_coverage?: number;
-  is_built_in?: boolean;
-};
 export type JPDBDeckFields = keyof JPDBDeck;
 
 export type JPDBRequestOptions = {
