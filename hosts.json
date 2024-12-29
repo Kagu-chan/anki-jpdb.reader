@@ -28,7 +28,7 @@
     "allFrames": false,
     "parseVisibleObserver": true,
     "addedObserver": {
-      "notifyFor": ".textline, .line_box, .sentence-entry, .my-2.cursor-pointer",
+      "notifyFor": ".textline, .line_box, .sentence-entry, .my-2.cursor-pointer, p",
       "observeFrom": ["#textlog, #entry_holder, main", "body"],
       "config": {
         "childList": true,
@@ -51,7 +51,7 @@
     }
   },
   {
-    "host": ["*://reader.ttsu.app/*", "*://ttu-ebook.web.app/*"],
+    "host": "*://reader.ttsu.app/*",
     "auto": true,
     "allFrames": false,
     "parseVisibleObserver": {
