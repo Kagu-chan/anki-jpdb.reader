@@ -13,7 +13,7 @@ import {
   withElement,
   withElements,
 } from '@shared/dom';
-import { listUserDecks, ping } from '@shared/jpdb';
+import { listUserDecks, ping, JPDBDeck } from '@shared/jpdb';
 import { broadcast } from '@shared/messages';
 import { HTMLKeybindInputElement } from './elements/html-keybind-input-element';
 import { HTMLMiningInputElement } from './elements/html-mining-input-element';
@@ -193,25 +193,30 @@ class SettingsController {
         const decks = await listUserDecks(['id', 'name', 'is_built_in'], { apiToken });
         const usableDecks = decks.filter((deck) => !deck.is_built_in);
 
-        usableDecks.unshift(
-          { id: '', name: '[None]' },
-          { id: 'blacklist', name: '[backlist]' },
-          { id: 'never-forget', name: '[never-forget]' },
-          { id: 'forq', name: '[forq]' },
-        );
-
-        withElements('select[type=jpdb]', (element: HTMLSelectElement) => {
-          element.replaceChildren(
-            ...usableDecks.map((deck) =>
-              createElement('option', {
-                innerText: deck.name,
-                attributes: { value: deck.id!.toString() },
-              }),
-            ),
-          );
-        });
+        this.setJpdbDecks(usableDecks);
       },
+      () => this.setJpdbDecks([]),
     );
+  }
+
+  private setJpdbDecks(decks: JPDBDeck[]): void {
+    decks.unshift(
+      { id: '', name: '[None]' },
+      { id: 'blacklist', name: '[blacklist]' },
+      { id: 'never-forget', name: '[never-forget]' },
+      { id: 'forq', name: '[forq]' },
+    );
+
+    withElements('select[type=jpdb]', (element: HTMLSelectElement) => {
+      element.replaceChildren(
+        ...decks.map((deck) =>
+          createElement('option', {
+            innerText: deck.name,
+            attributes: { value: deck.id!.toString() },
+          }),
+        ),
+      );
+    });
   }
 
   //#endregion
