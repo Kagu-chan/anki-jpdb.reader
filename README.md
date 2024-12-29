@@ -68,7 +68,6 @@ Most integrations are currently either not implemented or tested - Feedback is a
 
 ### Known Bugs
 
-* when scrolling with asb player in crunchyroll, the parser triggers a second time and it renders two ruby lines
 * close popup after api call seems to not work properly on crunchyroll
 * some pages like nhkweb / newseasy dont keep the correct context, but always the first word of the row
 * some points dont properly validate and fail silently
