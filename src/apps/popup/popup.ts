@@ -82,7 +82,15 @@ export class Popup {
   constructor() {
     this.renderNodes();
 
-    onBroadcastMessage('cardStateUpdated', () => this.rerender());
+    onBroadcastMessage('cardStateUpdated', (vid, sid) => {
+      // wait for next tick - the card may not be updated in the registry yet.
+      // TODO: Add a priority to listeners to avoid this.
+      setTimeout(() => {
+        this._card = Registry.getCard(vid, sid);
+
+        this.rerender();
+      }, 1);
+    });
     onBroadcastMessage('configurationUpdated', () => this.applyConfiguration(), true);
   }
 
