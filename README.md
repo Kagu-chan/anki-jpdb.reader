@@ -51,10 +51,10 @@ Most integrations are currently either not implemented or tested - Feedback is a
 
 |App|URLs|Status
 |---|---|---
-|[ッツ Reader](https://github.com/ttu-ttu/ebook-reader)|[reader.ttsu.app](https://reader.ttsu.app), [ttu-ebook.web.app](https://ttu-ebook.web.app)|*not tested*
-|Texthooker pages|[anacreondjt texthooker](https://anacreondjt.gitlab.io/texthooker.html), [learnjapanese.moe texthooker](https://learnjapanese.moe/texthooker.html), [exSTATic tracker](https://kamwithk.github.io/exSTATic/tracker.html), [renji-xd texthooker](https://renji-xd.github.io/texthooker-ui/)|*not tested*
+|[ッツ Reader](https://github.com/ttu-ttu/ebook-reader)|[reader.ttsu.app](https://reader.ttsu.app), [ttu-ebook.web.app](https://ttu-ebook.web.app)|**buggy**
+|Texthooker pages|[anacreondjt texthooker](https://anacreondjt.gitlab.io/texthooker.html), [learnjapanese.moe texthooker](https://learnjapanese.moe/texthooker.html), [exSTATic tracker](https://kamwithk.github.io/exSTATic/tracker.html), [renji-xd texthooker](https://renji-xd.github.io/texthooker-ui/)|seems to work
 |Mokuro (Legacy)|[Mokuro](https://github.com/kha-white/mokuro): **IMPORTANT**: File path must contain `mokuro`, and file name must end in `.html`|**not implemented**
-|Readwok|[app.readwok.com](https://app.readwok.com/)|*not tested*
+|Readwok|[app.readwok.com](https://app.readwok.com/)|*non-functional*
 |Wikipedia|[ja.wikipedia.org](https://ja.wikipedia.org/)|**buggy**
 |Youtube subtitles|[youtube.com](https://youtube.com/)|**not implemented**
 |Bunpro|[bunpro.jp](https://bunpro.jp)|*not tested*
@@ -64,6 +64,7 @@ Most integrations are currently either not implemented or tested - Feedback is a
 |---|---|---
 |asbplayer|[github.com/killergerbah/asbplayer](https://github.com/killergerbah/asbplayer)|seems to work
 |Mokuro|[reader.mokuro.app](https://reader.mokuro.app)|**not implemented**
+|Youtube comments|[youtube.com](https://youtube.com/)|**not implemented**
 |NHK Japanese News Easy|[nhk.or.jp/news/easy](https://www3.nhk.or.jp/news/easy/)|**buggy**
 
 ### Known Bugs

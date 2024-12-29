@@ -42,7 +42,7 @@
     "allFrames": false,
     "parseVisibleObserver": true,
     "addedObserver": {
-      "notifyFor": "div[class*=\"styles_text_\"]",
+      "notifyFor": "div[class*=\"styles_paragraph_\"], div[class*=\"styles_reader_\"]",
       "observeFrom": "body",
       "config": {
         "childList": true,
