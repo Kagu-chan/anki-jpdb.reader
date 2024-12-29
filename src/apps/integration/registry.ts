@@ -1,4 +1,4 @@
-import { JPDBCard } from '@shared/jpdb';
+import { JPDBCard, JPDBCardState } from '@shared/jpdb';
 import { BatchController } from '../batches/batch-controller';
 import { BaseParser } from '../parser/base.parser';
 import { PopupManager } from '../popup/popup-manager';
@@ -23,6 +23,27 @@ export class Registry {
     this.cards.set(`${card.vid}/${card.sid}`, card);
   }
 
+  public static updateCard(vid: number, sid: number, state: JPDBCardState[]): void {
+    const card = this.getCard(vid, sid);
+
+    if (!card) {
+      return;
+    }
+
+    card.cardState = state;
+
+    document.querySelectorAll(`[vid="${vid}"][sid="${sid}"]`).forEach((element) => {
+      const classes = Array.from(element.classList).filter((x) => x.startsWith('jpdb-'));
+
+      classes.push(...state);
+      element.classList.value = classes.join(' ');
+    });
+  }
+
+  public static getCard(vid: number | string, sid: number | string): JPDBCard | undefined {
+    return this.cards.get(`${vid}/${sid}`);
+  }
+
   public static getCardFromElement(element: Element): JPDBCard | undefined {
     const vid = element.getAttribute('vid');
     const sid = element.getAttribute('sid');
@@ -31,6 +52,6 @@ export class Registry {
       return;
     }
 
-    return this.cards.get(`${vid}/${sid}`);
+    return this.getCard(vid, sid);
   }
 }

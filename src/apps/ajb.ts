@@ -1,5 +1,6 @@
 import { displayToast } from '@shared/dom';
-import { receiveBackgroundMessage, sendToBackground } from '@shared/messages';
+import { JPDBCardState } from '@shared/jpdb';
+import { onBroadcastMessage, receiveBackgroundMessage, sendToBackground } from '@shared/messages';
 import { KeybindManager } from './integration/keybind-manager';
 import { Registry } from './integration/registry';
 import { AutomaticParser } from './parser/automatic.parser';
@@ -22,6 +23,10 @@ export class AJB {
     this.installParsers();
 
     Registry.popupManager = new PopupManager();
+
+    onBroadcastMessage('cardStateUpdated', (vid: number, sid: number, state: JPDBCardState[]) => {
+      Registry.updateCard(vid, sid, state);
+    });
   }
 
   protected async lookupText(text: string | undefined): Promise<void> {
