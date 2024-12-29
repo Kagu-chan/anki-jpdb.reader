@@ -10,10 +10,10 @@
 
   display: flex;
   flex-direction: column;
-  gap: .5rem;
+  gap: .5em;
 
   margin: 0;
-  padding: 1em;
+  padding: .5em;
   border-radius: .5em;
 
   color: map-get(colors.$colors, text-color);
@@ -24,13 +24,13 @@
     &.controls {
       display: flex;
       flex-direction: row;
-      gap: .5rem;
+      gap: .5em;
 
       a {
-        line-height: .7rem;
-        height: 1.2rem;
-        font-size: .7rem;
-        padding: 0.5rem 0.5rem 0 0.5rem;
+        line-height: .7em;
+        height: 1.2em;
+        font-size: .7em;
+        padding: 0.5em 0.5em 0 0.5em;
 
         &:hover {
           filter: brightness(1.2);
@@ -64,7 +64,7 @@
     &#context {
       display: flex;
       flex-direction: column;
-      gap: .5rem;
+      gap: .5em;
 
       .subsection {
         display: flex;
@@ -83,23 +83,19 @@
         #state {
           display: flex;
           flex-direction: row;
-          gap: .5rem;
+          gap: .5em;
           align-items: flex-end;
 
           span {
-            font-size: 75%;
-            line-height: 100%;
-
-            border-width: 1px;
-            border-style: solid;
+            font-size: .7em;
+            line-height: .7em;
+            text-decoration: underline;
 
             padding: .5em;
-            border-radius: .5em;
 
             @each $id, $color in colors.$states {
               &.#{$id} {
                 color: $color;
-                border-color: $color;
               }
             }
           }
@@ -112,7 +108,7 @@
           #pitch-accent {
             display: flex;
             flex-direction: row;
-            gap: .5rem;
+            gap: .5em;
 
             .pitch span {
               padding: 1px 1px 1px 2px;
@@ -147,30 +143,25 @@
 
     &#details {
       overflow: auto;
-      padding-top: 1em;
+      margin-top: .5em;
 
       .pos {
         display: flex;
         flex-direction: row;
-        gap: .5rem;
-        padding-bottom: .5em;
+        gap: .5em;
 
         span {
-          font-size: 75%;
-          line-height: 100%;
+          font-size: .7em;
+          line-height: .7em;
+          text-decoration: underline;
 
-          border-width: 1px;
-          border-style: solid;
-
-          padding: .5em;
-          border-radius: .5em;
-          border-color: map-get(colors.$colors, text-color);
+          padding: .5em 0;
         }
       }
 
       ol {
         margin: 0;
-        padding-left: 1.5em;
+        padding: 0 0 0 1.5em;
       }
     }
   }

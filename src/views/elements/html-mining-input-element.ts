@@ -196,7 +196,7 @@ export class HTMLMiningInputElement extends HTMLElement {
       style: {
         display: 'flex',
         justifyContent: 'space-between',
-        gap: '2rem',
+        gap: '2em',
       },
       children: [
         { tag: 'p', style: { flex: '1', opacity: '0.8' }, children: [{ tag: 'slot' }] },
@@ -209,7 +209,7 @@ export class HTMLMiningInputElement extends HTMLElement {
     return createElement('div', {
       class: ['form-box'],
       children: inputs
-        .map((input) => [input, createElement('div', { style: { height: '1rem' } })])
+        .map((input) => [input, createElement('div', { style: { height: '1em' } })])
         .flat(),
     });
   }

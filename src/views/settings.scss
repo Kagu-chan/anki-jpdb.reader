@@ -5,7 +5,7 @@
 @import '@styles/theme/outline';
 
 h6 {
-  margin-top: 1rem;
+  margin-top: 1em;
   font-size: 135%;
   font-weight: bold;
   text-align: center;
@@ -19,23 +19,23 @@ h6 {
   z-index: 999;
   display: flex;
   justify-content: center;
-  padding-top: 1.2rem;
+  padding-top: 1.2em;
   border-top: 0;
   box-shadow: 0 0 10px 2px #0f0f0f;
   -webkit-box-shadow: 0 0 10px 2px #0f0f0f;
   background-color: map-get(colors.$colors, background-color);
 
   > input {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.2em;
   }
 }
 
 .distance-after {
-  padding-bottom: 1.5rem;
+  padding-bottom: 1.5em;
 }
 
 .distance-before {
-  padding-top: 1.5rem;
+  padding-top: 1.5em;
 }
 
 // Our text fields are not outlined by default, otherwise they would be blue

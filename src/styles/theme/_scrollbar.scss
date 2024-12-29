@@ -2,12 +2,12 @@ $scrollbar-color: #3b7def;
 $scrollbar-background-color: #111;
 
 * {
-  scrollbar-width: 1rem;
+  scrollbar-width: 1em;
   scrollbar-color: $scrollbar-color $scrollbar-background-color;
 }
 
 *::-webkit-scrollbar {
-  width: 1rem;
+  width: 1em;
 }
 
 *::-webkit-scrollbar-track {

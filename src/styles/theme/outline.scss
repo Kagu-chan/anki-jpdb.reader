@@ -8,7 +8,7 @@ input, a, label {
   &.outline {
     background-color: $outline-input-background-color;
     border: 1px solid map-get(colors.$buttons, button-focused-border-color);
-    border-radius: .7rem;
+    border-radius: .7em;
 
     color: $outline-input-color;
     cursor: pointer;
@@ -25,7 +25,7 @@ input, a, label {
       box-shadow: none;
       text-decoration: underline;
       text-decoration-color: $outline-input-shadow-color;
-      text-underline-offset: 0.4rem;
+      text-underline-offset: 0.4em;
     }
 
     &[disabled]:hover {
@@ -39,7 +39,7 @@ input, a, label {
 a, label {
   &.outline {
     border: 1px solid map-get(colors.$buttons, button-background-color);
-    padding: 0.6rem 2.25rem;
+    padding: 0.6em 2.25em;
     text-align: center;
     transition: all ease-in-out 0.2s;
 
@@ -54,7 +54,7 @@ label {
   &.outline {
     cursor: pointer;
     display: inline-block;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.5em;
 
     &[disabled] {
       cursor: default;

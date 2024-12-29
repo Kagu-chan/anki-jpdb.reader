@@ -10,17 +10,17 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    margin: 1rem 0;
-    gap: 0.5rem;
+    margin: 1em 0;
+    gap: 0.5em;
 
     h5 {
-      margin-top: 0.5rem;
+      margin-top: 0.5em;
       padding-bottom: 0;
     }
 
     .parse {
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 1em;
     }
   }
 }

@@ -7,22 +7,22 @@ input[type='reset'],
 input[type='submit'] {
   background-color: map-get(colors.$buttons, button-background-color);
   border: 1px solid map-get(colors.$buttons, button-background-color);
-  border-radius: 0.7rem;
+  border-radius: 0.7em;
 
   color: map-get(colors.$buttons, button-text-color);
   cursor: pointer;
 
   display: inline-block;
-  font-size: 1rem;
-  height: 2.8rem;
-  line-height: 1.4rem;
-  padding: 0 2rem;
+  font-size: 1em;
+  height: 2.8em;
+  line-height: 1.4em;
+  padding: 0 2em;
   text-align: center;
   text-decoration: none;
   white-space: nowrap;
   box-shadow: 0 1px 1px map-get(colors.$buttons, button-shadow-color);
   transition: all ease-in-out 0.2s;
-  transform: translatey(-0.01rem);
+  transform: translatey(-0.01em);
   -webkit-appearance: none;
   appearance: none;
   font-weight: normal;
@@ -35,7 +35,7 @@ input[type='submit'] {
   }
 
   &:hover {
-    transform: translatey(-0.25rem);
+    transform: translatey(-0.25em);
     border: 1px solid map-get(colors.$buttons, button-hover-border-color);
     box-shadow: 0 1px 1px map-get(colors.$buttons, button-shadow-color), 0 4px 10px map-get(colors.$buttons, button-hover-shadow-color);
   }
@@ -76,16 +76,16 @@ select {
   -moz-appearance: none;
   appearance: none;
 
-  height: 3rem;
+  height: 3em;
   width: 100%;
-  font-size: 0.95rem;
-  padding: 0.6rem 1rem;
+  font-size: 0.95em;
+  padding: 0.6em 1em;
 
   color: map-get(colors.$inputs, input-text-color);
   background-color: map-get(colors.$inputs, input-background-color);
 
   border: 1px solid map-get(colors.$inputs, input-border-color);
-  border-radius: 0.6rem;
+  border-radius: 0.6em;
 
   box-sizing: inherit;
   box-shadow: inset 0 1px 3px 0 map-get(colors.$inputs, input-box-shadow-color);
@@ -110,7 +110,7 @@ input[type='number'] {
 }
 
 textarea {
-  min-height: 6.5rem;
+  min-height: 6.5em;
   resize: vertical;
   display: block;
 }
@@ -122,8 +122,8 @@ input[type='radio'] {
     visibility: hidden;
     display: block;
     content: ' ';
-    width: 0.6rem;
-    height: 0.6rem;
+    width: 0.6em;
+    height: 0.6em;
     background-color: map-get(colors.$inputs, checkbox-color);
     border-radius: 16px;
   }
@@ -135,7 +135,7 @@ input[type='checkbox'] {
   &::before {
     content: '✔';
     visibility: hidden;
-    margin-top: 0.2rem;
+    margin-top: 0.2em;
   }
 }
 
@@ -147,9 +147,9 @@ input[type='radio'] {
   justify-content: center;
   transition: all ease-in-out 0.2s;
 
-  margin: .5rem .5rem .5rem 0;
-  width: 1.5rem;
-  height: 1.5rem;
+  margin: .5em .5em .5em 0;
+  width: 1.5em;
+  height: 1.5em;
 
   -webkit-appearance: none;
   appearance: none;
@@ -186,7 +186,7 @@ input[type='radio'] {
 }
 
 form > .checkbox:first-child {
-  margin-top: 0.5rem;
+  margin-top: 0.5em;
 }
 
 .checkbox {
@@ -199,7 +199,7 @@ form > .checkbox:first-child {
   }
 
   + input[type='submit'] {
-    margin-top: 1rem;
+    margin-top: 1em;
   }
 }
 
@@ -218,14 +218,14 @@ input,
 select,
 textarea,
 .style-textarea-handle {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.5em;
 }
 
 .form-box-parent {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  gap: 1rem;
+  gap: 1em;
 
   .form-box {
     flex: 1;
@@ -236,13 +236,13 @@ textarea,
     > div {
       display: flex;
       flex-direction: column;
-      padding-top: 0.5rem;
-      padding-bottom: 1rem;
+      padding-top: 0.5em;
+      padding-bottom: 1em;
       padding-bottom: 0;
-      gap: 0.5rem;
+      gap: 0.5em;
 
       > label {
-        padding-top: 1rem;
+        padding-top: 1em;
       }
 
       > input {
@@ -252,13 +252,13 @@ textarea,
 
     .inline-group {
       display: flex;
-      gap: .5rem;
+      gap: .5em;
 
       input {
         margin-bottom: 0;
 
         &.button.small {
-          height: 3rem;
+          height: 3em;
           padding-left: 16px;
           padding-right: 16px;
         }
@@ -270,8 +270,8 @@ textarea,
 details {
   border: 1px solid map-get(colors.$colors, accordion-border-color);
   border-radius: 4px;
-  padding: 1rem;
-  margin-bottom: 1rem;
+  padding: 1em;
+  margin-bottom: 1em;
 
   > summary {
     user-select: none;
@@ -280,12 +280,12 @@ details {
   }
 
   > div {
-    padding-top: 1rem;
+    padding-top: 1em;
   }
 
   select {
-    margin: 0 0 0.5rem 0;
-    padding: 0 1rem;
+    margin: 0 0 0.5em 0;
+    padding: 0 1em;
   }
 
   .select {
@@ -294,60 +294,10 @@ details {
 
   .controls-list {
     display: flex;
-    gap: 1rem;
+    gap: 1em;
 
     input {
       margin-bottom: 0;
     }
   }
 }
-
-// .accordion > div > form {
-//   margin: 0;
-// }
-
-// .accordion > div > form > input[type='submit'] {
-//   margin: 0;
-// }
-
-// @media (min-width: 69rem) {
-//   .unconstrained {
-//     margin-left: -5rem;
-//     margin-right: -5rem;
-//   }
-// }
-
-// @media (min-width: 74rem) {
-//   .unconstrained {
-//     margin-left: -7.5rem;
-//     margin-right: -7.55rem;
-//   }
-// }
-
-// @media (min-width: 79rem) {
-//   .unconstrained {
-//     margin-left: -10rem;
-//     margin-right: -10rem;
-//   }
-// }
-
-// @media (min-width: 84rem) {
-//   .unconstrained {
-//     margin-left: -12.5rem;
-//     margin-right: -12.5rem;
-//   }
-// }
-
-// @media (min-width: 89rem) {
-//   .unconstrained {
-//     margin-left: -15rem;
-//     margin-right: -15rem;
-//   }
-// }
-
-// @media (min-width: 94rem) {
-//   .unconstrained {
-//     margin-left: -17.5rem;
-//     margin-right: -17.5rem;
-//   }
-// }
