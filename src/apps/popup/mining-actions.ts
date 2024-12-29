@@ -1,33 +1,33 @@
+import { JPDBCard } from '@shared/jpdb';
 import { sendToBackground } from '@shared/messages';
-import { IntegrationScript } from '../integration-script';
-import { KeybindManager } from '../keybind-manager';
+import { KeybindManager } from '../integration/keybind-manager';
+import { Registry } from '../integration/registry';
 
-export class MiningActions extends IntegrationScript {
-  private _keyManager: KeybindManager;
+export class MiningActions {
+  private _keyManager = new KeybindManager([
+    'addToMiningKey',
+    'addToBlacklistKey',
+    'addToNeverForgetKey',
+  ]);
+
   private _wordstatesSuspended = false;
-  private _currentContext?: HTMLElement;
+  private _card?: JPDBCard;
 
   constructor() {
-    super();
+    const { events } = Registry;
 
-    this._keyManager = new KeybindManager([
-      'addToMiningKey',
-      'addToBlacklistKey',
-      'addToNeverForgetKey',
-    ]);
-
-    this.on('addToMiningKey', () => this.addToDeck('mining'));
-    this.on('addToBlacklistKey', () => this.addToDeck('blacklist'));
-    this.on('addToNeverForgetKey', () => this.addToDeck('neverForget'));
+    events.on('addToMiningKey', () => this.addToDeck('mining'));
+    events.on('addToBlacklistKey', () => this.addToDeck('blacklist'));
+    events.on('addToNeverForgetKey', () => this.addToDeck('neverForget'));
   }
 
   public activate(context: HTMLElement): void {
-    this._currentContext = context;
+    this._card = Registry.getCardFromElement(context);
     this._keyManager.activate();
   }
 
   public deactivate(): void {
-    this._currentContext = undefined;
+    this._card = undefined;
     this._keyManager.deactivate();
   }
 
@@ -63,12 +63,11 @@ export class MiningActions extends IntegrationScript {
 
   public resumeUpdateWordStates(): void {
     this._wordstatesSuspended = false;
-
     void this.updateWordStates();
   }
 
   private async updateWordStates(): Promise<void> {
-    const { vid, sid } = this._currentContext?.ajbContext?.token?.card || {};
+    const { vid, sid } = this._card || {};
 
     if (!vid || !sid) {
       return;
@@ -78,7 +77,7 @@ export class MiningActions extends IntegrationScript {
   }
 
   private async addToDeck(key: 'mining' | 'blacklist' | 'neverForget'): Promise<void> {
-    const { vid, sid } = this._currentContext?.ajbContext?.token?.card || {};
+    const { vid, sid } = this._card || {};
 
     if (!vid || !sid) {
       return;
@@ -88,7 +87,7 @@ export class MiningActions extends IntegrationScript {
   }
 
   private async removeFromDeck(key: 'mining' | 'blacklist' | 'neverForget'): Promise<void> {
-    const { vid, sid } = this._currentContext?.ajbContext?.token?.card || {};
+    const { vid, sid } = this._card || {};
 
     if (!vid || !sid) {
       return;

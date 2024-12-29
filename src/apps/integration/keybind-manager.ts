@@ -1,9 +1,9 @@
 import { getConfiguration, ConfigurationSchema, Keybind } from '@shared/configuration';
 import { onBroadcastMessage } from '@shared/messages';
 import { FilterKeys } from '@shared/types';
-import { IntegrationScript } from './integration-script';
+import { Registry } from './registry';
 
-export class KeybindManager extends IntegrationScript {
+export class KeybindManager {
   /** Map of configured keybinds */
   private _keyMap: Partial<Record<FilterKeys<ConfigurationSchema, Keybind>, Keybind>> = {};
   /** Reference which can be added or removed as event listener */
@@ -17,8 +17,6 @@ export class KeybindManager extends IntegrationScript {
     private _events: FilterKeys<ConfigurationSchema, Keybind>[],
     extraListeners?: Partial<Record<'keydown' | 'keyup', (e: MouseEvent | KeyboardEvent) => void>>,
   ) {
-    super();
-
     onBroadcastMessage('configurationUpdated', () => this.buildKeyMap(), true);
 
     this._keydown = extraListeners?.keydown;
@@ -101,12 +99,14 @@ export class KeybindManager extends IntegrationScript {
   }
 
   private handleKeydown(e: KeyboardEvent | MouseEvent): void {
+    const { events } = Registry;
+
     if (this.shouldCancel()) {
       // Ignore events on input elements! Otherwise we may interfere with typing.
       return;
     }
 
-    this.emit('keydown', e);
+    events.emit('keydown', e);
     this._keydown?.(e);
 
     const keybind = this.getActiveKeybind(e);
@@ -116,17 +116,19 @@ export class KeybindManager extends IntegrationScript {
       e.stopPropagation();
       e.stopImmediatePropagation();
 
-      this.emit(keybind, e);
+      events.emit(keybind, e);
     }
   }
 
   private handleKeyUp(e: KeyboardEvent | MouseEvent): void {
+    const { events } = Registry;
+
     if (this.shouldCancel()) {
       // Ignore events on input elements! Otherwise we may interfere with typing.
       return;
     }
 
-    this.emit('keyup', e);
+    events.emit('keyup', e);
     this._keyup?.(e);
 
     const keybind = this.getActiveKeybind(e);
@@ -136,7 +138,7 @@ export class KeybindManager extends IntegrationScript {
       e.stopPropagation();
       e.stopImmediatePropagation();
 
-      this.emit(`${keybind}Released` as FilterKeys<ConfigurationSchema, Keybind>, e);
+      events.emit(`${keybind}Released` as FilterKeys<ConfigurationSchema, Keybind>, e);
     }
   }
 

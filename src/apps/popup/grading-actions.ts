@@ -1,46 +1,39 @@
 import { getConfiguration, ConfigurationSchema, Keybind } from '@shared/configuration';
-import { JPDBGrade } from '@shared/jpdb';
+import { JPDBCard, JPDBGrade } from '@shared/jpdb';
 import { onBroadcastMessage, sendToBackground } from '@shared/messages';
 import { FilterKeys } from '@shared/types';
-import { IntegrationScript } from '../integration-script';
-import { KeybindManager } from '../keybind-manager';
+import { KeybindManager } from '../integration/keybind-manager';
+import { Registry } from '../integration/registry';
 import { MiningActions } from './mining-actions';
 
-export class GradingActions extends IntegrationScript {
-  private _keyManager: KeybindManager;
-  private _currentContext?: HTMLElement;
+export class GradingActions {
+  private _keyManager = new KeybindManager([]);
+  private _card?: JPDBCard;
 
   constructor(private _miningActions: MiningActions) {
-    super();
-
-    this._keyManager = new KeybindManager([]);
-
-    this.installEvents();
+    const { events } = Registry;
 
     onBroadcastMessage('configurationUpdated', () => this.updateGradingKeys(), true);
+
+    events.on('jpdbReviewNothing', () => this.reviewCard('nothing'));
+    events.on('jpdbReviewSomething', () => this.reviewCard('something'));
+    events.on('jpdbReviewHard', () => this.reviewCard('hard'));
+    events.on('jpdbReviewOkay', () => this.reviewCard('okay'));
+    events.on('jpdbReviewEasy', () => this.reviewCard('easy'));
+    events.on('jpdbReviewFail', () => this.reviewCard('fail'));
+    events.on('jpdbReviewPass', () => this.reviewCard('pass'));
+    events.on('jpdbRotateForward', () => this.rotateFlag(true));
+    events.on('jpdbRotateBackward', () => this.rotateFlag(false));
   }
 
   public activate(context: HTMLElement): void {
-    this._currentContext = context;
+    this._card = Registry.getCardFromElement(context);
     this._keyManager.activate();
   }
 
   public deactivate(): void {
-    this._currentContext = undefined;
+    this._card = undefined;
     this._keyManager.deactivate();
-  }
-
-  private installEvents(): void {
-    this.on('jpdbReviewNothing', () => this.reviewCard('nothing'));
-    this.on('jpdbReviewSomething', () => this.reviewCard('something'));
-    this.on('jpdbReviewHard', () => this.reviewCard('hard'));
-    this.on('jpdbReviewOkay', () => this.reviewCard('okay'));
-    this.on('jpdbReviewEasy', () => this.reviewCard('easy'));
-    this.on('jpdbReviewFail', () => this.reviewCard('fail'));
-    this.on('jpdbReviewPass', () => this.reviewCard('pass'));
-
-    this.on('jpdbRotateForward', () => this.rotateFlag(true));
-    this.on('jpdbRotateBackward', () => this.rotateFlag(false));
   }
 
   private async updateGradingKeys(): Promise<void> {
@@ -48,7 +41,6 @@ export class GradingActions extends IntegrationScript {
     const useTwoButtonGradingSystem = await getConfiguration('jpdbUseTwoGrades');
     const useFlagRotation = await getConfiguration('jpdbRotateFlags');
     const disableReviews = await getConfiguration('jpdbDisableReviews');
-
     const fiveGradeKeys: FilterKeys<ConfigurationSchema, Keybind>[] = [
       'jpdbReviewNothing',
       'jpdbReviewSomething',
@@ -91,27 +83,22 @@ export class GradingActions extends IntegrationScript {
   }
 
   private async reviewCard(grade: JPDBGrade): Promise<void> {
-    const { token } = this._currentContext?.ajbContext ?? {};
-
-    if (!token) {
+    if (!this._card) {
       return;
     }
 
-    const { vid, sid } = token.card;
+    const { vid, sid } = this._card;
 
     await sendToBackground('gradeCard', vid, sid, grade);
     await sendToBackground('updateCardState', vid, sid);
   }
 
   private async rotateFlag(forward: boolean): Promise<void> {
-    const { token } = this._currentContext?.ajbContext ?? {};
-
-    if (!token) {
+    if (!this._card) {
       return;
     }
 
-    const state = token.card.cardState ?? [];
-
+    const state = this._card.cardState ?? [];
     const nf = state.includes('never-forget');
     const bl = state.includes('blacklisted');
 

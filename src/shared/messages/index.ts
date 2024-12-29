@@ -3,10 +3,10 @@
 //#region Send messages
 
 import { broadcast } from './sending/broadcast';
-import { sendToBackground } from './sending/send-to-background';
+import { sendToBackground, fireToBackground } from './sending/send-to-background';
 import { sendToTab } from './sending/send-to-tab';
 
-export { broadcast, sendToBackground, sendToTab };
+export { broadcast, sendToBackground, fireToBackground, sendToTab };
 
 //#endregion
 //#region Receiving messages

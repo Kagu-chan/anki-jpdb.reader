@@ -1,27 +1,16 @@
 import { HostMeta } from '@shared/host-meta';
-import { IntegrationScript } from '../integration-script';
-import { BatchController } from './batches/batch-controller';
+import { Registry } from '../integration/registry';
 
-export abstract class BaseParser extends IntegrationScript {
+export abstract class BaseParser {
   /** The root element to parse */
-  protected root: HTMLElement | null = document.body;
+  protected get root(): HTMLElement | null {
+    const { parse } = this._meta;
 
-  /**
-   * The batch controller. Use this to register nodes for parsing, then call parseBatches to parse all outstanding node batches.
-   *
-   * @see BatchController
-   */
-  protected batches = new BatchController();
-
-  /** @param {HostMeta} _meta The host meta */
-  constructor(protected _meta: HostMeta) {
-    super();
-
-    this.setup();
+    return parse ? document.querySelector<HTMLElement>(parse) : document.body;
   }
 
-  /** @inheritdoc */
-  protected abstract setup(): void;
+  /** @param {HostMeta} _meta The host meta */
+  constructor(protected _meta: HostMeta) {}
 
   /**
    * Parse the currently selected text
@@ -41,11 +30,13 @@ export abstract class BaseParser extends IntegrationScript {
    * @returns {void}
    */
   protected parsePage(): void {
-    if (!this.root) {
+    const { root } = this;
+
+    if (!root) {
       return;
     }
 
-    this.parseNode(this.root);
+    this.parseNode(root);
   }
 
   /**
@@ -68,9 +59,10 @@ export abstract class BaseParser extends IntegrationScript {
     nodes: (Node | Element)[],
     filter?: (node: Node | Element) => boolean,
   ): void {
-    nodes.forEach((node) => this.batches.registerNode(node, filter));
+    const { batchController } = Registry;
 
-    this.batches.parseBatches();
+    batchController.registerNodes(nodes, filter);
+    batchController.parseBatches();
   }
 
   /**
@@ -97,7 +89,6 @@ export abstract class BaseParser extends IntegrationScript {
     while (observeTargets.length && !root) {
       root = document.querySelector<HTMLElement>(observeTargets.shift()!);
     }
-
     const initialNodes = Array.from<HTMLElement>(root?.querySelectorAll(notifyFor) ?? []);
 
     if (initialNodes.length) {
@@ -178,18 +169,19 @@ export abstract class BaseParser extends IntegrationScript {
   protected getParseVisibleObserver(
     filter: (node: HTMLElement | Text) => boolean = (): boolean => true,
   ): IntersectionObserver {
+    const { batchController } = Registry;
+
     const observer = this.getVisibleObserver(
       (elements) => {
-        elements.forEach((e) =>
-          this.batches.registerNode(
-            e,
-            filter,
-            (e) => e instanceof Element && observer.unobserve(e),
-          ),
+        batchController.registerNodes(
+          elements,
+          filter,
+          (e) => e instanceof Element && observer.unobserve(e),
         );
-        this.batches.parseBatches();
+
+        batchController.parseBatches();
       },
-      (elements) => elements.forEach((node) => this.batches.dismissNode(node)),
+      (elements) => elements.forEach((node) => batchController.dismissNode(node)),
     );
 
     return observer;
