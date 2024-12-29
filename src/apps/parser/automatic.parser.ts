@@ -1,12 +1,13 @@
-import { VisibleObserverOptions } from '@shared/host-meta';
+import { HostMeta, VisibleObserverOptions } from '@shared/host-meta';
 import { BaseParser } from './base.parser';
 
 export class AutomaticParser extends BaseParser {
   protected _visibleObserver: IntersectionObserver | undefined;
   protected _addedObserver: MutationObserver | undefined;
 
-  /** @inheritdoc */
-  protected setup(): void {
+  constructor(meta: HostMeta) {
+    super(meta);
+
     if (this._meta.parseVisibleObserver) {
       this.setupVisibleObserver();
     }
@@ -26,13 +27,11 @@ export class AutomaticParser extends BaseParser {
 
     if (typeof this._meta.parseVisibleObserver === 'object') {
       const obs = this._meta.parseVisibleObserver;
-
       const isInclude = (
         arg: Exclude<VisibleObserverOptions, boolean>,
       ): arg is { include: string } => {
         return 'include' in arg;
       };
-
       const isExclude = (
         arg: Exclude<VisibleObserverOptions, boolean>,
       ): arg is { exclude: string } => {

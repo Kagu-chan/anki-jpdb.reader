@@ -1,78 +1,65 @@
 import { displayToast } from '@shared/dom';
-import { HostEvaluator } from './lib/host-evaluator';
-import { Integration } from './lib/integration';
-import { KeybindManager } from './lib/keybind-manager';
-import { AutomaticParser } from './lib/parser/automatic.parser';
-import { BunproParser } from './lib/parser/custom-parsers/bunpro.parser';
-import { TriggerParser } from './lib/parser/trigger.parser';
+import { receiveBackgroundMessage, sendToBackground } from '@shared/messages';
+import { KeybindManager } from './integration/keybind-manager';
+import { Registry } from './integration/registry';
+import { AutomaticParser } from './parser/automatic.parser';
+import { getCustomParser } from './parser/get-custom-parser';
+import { NoParser } from './parser/no.parser';
+import { TriggerParser } from './parser/trigger.parser';
+import { PopupManager } from './popup/popup-manager';
 
-export class AJB extends Integration {
+export class AJB {
   private _lookupKeyManager = new KeybindManager(['lookupSelectionKey']);
-  private _hostEvaluator = new HostEvaluator(window.location.href);
 
   constructor() {
-    super();
+    this._lookupKeyManager.activate();
 
-    // The user can always lookup selected text per shortcut. Also, a toaster is always available.
-    this.installDefaultListeners();
-
-    // Evaluate host for valid events and behaviors
-    void this.evaluateHost();
-  }
-
-  private async evaluateHost(): Promise<void> {
-    await this._hostEvaluator.load();
-
-    if (!this._hostEvaluator.canBeTriggered) {
-      this.installRejectionTriggers();
-    }
+    receiveBackgroundMessage('toast', displayToast);
+    Registry.events.on('lookupSelectionKey', () =>
+      this.lookupText(window.getSelection()?.toString()),
+    );
 
     this.installParsers();
+
+    Registry.popupManager = new PopupManager();
   }
 
-  private installDefaultListeners(): void {
-    this._lookupKeyManager.activate();
-    this.on('lookupSelectionKey', () => this.lookupText(window.getSelection()?.toString()));
+  protected async lookupText(text: string | undefined): Promise<void> {
+    if (!text?.length) {
+      displayToast('error', 'No text to lookup!');
 
-    this.listen('toast', displayToast);
-  }
-
-  private installRejectionTriggers(): void {
-    // We only reject inputs on the main frame, as we only expect parsing on the main frame as well.
-    if (!this.isMainFrame) {
       return;
     }
 
-    const reject = (): void => {
-      displayToast('error', 'This page has been disabled for manual parsing.');
-    };
-
-    this.listen('parsePage', reject);
-    this.listen('parseSelection', reject);
+    await sendToBackground('lookupText', text);
   }
 
   private installParsers(): void {
-    for (const meta of this._hostEvaluator.relevantMeta) {
-      if (!meta.auto) {
-        if (!meta.disabled) {
-          this.installParser(meta, TriggerParser);
+    const { hostEvaluator, parsers } = Registry;
+
+    void hostEvaluator.load().then(({ canBeTriggered, relevantMeta }) => {
+      if (!canBeTriggered) {
+        parsers.push(new NoParser(hostEvaluator.rejectionReason));
+      }
+
+      for (const meta of relevantMeta) {
+        if (!meta.auto) {
+          if (!meta.disabled) {
+            parsers.push(new TriggerParser(meta));
+          }
+
+          continue;
         }
 
-        continue;
+        if (meta.custom) {
+          parsers.push(getCustomParser(meta.custom, meta));
+
+          continue;
+        }
+
+        parsers.push(new AutomaticParser(meta));
       }
-
-      if (meta.custom) {
-        const parser = {
-          BunproParser,
-        }[meta.custom];
-
-        this.installParser(meta, parser);
-
-        continue;
-      }
-
-      this.installParser(meta, AutomaticParser);
-    }
+    });
   }
 }
 

@@ -9,6 +9,8 @@ export class HostEvaluator {
   private _defaultTriggerMeta: HostMeta | undefined;
   private _defaultAutomaticMeta: HostMeta[];
 
+  private _host: string;
+
   public get relevantMeta(): HostMeta[] {
     const result: HostMeta[] = [];
 
@@ -29,8 +31,6 @@ export class HostEvaluator {
     return result;
   }
 
-  constructor(private _host: string) {}
-
   public get canBeTriggered(): boolean {
     if (this._targetedTriggerMeta?.disabled || this._targetedAutomaticMeta.length) {
       return false;
@@ -39,7 +39,15 @@ export class HostEvaluator {
     return !!this.relevantMeta.length;
   }
 
-  public async load(): Promise<void> {
+  public get rejectionReason(): HostMeta {
+    return this._targetedTriggerMeta!;
+  }
+
+  constructor() {
+    this._host = window.location.href;
+  }
+
+  public async load(): Promise<HostEvaluator> {
     this._targetedTriggerMeta = await getHostMeta(
       this._host,
       ({ auto, host, allFrames }) =>
@@ -63,5 +71,7 @@ export class HostEvaluator {
         auto && host === '<all_urls>' && (allFrames || this._isMainFrame),
       true,
     );
+
+    return this;
   }
 }

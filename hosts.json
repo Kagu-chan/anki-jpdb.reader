@@ -12,6 +12,12 @@
     "parse": "article"
   },
   {
+    "host": ["*://*.youtube.com/*", "*://*.youtu.be/*"],
+    "auto": false,
+    "allFrames": false,
+    "parse": ".ytd-comment-view-model"
+  },
+  {
     "host": "<all_urls>",
     "auto": false,
     "allFrames": false,

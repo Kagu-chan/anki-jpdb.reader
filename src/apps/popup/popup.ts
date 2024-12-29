@@ -3,7 +3,8 @@ import { createElement, findElements, withElement } from '@shared/dom';
 import { getStyleUrl } from '@shared/extension';
 import { JPDBCard, JPDBGrade } from '@shared/jpdb';
 import { onBroadcastMessage, sendToBackground } from '@shared/messages';
-import { KeybindManager } from '../keybind-manager';
+import { KeybindManager } from '../integration/keybind-manager';
+import { Registry } from '../integration/registry';
 import { PARTS_OF_SPEECH } from './part-of-speech';
 
 export class Popup {
@@ -76,6 +77,7 @@ export class Popup {
   private _isHover?: boolean;
 
   private _cardContext?: HTMLElement;
+  private _card?: JPDBCard;
 
   constructor() {
     this.renderNodes();
@@ -84,8 +86,9 @@ export class Popup {
     onBroadcastMessage('configurationUpdated', () => this.applyConfiguration(), true);
   }
 
-  public show(_context: HTMLElement): void {
-    this._cardContext = _context;
+  public show(context: HTMLElement): void {
+    this._cardContext = context;
+    this._card = Registry.getCardFromElement(context);
 
     this.clearTimer();
     this.updateParentElement();
@@ -342,7 +345,7 @@ export class Popup {
       action: 'add' | 'remove',
       key: 'mining' | 'neverForget' | 'blacklist',
     ): void => {
-      const { vid, sid } = this._cardContext!.ajbContext!.token.card;
+      const { vid, sid } = this._card!;
 
       void sendToBackground('runDeckAction', vid, sid, key, action)
         .then(() => sendToBackground('updateCardState', vid, sid))
@@ -399,7 +402,7 @@ export class Popup {
         class: ['outline', grade],
         innerText: grade,
         handler: () => {
-          const { vid, sid } = this._cardContext!.ajbContext!.token.card;
+          const { vid, sid } = this._card!;
 
           void sendToBackground('gradeCard', vid, sid, grade)
             .then(() => sendToBackground('updateCardState', vid, sid))
@@ -417,7 +420,7 @@ export class Popup {
   //#region Card Utils
 
   private cardHasState(state: 'neverForget' | 'blacklist'): boolean {
-    const { cardState } = this._cardContext!.ajbContext!.token.card;
+    const { cardState } = this._card!;
     const lookupState = state === 'neverForget' ? 'never-forget' : 'blacklisted';
 
     return cardState.includes(lookupState);
@@ -427,11 +430,9 @@ export class Popup {
   //#region On showing a popup
 
   private rerender(): void {
-    const { card } = this._cardContext!.ajbContext!.token;
-
     this.adjustMiningButtons();
-    this.adjustContext(card);
-    this.adjustDetails(card);
+    this.adjustContext(this._card!);
+    this.adjustDetails(this._card!);
   }
 
   private adjustMiningButtons(): void {

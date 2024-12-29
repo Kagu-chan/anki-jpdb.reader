@@ -3,7 +3,7 @@ import { LocalEventArgs, LocalEventFunction, LocalEvents } from '@shared/message
 export class EventCollection {
   private _map = new Map<keyof LocalEvents, Set<LocalEventFunction>>();
 
-  public register<TEvent extends keyof LocalEvents>(
+  public on<TEvent extends keyof LocalEvents>(
     event: TEvent,
     listener: LocalEventFunction<TEvent>,
   ): void {
@@ -14,7 +14,7 @@ export class EventCollection {
     this._map.set(event, listeners);
   }
 
-  public run<TEvent extends keyof LocalEvents>(
+  public emit<TEvent extends keyof LocalEvents>(
     event: TEvent,
     ...args: LocalEventArgs<TEvent>
   ): void {

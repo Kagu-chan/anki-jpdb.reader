@@ -28,6 +28,18 @@ export const sendToBackground = <TEvent extends keyof BackgroundEvents>(
   ...args: BackgroundEventArgs<TEvent>
 ): Promise<BackgroundEventResult<TEvent>> => send(event, false, ...args);
 
+/**
+ * Sends a message to the background script and ignores its result.
+ *
+ * @param {keyof BackgroundEvents} event The message type to send.
+ * @param {BackgroundEventArgs} args The arguments to pass to the message.
+ * @returns {void}
+ */
+export const fireToBackground = <TEvent extends keyof BackgroundEvents>(
+  event: TEvent,
+  ...args: BackgroundEventArgs<TEvent>
+): void => void sendToBackground(event, ...args);
+
 export const broadcastToBackground = <TEvent extends keyof BroadcastEvents>(
   event: TEvent,
   ...args: BroadcastEventArgs<TEvent>

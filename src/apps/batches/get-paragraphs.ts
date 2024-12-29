@@ -135,6 +135,10 @@ function recurse(
   hasRuby: boolean,
   filter?: (node: Element | Node) => boolean,
 ): void {
+  if (node instanceof Element && node.hasAttribute('ajb')) {
+    return;
+  }
+
   const display = displayCategory(node);
   const checkBlock = (): void => {
     if (display === 'block') {

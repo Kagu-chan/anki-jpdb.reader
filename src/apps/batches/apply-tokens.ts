@@ -1,6 +1,6 @@
-import { createElement } from '@shared/dom';
+import { DOMElementBaseOptions, createElement } from '@shared/dom';
 import { JPDBToken } from '@shared/jpdb';
-import { PopupManager } from '../../popup/popup-manager';
+import { Registry } from '../integration/registry';
 import { Fragment } from './types';
 
 function splitFragment(fragments: Fragment[], fragmentIndex: number, splitOffset: number): void {
@@ -46,24 +46,14 @@ function wrap(node: Node, wrapper: HTMLElement): void {
   wrapper.append(node);
 }
 
-export const applyTokens = (
-  fragments: Fragment[],
-  tokens: JPDBToken[],
-  reverseIndex: Map<
-    string,
-    {
-      classes: string[];
-      elements: HTMLElement[];
-    }
-  >,
-): void => {
+export const applyTokens = (fragments: Fragment[], tokens: JPDBToken[]): void => {
   let fragmentIndex = 0;
   let curOffset = 0;
   let fragment = fragments[fragmentIndex];
 
-  const text = fragments.map((x) => x.node.data).join('');
-
   for (const token of tokens) {
+    Registry.addCard(token.card);
+
     if (!fragment) {
       return;
     }
@@ -75,7 +65,13 @@ export const applyTokens = (
         splitFragment(fragments, fragmentIndex, token.start);
       }
 
-      wrap(fragment.node, createElement('span', { class: ['jpdb-word', 'unparsed'], id: false }));
+      wrap(
+        fragment.node,
+        createElement('span', {
+          class: ['jpdb-word', 'unparsed'],
+          attributes: { ajb: true },
+        }),
+      );
 
       curOffset += fragment.length;
       fragment = fragments[++fragmentIndex];
@@ -93,39 +89,29 @@ export const applyTokens = (
       }
 
       const classes = ['jpdb-word', ...token.card.cardState];
+      const attributes: DOMElementBaseOptions['attributes'] = {
+        ajb: true,
+        vid: token.card.vid.toString(),
+        sid: token.card.sid.toString(),
+      };
       const wrapper =
         token.rubies.length > 0 && !fragment.hasRuby
           ? createElement('ruby', {
+              attributes,
               class: classes,
               events: {
-                onmouseenter: (event: MouseEvent) => PopupManager.instance.enter(event),
-                onmouseleave: () => PopupManager.instance.leave(),
+                onmouseenter: (event: MouseEvent) => Registry.popupManager?.enter(event),
+                onmouseleave: () => Registry.popupManager?.leave(),
               },
             })
           : createElement('span', {
+              attributes,
               class: classes,
               events: {
-                onmouseenter: (event: MouseEvent) => PopupManager.instance.enter(event),
-                onmouseleave: () => PopupManager.instance.leave(),
+                onmouseenter: (event: MouseEvent) => Registry.popupManager?.enter(event),
+                onmouseleave: () => Registry.popupManager?.leave(),
               },
             });
-
-      const classElementMap = reverseIndex.get(`${token.card.vid}/${token.card.sid}`);
-
-      if (classElementMap === undefined) {
-        reverseIndex.set(`${token.card.vid}/${token.card.sid}`, {
-          classes: classes,
-          elements: [wrapper],
-        });
-      } else {
-        classElementMap.elements.push(wrapper);
-      }
-
-      wrapper.ajbContext = {
-        token,
-        context: text,
-        contextOffset: curOffset,
-      };
 
       wrap(fragment.node, wrapper);
 
@@ -135,7 +121,7 @@ export const applyTokens = (
             // Ruby is contained in fragment
             if (ruby.start > fragment.start) {
               splitFragment(fragments, fragmentIndex, ruby.start);
-              insertAfter(createElement('rt'), fragment.node);
+              insertAfter(createElement('rt', { id: false }), fragment.node);
 
               fragment = fragment = fragments[++fragmentIndex];
             }
@@ -169,6 +155,12 @@ export const applyTokens = (
 
   // Wrap any left-over fragments in unparsed wrappers
   for (const fragment of fragments.slice(fragmentIndex)) {
-    wrap(fragment.node, createElement('span', { class: ['jpdb-word', 'unparsed'] }));
+    wrap(
+      fragment.node,
+      createElement('span', {
+        class: ['jpdb-word', 'unparsed'],
+        attributes: { ajb: true },
+      }),
+    );
   }
 };

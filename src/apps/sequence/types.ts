@@ -1,5 +1,5 @@
 export type Sequence<TPromise = void, TData = unknown> = {
-  sequence: number;
+  sequenceId: number;
   promise: Promise<TPromise>;
   data: TData;
 };
