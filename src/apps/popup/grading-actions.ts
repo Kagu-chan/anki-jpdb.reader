@@ -37,10 +37,10 @@ export class GradingActions {
   }
 
   private async updateGradingKeys(): Promise<void> {
-    const isAnkiEnabled = await getConfiguration('enableAnkiIntegration');
-    const useTwoButtonGradingSystem = await getConfiguration('jpdbUseTwoGrades');
-    const useFlagRotation = await getConfiguration('jpdbRotateFlags');
-    const disableReviews = await getConfiguration('jpdbDisableReviews');
+    const isAnkiEnabled = await getConfiguration('enableAnkiIntegration', true);
+    const useTwoButtonGradingSystem = await getConfiguration('jpdbUseTwoGrades', true);
+    const useFlagRotation = await getConfiguration('jpdbRotateFlags', true);
+    const disableReviews = await getConfiguration('jpdbDisableReviews', true);
     const fiveGradeKeys: FilterKeys<ConfigurationSchema, Keybind>[] = [
       'jpdbReviewNothing',
       'jpdbReviewSomething',

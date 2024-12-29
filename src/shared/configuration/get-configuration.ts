@@ -47,7 +47,7 @@ const OBJECT_KEYS: ConfigurationObjectKeys = [
 
 export const getConfiguration = async <K extends keyof ConfigurationSchema>(
   key: K,
-  fetchDefault?: boolean,
+  fetchDefault: boolean,
 ): Promise<ConfigurationSchema[K]> => {
   const defaultValue = fetchDefault ? DEFAULT_CONFIGURATION[key] : undefined;
   // eslint-disable-next-line @typescript-eslint/no-base-to-string

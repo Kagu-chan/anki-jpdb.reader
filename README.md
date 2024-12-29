@@ -68,9 +68,7 @@ Most integrations are currently either not implemented or tested - Feedback is a
 
 ### Known Bugs
 
-* close popup after api call seems to not work properly on crunchyroll
 * some pages like nhkweb / newseasy dont keep the correct context, but always the first word of the row
-* some points dont properly validate and fail silently
 
 ## Can I customize the colors? Can I customize which furigana get shown?
 

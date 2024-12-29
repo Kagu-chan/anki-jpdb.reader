@@ -19,6 +19,7 @@ async function getDeck(
       | 'jpdbMiningDeck'
       | 'jpdbBlacklistDeck'
       | 'jpdbNeverForgetDeck',
+    true,
   );
 
   if (!deck) {

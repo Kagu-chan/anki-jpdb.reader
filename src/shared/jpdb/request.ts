@@ -1,4 +1,5 @@
 import { getConfiguration } from '@shared/configuration';
+import { displayToast } from '@shared/dom';
 import { JPDBEndpoints, JPDBErrorResponse, JPDBRequestOptions } from './api.types';
 
 export const request = async <Key extends keyof JPDBEndpoints>(
@@ -6,9 +7,11 @@ export const request = async <Key extends keyof JPDBEndpoints>(
   params: JPDBEndpoints[Key][0] | undefined,
   options?: JPDBRequestOptions,
 ): Promise<JPDBEndpoints[Key][1]> => {
-  const apiToken = options?.apiToken || (await getConfiguration('jpdbApiToken'));
+  const apiToken = options?.apiToken || (await getConfiguration('jpdbApiToken', false));
 
   if (!apiToken) {
+    displayToast('error', 'API Token is not set');
+
     throw new Error('API Token is not set');
   }
 

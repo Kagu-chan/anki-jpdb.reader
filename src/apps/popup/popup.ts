@@ -135,16 +135,16 @@ export class Popup {
   //#region Configuration
 
   private async applyConfiguration(): Promise<void> {
-    this._hidePopupAutomatically = await getConfiguration('hidePopupAutomatically');
-    this._hidePopupDelay = await getConfiguration('hidePopupDelay');
-    this._hideAfterAction = await getConfiguration('hideAfterAction');
-    this._disableFadeAnimation = await getConfiguration('disableFadeAnimation');
-    this._useTwoPointGrading = await getConfiguration('jpdbUseTwoGrades');
-    this._disableReviews = await getConfiguration('jpdbDisableReviews');
+    this._hidePopupAutomatically = await getConfiguration('hidePopupAutomatically', true);
+    this._hidePopupDelay = await getConfiguration('hidePopupDelay', true);
+    this._hideAfterAction = await getConfiguration('hideAfterAction', true);
+    this._disableFadeAnimation = await getConfiguration('disableFadeAnimation', true);
+    this._useTwoPointGrading = await getConfiguration('jpdbUseTwoGrades', true);
+    this._disableReviews = await getConfiguration('jpdbDisableReviews', true);
 
-    this._miningDeck = await getConfiguration('jpdbMiningDeck');
-    this._neverForgetDeck = await getConfiguration('jpdbNeverForgetDeck');
-    this._blacklistDeck = await getConfiguration('jpdbBlacklistDeck');
+    this._miningDeck = await getConfiguration('jpdbMiningDeck', true);
+    this._neverForgetDeck = await getConfiguration('jpdbNeverForgetDeck', true);
+    this._blacklistDeck = await getConfiguration('jpdbBlacklistDeck', true);
 
     this._customStyles.textContent = await getConfiguration('customPopupCSS', true);
 

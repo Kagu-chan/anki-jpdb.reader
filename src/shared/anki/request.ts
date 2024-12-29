@@ -1,4 +1,5 @@
 import { getConfiguration } from '@shared/configuration';
+import { displayToast } from '@shared/dom';
 import { AnkiEndpoints, AnkiRequestOptions } from './api.types';
 
 export const request = async <Key extends keyof AnkiEndpoints>(
@@ -6,9 +7,11 @@ export const request = async <Key extends keyof AnkiEndpoints>(
   params: AnkiEndpoints[Key][0] | undefined,
   options?: AnkiRequestOptions,
 ): Promise<AnkiEndpoints[Key][1]> => {
-  const ankiUrl = options?.ankiConnectUrl || (await getConfiguration('ankiUrl'));
+  const ankiUrl = options?.ankiConnectUrl || (await getConfiguration('ankiUrl', false));
 
   if (!ankiUrl) {
+    displayToast('error', 'Anki URL is not set');
+
     throw new Error('Anki URL is not set');
   }
 

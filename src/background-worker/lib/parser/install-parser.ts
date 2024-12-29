@@ -58,7 +58,7 @@ const createParagraphBatches = (): Batch[] => {
 
 export const installParser = (): void => {
   receiveTabMessage('parse', (sender, data) => {
-    void getConfiguration('customWordCSS').then((customWordCSS) =>
+    void getConfiguration('customWordCSS', true).then((customWordCSS) =>
       injectStyle(sender.tab!.id!, 'word', customWordCSS),
     );
 

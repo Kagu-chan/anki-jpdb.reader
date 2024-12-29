@@ -19,7 +19,7 @@ export class PopupManager {
     onBroadcastMessage(
       'configurationUpdated',
       async () => {
-        this._showPopupOnHover = await getConfiguration('showPopupOnHover');
+        this._showPopupOnHover = await getConfiguration('showPopupOnHover', true);
       },
       true,
     );

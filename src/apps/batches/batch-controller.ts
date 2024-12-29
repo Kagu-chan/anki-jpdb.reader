@@ -76,6 +76,9 @@ export class BatchController {
             return;
           }
 
+          // eslint-disable-next-line no-console
+          console.error(error);
+
           displayToast('error', 'An error occurred while parsing the text');
         });
     });
