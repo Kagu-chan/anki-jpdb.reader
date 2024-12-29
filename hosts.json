@@ -58,7 +58,7 @@
       "exclude": "[data-ttu-spoiler-img]"
     },
     "addedObserver": {
-      "notifyFor": ".book-content p, .book-content div.calibre1",
+      "notifyFor": ".book-content p, .book-content div.calibre1, .ttu-book-html-wrapper",
       "observeFrom": "body",
       "config": {
         "childList": true,
