@@ -3,15 +3,19 @@ import { IntegrationScript } from '../integration-script';
 import { BatchController } from './batches/batch-controller';
 
 export abstract class BaseParser extends IntegrationScript {
-  /** The root element to parse */
-  protected root: HTMLElement | null = document.body;
-
   /**
    * The batch controller. Use this to register nodes for parsing, then call parseBatches to parse all outstanding node batches.
    *
    * @see BatchController
    */
   protected batches = new BatchController();
+
+  /** The root element to parse */
+  protected get root(): HTMLElement | null {
+    const { parse } = this._meta;
+
+    return parse ? document.querySelector<HTMLElement>(parse) : document.body;
+  }
 
   /** @param {HostMeta} _meta The host meta */
   constructor(protected _meta: HostMeta) {
@@ -41,11 +45,13 @@ export abstract class BaseParser extends IntegrationScript {
    * @returns {void}
    */
   protected parsePage(): void {
-    if (!this.root) {
+    const { root } = this;
+
+    if (!root) {
       return;
     }
 
-    this.parseNode(this.root);
+    this.parseNode(root);
   }
 
   /**

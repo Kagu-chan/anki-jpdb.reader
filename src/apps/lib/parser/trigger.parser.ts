@@ -13,10 +13,6 @@ export class TriggerParser extends BaseParser {
     this._parseKeyManager = new KeybindManager(['parseKey']);
     this._parseKeyManager.activate();
 
-    if (this._meta.parse) {
-      this.root = document.querySelector(this._meta.parse);
-    }
-
     this.on('parseKey', () => {
       if (window.getSelection()?.toString()) {
         return this.parseSelection();

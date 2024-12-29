@@ -16,8 +16,6 @@ export class AutomaticParser extends BaseParser {
     }
 
     if (this._meta.parse) {
-      this.root = document.querySelector<HTMLElement>(this._meta.parse);
-
       this.parsePage();
     }
   }
