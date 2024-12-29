@@ -4,10 +4,10 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   schemaVersion: 1,
 
   jpdbApiToken: '',
-  jpdbMiningDeck: 'never-forget',
+  jpdbMiningDeck: '',
   jpdbBlacklistDeck: 'blacklist',
+  jpdbNeverForgetDeck: 'never-forget',
   jpdbForqDeck: 'forq',
-  jpdbNeverForgetDeck: '',
   jpdbAddToForq: false,
   jpdbUseTwoGrades: false,
   jpdbRotateFlags: false,
@@ -56,12 +56,12 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   hidePopupDelay: 500,
   hideAfterAction: true,
 
-  showPopupOnHover: true,
+  showPopupOnHover: false,
   touchscreenSupport: false,
   disableFadeAnimation: false,
 
   parseKey: { key: 'P', code: 'KeyP', modifiers: ['Alt'] },
-  showPopupKey: { key: 'Left Mouse Button', code: 'Mouse0', modifiers: ['Shift'] },
+  showPopupKey: { key: 'Shift', code: 'ShiftLeft', modifiers: [] },
   showAdvancedDialogKey: { key: '', code: '', modifiers: [] },
   lookupSelectionKey: { key: 'L', code: 'KeyL', modifiers: ['Alt'] },
   addToMiningKey: { key: '', code: '', modifiers: [] },
