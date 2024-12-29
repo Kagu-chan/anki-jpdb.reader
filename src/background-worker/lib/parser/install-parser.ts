@@ -1,5 +1,5 @@
 import { getConfiguration } from '@shared/configuration';
-import { injectStyle, MessageSender } from '@shared/extension';
+import { injectStyle, MessageSender, openOptionsPage } from '@shared/extension';
 import { JPDBToken } from '@shared/jpdb';
 import { receiveTabMessage, sendToTab } from '@shared/messages';
 import { queueRequest } from '../queue-request';
@@ -57,10 +57,24 @@ const createParagraphBatches = (): Batch[] => {
 };
 
 export const installParser = (): void => {
-  receiveTabMessage('parse', (sender, data) => {
-    void getConfiguration('customWordCSS', true).then((customWordCSS) =>
-      injectStyle(sender.tab!.id!, 'word', customWordCSS),
-    );
+  receiveTabMessage('parse', async (sender, data): Promise<void> => {
+    const jpdbApiKey = await getConfiguration('jpdbApiToken', false);
+    const customWordCSS = await getConfiguration('customWordCSS', true);
+
+    if (!jpdbApiKey) {
+      await sendToTab(
+        'toast',
+        sender.tab!.id!,
+        'error',
+        'JPDB API key is not set. Please set it in the extension settings.',
+      );
+
+      await openOptionsPage();
+
+      return;
+    }
+
+    await injectStyle(sender.tab!.id!, 'word', customWordCSS);
 
     // Queue all paragraphs for parsing - those can then be packed into a batch
     data.forEach(([sequenceId, text]) => void queueParagraph(sequenceId, sender, text));
