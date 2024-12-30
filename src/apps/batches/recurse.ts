@@ -16,7 +16,7 @@ export const recurse = (
   }
 
   const display = displayCategory(node);
-  const checkBlock = (): void => {
+  const breakIfBlock = (): void => {
     if (display === 'block') {
       breakParagraph(paragraphs, fragments);
 
@@ -25,7 +25,7 @@ export const recurse = (
     }
   };
 
-  checkBlock();
+  breakIfBlock();
 
   if (display === 'none' || display === 'ruby-text' || filter?.(node) === false) {
     return;
@@ -44,6 +44,6 @@ export const recurse = (
   }
 
   if (display === 'block') {
-    checkBlock();
+    breakIfBlock();
   }
 };

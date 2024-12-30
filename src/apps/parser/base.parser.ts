@@ -61,7 +61,7 @@ export abstract class BaseParser {
   ): void {
     const { batchController } = Registry;
 
-    batchController.registerNodes(nodes, filter);
+    batchController.registerNodes(nodes, { filter });
     batchController.parseBatches();
   }
 
@@ -167,23 +167,53 @@ export abstract class BaseParser {
    * @returns {IntersectionObserver}
    */
   protected getParseVisibleObserver(
-    filter: (node: HTMLElement | Text) => boolean = (): boolean => true,
+    filter?: (node: HTMLElement | Text) => boolean,
   ): IntersectionObserver {
-    const { batchController } = Registry;
-
     const observer = this.getVisibleObserver(
-      (elements) => {
-        batchController.registerNodes(
-          elements,
-          filter,
-          (e) => e instanceof Element && observer.unobserve(e),
-        );
-
-        batchController.parseBatches();
-      },
-      (elements) => elements.forEach((node) => batchController.dismissNode(node)),
+      (elements) => this.visibleObserverOnEnter(elements, observer, filter),
+      (elements) => this.visibleObserverOnExit(elements, observer),
     );
 
     return observer;
+  }
+
+  /**
+   * Called when an item becomes visible in the viewport
+   * Used as callback for the `getParseVisibleObserver` method
+   *
+   * Registers the items in the batch controller and parses them
+   *
+   * @param {Element[]} elements The element changes
+   * @param {IntersectionObserver} observer The observer instance
+   * @param {(node: HTMLElement | Text) => boolean} filter A filter function to filter the childnodes of the elements
+   */
+  protected visibleObserverOnEnter(
+    elements: Element[],
+    observer: IntersectionObserver,
+    filter?: (node: HTMLElement | Text) => boolean,
+  ): void {
+    const { batchController } = Registry;
+
+    batchController.registerNodes(elements, {
+      filter,
+      onEmpty: (e) => e instanceof Element && observer.unobserve(e),
+    });
+
+    batchController.parseBatches();
+  }
+
+  /**
+   * Called when an item is no longer visible in the viewport
+   * Used as callback for the `getParseVisibleObserver` method
+   *
+   * Dismisses the items from the batch controller
+   *
+   * @param {Element[]} elements The element changes
+   * @param {IntersectionObserver} _observer The observer instance
+   */
+  protected visibleObserverOnExit(elements: Element[], _observer: IntersectionObserver): void {
+    const { batchController } = Registry;
+
+    elements.forEach((node) => batchController.dismissNode(node));
   }
 }

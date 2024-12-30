@@ -67,6 +67,21 @@
     }
   },
   {
+    "host": "*://reader.mokuro.app/*",
+    "auto": true,
+    "allFrames": true,
+    "custom": "MokuroParser",
+    "parseVisibleObserver": true,
+    "addedObserver": {
+      "notifyFor": "#manga-panel",
+      "observeFrom": "body",
+      "config": {
+        "childList": true,
+        "subtree": true
+      }
+    }
+  },
+  {
     "host": ["*://ja.wikipedia.org/*", "*://ja.m.wikipedia.org/*"],
     "auto": true,
     "allFrames": false,

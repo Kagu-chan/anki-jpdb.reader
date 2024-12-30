@@ -3,7 +3,7 @@
     "outDir": "./anki-jpdb.reader/",
     "noImplicitAny": true,
     "module": "es6",
-    "target": "es2015",
+    "target": "es2021",
     "allowJs": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
