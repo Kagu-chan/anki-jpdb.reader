@@ -47,16 +47,18 @@ Some pages require special support for technical reasons and will therefore star
 * wider browser support
 
 ### Sites supported by the old extension
-Most integrations are currently either not implemented or tested - Feedback is appreciated!
+Most integrations are already supported, but require more testing.
+
+Support for live subtitles will no longer be given, as [asbplayer](https://github.com/killergerbah/asbplayer) is compatible with this extension.
 
 |App|URLs|Status
 |---|---|---
-|[ッツ Reader](https://github.com/ttu-ttu/ebook-reader)|[reader.ttsu.app](https://reader.ttsu.app), [ttu-ebook.web.app](https://ttu-ebook.web.app)|**buggy**
+|[ッツ Reader](https://github.com/ttu-ttu/ebook-reader)|[reader.ttsu.app](https://reader.ttsu.app), [ttu-ebook.web.app](https://ttu-ebook.web.app)|seems to work
 |Texthooker pages|[anacreondjt texthooker](https://anacreondjt.gitlab.io/texthooker.html), [learnjapanese.moe texthooker](https://learnjapanese.moe/texthooker.html), [exSTATic tracker](https://kamwithk.github.io/exSTATic/tracker.html), [renji-xd texthooker](https://renji-xd.github.io/texthooker-ui/)|seems to work
 |Mokuro (Legacy)|[Mokuro](https://github.com/kha-white/mokuro): **IMPORTANT**: File path must contain `mokuro`, and file name must end in `.html`|seems to work
-|Readwok|[app.readwok.com](https://app.readwok.com/)|**buggy**
-|Wikipedia|[ja.wikipedia.org](https://ja.wikipedia.org/)|**buggy**
-|Youtube subtitles|[youtube.com](https://youtube.com/)|**not implemented**
+|Readwok|[app.readwok.com](https://app.readwok.com/)|seems to work
+|Wikipedia|[ja.wikipedia.org](https://ja.wikipedia.org/)|seems to work
+|Youtube subtitles|[youtube.com](https://youtube.com/)|**no longer supported**
 |Bunpro|[bunpro.jp](https://bunpro.jp)|*not tested*
 
 ### Added by the community
@@ -64,16 +66,14 @@ Most integrations are currently either not implemented or tested - Feedback is a
 |---|---|---
 |asbplayer|[github.com/killergerbah/asbplayer](https://github.com/killergerbah/asbplayer)|seems to work
 |Mokuro|[reader.mokuro.app](https://reader.mokuro.app)|seems to work
-|Youtube comments|[youtube.com](https://youtube.com/)|**not implemented**
-|NHK Japanese News Easy|[nhk.or.jp/news/easy](https://www3.nhk.or.jp/news/easy/)|**buggy**
+|Youtube comments|[youtube.com](https://youtube.com/)|seems to work
+|NHK Japanese News Easy|[nhk.or.jp/news/easy](https://www3.nhk.or.jp/news/easy/)|seems to work
 
 ### Known Bugs
 
-Some pages apply tokens incorrectly, thus messing up the highlighting and context
- - Wikipedia
+Some pages with a lot of text and tight formatting (like epup readers) may fail due to text being to long
  - Readwok
  - ッツ Reader
- - NHK Japanese News Easy
 
 ## Can I customize the colors? Can I customize which furigana get shown?
 

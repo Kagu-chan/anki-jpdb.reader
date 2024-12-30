@@ -67,6 +67,20 @@
     }
   },
   {
+    "host": ["*://*.youtube.com/*", "*://*.youtu.be/*"],
+    "auto": true,
+    "allFrames": false,
+    "parseVisibleObserver": true,
+    "addedObserver": {
+      "notifyFor": "ytd-comment-view-model",
+      "observeFrom": "body",
+      "config": {
+        "childList": true,
+        "subtree": true
+      }
+    }
+  },
+  {
     "host": "*://reader.mokuro.app/*",
     "auto": true,
     "allFrames": true,
