@@ -63,7 +63,7 @@ Most integrations are currently either not implemented or tested - Feedback is a
 |App|URLs|Status
 |---|---|---
 |asbplayer|[github.com/killergerbah/asbplayer](https://github.com/killergerbah/asbplayer)|seems to work
-|Mokuro|[reader.mokuro.app](https://reader.mokuro.app)|**not implemented**
+|Mokuro|[reader.mokuro.app](https://reader.mokuro.app)|seems to work
 |Youtube comments|[youtube.com](https://youtube.com/)|**not implemented**
 |NHK Japanese News Easy|[nhk.or.jp/news/easy](https://www3.nhk.or.jp/news/easy/)|**buggy**
 
