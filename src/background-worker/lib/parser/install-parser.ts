@@ -40,7 +40,7 @@ const createParagraphBatches = (): Batch[] => {
     if (length > BATCH_SIZE) {
       batches.push(currentBatch);
       currentBatch = { strings: [], handles: [] };
-      length = 0;
+      length = paragraph.length;
     }
 
     currentBatch.strings.push(paragraph.text);
