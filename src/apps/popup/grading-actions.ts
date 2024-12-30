@@ -8,12 +8,21 @@ import { MiningActions } from './mining-actions';
 
 export class GradingActions {
   private _keyManager = new KeybindManager([]);
+  private _rotateCycle = false;
   private _card?: JPDBCard;
 
   constructor(private _miningActions: MiningActions) {
     const { events } = Registry;
 
-    onBroadcastMessage('configurationUpdated', () => this.updateGradingKeys(), true);
+    onBroadcastMessage(
+      'configurationUpdated',
+      async (): Promise<void> => {
+        await this.updateGradingKeys();
+
+        this._rotateCycle = await getConfiguration('jpdbRotateCycle', true);
+      },
+      true,
+    );
 
     events.on('jpdbReviewNothing', () => this.reviewCard('nothing'));
     events.on('jpdbReviewSomething', () => this.reviewCard('something'));
@@ -114,7 +123,7 @@ export class GradingActions {
       }
 
       if (!nf && bl) {
-        await this._miningActions.setDecks({ blacklist: false });
+        await this._miningActions.setDecks({ blacklist: false, neverForget: this._rotateCycle });
       }
 
       return this._miningActions.resumeUpdateWordStates();
@@ -125,7 +134,7 @@ export class GradingActions {
     }
 
     if (nf && !bl) {
-      await this._miningActions.setDecks({ neverForget: false });
+      await this._miningActions.setDecks({ neverForget: false, blacklist: this._rotateCycle });
     }
 
     if (!nf && bl) {

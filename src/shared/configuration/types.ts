@@ -12,6 +12,7 @@ export type ConfigurationSchema = {
   jpdbUseTwoGrades: boolean;
   jpdbDisableReviews: boolean;
   jpdbRotateFlags: boolean;
+  jpdbRotateCycle: boolean;
   jpdbReviewNothing: Keybind;
   jpdbReviewSomething: Keybind;
   jpdbReviewHard: Keybind;

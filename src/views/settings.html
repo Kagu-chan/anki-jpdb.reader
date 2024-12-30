@@ -83,13 +83,18 @@
 
               <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="jpdbRotateFlags" name="jpdbRotateFlags" shows="#rotate-flags" />
+                  <input type="checkbox" id="jpdbRotateFlags" name="jpdbRotateFlags" shows=".rotate-flags" />
                   <label for="jpdbRotateFlags">Rotate flags (<code>never-forget</code> -> <code>blacklisted</code> -> <code>none</code>)</label>
                 </div>
               </div>
-            </div>
 
-            <div class="form-box"></div>
+              <div class="rotate-flags">
+                <div class="checkbox">
+                  <input type="checkbox" id="jpdbRotateCycle" name="jpdbRotateCycle" />
+                  <label for="jpdbRotateCycle">Cycle between states when not unknown (<code>none</code> -> (<code>never-forget</code> <-> <code>blacklisted</code>))</label>
+                </div>
+              </div>
+            </div>
           </div>
 
           <p style="opacity: 0.8; margin-bottom: 0">
@@ -154,7 +159,7 @@
             </div>
           </div>
 
-          <div id="rotate-flags" class="form-box-parent" hidden>
+          <div class="rotate-flags form-box-parent" hidden>
             <div class="form-box">
               <div>
                 <label for="jpdbRotateForward">Rotate flags forward</label>

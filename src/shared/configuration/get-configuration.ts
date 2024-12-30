@@ -15,6 +15,7 @@ const BOOLEAN_KEYS: ConfigurationBooleanKeys = [
   'jpdbUseTwoGrades',
   'jpdbDisableReviews',
   'jpdbRotateFlags',
+  'jpdbRotateCycle',
   'enableAnkiIntegration',
   'showPopupOnHover',
   'hidePopupAutomatically',

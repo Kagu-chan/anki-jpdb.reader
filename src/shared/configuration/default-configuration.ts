@@ -11,6 +11,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   jpdbAddToForq: false,
   jpdbUseTwoGrades: false,
   jpdbRotateFlags: false,
+  jpdbRotateCycle: false,
   jpdbDisableReviews: false,
   jpdbReviewNothing: { key: '', code: '', modifiers: [] },
   jpdbReviewSomething: { key: '', code: '', modifiers: [] },
