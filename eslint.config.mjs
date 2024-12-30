@@ -32,7 +32,7 @@ const noRestrictedImportsPatterns = [{
 }];
 
 export default [{
-    ignores: ["**/anki-jpdb.breader/", "src/alt/", "src/alt_orig/", "**/webpack.*.js"],
+    ignores: ["**/anki-jpdb.breader/", "src/alt_orig/", "**/webpack.*.js"],
 }, ...compat.extends(
     "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:@typescript-eslint/stylistic-type-checked",

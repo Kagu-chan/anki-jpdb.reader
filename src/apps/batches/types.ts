@@ -6,3 +6,5 @@ export type Fragment = {
   hasRuby: boolean;
 };
 export type Paragraph = Fragment[];
+
+export type DisplayCategory = 'none' | 'text' | 'ruby' | 'ruby-text' | 'block' | 'inline';

@@ -1,50 +1,10 @@
 import { DOMElementBaseOptions, createElement } from '@shared/dom';
 import { JPDBToken } from '@shared/jpdb';
 import { Registry } from '../integration/registry';
+import { insertAfter } from './insert-after';
+import { splitFragment } from './split-fragment';
 import { Fragment } from './types';
-
-function splitFragment(fragments: Fragment[], fragmentIndex: number, splitOffset: number): void {
-  const oldFragment = fragments[fragmentIndex];
-  const newNode = oldFragment.node.splitText(splitOffset - oldFragment.start);
-
-  // Insert new fragment
-  const newFragment = {
-    start: splitOffset,
-    end: oldFragment.end,
-    length: oldFragment.end - splitOffset,
-    node: newNode,
-    hasRuby: oldFragment.hasRuby,
-  };
-
-  fragments.splice(fragmentIndex + 1, 0, newFragment);
-
-  // Change endpoint of existing fragment accordingly
-  oldFragment.end = splitOffset;
-  oldFragment.length = splitOffset - oldFragment.start;
-}
-
-function insertBefore(newNode: HTMLElement, referenceNode: Node): void {
-  referenceNode.parentElement!.insertBefore(newNode, referenceNode);
-}
-
-function insertAfter(newNode: HTMLElement, referenceNode: Node): void {
-  const parent = referenceNode.parentElement!;
-  const sibling = referenceNode.nextSibling;
-
-  if (sibling) {
-    parent.insertBefore(newNode, sibling);
-
-    return;
-  }
-
-  parent.appendChild(newNode);
-}
-
-function wrap(node: Node, wrapper: HTMLElement): void {
-  insertBefore(wrapper, node);
-
-  wrapper.append(node);
-}
+import { wrap } from './wrap';
 
 export const applyTokens = (fragments: Fragment[], tokens: JPDBToken[]): void => {
   let fragmentIndex = 0;
