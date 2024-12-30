@@ -82,6 +82,13 @@
     }
   },
   {
+    "host": "file:///*mokuro*.html",
+    "auto": true,
+    "allFrames": true,
+    "custom": "MokuroLegacyParser",
+    "parseVisibleObserver": true
+  },
+  {
     "host": ["*://ja.wikipedia.org/*", "*://ja.m.wikipedia.org/*"],
     "auto": true,
     "allFrames": false,

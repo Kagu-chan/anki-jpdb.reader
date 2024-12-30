@@ -1,6 +1,7 @@
 import { HostMeta } from '@shared/host-meta';
 import { BaseParser } from './base.parser';
 import { BunproParser } from './custom-parsers/bunpro.parser';
+import { MokuroLegacyParser } from './custom-parsers/mokuro-legacy.parser';
 import { MokuroParser } from './custom-parsers/mokuro.parser';
 
 export const getCustomParser = (
@@ -13,6 +14,7 @@ export const getCustomParser = (
   > = {
     BunproParser,
     MokuroParser,
+    MokuroLegacyParser,
   };
   const parser = parsers[name];
 

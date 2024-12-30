@@ -3,6 +3,7 @@ import { applyTokens } from '../../batches/apply-tokens';
 import { Paragraph } from '../../batches/types';
 import { Registry } from '../../integration/registry';
 import { AutomaticParser } from '../automatic.parser';
+import { getMokuroParagraphs } from './mokuro/get-mokuro-paragraphs';
 
 class MokuroMangaPanel {
   private _imageContainerId = 'popupAbout';
@@ -115,10 +116,11 @@ class MokuroMangaPanel {
 
       this._pages.add(page);
       Registry.batchController.registerNode(page, {
-        getParagraphsFn: this.getParagraphs,
+        // We create fragments manually, since mokuro puts every line in a separate <p>aragraph and hides them
+        getParagraphsFn: getMokuroParagraphs,
+        // Because mokuro reuses nodes, a token may already be altered when the data from jpdb return.
+        // Thus we track on which page change cycle we are and don't apply tokens to the wrong page
         applyFn: (paragraph: Paragraph, tokens: JPDBToken[]) => {
-          // Because mokuro reuses nodes, a token may already be altered when the data from jpdb return.
-          // Thus we track on which page change cycle we are and don't apply tokens to the wrong page
           if (currentId === this._currentId) {
             applyTokens(paragraph, tokens);
           }
@@ -127,51 +129,6 @@ class MokuroMangaPanel {
     });
 
     Registry.batchController.parseBatches(() => this._pages.clear());
-  }
-
-  /**
-   * We create fragments manually, since mokuro puts every line in a separate <p>aragraph and hides them
-   *
-   * @param {void} this Method binding
-   * @param {HTMLElement} page Current node
-   */
-  private getParagraphs(this: void, page: HTMLElement): Paragraph[] {
-    return [...page.querySelectorAll('.textBox')].map((box) => {
-      const fragments = [];
-      let offset = 0;
-
-      for (const p of box.children) {
-        if (p.tagName !== 'P') {
-          continue;
-        }
-
-        const text = p.firstChild as Text;
-
-        if (!text?.data?.length) {
-          continue;
-        }
-
-        text.data = text.data
-          .replaceAll('．．．', '…')
-          .replaceAll('．．', '…')
-          .replaceAll('！！', '‼')
-          .replaceAll('！？', '“⁉');
-
-        const start = offset;
-        const length = text.length;
-        const end = (offset += length);
-
-        fragments.push({
-          node: text,
-          start,
-          end,
-          length,
-          hasRuby: false,
-        });
-      }
-
-      return fragments;
-    });
   }
 }
 

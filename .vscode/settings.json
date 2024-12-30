@@ -1,9 +1,20 @@
 {
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
   "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
   "editor.formatOnType": false,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
-  "files.autoSave": "off",
-  "vs-code-prettier-eslint.prettierLast": false
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "vs-code-prettier-eslint.prettierLast": false,
+  "[html]": {
+    "editor.formatOnSave": false,
+    "files.insertFinalNewline": false
+  },
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.preferences.importModuleSpecifier": "relative",
+  "typescript.preferences.importModuleSpecifier": "relative"
 }
