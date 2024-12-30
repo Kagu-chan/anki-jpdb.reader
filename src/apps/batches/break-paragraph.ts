@@ -1,6 +1,6 @@
 import { Fragment, Paragraph } from './types';
 
-export const breakParagraph = (paragraphs: Paragraph[], fragments: Fragment[]): void => {
+export const breakParagraph = (paragraphs: Paragraph[], fragments: Fragment[]): number => {
   // Remove fragments from the end that are just whitespace
   // (the ones from the start have already been ignored)
   let end = fragments.length - 1;
@@ -16,4 +16,6 @@ export const breakParagraph = (paragraphs: Paragraph[], fragments: Fragment[]): 
   if (trimmedFragments.length) {
     paragraphs.push(trimmedFragments);
   }
+
+  return 0;
 };

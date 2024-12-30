@@ -10,25 +10,24 @@ export const recurse = (
   node: Element | Node,
   hasRuby: boolean,
   filter?: (node: Element | Node) => boolean,
-): void => {
+): number => {
   if (node instanceof Element && node.hasAttribute('ajb')) {
-    return;
+    return offset;
   }
 
   const display = displayCategory(node);
   const breakIfBlock = (): void => {
     if (display === 'block') {
-      breakParagraph(paragraphs, fragments);
+      offset = breakParagraph(paragraphs, fragments);
 
       fragments = [];
-      offset = 0;
     }
   };
 
   breakIfBlock();
 
   if (display === 'none' || display === 'ruby-text' || filter?.(node) === false) {
-    return;
+    return offset;
   }
 
   if (display === 'text') {
@@ -40,10 +39,12 @@ export const recurse = (
   }
 
   for (const child of node.childNodes) {
-    recurse(paragraphs, fragments, offset, child, hasRuby, filter);
+    offset = recurse(paragraphs, fragments, offset, child, hasRuby, filter);
   }
 
   if (display === 'block') {
     breakIfBlock();
   }
+
+  return offset;
 };

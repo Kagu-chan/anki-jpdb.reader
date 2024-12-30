@@ -5,7 +5,7 @@ export const pushText = (
   offset: number,
   text: Text | CDATASection,
   hasRuby: boolean,
-): void => {
+): number => {
   // Ignore empty text nodes, as well as whitespace at the beginning of the run
   if (text.data.length > 0 && !(fragments.length === 0 && text.data.trim().length === 0)) {
     fragments.push({
@@ -16,4 +16,6 @@ export const pushText = (
       hasRuby,
     });
   }
+
+  return offset;
 };
