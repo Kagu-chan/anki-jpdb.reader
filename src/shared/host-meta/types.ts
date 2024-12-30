@@ -18,8 +18,6 @@ export type VisibleObserverOptions =
   | {
       /** Selector to include in the visible observer. Defauls to all */
       include?: string;
-    }
-  | {
       /** Selector to exclude in the visible observer. Defaults to nothing */
       exclude?: string;
     };

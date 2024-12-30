@@ -1,4 +1,4 @@
-import { HostMeta, VisibleObserverOptions } from '@shared/host-meta';
+import { HostMeta } from '@shared/host-meta';
 import { BaseParser } from './base.parser';
 
 export class AutomaticParser extends BaseParser {
@@ -27,27 +27,21 @@ export class AutomaticParser extends BaseParser {
 
     if (typeof this._meta.parseVisibleObserver === 'object') {
       const obs = this._meta.parseVisibleObserver;
-      const isInclude = (
-        arg: Exclude<VisibleObserverOptions, boolean>,
-      ): arg is { include: string } => {
-        return 'include' in arg;
-      };
-      const isExclude = (
-        arg: Exclude<VisibleObserverOptions, boolean>,
-      ): arg is { exclude: string } => {
-        return 'include' in arg;
-      };
+      const { include = '', exclude = '' } = obs;
+
+      const isInclude = include?.length > 0;
+      const isExclude = exclude?.length > 0;
 
       filter = (node): boolean => {
         if (node instanceof Text) {
           return true;
         }
 
-        if (isInclude(obs) && !node.matches(obs.include)) {
+        if (isInclude && !node.matches(include)) {
           return false;
         }
 
-        if (isExclude(obs) && node.matches(obs.exclude)) {
+        if (isExclude && node.matches(exclude)) {
           return false;
         }
 
