@@ -22,6 +22,7 @@ const BOOLEAN_KEYS: ConfigurationBooleanKeys = [
   'hideAfterAction',
   'touchscreenSupport',
   'disableFadeAnimation',
+  'useLegacyHighlighter',
 ];
 const OBJECT_KEYS: ConfigurationObjectKeys = [
   'jpdbReviewNothing',

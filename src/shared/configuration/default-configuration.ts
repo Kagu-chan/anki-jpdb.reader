@@ -23,6 +23,8 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   jpdbRotateForward: { key: '', code: '', modifiers: [] },
   jpdbRotateBackward: { key: '', code: '', modifiers: [] },
 
+  useLegacyHighlighter: false,
+
   enableAnkiIntegration: false,
   ankiUrl: 'http://localhost:8765',
   ankiProxyUrl: '',

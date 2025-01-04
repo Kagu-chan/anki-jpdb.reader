@@ -1,8 +1,11 @@
-import { JPDBCard, JPDBCardState } from '@shared/jpdb';
+import { JPDBCard, JPDBCardState, JPDBToken } from '@shared/jpdb';
 import { BatchController } from '../batches/batch-controller';
+import { Fragment } from '../batches/types';
 import { BaseParser } from '../parser/base.parser';
 import { PopupManager } from '../popup/popup-manager';
 import { SequenceManager } from '../sequence/sequence-manager';
+import { BaseTextHighlighter } from '../text-highlighter/base.text-highlighter';
+import { TextHighlighter } from '../text-highlighter/text-highlighter';
 import { EventCollection } from './event-collection';
 import { HostEvaluator } from './host-evaluator';
 
@@ -16,6 +19,11 @@ export class Registry {
   public static readonly batchController = new BatchController();
   public static readonly sequenceManager = new SequenceManager();
   public static popupManager?: PopupManager;
+
+  public static textHighlighter: new (
+    fragments: Fragment[],
+    tokens: JPDBToken[],
+  ) => BaseTextHighlighter = TextHighlighter;
 
   private static readonly cards = new Map<string, JPDBCard>();
 

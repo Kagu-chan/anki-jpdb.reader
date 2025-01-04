@@ -16,6 +16,11 @@
     text-decoration: underline;
 }
 
+:where(.jpdb-word.misparsed) {
+    color: rgb(255, 0, 0);
+    background-color: lightgray;
+}
+
 /* :where(.jpdb-word.unparsed) { } */
 
 :where(.jpdb-word.locked) {

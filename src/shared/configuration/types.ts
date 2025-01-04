@@ -36,6 +36,8 @@ export type ConfigurationSchema = {
   hidePopupDelay: number;
   hideAfterAction: boolean;
 
+  useLegacyHighlighter: boolean;
+
   showPopupOnHover: boolean;
   touchscreenSupport: boolean;
   disableFadeAnimation: boolean;

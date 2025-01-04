@@ -1,3 +1,4 @@
+import { getConfiguration } from '@shared/configuration';
 import { displayToast } from '@shared/dom';
 import { JPDBCardState } from '@shared/jpdb';
 import { onBroadcastMessage, receiveBackgroundMessage, sendToBackground } from '@shared/messages';
@@ -8,6 +9,8 @@ import { getCustomParser } from './parser/get-custom-parser';
 import { NoParser } from './parser/no.parser';
 import { TriggerParser } from './parser/trigger.parser';
 import { PopupManager } from './popup/popup-manager';
+import { LegacyTextHighlighter } from './text-highlighter/legacy-text-highlighter';
+import { TextHighlighter } from './text-highlighter/text-highlighter';
 
 export class AJB {
   private _lookupKeyManager = new KeybindManager(['lookupSelectionKey']);
@@ -27,6 +30,16 @@ export class AJB {
     onBroadcastMessage('cardStateUpdated', (vid: number, sid: number, state: JPDBCardState[]) => {
       Registry.updateCard(vid, sid, state);
     });
+
+    onBroadcastMessage(
+      'configurationUpdated',
+      async (): Promise<void> => {
+        const useLegacyHighlighter = await getConfiguration('useLegacyHighlighter', true);
+
+        Registry.textHighlighter = useLegacyHighlighter ? LegacyTextHighlighter : TextHighlighter;
+      },
+      true,
+    );
   }
 
   protected async lookupText(text: string | undefined): Promise<void> {

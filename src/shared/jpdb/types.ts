@@ -3,15 +3,15 @@ type JPDBMeaning = {
   partOfSpeech: string[];
 };
 
-type JPDBRuby = {
+type JPDBFuriganaEntry = string | [spelling: string, reading: string];
+type JPDBFurigana = JPDBFuriganaEntry[] | null;
+
+export type JPDBRuby = {
   text: string;
   start: number;
   end: number;
   length: number;
 };
-
-type JPDBFuriganaEntry = string | [spelling: string, reading: string];
-type JPDBFurigana = JPDBFuriganaEntry[] | null;
 
 export type JPDBParseResult = {
   tokens: JPDBRawToken[][];
