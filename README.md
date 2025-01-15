@@ -59,7 +59,7 @@ Support for live subtitles will no longer be given, as [asbplayer](https://githu
 |Readwok|[app.readwok.com](https://app.readwok.com/)|seems to work
 |Wikipedia|[ja.wikipedia.org](https://ja.wikipedia.org/)|seems to work
 |Youtube subtitles|[youtube.com](https://youtube.com/)|**no longer supported**
-|Bunpro|[bunpro.jp](https://bunpro.jp)|*not tested*
+|Bunpro|[bunpro.jp](https://bunpro.jp)|**currently not supported**
 
 ### Added by the community
 |App|URLs|Status
@@ -68,12 +68,6 @@ Support for live subtitles will no longer be given, as [asbplayer](https://githu
 |Mokuro|[reader.mokuro.app](https://reader.mokuro.app)|seems to work
 |Youtube comments|[youtube.com](https://youtube.com/)|seems to work
 |NHK Japanese News Easy|[nhk.or.jp/news/easy](https://www3.nhk.or.jp/news/easy/)|seems to work
-
-### Known Bugs
-
-Some pages with a lot of text and tight formatting (like epup readers) may fail due to text being to long
- - Readwok
- - ッツ Reader
 
 ## Can I customize the colors? Can I customize which furigana get shown?
 
@@ -114,6 +108,14 @@ Hide jpdb furigana only for some classes of words:
 Only show jpdb furigana while hovering:
 ```css
 .jpdb-word:not(:hover) .jpdb-furi { visibility: hidden; }
+```
+
+Mark misparsed words
+```css
+.jpdb-word.misparsed {
+    color: rgb(255, 0, 0);
+    background-color: lightgray;
+}
 ```
 
 Notes if you aren't super familiar with CSS:
