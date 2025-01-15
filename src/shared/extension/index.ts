@@ -1,4 +1,5 @@
 export * from './add-context-menu';
+export * from './add-install-listener';
 export * from './get-last-error';
 export * from './get-style-url';
 export * from './get-tabs';
