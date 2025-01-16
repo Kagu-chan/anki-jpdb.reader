@@ -44,7 +44,7 @@
     "eslint-import-resolver-typescript": "^3.7.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsdoc": "^50.6.1",
-    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-prettier": "^5.2.2",
     "globals": "^15.14.0",
     "html-bundler-webpack-plugin": "^4.12.2",
     "prettier": "^3.4.2",
