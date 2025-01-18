@@ -1,9 +1,9 @@
 @use 'sass:map';
 @use 'variables/_colors' as colors;
 
-@import 'theme/common';
-@import 'theme/forms';
-@import 'theme/outline';
+@use 'theme/common';
+@use 'theme/forms';
+@use 'theme/outline';
 
 .popup {
   width: 350px;
