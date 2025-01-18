@@ -208,6 +208,8 @@ class SettingsController {
     );
 
     withElements('select[type=jpdb]', (element: HTMLSelectElement) => {
+      const currentValue = element.value;
+
       element.replaceChildren(
         ...decks.map((deck) =>
           createElement('option', {
@@ -216,6 +218,10 @@ class SettingsController {
           }),
         ),
       );
+
+      if (decks.some((deck) => deck.id === currentValue)) {
+        element.value = currentValue;
+      }
     });
   }
 
