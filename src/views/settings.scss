@@ -1,9 +1,9 @@
 @use 'sass:map';
 @use '@styles/variables/_colors';
 
-@use '@styles/theme/common';
-@use '@styles/theme/forms';
-@use '@styles/theme/outline';
+@use '@styles/theme/_common';
+@use '@styles/theme/_forms';
+@use '@styles/theme/_outline';
 
 h6 {
   margin-top: 1em;

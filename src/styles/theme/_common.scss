@@ -1,9 +1,9 @@
 @use 'sass:map';
 @use '../variables/_colors' as colors;
 
-@use '_reset';
-@use '_fonts';
-@use '_scrollbar';
+@use 'lib/_reset';
+@use 'lib/_fonts';
+@use 'lib/_scrollbar';
 
 html,
 body {
