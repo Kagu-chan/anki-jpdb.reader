@@ -4,6 +4,8 @@
   "description": "Mine from JPDB directly into Anki",
   "private": true,
   "scripts": {
+    "preversion": "npm run build",
+    "version": "node version && git add src/manifest.json",
     "build": "webpack --mode production --config webpack.prod.js",
     "watch": "webpack --watch --mode development --config webpack.dev.js",
     "lint": "eslint src",
