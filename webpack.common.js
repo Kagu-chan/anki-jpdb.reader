@@ -41,10 +41,8 @@ module.exports = {
         new CopyPlugin({
           patterns: [
             { from: 'assets', to: 'assets' },
-            { from: 'manifest.json', to: 'manifest.json' },
-            { from: 'hosts.json', to: 'hosts.json' },
-            { from: 'README.md', to: 'README.md' },
-            { from: 'LICENSE.md', to: 'LICENSE.md' },
+            { from: 'src/*.json', to: '[name][ext]' },
+            { from: '*.md', to: '[name][ext]' },
           ],
         }),
         new HtmlBundlerPlugin({
