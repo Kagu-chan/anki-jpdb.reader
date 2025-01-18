@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use '../variables/_colors' as colors;
 
 @import '_reset';
@@ -6,13 +7,13 @@
 
 html,
 body {
-  background-color: map-get(colors.$colors, background-color);
+  background-color: map.get(colors.$colors, background-color);
 
   min-height: 100vh;
 }
 
 body {
-  color: map-get(colors.$colors, text-color);
+  color: map.get(colors.$colors, text-color);
   max-width: 59em;
   margin: auto;
 
@@ -25,13 +26,13 @@ body {
 }
 
 a {
-  color: map-get(colors.$colors, link-color);
+  color: map.get(colors.$colors, link-color);
   text-decoration: none;
   border-bottom: 1px solid transparent;
   outline: none !important;
 
   &:hover, &:focus {
-    border-bottom: 1px solid map-get(colors.$colors, link-underline-color);
+    border-bottom: 1px solid map.get(colors.$colors, link-underline-color);
   }
 
   &[disbaled] {

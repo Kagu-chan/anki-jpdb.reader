@@ -1,4 +1,4 @@
-
+@use 'sass:map';
 
 $outlines: (
   v1: #ff3b3b,
@@ -24,20 +24,20 @@ $states: (
 );
 
 $grades: (
-  nothing: map-get($outlines, v1),
-  something: map-get($outlines, v1),
-  hard: map-get($outlines, v3),
-  okay: map-get($outlines, v4),
-  easy: map-get($states, new),
+  nothing: map.get($outlines, v1),
+  something: map.get($outlines, v1),
+  hard: map.get($outlines, v3),
+  okay: map.get($outlines, v4),
+  easy: map.get($states, new),
 
-  fail: map-get($outlines, v1),
-  pass: map-get($outlines, v4),
+  fail: map.get($outlines, v1),
+  pass: map.get($outlines, v4),
 );
 
 $decks: (
-  mining: map-get($states, new),
-  never-forget: map-get($states, known),
-  blacklist: map-get($states, blacklisted),
+  mining: map.get($states, new),
+  never-forget: map.get($states, known),
+  blacklist: map.get($states, blacklisted),
 );
 
 $buttons: (

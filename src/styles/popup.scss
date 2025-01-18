@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use 'variables/_colors' as colors;
 
 @import 'theme/common';
@@ -16,8 +17,8 @@
   padding: .5em;
   border-radius: .5em;
 
-  color: map-get(colors.$colors, text-color);
-  background-color: map-get(colors.$colors, background-color);
+  color: map.get(colors.$colors, text-color);
+  background-color: map.get(colors.$colors, background-color);
   box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.5);
 
   section {
@@ -73,7 +74,7 @@
 
         #link {
           font-size: 150%;
-          border-bottom: 1px dashed map-get(colors.$colors, link-underline-color);
+          border-bottom: 1px dashed map.get(colors.$colors, link-underline-color);
 
           &:hover {
             border-bottom-style: solid;

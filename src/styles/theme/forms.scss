@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use '../variables/_colors' as colors;
 
 .button,
@@ -5,11 +6,11 @@ button,
 input[type='button'],
 input[type='reset'],
 input[type='submit'] {
-  background-color: map-get(colors.$buttons, button-background-color);
-  border: 1px solid map-get(colors.$buttons, button-background-color);
+  background-color: map.get(colors.$buttons, button-background-color);
+  border: 1px solid map.get(colors.$buttons, button-background-color);
   border-radius: 0.7em;
 
-  color: map-get(colors.$buttons, button-text-color);
+  color: map.get(colors.$buttons, button-text-color);
   cursor: pointer;
 
   display: inline-block;
@@ -20,7 +21,7 @@ input[type='submit'] {
   text-align: center;
   text-decoration: none;
   white-space: nowrap;
-  box-shadow: 0 1px 1px map-get(colors.$buttons, button-shadow-color);
+  box-shadow: 0 1px 1px map.get(colors.$buttons, button-shadow-color);
   transition: all ease-in-out 0.2s;
   transform: translatey(-0.01em);
   -webkit-appearance: none;
@@ -28,16 +29,16 @@ input[type='submit'] {
   font-weight: normal;
 
   &:focus {
-    border: 1px solid map-get(colors.$buttons, button-focused-border-color);
-    box-shadow: 0 1px 1px map-get(colors.$buttons, button-shadow-color), 0 2px 8px map-get(colors.$buttons, button-focused-shadow-color);
+    border: 1px solid map.get(colors.$buttons, button-focused-border-color);
+    box-shadow: 0 1px 1px map.get(colors.$buttons, button-shadow-color), 0 2px 8px map.get(colors.$buttons, button-focused-shadow-color);
 
     outline: 0;
   }
 
   &:hover {
     transform: translatey(-0.25em);
-    border: 1px solid map-get(colors.$buttons, button-hover-border-color);
-    box-shadow: 0 1px 1px map-get(colors.$buttons, button-shadow-color), 0 4px 10px map-get(colors.$buttons, button-hover-shadow-color);
+    border: 1px solid map.get(colors.$buttons, button-hover-border-color);
+    box-shadow: 0 1px 1px map.get(colors.$buttons, button-shadow-color), 0 4px 10px map.get(colors.$buttons, button-hover-shadow-color);
   }
 
   &:active {
@@ -49,8 +50,8 @@ input[type='submit'] {
     opacity: 0.5;
 
     &:hover, &:focus {
-      background-color: map-get(colors.$buttons, button-background-color);
-      border-color: map-get(colors.$buttons, button-background-color);
+      background-color: map.get(colors.$buttons, button-background-color);
+      border-color: map.get(colors.$buttons, button-background-color);
     }
   }
 }
@@ -81,20 +82,20 @@ select {
   font-size: 0.95em;
   padding: 0.6em 1em;
 
-  color: map-get(colors.$inputs, input-text-color);
-  background-color: map-get(colors.$inputs, input-background-color);
+  color: map.get(colors.$inputs, input-text-color);
+  background-color: map.get(colors.$inputs, input-background-color);
 
-  border: 1px solid map-get(colors.$inputs, input-border-color);
+  border: 1px solid map.get(colors.$inputs, input-border-color);
   border-radius: 0.6em;
 
   box-sizing: inherit;
-  box-shadow: inset 0 1px 3px 0 map-get(colors.$inputs, input-box-shadow-color);
+  box-shadow: inset 0 1px 3px 0 map.get(colors.$inputs, input-box-shadow-color);
   transition: all cubic-bezier(0.39, 0.575, 0.565, 1) 0.2s;
 
   &:focus {
-    border-color: map-get(colors.$inputs, input-focused-border-color);
+    border-color: map.get(colors.$inputs, input-focused-border-color);
     outline: 0;
-    box-shadow: inset 0 1px 2px 0 map-get(colors.$inputs, input-focused-box-shadow-color);
+    box-shadow: inset 0 1px 2px 0 map.get(colors.$inputs, input-focused-box-shadow-color);
   }
 }
 
@@ -124,7 +125,7 @@ input[type='radio'] {
     content: ' ';
     width: 0.6em;
     height: 0.6em;
-    background-color: map-get(colors.$inputs, checkbox-color);
+    background-color: map.get(colors.$inputs, checkbox-color);
     border-radius: 16px;
   }
 }
@@ -154,13 +155,13 @@ input[type='radio'] {
   -webkit-appearance: none;
   appearance: none;
 
-  border: 2px solid map-get(colors.$inputs, checkbox-border-color);
+  border: 2px solid map.get(colors.$inputs, checkbox-border-color);
   border-radius: 4px;
 
-  color: map-get(colors.$inputs, checkbox-color);
-  background-color: map-get(colors.$inputs, checkbox-background-color);
+  color: map.get(colors.$inputs, checkbox-color);
+  background-color: map.get(colors.$inputs, checkbox-background-color);
 
-  box-shadow: 0 0 3px map-get(colors.$inputs, checkbox-box-shadow-color);
+  box-shadow: 0 0 3px map.get(colors.$inputs, checkbox-box-shadow-color);
 
   &[disabled], &[disabled] ~ label {
     opacity: 0.5;
@@ -172,11 +173,11 @@ input[type='radio'] {
 
   &:focus {
     outline: 0;
-    border: 2px solid map-get(colors.$inputs, checkbox-focused-border-color);
-    box-shadow: 0 0 4px map-get(colors.$inputs, checkbox-focused-box-shadow-color);
+    border: 2px solid map.get(colors.$inputs, checkbox-focused-border-color);
+    box-shadow: 0 0 4px map.get(colors.$inputs, checkbox-focused-box-shadow-color);
 
     ~ * {
-      border-bottom: 1px solid map-get(colors.$inputs, checkbox-focused-text-underline-color);
+      border-bottom: 1px solid map.get(colors.$inputs, checkbox-focused-text-underline-color);
     }
   }
 
@@ -268,7 +269,7 @@ textarea,
 }
 
 details {
-  border: 1px solid map-get(colors.$colors, accordion-border-color);
+  border: 1px solid map.get(colors.$colors, accordion-border-color);
   border-radius: 4px;
   padding: 1em;
   margin-bottom: 1em;
