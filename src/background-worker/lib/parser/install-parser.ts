@@ -1,7 +1,13 @@
 import { getConfiguration } from '@shared/configuration';
 import { injectStyle, MessageSender, openOptionsPage } from '@shared/extension';
 import { JPDBToken } from '@shared/jpdb';
-import { receiveTabMessage, sendToTab } from '@shared/messages';
+import {
+  receiveTabMessage,
+  SequenceAbortedCommand,
+  SequenceErrorCommand,
+  SequenceSuccessCommand,
+  ToastCommand,
+} from '@shared/messages';
 import { queueRequest } from '../queue-request';
 import { Parser } from './parser';
 import { Batch, Handle } from './parser.types';
@@ -24,8 +30,8 @@ const queueParagraph = (
       length: new TextEncoder().encode(text).length + 7,
     }),
   )
-    .then((tokens) => sendToTab('sequenceSuccess', sender.tab!.id!, sequenceId, tokens))
-    .catch((e: Error) => sendToTab('sequenceError', sender.tab!.id!, sequenceId, e.message))
+    .then((tokens) => new SequenceSuccessCommand(sequenceId, tokens).call(sender.tab!.id!))
+    .catch((e: Error) => new SequenceErrorCommand(sequenceId, e.message).call(sender.tab!.id!))
     .finally(() => pendingParagraphs.delete(sequenceId));
 
 const createParagraphBatches = (): Batch[] => {
@@ -62,13 +68,10 @@ export const installParser = (): void => {
     const customWordCSS = await getConfiguration('customWordCSS', true);
 
     if (!jpdbApiKey) {
-      await sendToTab(
-        'toast',
-        sender.tab!.id!,
+      await new ToastCommand(
         'error',
         'JPDB API key is not set. Please set it in the extension settings.',
-      );
-
+      ).call(sender.tab!.id!);
       await openOptionsPage();
 
       return;
@@ -103,6 +106,6 @@ export const installParser = (): void => {
   receiveTabMessage('abortRequest', async (sender, sequence): Promise<void> => {
     pendingParagraphs.delete(sequence);
 
-    await sendToTab('sequenceAborted', sender.tab!.id!, sequence);
+    await new SequenceAbortedCommand(sequence).call(sender.tab!.id!);
   });
 };

@@ -1,6 +1,5 @@
 import { getLastError, tabs } from '@shared/extension';
 import { BroadcastEventArgs, BroadcastEvents } from '../types/broadcast';
-import { TabEventArgs, TabEventResult, TabEvents } from '../types/tab';
 
 function send<T>(
   event: string,
@@ -20,12 +19,6 @@ function send<T>(
     });
   });
 }
-
-export const sendToTab = <TEvent extends keyof TabEvents>(
-  event: TEvent,
-  tabId: number,
-  ...args: TabEventArgs<TEvent>
-): Promise<TabEventResult<TEvent>> => send(event, tabId, false, ...args);
 
 export const broadcastToTab = <TEvent extends keyof BroadcastEvents>(
   event: TEvent,

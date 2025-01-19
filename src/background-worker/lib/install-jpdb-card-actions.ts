@@ -8,7 +8,7 @@ import {
   removeVocabulary,
   review,
 } from '@shared/jpdb';
-import { broadcast, sendToTab, receiveTabMessage } from '@shared/messages';
+import { broadcast, receiveTabMessage, ToastCommand } from '@shared/messages';
 
 async function getDeck(
   sender: MessageSender,
@@ -23,7 +23,7 @@ async function getDeck(
   );
 
   if (!deck) {
-    await sendToTab('toast', sender.tab!.id!, 'error', `No deck selected for ${key}`);
+    await new ToastCommand('error', `No deck selected for ${key}`).call(sender.tab!.id!);
 
     return false;
   }

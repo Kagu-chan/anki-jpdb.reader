@@ -3,9 +3,7 @@
 //#region Send messages
 
 import { broadcast } from './sending/broadcast';
-import { sendToTab } from './sending/send-to-tab';
-
-export { broadcast, sendToTab };
+export { broadcast };
 
 //#endregion
 //#region Receiving messages
@@ -26,4 +24,5 @@ export * from './types/tab';
 
 //#endregion
 
+export * from './foreground';
 export * from './background';

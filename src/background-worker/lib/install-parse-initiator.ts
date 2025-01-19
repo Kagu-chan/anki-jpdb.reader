@@ -1,14 +1,17 @@
 import { addContextMenu } from '@shared/extension';
-import { sendToTab } from '@shared/messages';
+import { ParsePageCommand, ParseSelectionCommand } from '@shared/messages';
 
 export function installParseInitiator(): void {
+  const parsePage = new ParsePageCommand();
+  const parseSelection = new ParseSelectionCommand();
+
   addContextMenu(
     {
       id: 'parse-selection',
       title: 'Parse selected text',
       contexts: ['selection'],
     },
-    (_, { id: tabId }) => sendToTab('parseSelection', tabId!),
+    (_, { id: tabId }) => parseSelection.send(tabId!),
   );
 
   addContextMenu(
@@ -17,6 +20,6 @@ export function installParseInitiator(): void {
       title: 'Parse page',
       contexts: ['page'],
     },
-    (_, { id: tabId }) => sendToTab('parsePage', tabId!),
+    (_, { id: tabId }) => parsePage.send(tabId!),
   );
 }

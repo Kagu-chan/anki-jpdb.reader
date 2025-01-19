@@ -1,17 +1,18 @@
-import { getLastError, runtime } from '@shared/extension';
+import { getLastError, tabs } from '@shared/extension';
 import { Command } from '../lib/command';
 
-export abstract class BackgroundCommand<
+export abstract class ForegroundCommand<
   TArguments extends unknown[] = [],
   TResult = void,
 > extends Command<TArguments> {
-  public send<T>(afterCall?: (r: TResult) => T | Promise<T>): void {
-    void this.call(afterCall);
+  public send<T>(tabId: number, afterCall?: (r: TResult) => T | Promise<T>): void {
+    void this.call(tabId, afterCall);
   }
 
-  public call<T>(afterCall?: (r: TResult) => T | Promise<T>): Promise<TResult> {
+  public call<T>(tabId: number, afterCall?: (r: TResult) => T | Promise<T>): Promise<TResult> {
     const promise = new Promise<TResult>((resolve, reject) => {
-      runtime.sendMessage(
+      tabs.sendMessage(
+        tabId,
         {
           event: this.key,
           isBroadcast: false,
