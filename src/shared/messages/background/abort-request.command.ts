@@ -1,4 +1,4 @@
-import { BackgroundCommand } from './background-command';
+import { BackgroundCommand } from '../lib/background-command';
 
 export class AbortRequestCommand extends BackgroundCommand<[sequence: number]> {
   public readonly key = 'abortRequest';

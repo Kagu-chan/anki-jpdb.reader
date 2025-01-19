@@ -1,5 +1,5 @@
-import { getLastError, getTabs, runtime, tabs } from '../../extension';
-import { Command } from '../lib/command';
+import { getLastError, getTabs, runtime, tabs } from '@shared/extension';
+import { Command } from './command';
 
 export abstract class BroadcastCommand<
   TArguments extends unknown[] = [],

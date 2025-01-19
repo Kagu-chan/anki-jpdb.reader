@@ -1,5 +1,5 @@
 import { getLastError, tabs } from '@shared/extension';
-import { Command } from '../lib/command';
+import { Command } from './command';
 
 export abstract class ForegroundCommand<
   TArguments extends unknown[] = [],
