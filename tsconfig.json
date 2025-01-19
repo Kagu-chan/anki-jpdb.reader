@@ -8,6 +8,7 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
+    "removeComments": true,
     "strictNullChecks": true,
     "baseUrl": "./",
     "paths": {

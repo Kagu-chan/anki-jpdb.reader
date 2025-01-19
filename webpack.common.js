@@ -95,6 +95,9 @@ module.exports = {
         path: path.resolve(__dirname, 'anki-jpdb.reader'),
         clean: true,
       },
+      optimization: {
+        minimize: false,
+      }
     };
   },
 };
