@@ -1,7 +1,7 @@
 import { getConfiguration } from '@shared/configuration';
 import { displayToast } from '@shared/dom';
 import { JPDBCardState } from '@shared/jpdb';
-import { onBroadcastMessage, receiveBackgroundMessage, sendToBackground } from '@shared/messages';
+import { LookupTextCommand, onBroadcastMessage, receiveBackgroundMessage } from '@shared/messages';
 import { KeybindManager } from './integration/keybind-manager';
 import { Registry } from './integration/registry';
 import { AutomaticParser } from './parser/automatic.parser';
@@ -42,14 +42,14 @@ export class AJB {
     );
   }
 
-  protected async lookupText(text: string | undefined): Promise<void> {
+  protected lookupText(text: string | undefined): void {
     if (!text?.length) {
       displayToast('error', 'No text to lookup!');
 
       return;
     }
 
-    await sendToBackground('lookupText', text);
+    new LookupTextCommand(text).send();
   }
 
   private installParsers(): void {

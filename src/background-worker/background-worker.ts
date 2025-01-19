@@ -4,6 +4,12 @@ import { installLookupController } from './lib/install-lookup-controller';
 import { installParseInitiator } from './lib/install-parse-initiator';
 import { installParser } from './lib/parser/install-parser';
 
+// import {
+//   LookupTextCommand,
+//   LookupTextCommandHandler,
+//   TabMessageHandler,
+// } from './lib/request-handler';
+
 export class BackgroundWorker {
   constructor() {
     installParseInitiator();
@@ -17,3 +23,7 @@ export class BackgroundWorker {
 }
 
 new BackgroundWorker();
+
+// new TabMessageHandler(new LookupTextCommandHandler()).listen();
+
+// new LookupTextCommand('test').send();

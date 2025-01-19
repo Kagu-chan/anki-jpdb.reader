@@ -1,6 +1,6 @@
 import { getConfiguration, ConfigurationSchema, Keybind } from '@shared/configuration';
 import { JPDBCard, JPDBGrade } from '@shared/jpdb';
-import { onBroadcastMessage, sendToBackground } from '@shared/messages';
+import { GradeCardCommand, onBroadcastMessage, UpdateCardStateCommand } from '@shared/messages';
 import { FilterKeys } from '@shared/types';
 import { KeybindManager } from '../integration/keybind-manager';
 import { Registry } from '../integration/registry';
@@ -98,8 +98,8 @@ export class GradingActions {
 
     const { vid, sid } = this._card;
 
-    await sendToBackground('gradeCard', vid, sid, grade);
-    await sendToBackground('updateCardState', vid, sid);
+    await new GradeCardCommand(vid, sid, grade).call();
+    await new UpdateCardStateCommand(vid, sid).call();
   }
 
   private async rotateFlag(forward: boolean): Promise<void> {

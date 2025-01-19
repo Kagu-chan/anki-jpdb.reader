@@ -1,4 +1,4 @@
-import { receiveBackgroundMessage, fireToBackground } from '@shared/messages';
+import { receiveBackgroundMessage, AbortRequestCommand } from '@shared/messages';
 import { Canceled } from './canceled';
 import { AbortableSequence, PreparedRequest, Sequence } from './types';
 
@@ -40,7 +40,7 @@ export class SequenceManager {
     const abortController = new AbortController();
     const promise = new Promise<R>((resolve, reject) => {
       abortController.signal.addEventListener('abort', () =>
-        fireToBackground('abortRequest', sequenceId),
+        new AbortRequestCommand(sequenceId).send(),
       );
       this._requests.set(sequenceId, { resolve, reject });
     });
