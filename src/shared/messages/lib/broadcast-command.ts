@@ -18,11 +18,13 @@ export abstract class BroadcastCommand<
 
   protected getArguments(): {
     event: string;
+    command: string;
     isBroadcast: true;
     args: TArguments;
   } {
     return {
       event: this.key,
+      command: this.constructor.name,
       isBroadcast: true,
       args: this.arguments,
     };

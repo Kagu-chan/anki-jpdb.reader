@@ -14,6 +14,7 @@ export abstract class BackgroundCommand<
       runtime.sendMessage(
         {
           event: this.key,
+          command: this.constructor.name,
           isBroadcast: false,
           args: this.arguments,
         },

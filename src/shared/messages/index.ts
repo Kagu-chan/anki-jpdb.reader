@@ -19,3 +19,4 @@ export * from './types/tab';
 export * from './foreground';
 export * from './background';
 export * from './broadcast';
+export * from './lib';

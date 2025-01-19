@@ -1,29 +1,30 @@
+import { GradeCardCommandHandler } from './jpdb-card-actions/grade-card-command.handler';
+import { RunDeckActionCommandHandler } from './jpdb-card-actions/run-deck-action-command.handler';
+import { UpdateCardStateCommandHandler } from './jpdb-card-actions/update-card-state-command.handler';
+import { BackgroundCommandHandlerCollection } from './lib/background-command-handler-collection';
 import { installInstallListeners } from './lib/install-install-listeners';
-import { installJpdbCardActions } from './lib/install-jpdb-card-actions';
-import { installLookupController } from './lib/install-lookup-controller';
 import { installParseInitiator } from './lib/install-parse-initiator';
 import { installParser } from './lib/parser/install-parser';
+import { LookupController } from './lookup/lookup-controller';
+import { LookupTextCommandHandler } from './lookup/lookup-text-command.handler';
 
-// import {
-//   LookupTextCommand,
-//   LookupTextCommandHandler,
-//   TabMessageHandler,
-// } from './lib/request-handler';
+const lookupController = new LookupController();
+const lookupTextCommandHandler = new LookupTextCommandHandler(lookupController);
 
-export class BackgroundWorker {
-  constructor() {
-    installParseInitiator();
-    installParser();
+const updateCardStateCommandHandler = new UpdateCardStateCommandHandler();
+const gradeCardCommandHandler = new GradeCardCommandHandler();
+const runDeckActionCommandHandler = new RunDeckActionCommandHandler();
 
-    installInstallListeners();
+const handlerCollection = new BackgroundCommandHandlerCollection(
+  lookupTextCommandHandler,
+  updateCardStateCommandHandler,
+  gradeCardCommandHandler,
+  runDeckActionCommandHandler,
+);
 
-    void installLookupController();
-    void installJpdbCardActions();
-  }
-}
+installParseInitiator();
+installParser();
 
-new BackgroundWorker();
+installInstallListeners();
 
-// new TabMessageHandler(new LookupTextCommandHandler()).listen();
-
-// new LookupTextCommand('test').send();
+handlerCollection.listen();

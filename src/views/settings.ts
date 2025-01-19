@@ -32,6 +32,8 @@ class SettingsController {
 
   private _saveButton = findElement<'button'>('#save-all-settings');
 
+  private _configurationUpdated = new ConfigurationUpdatedCommand();
+
   /**
    * FOR DEBUGGING PURPOSES ONLY!
    */
@@ -152,7 +154,7 @@ class SettingsController {
 
       displayToast('success', 'Settings saved successfully');
 
-      new ConfigurationUpdatedCommand().send();
+      this._configurationUpdated.send();
     };
   }
 
