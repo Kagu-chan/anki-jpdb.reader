@@ -7,9 +7,11 @@ import { GradeCardCommandHandler } from './jpdb-card-actions/grade-card-command.
 import { RunDeckActionCommandHandler } from './jpdb-card-actions/run-deck-action-command.handler';
 import { UpdateCardStateCommandHandler } from './jpdb-card-actions/update-card-state-command.handler';
 import { BackgroundCommandHandlerCollection } from './lib/background-command-handler-collection';
-import { installParser } from './lib/parser/install-parser';
 import { LookupController } from './lookup/lookup-controller';
 import { LookupTextCommandHandler } from './lookup/lookup-text-command.handler';
+import { AbortRequestCommandHandler } from './parser/abort-request-command.handler';
+import { ParseCommandHandler } from './parser/parse-command.handler';
+import { ParseController } from './parser/parse.controller';
 
 const parsePageCommand = new ParsePageCommand();
 const parseSelectionCommand = new ParseSelectionCommand();
@@ -17,18 +19,22 @@ const parseSelectionCommand = new ParseSelectionCommand();
 const lookupController = new LookupController();
 const lookupTextCommandHandler = new LookupTextCommandHandler(lookupController);
 
+const parseController = new ParseController();
+const parseCommandHandler = new ParseCommandHandler(parseController);
+const abortRequestCommandHandler = new AbortRequestCommandHandler(parseController);
+
 const updateCardStateCommandHandler = new UpdateCardStateCommandHandler();
 const gradeCardCommandHandler = new GradeCardCommandHandler();
 const runDeckActionCommandHandler = new RunDeckActionCommandHandler();
 
 const handlerCollection = new BackgroundCommandHandlerCollection(
   lookupTextCommandHandler,
+  parseCommandHandler,
+  abortRequestCommandHandler,
   updateCardStateCommandHandler,
   gradeCardCommandHandler,
   runDeckActionCommandHandler,
 );
-
-installParser();
 
 handlerCollection.listen();
 
