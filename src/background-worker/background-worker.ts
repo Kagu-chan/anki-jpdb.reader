@@ -1,10 +1,8 @@
-import {
-  addContextMenu,
-  addInstallListener,
-  OnInstalledReason,
-  openOptionsPage,
-} from '@shared/extension';
-import { ParsePageCommand, ParseSelectionCommand } from '@shared/messages';
+import { addContextMenu } from '@shared/extension/add-context-menu';
+import { addInstallListener, OnInstalledReason } from '@shared/extension/add-install-listener';
+import { openOptionsPage } from '@shared/extension/open-options-page';
+import { ParsePageCommand } from '@shared/messages/foreground/parse-page.command';
+import { ParseSelectionCommand } from '@shared/messages/foreground/parse-selection.command';
 import { GradeCardCommandHandler } from './jpdb-card-actions/grade-card-command.handler';
 import { RunDeckActionCommandHandler } from './jpdb-card-actions/run-deck-action-command.handler';
 import { UpdateCardStateCommandHandler } from './jpdb-card-actions/update-card-state-command.handler';

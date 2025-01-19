@@ -1,5 +1,5 @@
-import { createElement } from '@shared/dom';
-import { JPDBCard, JPDBToken } from '@shared/jpdb';
+import { createElement } from '@shared/dom/create-element';
+import { JPDBCard, JPDBToken } from '@shared/jpdb/types';
 import { Fragment } from '../batches/types';
 import { Registry } from '../integration/registry';
 import { BaseTextHighlighter } from './base.text-highlighter';

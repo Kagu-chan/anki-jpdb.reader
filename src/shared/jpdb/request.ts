@@ -1,5 +1,5 @@
-import { getConfiguration } from '@shared/configuration';
-import { displayToast } from '@shared/dom';
+import { getConfiguration } from '../configuration/get-configuration';
+import { displayToast } from '../dom/display-toast';
 import { JPDBEndpoints, JPDBErrorResponse, JPDBRequestOptions } from './api.types';
 
 export const request = async <Key extends keyof JPDBEndpoints>(

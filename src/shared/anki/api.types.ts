@@ -1,4 +1,4 @@
-import { Empty } from '@shared/types';
+import { Empty } from '../types';
 
 type ModelFieldNamesRequest = { modelName: string };
 

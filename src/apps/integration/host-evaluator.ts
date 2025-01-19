@@ -1,4 +1,5 @@
-import { getHostMeta, HostMeta } from '@shared/host-meta';
+import { getHostMeta } from '@shared/host-meta/get-host-meta';
+import { HostMeta } from '@shared/host-meta/types';
 
 export class HostEvaluator {
   private _isMainFrame = window === window.top;

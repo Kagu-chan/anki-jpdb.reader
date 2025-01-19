@@ -1,6 +1,7 @@
-import { MessageSender } from '@shared/extension';
-import { JPDBGrade, review } from '@shared/jpdb';
-import { GradeCardCommand } from '@shared/messages';
+import { MessageSender } from '@shared/extension/types';
+import { review } from '@shared/jpdb/review';
+import { JPDBGrade } from '@shared/jpdb/types';
+import { GradeCardCommand } from '@shared/messages/background/grade-card.command';
 import { BackgroundCommandHandler } from '../lib/background-command-handler';
 
 export class GradeCardCommandHandler extends BackgroundCommandHandler<GradeCardCommand> {

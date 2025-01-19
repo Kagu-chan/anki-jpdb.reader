@@ -1,4 +1,5 @@
-import { getLastError, tabs } from '@shared/extension';
+import { getLastError } from '../../extension/get-last-error';
+import { tabs } from '../../extension/tabs';
 import { Command } from './command';
 
 export abstract class ForegroundCommand<

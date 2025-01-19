@@ -1,5 +1,5 @@
-import { JPDBCardState } from '@shared/jpdb';
-import { PotentialPromise } from '@shared/types';
+import { JPDBCardState } from '../../jpdb/types';
+import { PotentialPromise } from '../../types';
 
 /**
  * Defines events emitted from any part of the extension to all parts of the extension

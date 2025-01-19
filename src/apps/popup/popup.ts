@@ -1,13 +1,13 @@
-import { getConfiguration } from '@shared/configuration';
-import { createElement, findElements, withElement } from '@shared/dom';
-import { getStyleUrl } from '@shared/extension';
-import { JPDBCard, JPDBGrade } from '@shared/jpdb';
-import {
-  GradeCardCommand,
-  onBroadcastMessage,
-  RunDeckActionCommand,
-  UpdateCardStateCommand,
-} from '@shared/messages';
+import { getConfiguration } from '@shared/configuration/get-configuration';
+import { createElement } from '@shared/dom/create-element';
+import { findElements } from '@shared/dom/find-elements';
+import { withElement } from '@shared/dom/with-element';
+import { getStyleUrl } from '@shared/extension/get-style-url';
+import { JPDBCard, JPDBGrade } from '@shared/jpdb/types';
+import { GradeCardCommand } from '@shared/messages/background/grade-card.command';
+import { RunDeckActionCommand } from '@shared/messages/background/run-deck-action.command';
+import { UpdateCardStateCommand } from '@shared/messages/background/update-card-state.command';
+import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
 import { KeybindManager } from '../integration/keybind-manager';
 import { Registry } from '../integration/registry';
 import { PARTS_OF_SPEECH } from './part-of-speech';

@@ -1,4 +1,4 @@
-import { JPDBToken } from '@shared/jpdb';
+import { JPDBToken } from '@shared/jpdb/types';
 import { applyTokens } from '../../batches/apply-tokens';
 import { Paragraph } from '../../batches/types';
 import { Registry } from '../../integration/registry';

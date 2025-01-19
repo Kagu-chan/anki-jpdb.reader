@@ -1,4 +1,5 @@
-import { receiveBackgroundMessage, AbortRequestCommand } from '@shared/messages';
+import { AbortRequestCommand } from '@shared/messages/background/abort-request.command';
+import { receiveBackgroundMessage } from '@shared/messages/receiving/receive-background-message';
 import { Canceled } from './canceled';
 import { AbortableSequence, PreparedRequest, Sequence } from './types';
 

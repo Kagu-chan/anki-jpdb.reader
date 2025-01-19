@@ -1,13 +1,10 @@
-import {
-  AnkiFieldTemplateName,
-  DeckConfiguration,
-  TemplateTarget,
-  getDecks,
-  getFields,
-  getModels,
-} from '@shared/anki';
-import { createElement, displayToast } from '@shared/dom';
-import { getStyleUrl } from '@shared/extension';
+import { getDecks } from '@shared/anki/get-decks';
+import { getFields } from '@shared/anki/get-fields';
+import { getModels } from '@shared/anki/get-models';
+import { AnkiFieldTemplateName, DeckConfiguration, TemplateTarget } from '@shared/anki/types';
+import { createElement } from '@shared/dom/create-element';
+import { displayToast } from '@shared/dom/display-toast';
+import { getStyleUrl } from '@shared/extension/get-style-url';
 
 const observedAttributes = ['value', 'name', 'fetch-url', 'title'] as const;
 

@@ -1,5 +1,6 @@
-import { MessageSender, runtime } from '@shared/extension';
-import { PotentialPromise } from '@shared/types';
+import { runtime } from '../../extension/runtime';
+import { MessageSender } from '../../extension/types';
+import { PotentialPromise } from '../../types';
 import {
   BackgroundEventArgs,
   BackgroundEventFunction,

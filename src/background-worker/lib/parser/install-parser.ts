@@ -1,13 +1,13 @@
-import { getConfiguration } from '@shared/configuration';
-import { injectStyle, MessageSender, openOptionsPage } from '@shared/extension';
-import { JPDBToken } from '@shared/jpdb';
-import {
-  receiveTabMessage,
-  SequenceAbortedCommand,
-  SequenceErrorCommand,
-  SequenceSuccessCommand,
-  ToastCommand,
-} from '@shared/messages';
+import { getConfiguration } from '@shared/configuration/get-configuration';
+import { injectStyle } from '@shared/extension/inject-style';
+import { openOptionsPage } from '@shared/extension/open-options-page';
+import { MessageSender } from '@shared/extension/types';
+import { JPDBToken } from '@shared/jpdb/types';
+import { SequenceAbortedCommand } from '@shared/messages/foreground/sequence-aborted.command';
+import { SequenceErrorCommand } from '@shared/messages/foreground/sequence-error.command';
+import { SequenceSuccessCommand } from '@shared/messages/foreground/sequence-success.command';
+import { ToastCommand } from '@shared/messages/foreground/toast.command';
+import { receiveTabMessage } from '@shared/messages/receiving/receive-tab-message';
 import { queueRequest } from '../queue-request';
 import { Parser } from './parser';
 import { Batch, Handle } from './parser.types';

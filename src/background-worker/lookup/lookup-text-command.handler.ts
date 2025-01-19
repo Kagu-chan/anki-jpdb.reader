@@ -1,5 +1,5 @@
-import { MessageSender } from '@shared/extension';
-import { LookupTextCommand } from '@shared/messages';
+import { MessageSender } from '@shared/extension/types';
+import { LookupTextCommand } from '@shared/messages/background/lookup-text.command';
 import { BackgroundCommandHandler } from '../lib/background-command-handler';
 import { LookupController } from './lookup-controller';
 

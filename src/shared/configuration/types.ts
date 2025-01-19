@@ -1,4 +1,4 @@
-import { DeckConfiguration, DiscoverWordConfiguration } from '@shared/anki';
+import { DeckConfiguration, DiscoverWordConfiguration } from '../anki/types';
 
 export type Keybind = { key: string; code: string; modifiers: string[] };
 export type ConfigurationSchema = {

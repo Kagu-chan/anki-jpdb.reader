@@ -1,5 +1,6 @@
-import { MessageSender, runtime } from '@shared/extension';
-import { BackgroundCommand } from '@shared/messages';
+import { runtime } from '@shared/extension/runtime';
+import { MessageSender } from '@shared/extension/types';
+import { BackgroundCommand } from '@shared/messages/lib/background-command';
 import { BackgroundCommandHandler } from './background-command-handler';
 
 type Request = {

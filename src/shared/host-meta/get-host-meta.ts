@@ -1,4 +1,4 @@
-import { getURL } from '@shared/extension';
+import { getURL } from '../extension/get-url';
 import { HostMeta } from './types';
 
 let hostsMeta: HostMeta[];

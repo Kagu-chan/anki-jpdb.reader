@@ -1,5 +1,5 @@
-import { getConfiguration } from '@shared/configuration';
-import { onBroadcastMessage } from '@shared/messages';
+import { getConfiguration } from '@shared/configuration/get-configuration';
+import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
 import { KeybindManager } from '../integration/keybind-manager';
 import { Registry } from '../integration/registry';
 import { GradingActions } from './grading-actions';

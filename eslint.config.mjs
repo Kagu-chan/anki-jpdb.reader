@@ -24,9 +24,6 @@ const noRestrictedImportsPatterns = [{
     group: ["**/../shared/**/*", "**/../styles/**/*"],
     message: "Use @* instead.",
 }, {
-    group: ["@shared/*/**/*"],
-    message: "Use @shared/moduleName instead.",
-}, {
     group: ["**/apps/**/*", "**/background-worker/**/*", "**/views/**/*"],
     message: "This import hints to a missscoped module.",
 }];
@@ -208,7 +205,7 @@ export default [{
     "rules": {
         "no-restricted-imports": ["error", {
             patterns: [...noRestrictedImportsPatterns, {
-                group: ["@shared/anki", "@shared/jpdb"],
+                group: ["@shared/anki/**/*", "@shared/jpdb/**/*"],
                 allowImportNamePattern: "^[A-Z]",
                 caseSensitive: true,
                 message: "Only use those APIs in background context.",

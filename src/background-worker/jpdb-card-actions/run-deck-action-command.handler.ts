@@ -1,7 +1,11 @@
-import { ConfigurationSchema, getConfiguration } from '@shared/configuration';
-import { MessageSender } from '@shared/extension';
-import { addVocabulary, JPDBSpecialDeckNames, removeVocabulary } from '@shared/jpdb';
-import { RunDeckActionCommand, ToastCommand } from '@shared/messages';
+import { getConfiguration } from '@shared/configuration/get-configuration';
+import { ConfigurationSchema } from '@shared/configuration/types';
+import { MessageSender } from '@shared/extension/types';
+import { addVocabulary } from '@shared/jpdb/add-vocabulary';
+import { removeVocabulary } from '@shared/jpdb/remove-vocabulary';
+import { JPDBSpecialDeckNames } from '@shared/jpdb/types';
+import { RunDeckActionCommand } from '@shared/messages/background/run-deck-action.command';
+import { ToastCommand } from '@shared/messages/foreground/toast.command';
 import { BackgroundCommandHandler } from '../lib/background-command-handler';
 
 export class RunDeckActionCommandHandler extends BackgroundCommandHandler<RunDeckActionCommand> {

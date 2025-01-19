@@ -1,7 +1,9 @@
-import { getConfiguration } from '@shared/configuration';
-import { displayToast } from '@shared/dom';
-import { JPDBCardState } from '@shared/jpdb';
-import { LookupTextCommand, onBroadcastMessage, receiveBackgroundMessage } from '@shared/messages';
+import { getConfiguration } from '@shared/configuration/get-configuration';
+import { displayToast } from '@shared/dom/display-toast';
+import { JPDBCardState } from '@shared/jpdb/types';
+import { LookupTextCommand } from '@shared/messages/background/lookup-text.command';
+import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
+import { receiveBackgroundMessage } from '@shared/messages/receiving/receive-background-message';
 import { KeybindManager } from './integration/keybind-manager';
 import { Registry } from './integration/registry';
 import { AutomaticParser } from './parser/automatic.parser';

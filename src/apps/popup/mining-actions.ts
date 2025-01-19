@@ -1,5 +1,6 @@
-import { JPDBCard } from '@shared/jpdb';
-import { RunDeckActionCommand, UpdateCardStateCommand } from '@shared/messages';
+import { JPDBCard } from '@shared/jpdb/types';
+import { RunDeckActionCommand } from '@shared/messages/background/run-deck-action.command';
+import { UpdateCardStateCommand } from '@shared/messages/background/update-card-state.command';
 import { KeybindManager } from '../integration/keybind-manager';
 import { Registry } from '../integration/registry';
 

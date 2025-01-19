@@ -1,6 +1,6 @@
-import { Keybind } from '@shared/configuration';
-import { createElement } from '@shared/dom';
-import { getStyleUrl } from '@shared/extension';
+import { Keybind } from '@shared/configuration/types';
+import { createElement } from '@shared/dom/create-element';
+import { getStyleUrl } from '@shared/extension/get-style-url';
 
 const observedAttributes = ['value', 'name'] as const;
 

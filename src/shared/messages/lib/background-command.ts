@@ -1,4 +1,5 @@
-import { getLastError, runtime } from '@shared/extension';
+import { getLastError } from '../../extension/get-last-error';
+import { runtime } from '../../extension/runtime';
 import { Command } from '../lib/command';
 
 export abstract class BackgroundCommand<

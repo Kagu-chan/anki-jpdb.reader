@@ -1,4 +1,7 @@
-import { getLastError, getTabs, runtime, tabs } from '@shared/extension';
+import { getLastError } from '../../extension/get-last-error';
+import { getTabs } from '../../extension/get-tabs';
+import { runtime } from '../../extension/runtime';
+import { tabs } from '../../extension/tabs';
 import { Command } from './command';
 
 export abstract class BroadcastCommand<

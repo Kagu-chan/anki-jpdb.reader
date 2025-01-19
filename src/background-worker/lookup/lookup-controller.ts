@@ -1,4 +1,5 @@
-import { addContextMenu, openNewTab } from '@shared/extension';
+import { addContextMenu } from '@shared/extension/add-context-menu';
+import { openNewTab } from '@shared/extension/open-new-tab';
 
 export class LookupController {
   constructor() {

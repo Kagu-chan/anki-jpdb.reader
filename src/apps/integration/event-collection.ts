@@ -1,4 +1,4 @@
-import { LocalEventArgs, LocalEventFunction, LocalEvents } from '@shared/messages';
+import { LocalEventArgs, LocalEventFunction, LocalEvents } from '@shared/messages/types/local';
 
 export class EventCollection {
   private _map = new Map<keyof LocalEvents, Set<LocalEventFunction>>();

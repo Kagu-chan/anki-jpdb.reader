@@ -1,4 +1,4 @@
-import { Empty } from '@shared/types';
+import { Empty } from '../types';
 import { JPDBCardState, JPDBDeck, JPDBGrade, JPDBParseResult, JPDBSpecialDeckNames } from './types';
 
 type JPDBFieldNames =

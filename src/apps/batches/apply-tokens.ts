@@ -1,4 +1,4 @@
-import { JPDBToken } from '@shared/jpdb';
+import { JPDBToken } from '@shared/jpdb/types';
 import { Registry } from '../integration/registry';
 import { Fragment } from './types';
 

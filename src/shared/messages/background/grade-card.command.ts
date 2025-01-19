@@ -1,4 +1,4 @@
-import { JPDBGrade } from '@shared/jpdb';
+import { JPDBGrade } from '../../jpdb/types';
 import { BackgroundCommand } from '../lib/background-command';
 
 export class GradeCardCommand extends BackgroundCommand<

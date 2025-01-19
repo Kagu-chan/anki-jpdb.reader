@@ -1,5 +1,5 @@
-import { DeckConfiguration, DiscoverWordConfiguration } from '@shared/anki';
-import { FilterKeys } from '@shared/types';
+import { DeckConfiguration, DiscoverWordConfiguration } from '../anki/types';
+import { FilterKeys } from '../types';
 import { ConfigurationSchema, Keybind } from './types';
 
 export type ConfigurationNumberKeys = FilterKeys<ConfigurationSchema, number>[];

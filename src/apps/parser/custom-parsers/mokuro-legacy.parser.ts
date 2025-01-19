@@ -1,4 +1,4 @@
-import { HostMeta } from '@shared/host-meta';
+import { HostMeta } from '@shared/host-meta/types';
 import { Registry } from '../../integration/registry';
 import { AutomaticParser } from '../automatic.parser';
 import { getMokuroParagraphs } from './mokuro/get-mokuro-paragraphs';

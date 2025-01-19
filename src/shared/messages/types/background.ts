@@ -1,5 +1,5 @@
-import { MessageSender } from '@shared/extension';
-import { JPDBGrade } from '@shared/jpdb';
+import { MessageSender } from '../../extension';
+import { JPDBGrade } from '../../jpdb/types';
 
 /**
  * Defines events emitted from the browser to the extension

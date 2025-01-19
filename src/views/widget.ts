@@ -1,7 +1,9 @@
-import { appendElement, onLoaded } from '@shared/dom';
-import { getTabs, openOptionsPage } from '@shared/extension';
-import { isDisabled } from '@shared/host-meta';
-import { ParsePageCommand } from '@shared/messages';
+import { appendElement } from '@shared/dom/append-element';
+import { onLoaded } from '@shared/dom/on-loaded';
+import { getTabs } from '@shared/extension/get-tabs';
+import { openOptionsPage } from '@shared/extension/open-options-page';
+import { isDisabled } from '@shared/host-meta/is-disabled';
+import { ParsePageCommand } from '@shared/messages/foreground/parse-page.command';
 
 onLoaded(async () => {
   document.getElementById('settings-link')?.addEventListener('click', () => {

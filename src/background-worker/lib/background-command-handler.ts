@@ -1,5 +1,5 @@
-import { MessageSender } from '@shared/extension';
-import { BackgroundCommand } from '@shared/messages';
+import { MessageSender } from '@shared/extension/types';
+import { BackgroundCommand } from '@shared/messages/lib/background-command';
 import { PotentialPromise } from '@shared/types';
 
 type ArgumentsFor<T> = T extends BackgroundCommand<infer U, unknown> ? U : never;

@@ -1,4 +1,4 @@
-import { HostMeta } from '@shared/host-meta';
+import { HostMeta } from '@shared/host-meta/types';
 import { BaseParser } from './base.parser';
 
 export class AutomaticParser extends BaseParser {

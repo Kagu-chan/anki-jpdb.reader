@@ -1,4 +1,4 @@
-import { JPDBCard, JPDBCardState, JPDBToken } from '@shared/jpdb';
+import { JPDBCard, JPDBCardState, JPDBToken } from '@shared/jpdb/types';
 import { BatchController } from '../batches/batch-controller';
 import { Fragment } from '../batches/types';
 import { BaseParser } from '../parser/base.parser';

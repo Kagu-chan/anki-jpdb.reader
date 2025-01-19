@@ -1,5 +1,5 @@
-import { ConfigurationSchema } from '@shared/configuration';
-import { writeStorage } from '@shared/extension';
+import { writeStorage } from '../extension/write-storage';
+import { ConfigurationSchema } from './types';
 
 export const setConfiguration = async <K extends keyof ConfigurationSchema>(
   key: K,

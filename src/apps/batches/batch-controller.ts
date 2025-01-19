@@ -1,6 +1,6 @@
-import { displayToast } from '@shared/dom';
-import { JPDBToken } from '@shared/jpdb';
-import { ParseCommand } from '@shared/messages';
+import { displayToast } from '@shared/dom/display-toast';
+import { JPDBToken } from '@shared/jpdb/types';
+import { ParseCommand } from '@shared/messages/background/parse.command';
 import { Registry } from '../integration/registry';
 import { Canceled } from '../sequence/canceled';
 import { AbortableSequence } from '../sequence/types';

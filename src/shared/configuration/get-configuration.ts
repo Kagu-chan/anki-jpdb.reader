@@ -1,13 +1,12 @@
-import { Keybind } from '@shared/configuration';
-import { readStorage } from '@shared/extension';
-import { FilterKeys } from '@shared/types';
+import { readStorage } from '../extension/read-storage';
+import { FilterKeys } from '../types';
 import { DEFAULT_CONFIGURATION } from './default-configuration';
 import {
   ConfigurationBooleanKeys,
   ConfigurationNumberKeys,
   ConfigurationObjectKeys,
 } from './keys.types';
-import { ConfigurationSchema } from './types';
+import { ConfigurationSchema, Keybind } from './types';
 
 const NUMBER_KEYS: ConfigurationNumberKeys = ['schemaVersion', 'contextWidth', 'hidePopupDelay'];
 const BOOLEAN_KEYS: ConfigurationBooleanKeys = [

@@ -1,4 +1,5 @@
-import { JPDBCard, JPDBRawToken, JPDBRawVocabulary, JPDBToken, parse } from '@shared/jpdb';
+import { parse } from '@shared/jpdb/parse';
+import { JPDBCard, JPDBRawToken, JPDBRawVocabulary, JPDBToken } from '@shared/jpdb/types';
 import { Batch } from './parser.types';
 
 export class Parser {
