@@ -8,7 +8,7 @@ import {
   removeVocabulary,
   review,
 } from '@shared/jpdb';
-import { broadcast, receiveTabMessage, ToastCommand } from '@shared/messages';
+import { CardStateUpdatedCommand, receiveTabMessage, ToastCommand } from '@shared/messages';
 
 async function getDeck(
   sender: MessageSender,
@@ -57,7 +57,7 @@ export const installJpdbCardActions = (): void => {
   receiveTabMessage('updateCardState', async (_, vid: number, sid: number) => {
     const newCardState = await getCardState(vid, sid);
 
-    broadcast('cardStateUpdated', vid, sid, newCardState);
+    new CardStateUpdatedCommand(vid, sid, newCardState).send();
   });
 
   receiveTabMessage(

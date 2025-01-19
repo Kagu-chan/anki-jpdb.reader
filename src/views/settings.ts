@@ -14,7 +14,7 @@ import {
   withElements,
 } from '@shared/dom';
 import { listUserDecks, ping, JPDBDeck } from '@shared/jpdb';
-import { broadcast } from '@shared/messages';
+import { ConfigurationUpdatedCommand } from '@shared/messages';
 import { HTMLKeybindInputElement } from './elements/html-keybind-input-element';
 import { HTMLMiningInputElement } from './elements/html-mining-input-element';
 
@@ -152,7 +152,7 @@ class SettingsController {
 
       displayToast('success', 'Settings saved successfully');
 
-      broadcast('configurationUpdated');
+      new ConfigurationUpdatedCommand().send();
     };
   }
 

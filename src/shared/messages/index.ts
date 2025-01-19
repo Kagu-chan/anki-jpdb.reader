@@ -1,11 +1,3 @@
-/* eslint-disable import/order */
-
-//#region Send messages
-
-import { broadcast } from './sending/broadcast';
-export { broadcast };
-
-//#endregion
 //#region Receiving messages
 
 import { onBroadcastMessage } from './receiving/on-broadcast-message';
@@ -26,3 +18,4 @@ export * from './types/tab';
 
 export * from './foreground';
 export * from './background';
+export * from './broadcast';
