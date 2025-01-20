@@ -1,4 +1,4 @@
-import { HostMeta } from '@shared/host-meta';
+import { HostMeta } from '@shared/host-meta/types';
 import { BaseParser } from './base.parser';
 import { BunproParser } from './custom-parsers/bunpro.parser';
 import { MokuroLegacyParser } from './custom-parsers/mokuro-legacy.parser';

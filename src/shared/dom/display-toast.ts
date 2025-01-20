@@ -1,4 +1,4 @@
-import { getStyleUrl } from '@shared/extension';
+import { getStyleUrl } from '../extension/get-style-url';
 import { createElement } from './create-element';
 import { findElement } from './find-element';
 

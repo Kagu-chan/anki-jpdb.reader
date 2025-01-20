@@ -1,5 +1,5 @@
-import { HostMeta } from '@shared/host-meta';
-import { receiveBackgroundMessage } from '@shared/messages';
+import { HostMeta } from '@shared/host-meta/types';
+import { receiveBackgroundMessage } from '@shared/messages/receiving/receive-background-message';
 import { KeybindManager } from '../integration/keybind-manager';
 import { Registry } from '../integration/registry';
 import { BaseParser } from './base.parser';

@@ -1,8 +1,13 @@
-import { getConfiguration } from '@shared/configuration';
-import { createElement, findElements, withElement } from '@shared/dom';
-import { getStyleUrl } from '@shared/extension';
-import { JPDBCard, JPDBGrade } from '@shared/jpdb';
-import { onBroadcastMessage, sendToBackground } from '@shared/messages';
+import { getConfiguration } from '@shared/configuration/get-configuration';
+import { createElement } from '@shared/dom/create-element';
+import { findElements } from '@shared/dom/find-elements';
+import { withElement } from '@shared/dom/with-element';
+import { getStyleUrl } from '@shared/extension/get-style-url';
+import { JPDBCard, JPDBGrade } from '@shared/jpdb/types';
+import { GradeCardCommand } from '@shared/messages/background/grade-card.command';
+import { RunDeckActionCommand } from '@shared/messages/background/run-deck-action.command';
+import { UpdateCardStateCommand } from '@shared/messages/background/update-card-state.command';
+import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
 import { KeybindManager } from '../integration/keybind-manager';
 import { Registry } from '../integration/registry';
 import { PARTS_OF_SPEECH } from './part-of-speech';
@@ -355,9 +360,10 @@ export class Popup {
     ): void => {
       const { vid, sid } = this._card!;
 
-      void sendToBackground('runDeckAction', vid, sid, key, action)
-        .then(() => sendToBackground('updateCardState', vid, sid))
-        .then(() => this.hideOnAction());
+      const deckAction = new RunDeckActionCommand(vid, sid, key, action);
+      const updateCardState = new UpdateCardStateCommand(vid, sid);
+
+      deckAction.send(() => updateCardState.send(() => this.hideOnAction()));
     };
     const performFlaggedDeckAction = (key: 'neverForget' | 'blacklist'): void => {
       const action = this.cardHasState(key) ? 'remove' : 'add';
@@ -412,9 +418,10 @@ export class Popup {
         handler: () => {
           const { vid, sid } = this._card!;
 
-          void sendToBackground('gradeCard', vid, sid, grade)
-            .then(() => sendToBackground('updateCardState', vid, sid))
-            .then(() => this.hideOnAction());
+          const gradeCard = new GradeCardCommand(vid, sid, grade);
+          const updateCardState = new UpdateCardStateCommand(vid, sid);
+
+          gradeCard.send(() => updateCardState.send(() => this.hideOnAction()));
         },
       }),
     );

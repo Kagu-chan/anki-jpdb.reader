@@ -1,5 +1,6 @@
-import { getConfiguration, ConfigurationSchema, Keybind } from '@shared/configuration';
-import { onBroadcastMessage } from '@shared/messages';
+import { getConfiguration } from '@shared/configuration/get-configuration';
+import { ConfigurationSchema, Keybind } from '@shared/configuration/types';
+import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
 import { FilterKeys } from '@shared/types';
 import { Registry } from './registry';
 

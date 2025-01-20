@@ -1,4 +1,5 @@
-import { DOMElementBaseOptions, createElement } from '@shared/dom';
+import { createElement } from '@shared/dom/create-element';
+import { DOMElementBaseOptions } from '@shared/dom/types';
 import { Fragment } from '../batches/types';
 import { Registry } from '../integration/registry';
 import { BaseTextHighlighter } from './base.text-highlighter';

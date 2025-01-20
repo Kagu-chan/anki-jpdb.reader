@@ -1,20 +1,17 @@
-import { getApiVersion } from '@shared/anki';
-import {
-  getConfiguration,
-  setConfiguration,
-  ConfigurationSchema,
-  Keybind,
-} from '@shared/configuration';
-import {
-  createElement,
-  displayToast,
-  findElement,
-  findElements,
-  withElement,
-  withElements,
-} from '@shared/dom';
-import { listUserDecks, ping, JPDBDeck } from '@shared/jpdb';
-import { broadcast } from '@shared/messages';
+import { getApiVersion } from '@shared/anki/get-api-version';
+import { getConfiguration } from '@shared/configuration/get-configuration';
+import { setConfiguration } from '@shared/configuration/set-configuration';
+import { ConfigurationSchema, Keybind } from '@shared/configuration/types';
+import { createElement } from '@shared/dom/create-element';
+import { displayToast } from '@shared/dom/display-toast';
+import { findElement } from '@shared/dom/find-element';
+import { findElements } from '@shared/dom/find-elements';
+import { withElement } from '@shared/dom/with-element';
+import { withElements } from '@shared/dom/with-elements';
+import { listUserDecks } from '@shared/jpdb/list-user-decks';
+import { ping } from '@shared/jpdb/ping';
+import { JPDBDeck } from '@shared/jpdb/types';
+import { ConfigurationUpdatedCommand } from '@shared/messages/broadcast/configuration-updated.command';
 import { HTMLKeybindInputElement } from './elements/html-keybind-input-element';
 import { HTMLMiningInputElement } from './elements/html-mining-input-element';
 
@@ -31,6 +28,8 @@ class SettingsController {
   private _invalidFields = new Set<keyof ConfigurationSchema>();
 
   private _saveButton = findElement<'button'>('#save-all-settings');
+
+  private _configurationUpdated = new ConfigurationUpdatedCommand();
 
   /**
    * FOR DEBUGGING PURPOSES ONLY!
@@ -152,7 +151,7 @@ class SettingsController {
 
       displayToast('success', 'Settings saved successfully');
 
-      broadcast('configurationUpdated');
+      this._configurationUpdated.send();
     };
   }
 

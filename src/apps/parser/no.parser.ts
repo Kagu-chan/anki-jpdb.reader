@@ -1,4 +1,4 @@
-import { displayToast } from '@shared/dom';
+import { displayToast } from '@shared/dom/display-toast';
 import { Registry } from '../integration/registry';
 import { TriggerParser } from './trigger.parser';
 

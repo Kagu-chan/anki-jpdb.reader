@@ -1,4 +1,4 @@
-import { ConfigurationSchema } from '@shared/configuration';
+import { ConfigurationSchema } from './types';
 
 export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   schemaVersion: 1,

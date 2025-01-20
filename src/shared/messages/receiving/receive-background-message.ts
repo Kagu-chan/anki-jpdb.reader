@@ -1,5 +1,5 @@
-import { runtime } from '@shared/extension';
-import { PotentialPromise } from '@shared/types';
+import { runtime } from '../../extension/runtime';
+import { PotentialPromise } from '../../types';
 import { ExtensionMessage } from '../types/extension-message';
 import { TabEventArgs, TabEventFunction, TabEventResult, TabEvents } from '../types/tab';
 

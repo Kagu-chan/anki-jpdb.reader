@@ -1,4 +1,4 @@
-import { PotentialPromise } from '@shared/types';
+import { PotentialPromise } from '../../types';
 
 type KeybindEvent = [[e: KeyboardEvent | MouseEvent], PotentialPromise<void>];
 

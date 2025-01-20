@@ -1,4 +1,4 @@
-import { JPDBToken } from '@shared/jpdb';
+import { JPDBToken } from '@shared/jpdb/types';
 
 export type Handle = {
   text: string;

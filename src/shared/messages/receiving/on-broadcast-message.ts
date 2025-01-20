@@ -1,4 +1,4 @@
-import { runtime } from '@shared/extension';
+import { runtime } from '../../extension/runtime';
 import { BroadcastEventArgs, BroadcastEventFunction, BroadcastEvents } from '../types/broadcast';
 import { ExtensionMessage } from '../types/extension-message';
 

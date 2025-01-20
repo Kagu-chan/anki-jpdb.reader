@@ -1,4 +1,4 @@
-import { JPDBToken } from '@shared/jpdb';
+import { JPDBToken } from '@shared/jpdb/types';
 import { Fragment } from '../batches/types';
 
 export abstract class BaseTextHighlighter {

@@ -1,5 +1,6 @@
-import { JPDBCard } from '@shared/jpdb';
-import { sendToBackground } from '@shared/messages';
+import { JPDBCard } from '@shared/jpdb/types';
+import { RunDeckActionCommand } from '@shared/messages/background/run-deck-action.command';
+import { UpdateCardStateCommand } from '@shared/messages/background/update-card-state.command';
 import { KeybindManager } from '../integration/keybind-manager';
 import { Registry } from '../integration/registry';
 
@@ -73,7 +74,7 @@ export class MiningActions {
       return;
     }
 
-    await sendToBackground('updateCardState', vid, sid);
+    await new UpdateCardStateCommand(vid, sid).call();
   }
 
   private async addToDeck(key: 'mining' | 'blacklist' | 'neverForget'): Promise<void> {
@@ -83,7 +84,7 @@ export class MiningActions {
       return;
     }
 
-    await sendToBackground('runDeckAction', vid, sid, key, 'add');
+    await new RunDeckActionCommand(vid, sid, key, 'add').call();
   }
 
   private async removeFromDeck(key: 'mining' | 'blacklist' | 'neverForget'): Promise<void> {
@@ -93,6 +94,6 @@ export class MiningActions {
       return;
     }
 
-    await sendToBackground('runDeckAction', vid, sid, key, 'remove');
+    await new RunDeckActionCommand(vid, sid, key, 'remove').call();
   }
 }
