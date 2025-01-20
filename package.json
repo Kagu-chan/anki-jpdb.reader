@@ -48,7 +48,7 @@
     "eslint-plugin-jsdoc": "^50.6.2",
     "eslint-plugin-prettier": "^5.2.2",
     "globals": "^15.14.0",
-    "html-bundler-webpack-plugin": "^4.12.2",
+    "html-bundler-webpack-plugin": "^4.14.0",
     "prettier": "^3.4.2",
     "sass": "^1.83.4",
     "sass-loader": "^16.0.4",
