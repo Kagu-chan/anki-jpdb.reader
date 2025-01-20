@@ -2,25 +2,51 @@
 @use '@styles/theme/_outline';
 
 body {
-  min-width: 300px;
-  max-height: 600px;
+  width: 300px;
 
-  .container {
-    align-items: stretch;
+  padding: 0 1em 1em;
+
+  .pages {
+    &::-webkit-scrollbar {
+      display: none !important;
+      width: none !important;
+    }
+    scrollbar-width: none !important;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    gap: .5em;
+
     margin: 1em 0;
-    gap: 0.5em;
 
-    h5 {
-      margin-top: 0.5em;
-      padding-bottom: 0;
+    max-height: 500px;
+
+    a {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow-y: clip;
+
+      &.hide {
+        cursor: unset;
+
+        &:not(:last-of-type) {
+          display: none;
+        }
+      }
     }
+  }
 
-    .parse {
+  .links {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    justify-content: flex-end;
+
+    a {
       cursor: pointer;
-      font-size: 1em;
     }
   }
 }

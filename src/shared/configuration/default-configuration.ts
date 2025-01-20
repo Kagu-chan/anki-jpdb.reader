@@ -3,6 +3,8 @@ import { ConfigurationSchema } from './types';
 export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   schemaVersion: 1,
 
+  skipReleaseNotes: false,
+
   jpdbApiToken: '',
   jpdbMiningDeck: '',
   jpdbBlacklistDeck: 'blacklist',

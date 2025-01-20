@@ -1,6 +1,8 @@
+import { getConfiguration } from '@shared/configuration/get-configuration';
 import { addContextMenu } from '@shared/extension/add-context-menu';
 import { addInstallListener, OnInstalledReason } from '@shared/extension/add-install-listener';
 import { openOptionsPage } from '@shared/extension/open-options-page';
+import { openView } from '@shared/extension/open-view';
 import { ParsePageCommand } from '@shared/messages/foreground/parse-page.command';
 import { ParseSelectionCommand } from '@shared/messages/foreground/parse-selection.command';
 import { GradeCardCommandHandler } from './jpdb-card-actions/grade-card-command.handler';
@@ -43,6 +45,15 @@ addInstallListener(async ({ reason }) => {
     await openOptionsPage();
   }
 
+  if (reason === OnInstalledReason.UPDATE) {
+    const skipReleaseNotes = await getConfiguration('skipReleaseNotes', false);
+
+    if (skipReleaseNotes) {
+      return;
+    }
+
+    await openView('release-notes');
+  }
   // TODO: OnUpdate Open a new tab with the release notes
   // NOTE: OnUpdate In the future we may use this for schema updates
 });

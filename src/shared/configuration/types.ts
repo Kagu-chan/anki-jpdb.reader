@@ -8,6 +8,7 @@ export type ConfigurationSchema = {
   jpdbBlacklistDeck: string;
   jpdbForqDeck: string;
   jpdbNeverForgetDeck: string;
+  skipReleaseNotes: boolean;
   jpdbAddToForq: boolean;
   jpdbUseTwoGrades: boolean;
   jpdbDisableReviews: boolean;
