@@ -12,7 +12,7 @@ onLoaded(async () => {
   });
 
   document.getElementById('changelog')?.addEventListener('click', () => {
-    void openView('release-notes');
+    void openView('changelog');
   });
 
   for (const tab of await getTabs({ currentWindow: true })) {

@@ -46,16 +46,16 @@ addInstallListener(async ({ reason }) => {
   }
 
   if (reason === OnInstalledReason.UPDATE) {
+    // NOTE: OnUpdate In the future we may use this for schema updates
+
     const skipReleaseNotes = await getConfiguration('skipReleaseNotes', false);
 
-    if (skipReleaseNotes) {
+    if (skipReleaseNotes || true) {
       return;
     }
 
-    await openView('release-notes');
+    await openView('changelog');
   }
-  // TODO: OnUpdate Open a new tab with the release notes
-  // NOTE: OnUpdate In the future we may use this for schema updates
 });
 
 addContextMenu(
