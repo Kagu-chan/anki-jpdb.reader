@@ -309,7 +309,11 @@ export class TextHighlighter extends BaseTextHighlighter {
       const rubyText = nodeText.slice(rubyStart, rubyEnd);
       const afterRuby = nodeText.slice(rubyEnd);
 
-      nodeText = [beforeRuby, `<ruby>${rubyText}<rt>${ruby.text}</rt></ruby>`, afterRuby].join('');
+      nodeText = [
+        beforeRuby,
+        `<ruby>${rubyText}<rt class="jpdb-furi">${ruby.text}</rt></ruby>`,
+        afterRuby,
+      ].join('');
     }
 
     newRuby.innerHTML = nodeText;
@@ -526,7 +530,11 @@ export class TextHighlighter extends BaseTextHighlighter {
     }
 
     if (fragmentsParent.childNodes.length > 1) {
-      return this.wrapElement(node, token?.card);
+      const element = this.wrapElement(node, token?.card);
+
+      element.querySelectorAll('rt').forEach((rt) => rt.classList.add('jpdb-furi'));
+
+      return element;
     }
 
     this.patchElement(fragmentsParent, token?.card);
@@ -568,6 +576,7 @@ export class TextHighlighter extends BaseTextHighlighter {
     }
 
     element.setAttribute('ajb', 'true');
+    element.querySelectorAll('rt').forEach((rt) => rt.classList.add('jpdb-furi'));
 
     if (card) {
       Registry.addCard(card);
@@ -627,6 +636,7 @@ export class TextHighlighter extends BaseTextHighlighter {
 
     element.classList.add('jpdb-word', 'misparsed');
     element.setAttribute('ajb', 'true');
+    element.querySelectorAll('rt').forEach((rt) => rt.classList.add('jpdb-furi'));
   }
 
   //#endregion Shared Helpers
