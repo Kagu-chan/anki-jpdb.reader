@@ -4,6 +4,7 @@ import { openOptionsPage } from '@shared/extension/open-options-page';
 import { MessageSender } from '@shared/extension/types';
 import { ParseCommand } from '@shared/messages/background/parse.command';
 import { ToastCommand } from '@shared/messages/foreground/toast.command';
+import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
 import { BackgroundCommandHandler } from '../lib/background-command-handler';
 import { ParseController } from './parse.controller';
 
@@ -25,7 +26,6 @@ export class ParseCommandHandler extends BackgroundCommandHandler<ParseCommand> 
     data: [sequenceId: number, text: string][],
   ): Promise<void> {
     const jpdbApiKey = await getConfiguration('jpdbApiToken', false);
-    const customWordCSS = await getConfiguration('customWordCSS', true);
 
     if (!jpdbApiKey) {
       await this._failToast.call(sender.tab!.id!);
@@ -35,7 +35,15 @@ export class ParseCommandHandler extends BackgroundCommandHandler<ParseCommand> 
     }
 
     if (!this._injectedTabs.has(sender.tab!.id!)) {
-      await injectStyle(sender.tab!.id!, 'word', customWordCSS);
+      onBroadcastMessage(
+        'configurationUpdated',
+        async () => {
+          const customWordCSS = await getConfiguration('customWordCSS', true);
+
+          await injectStyle(sender.tab!.id!, 'word', customWordCSS);
+        },
+        true,
+      );
 
       this._injectedTabs.add(sender.tab!.id!);
     }
