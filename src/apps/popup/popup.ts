@@ -93,6 +93,10 @@ export class Popup {
       setTimeout(() => {
         this._card = Registry.getCard(vid, sid);
 
+        if (this._hideAfterAction) {
+          return this.hide();
+        }
+
         this.rerender();
       }, 1);
     });
@@ -363,7 +367,7 @@ export class Popup {
       const deckAction = new RunDeckActionCommand(vid, sid, key, action);
       const updateCardState = new UpdateCardStateCommand(vid, sid);
 
-      deckAction.send(() => updateCardState.send(() => this.hideOnAction()));
+      deckAction.send(() => updateCardState.send());
     };
     const performFlaggedDeckAction = (key: 'neverForget' | 'blacklist'): void => {
       const action = this.cardHasState(key, this._card!) ? 'remove' : 'add';
@@ -421,7 +425,7 @@ export class Popup {
           const gradeCard = new GradeCardCommand(vid, sid, grade);
           const updateCardState = new UpdateCardStateCommand(vid, sid);
 
-          gradeCard.send(() => updateCardState.send(() => this.hideOnAction()));
+          gradeCard.send(() => updateCardState.send());
         },
       }),
     );
@@ -636,12 +640,6 @@ export class Popup {
 
   //#endregion
   //#region Others
-
-  private hideOnAction(): void {
-    if (this._hideAfterAction) {
-      this.hide();
-    }
-  }
 
   private isVisibile(): boolean {
     return this._root.style.visibility === 'visible';
