@@ -366,7 +366,7 @@ export class Popup {
       deckAction.send(() => updateCardState.send(() => this.hideOnAction()));
     };
     const performFlaggedDeckAction = (key: 'neverForget' | 'blacklist'): void => {
-      const action = this.cardHasState(key) ? 'remove' : 'add';
+      const action = this.cardHasState(key, this._card!) ? 'remove' : 'add';
 
       performDeckAction(action, key);
     };
@@ -434,8 +434,8 @@ export class Popup {
   //#endregion
   //#region Card Utils
 
-  private cardHasState(state: 'neverForget' | 'blacklist'): boolean {
-    const { cardState } = this._card!;
+  private cardHasState(state: 'neverForget' | 'blacklist', card: JPDBCard): boolean {
+    const { cardState } = card;
     const lookupState = state === 'neverForget' ? 'never-forget' : 'blacklisted';
 
     return cardState.includes(lookupState);
@@ -445,14 +445,18 @@ export class Popup {
   //#region On showing a popup
 
   private rerender(): void {
-    this.adjustMiningButtons();
-    this.adjustContext(this._card!);
-    this.adjustDetails(this._card!);
+    if (!this._card) {
+      return;
+    }
+
+    this.adjustMiningButtons(this._card);
+    this.adjustContext(this._card);
+    this.adjustDetails(this._card);
   }
 
-  private adjustMiningButtons(): void {
-    const isNF = this.cardHasState('neverForget');
-    const isBL = this.cardHasState('blacklist');
+  private adjustMiningButtons(card: JPDBCard): void {
+    const isNF = this.cardHasState('neverForget', card);
+    const isBL = this.cardHasState('blacklist', card);
 
     withElement(this._mineButtons, '#never-forget-deck', (el) => {
       el.innerText = isNF ? 'Unmark as never forget' : 'Never forget';
@@ -463,6 +467,7 @@ export class Popup {
   }
 
   private adjustContext(card: JPDBCard): void {
+    this._context.setAttribute('class', card.cardState.join(' '));
     this._context.replaceChildren(
       createElement('div', {
         id: 'header',
@@ -570,6 +575,7 @@ export class Popup {
   private adjustDetails(card: JPDBCard): void {
     const groupedMeanings = this.getGroupedMeanings(card);
 
+    this._details.setAttribute('class', card.cardState.join(' '));
     this._details.replaceChildren(
       ...groupedMeanings.flatMap(({ partOfSpeech, glosses, startIndex }) => [
         createElement('div', {
