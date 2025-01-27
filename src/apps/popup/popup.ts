@@ -678,10 +678,14 @@ export class Popup {
 
   private handleKeydown(e: MouseEvent | KeyboardEvent): void {
     if (e && 'key' in e && e.key === 'Escape' && this.isVisibile()) {
+      e.stopPropagation();
+
       this.hide();
     }
 
     if ('button' in e && e.button === 0 && this.isVisibile() && !this._isHover) {
+      e.stopPropagation();
+
       this.hide();
     }
   }
