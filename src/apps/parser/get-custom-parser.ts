@@ -4,6 +4,7 @@ import { BunproParser } from './custom-parsers/bunpro.parser';
 import { MokuroLegacyParser } from './custom-parsers/mokuro-legacy.parser';
 import { MokuroParser } from './custom-parsers/mokuro.parser';
 import { ReadwokParser } from './custom-parsers/readwok.parser';
+import { TtsuParser } from './custom-parsers/ttsu.parser';
 
 export const getCustomParser = (
   name: Exclude<HostMeta['custom'], undefined>,
@@ -17,6 +18,7 @@ export const getCustomParser = (
     MokuroParser,
     MokuroLegacyParser,
     ReadwokParser,
+    TtsuParser,
   };
   const parser = parsers[name];
 

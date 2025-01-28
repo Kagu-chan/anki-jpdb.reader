@@ -49,11 +49,10 @@
     "host": "*://reader.ttsu.app/*",
     "auto": true,
     "allFrames": false,
-    "parseVisibleObserver": {
-      "exclude": "[data-ttu-spoiler-img]"
-    },
+    "custom": "TtsuParser",
+    "parseVisibleObserver": true,
     "addedObserver": {
-      "notifyFor": "div[id*=\"ttu-id\"], .ttu-book-html-wrapper, div[id*=\"ttu-p-toc\"], div[id*=\"ttu-p\"]",
+      "notifyFor": "div.book-content",
       "observeFrom": "body",
       "config": {
         "childList": true,
