@@ -636,7 +636,6 @@ export class TextHighlighter extends BaseTextHighlighter {
 
     element.classList.add('jpdb-word', 'misparsed');
     element.setAttribute('ajb', 'true');
-    element.querySelectorAll('rt').forEach((rt) => rt.classList.add('jpdb-furi'));
   }
 
   //#endregion Shared Helpers
