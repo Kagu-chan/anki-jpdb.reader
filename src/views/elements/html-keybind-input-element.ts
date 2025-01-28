@@ -130,9 +130,7 @@ export class HTMLKeybindInputElement extends HTMLElement {
     const events = ['keydown', 'keyup', 'mousedown', 'mouseup'];
 
     events.forEach((event) =>
-      document.addEventListener(event, (ev: KeyboardEvent | MouseEvent) =>
-        HTMLKeybindInputElement.keyListener(ev),
-      ),
+      document.addEventListener(event, HTMLKeybindInputElement.keyListener),
     );
 
     HTMLKeybindInputElement.active = this;
@@ -144,15 +142,13 @@ export class HTMLKeybindInputElement extends HTMLElement {
     const events = ['keydown', 'keyup', 'mousedown', 'mouseup'];
 
     events.forEach((event) =>
-      document.removeEventListener(event, (ev: KeyboardEvent | MouseEvent) =>
-        HTMLKeybindInputElement.keyListener(ev),
-      ),
+      document.removeEventListener(event, HTMLKeybindInputElement.keyListener),
     );
 
     HTMLKeybindInputElement.active = undefined;
   }
 
-  protected static keyListener(event: KeyboardEvent | MouseEvent): void {
+  protected static keyListener(this: void, event: KeyboardEvent | MouseEvent): void {
     event.preventDefault();
     event.stopPropagation();
     event.stopImmediatePropagation();
