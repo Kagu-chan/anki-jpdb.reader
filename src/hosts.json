@@ -6,22 +6,10 @@
     "disabled": true
   },
   {
-    "host": "file:///*test*.html",
-    "auto": true,
-    "allFrames": false,
-    "parse": "body"
-  },
-  {
     "host": "<all_urls>",
     "auto": false,
     "allFrames": false,
     "parse": "body"
-  },
-  {
-    "host": "*://*.nhk.or.jp/*",
-    "auto": true,
-    "allFrames": false,
-    "parse": "article"
   },
   {
     "host": [

@@ -29,7 +29,6 @@ Some web apps and sites require special attention to work properly, therefore th
 |Wikipedia|[ja.wikipedia.org](https://ja.wikipedia.org/)
 |asbplayer|[github.com/killergerbah/asbplayer](https://github.com/killergerbah/asbplayer)
 |Youtube comments|[youtube.com](https://youtube.com/)
-|NHK Japanese News Easy|[nhk.or.jp/news/easy](https://www3.nhk.or.jp/news/easy/)
 
 
 ## Installation
