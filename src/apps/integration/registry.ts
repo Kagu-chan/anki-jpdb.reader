@@ -23,7 +23,9 @@ export class Registry {
   public static textHighlighter: new (
     fragments: Fragment[],
     tokens: JPDBToken[],
+    skipFurigana?: boolean,
   ) => BaseTextHighlighter = TextHighlighter;
+  public static skipFurigana = false;
 
   private static readonly cards = new Map<string, JPDBCard>();
 

@@ -10,7 +10,11 @@ export class TextHighlighter extends BaseTextHighlighter {
   protected _tokenToFragmentsMap = new Map<JPDBToken, Fragment[]>();
   protected _fragmentToTokensMap = new Map<Fragment, JPDBToken[]>();
 
-  constructor(fragments: Fragment[], tokens: JPDBToken[]) {
+  constructor(
+    fragments: Fragment[],
+    tokens: JPDBToken[],
+    protected _skipFurigana?: boolean,
+  ) {
     super(fragments, tokens);
 
     this._fragments = new Set(this.fragments);
@@ -298,6 +302,11 @@ export class TextHighlighter extends BaseTextHighlighter {
 
   protected applyRubyToFragment(fragment: Fragment, token: JPDBToken): void {
     const newRuby = this.wrapElement(fragment.node, token.card);
+
+    if (this._skipFurigana) {
+      return;
+    }
+
     let nodeText = fragment.node.textContent!;
 
     for (let i = token.rubies.length - 1; i >= 0; i--) {
@@ -358,7 +367,9 @@ export class TextHighlighter extends BaseTextHighlighter {
     if (sharedParentNode && anyHasRuby) {
       const clone = sharedParentNode.cloneNode(true) as HTMLElement;
 
-      clone.querySelectorAll('rt').forEach((rt) => rt.remove());
+      if (!this._skipFurigana) {
+        clone.querySelectorAll('rt').forEach((rt) => rt.remove());
+      }
 
       const cloneText = clone.textContent;
       const fragmentText = fragments.map((fragment) => fragment.node.textContent).join('');
@@ -532,7 +543,9 @@ export class TextHighlighter extends BaseTextHighlighter {
     if (fragmentsParent.childNodes.length > 1) {
       const element = this.wrapElement(node, token?.card);
 
-      element.querySelectorAll('rt').forEach((rt) => rt.classList.add('jpdb-furi'));
+      if (!this._skipFurigana) {
+        element.querySelectorAll('rt').forEach((rt) => rt.classList.add('jpdb-furi'));
+      }
 
       return element;
     }
@@ -576,7 +589,10 @@ export class TextHighlighter extends BaseTextHighlighter {
     }
 
     element.setAttribute('ajb', 'true');
-    element.querySelectorAll('rt').forEach((rt) => rt.classList.add('jpdb-furi'));
+
+    if (!this._skipFurigana) {
+      element.querySelectorAll('rt').forEach((rt) => rt.classList.add('jpdb-furi'));
+    }
 
     if (card) {
       Registry.addCard(card);

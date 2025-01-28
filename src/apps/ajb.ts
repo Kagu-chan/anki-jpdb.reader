@@ -37,8 +37,10 @@ export class AJB {
       'configurationUpdated',
       async (): Promise<void> => {
         const useLegacyHighlighter = await getConfiguration('useLegacyHighlighter', true);
+        const skipFurigana = await getConfiguration('skipFurigana', false);
 
         Registry.textHighlighter = useLegacyHighlighter ? LegacyTextHighlighter : TextHighlighter;
+        Registry.skipFurigana = skipFurigana;
       },
       true,
     );

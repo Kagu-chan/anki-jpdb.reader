@@ -38,6 +38,7 @@ export type ConfigurationSchema = {
   hideAfterAction: boolean;
 
   useLegacyHighlighter: boolean;
+  skipFurigana: boolean;
 
   showPopupOnHover: boolean;
   touchscreenSupport: boolean;

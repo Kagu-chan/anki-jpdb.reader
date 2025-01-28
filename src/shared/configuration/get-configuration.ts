@@ -22,6 +22,7 @@ const BOOLEAN_KEYS: ConfigurationBooleanKeys = [
   'touchscreenSupport',
   'disableFadeAnimation',
   'useLegacyHighlighter',
+  'skipFurigana',
   'skipReleaseNotes',
 ];
 const OBJECT_KEYS: ConfigurationObjectKeys = [
