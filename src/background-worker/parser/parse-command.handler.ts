@@ -15,7 +15,6 @@ export class ParseCommandHandler extends BackgroundCommandHandler<ParseCommand> 
     'error',
     'JPDB API key is not set. Please set it in the extension settings.',
   );
-  private _injectedTabs = new Set<number>();
 
   constructor(private _parseController: ParseController) {
     super();
@@ -34,19 +33,15 @@ export class ParseCommandHandler extends BackgroundCommandHandler<ParseCommand> 
       return;
     }
 
-    if (!this._injectedTabs.has(sender.tab!.id!)) {
-      onBroadcastMessage(
-        'configurationUpdated',
-        async () => {
-          const customWordCSS = await getConfiguration('customWordCSS', true);
+    onBroadcastMessage(
+      'configurationUpdated',
+      async () => {
+        const customWordCSS = await getConfiguration('customWordCSS', true);
 
-          await injectStyle(sender.tab!.id!, 'word', customWordCSS);
-        },
-        true,
-      );
-
-      this._injectedTabs.add(sender.tab!.id!);
-    }
+        await injectStyle(sender.tab!.id!, 'word', customWordCSS);
+      },
+      true,
+    );
 
     this._parseController.parseSequences(sender, data);
   }
