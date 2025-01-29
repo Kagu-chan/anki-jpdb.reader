@@ -106,6 +106,14 @@ Mark misparsed words
 }
 ```
 
+Disable misparsed word coloring
+```css
+.jpdb-word.misparsed {
+  color: unset;
+  background-color: unset;
+}
+```
+
 Notes if you aren't super familiar with CSS:
 - CSS supports many color formats, like colornames (`green`), hex `#a2ff0e` or `rgb(126, 230, 17)`. Pick whichever you find most convenient.
 - Selectors with more classes are higher priority. For example, `.jpdb-word.new` will overwrite `.jpdb-word`.
