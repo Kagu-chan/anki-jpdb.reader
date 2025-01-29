@@ -1,30 +1,39 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
-const HtmlBundlerPlugin = require('html-bundler-webpack-plugin');
 const ZipPlugin = require('zip-webpack-plugin');
+const glob = require('glob');
 
-const views = ['settings', 'widget'];
-const styles = ['toast', 'word', 'popup'];
-const elementStyles = ['html-keybind-input', 'html-mining-input'];
+const scripts = glob.globSync(['src/background-worker/*.ts', 'src/apps/*.ts', 'src/views/*.ts']).reduce((curr, item) => {
+  const fileName = './' + item.replace(/\\/g, '/');
+  const partials = fileName.split('/');
+  const name = partials.pop().split('.').shift();
 
-const apps = ['ajb'];
+  return Object.assign(curr, {
+    [name]: {
+      import: fileName,
+      filename: `js/${name}.js`,
+    },
+  });
+}, {});
 
-const generate = (array, prefix, target, source = 'ts', targetExt = 'js') =>
-  array.reduce(
-    (curr, item) =>
-      Object.assign(curr, {
-        [item]: {
-          import: `./src/${prefix}/${item}.${source}`,
-          filename: `${target}/${item}.${targetExt}`,
-        },
-      }),
-    {},
-  );
+const styles = glob.globSync([
+  'src/styles/*.scss',
+  'src/views/**/*.scss',
+]).reduce((curr, item) => {
+  const fileName = './' + item.replace(/\\/g, '/');
+  const partials = fileName.split('/');
+  const name = partials.pop().split('.').shift();
+
+  return Object.assign(curr, {
+    [`style_${name}`]: fileName,
+  });
+}, {});
 
 module.exports = {
   async config(env) {
     return {
       mode: env,
+      entry: { ...scripts, ...styles },
       resolve: {
         extensions: ['.tsx', '.ts', '.js', '.json'],
         extensionAlias: {
@@ -41,20 +50,10 @@ module.exports = {
         new CopyPlugin({
           patterns: [
             { from: 'assets', to: 'assets' },
+            { from: 'src/views/*.html', to: 'views/[name][ext]' },
             { from: 'src/*.json', to: '[name][ext]' },
             { from: '*.md', to: '[name][ext]' },
           ],
-        }),
-        new HtmlBundlerPlugin({
-          entry: {
-            'background-worker': './src/background-worker/background-worker.ts',
-            ...generate(views, 'views', 'views', 'html', 'html'),
-            ...generate(apps, 'apps', 'apps', 'ts', 'js'),
-            ...generate(styles, 'styles', 'css', 'scss', 'css'),
-            ...generate(elementStyles, 'views/elements', 'css', 'scss', 'css'),
-          },
-          js: { outputPath: 'js' },
-          css: { outputPath: 'css' },
         }),
         env === 'production' && new ZipPlugin({
           filename: 'anki-jpdb.reader.zip',
@@ -63,19 +62,15 @@ module.exports = {
       module: {
         rules: [
           {
-            test: /\.(css|sass|scss)$/,
-            use: ['css-loader', 'sass-loader'],
-          },
-          {
-            test: /\.(png|svg|jpg|jpeg|gif|mp3)$/i,
+            test: /\.scss$/,
             type: 'asset/resource',
-            generator: {
-              filename: '[path][name][ext]',
-            },
-          },
-          {
-            test: /\.(woff|woff2|eot|ttf|otf)$/,
-            type: 'asset/resource',
+            use: [{
+              loader: 'sass-loader',
+              options: {
+                sassOptions: { style: 'expanded' },
+              }
+            }],
+            generator: { filename: 'css/[name].css' },
           },
           {
             test: /.([cm]?ts|tsx)$/,

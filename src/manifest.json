@@ -43,7 +43,7 @@
         "<all_urls>"
       ],
       "js": [
-        "apps/ajb.js"
+        "js/ajb.js"
       ],
       "all_frames": true
     }
