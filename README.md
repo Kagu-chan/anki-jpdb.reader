@@ -142,6 +142,8 @@ List of classes:
 
 ## Building
 
+Node version 22.x is used!
+
 You can run the following command to build the extension locally:
 ```sh
 $ npm install
@@ -171,6 +173,7 @@ The following commands may be of interest to you:
 *  `npm run lint:fix`: Reformats your code, as well as fixing any fixable lint issues. Note, if your editor has a `prettier` plugin, installing that and turning on "format on save" will be more convenient.
 *  `npm run build`: Compiles the code, putting the compiled code into `anki-jpdb.reader/`
 *  `npm run watch`: Automatically recompiles code when it changes, putting the output into `anki-jpdb.reader/`. Using this is recommended during development.
+*  `npm run firefox`: Compiles the code specifically for firefox, putting the compiled code into `anki-jpdb.reader/`
 
 ## License
 

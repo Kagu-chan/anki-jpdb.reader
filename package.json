@@ -8,6 +8,7 @@
     "preversion": "npm run build",
     "version": "node version && git add src/manifest.json",
     "build": "webpack --mode production --config webpack.prod.js",
+    "firefox": "webpack --mode production --config webpack.firefox.js",
     "watch": "webpack --watch --mode development --config webpack.dev.js",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix"

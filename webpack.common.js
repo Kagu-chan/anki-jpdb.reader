@@ -29,6 +29,28 @@ const styles = glob.globSync([
   });
 }, {});
 
+const transformManifest = (content, env) => {
+  const manifest = JSON.parse(content.toString());
+
+  if (env.firefox) {
+    delete manifest.minimum_chrome_version;
+
+    Object.assign(manifest, {
+      background: {
+        scripts: [manifest.background.service_worker],
+      },
+      browser_specific_settings: {
+        gecko: {
+          id: '{67e602c3-7324-4b00-85cd-b652eb47b0f9}',
+          strict_min_version: '126.0',
+        },
+      },
+    });
+  }
+
+  return JSON.stringify(manifest, null, 2);
+};
+
 module.exports = {
   async config(env) {
     return {
@@ -51,12 +73,14 @@ module.exports = {
           patterns: [
             { from: 'assets', to: 'assets' },
             { from: 'src/views/*.html', to: 'views/[name][ext]' },
-            { from: 'src/*.json', to: '[name][ext]' },
+            { from: 'src/hosts.json', to: '[name][ext]' },
+            { from: 'src/manifest.json', to: '[name][ext]', transform: (content) => transformManifest(content, env) },
             { from: '*.md', to: '[name][ext]' },
           ],
         }),
-        env === 'production' && new ZipPlugin({
-          filename: 'anki-jpdb.reader.zip',
+        env.production && new ZipPlugin({
+          filename: `anki-jpdb.reader`,
+          extension: env.firefox ? 'xpi' : 'zip'
         })
       ].filter(Boolean),
       module: {
