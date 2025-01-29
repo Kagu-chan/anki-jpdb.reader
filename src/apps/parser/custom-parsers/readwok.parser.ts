@@ -1,5 +1,3 @@
-import { applyTokens } from '../../batches/apply-tokens';
-import { Registry } from '../../integration/registry';
 import { AutomaticParser } from '../automatic.parser';
 
 export class ReadwokParser extends AutomaticParser {
@@ -18,22 +16,12 @@ export class ReadwokParser extends AutomaticParser {
     observer: IntersectionObserver,
     filter?: (node: HTMLElement | Text) => boolean,
   ): void {
-    const { batchController } = Registry;
-
-    batchController.registerNodes(elements, {
-      filter,
-      onEmpty: (e) => e instanceof Element && observer.unobserve(e),
-      applyFn: (fragments, tokens) => {
-        applyTokens(fragments, tokens);
-
-        elements.forEach((element) => {
-          element.querySelectorAll('.jpdb-furi[style]').forEach((furi) => {
-            furi.removeAttribute('style');
-          });
-        });
-      },
+    elements.forEach((element) => {
+      element.querySelectorAll('rt[style]').forEach((furi) => {
+        furi.removeAttribute('style');
+      });
     });
 
-    batchController.parseBatches();
+    super.visibleObserverOnEnter(elements, observer, filter);
   }
 }
