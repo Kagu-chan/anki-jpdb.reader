@@ -15,15 +15,29 @@
     "host": [
       "*://anacreondjt.gitlab.io/texthooker.html",
       "*://learnjapanese.moe/texthooker.html",
-      "*://kamwithk.github.io/exSTATic/tracker.html",
       "*://renji-xd.github.io/texthooker-ui/"
     ],
     "auto": true,
     "allFrames": false,
     "parseVisibleObserver": true,
     "addedObserver": {
-      "notifyFor": ".textline, .line_box, .sentence-entry, .my-2.cursor-pointer, p",
-      "observeFrom": ["#textlog, #entry_holder, main", "body"],
+      "notifyFor": ".textline, .line_box, .my-2.cursor-pointer, p",
+      "observeFrom": ["#textlog, main", "body"],
+      "config": {
+        "childList": true,
+        "subtree": true
+      }
+    }
+  },
+  {
+    "host": "*://kamwithk.github.io/exSTATic/tracker.html",
+    "auto": true,
+    "allFrames": false,
+    "parseVisibleObserver": true,
+    "custom": "ExStaticParser",
+    "addedObserver": {
+      "notifyFor": ".sentence-entry",
+      "observeFrom": "#entry_holder",
       "config": {
         "childList": true,
         "subtree": true
