@@ -4,12 +4,12 @@
   "description": "Mine from JPDB directly into Anki",
   "private": true,
   "scripts": {
-    "changelog": "node changelog.mjs",
     "preversion": "npm run build",
-    "version": "node version && git add src/manifest.json",
-    "build": "webpack --mode production --config webpack.prod.js",
-    "firefox": "webpack --mode production --config webpack.firefox.js",
-    "watch": "webpack --watch --mode development --config webpack.dev.js",
+    "version": "node scripts/version.mjs && git add src/manifest.json",
+    "changelog": "node scripts/changelog.mjs",
+    "build": "node scripts/build.mjs",
+    "watch": "node scripts/build.mjs --watch",
+    "pack": "node scripts/build.mjs --pack",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix"
   },
@@ -51,12 +51,13 @@
     "glob": "^11.0.1",
     "globals": "^15.14.0",
     "prettier": "^3.4.2",
+    "rimraf": "^6.0.1",
     "sass": "^1.83.4",
     "sass-loader": "^16.0.4",
     "ts-loader": "^9.5.2",
     "typescript": "^5.7.3",
     "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1",
-    "zip-webpack-plugin": "^4.0.3"
+    "zip-a-folder": "^3.1.8"
   }
 }
