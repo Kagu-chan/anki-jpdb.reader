@@ -268,19 +268,26 @@
           </div>
         </div>
 
-        <div class="form-box-parent distance-before not-implemented">
+        <div class="form-box-parent distance-before">
           <div class="form-box">
             <div>
-              <label for="contextWidth">Number of context sentences</label>
+              <div class="checkbox">
+                <input type="checkbox" id="setSentences" name="setSentences" shows="#sentences" />
+                <label for="setSentences">Set sentence on card after mining</label>
+              </div>
+            </div>
+
+            <div id="sentences" hidden>
+              <label for="sentenceContextLength">Number of context sentences</label>
               <input
                 style="width: 100%"
                 type="number"
-                id="contextWidth"
-                name="contextWidth"
+                id="sentenceContextLength"
+                name="sentenceContextLength"
                 min="1"
               />
               <p style="opacity: 0.8">
-                Number of sentences for more context when mining from pure text content.
+                Number of sentences for more context when Mining.
               </p>
             </div>
           </div>
