@@ -131,6 +131,20 @@ export class Popup {
     this._keyManager.deactivate();
   }
 
+  public initHide(): void {
+    if (!this._hidePopupAutomatically) {
+      return;
+    }
+
+    if (!this._hidePopupDelay) {
+      this.hide();
+
+      return;
+    }
+
+    this.startTimer();
+  }
+
   public disablePointerEvents(): void {
     this._root.style.pointerEvents = 'none';
     this._root.style.userSelect = 'none';
