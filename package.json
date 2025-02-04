@@ -1,6 +1,6 @@
 {
   "name": "anki-jpdb.reader",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Mine from JPDB directly into Anki",
   "private": true,
   "scripts": {
@@ -23,7 +23,7 @@
     "parser"
   ],
   "author": "Kagu-chan",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Kagu-chan/jpd-breader/issues"
   },
@@ -35,10 +35,10 @@
     "@eslint/compat": "^1.2.6",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.19.0",
-    "@types/chrome": "^0.0.300",
+    "@types/chrome": "^0.0.301",
     "@types/node": "^22.13.0",
-    "@typescript-eslint/eslint-plugin": "^8.22.0",
-    "@typescript-eslint/parser": "^8.22.0",
+    "@typescript-eslint/eslint-plugin": "^8.23.0",
+    "@typescript-eslint/parser": "^8.23.0",
     "browserlist": "^1.0.1",
     "copy-webpack-plugin": "^12.0.2",
     "eslint": "^9.19.0",
