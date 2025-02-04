@@ -8,6 +8,10 @@ export class ParagraphReader extends BaseParagraphReader {
 
     this.recurse(paragraphs, fragments, 0, this.node, false, this.filter);
 
+    if (!paragraphs.length && fragments.length) {
+      paragraphs.push(fragments);
+    }
+
     return paragraphs;
   }
 
