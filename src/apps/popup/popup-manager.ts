@@ -63,6 +63,8 @@ export class PopupManager {
     this._keyManager.deactivate();
     this._miningActions.deactivate();
     this._gradingActions.deactivate();
+
+    this._popup.initHide();
   }
 
   /**

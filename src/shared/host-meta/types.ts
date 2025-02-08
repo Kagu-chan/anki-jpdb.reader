@@ -46,7 +46,13 @@ export type HostMeta = {
   /**
    * Optional custom parser implementation to use.
    */
-  custom?: 'BunproParser' | 'MokuroParser' | 'MokuroLegacyParser' | 'ReadwokParser' | 'TtsuParser';
+  custom?:
+    | 'BunproParser'
+    | 'MokuroParser'
+    | 'MokuroLegacyParser'
+    | 'ReadwokParser'
+    | 'TtsuParser'
+    | 'ExStaticParser';
 
   /**
    * If `disabled`, a page is extempt from trigger parsing. This automatically applies to pages having specific automatic parsers as well.

@@ -7,7 +7,7 @@ Thanks to Max and the [JPDB Discord](https://discord.gg/jWwVD7D2sZ) for making t
 Sadly, manifest 3 came along and thus the original is no longer working.
 
 ### Please note:
-* Currently only chromium-based browsers on windows are supported
+* Currently only chromium-based browsers on Windows and Linux are supported
 * Mobile support is currently not given - i do not own any android devices
 * Bunpro is currently not supported
 * Touchscreen support is currently missing
