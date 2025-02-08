@@ -10,7 +10,6 @@
   "editor.tabSize": 2,
   "vs-code-prettier-eslint.prettierLast": false,
   "[html]": {
-    "editor.formatOnSave": false,
     "files.insertFinalNewline": false
   },
   "typescript.updateImportsOnFileMove.enabled": "always",
