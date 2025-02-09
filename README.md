@@ -7,7 +7,7 @@ Thanks to Max and the [JPDB Discord](https://discord.gg/jWwVD7D2sZ) for making t
 Sadly, manifest 3 came along and thus the original is no longer working.
 
 ### Please note:
-* Currently only chromium-based browsers on Windows and Linux are supported
+* Currently only chromium-based browsers on Windows and Linux are supported. Firefox support is experimental and for testing
 * Mobile support is currently not given - i do not own any android devices
 * Bunpro is currently not supported
 * Touchscreen support is currently missing
@@ -33,7 +33,9 @@ Some web apps and sites require special attention to work properly, therefore th
 
 ## Installation
 
-1.  Download the latest `.zip` file from the releases page
+### Chrome
+
+1.  Download the latest `*-chromium.zip` file from the releases page
 2.  Unpack the zip file in a location of your choosing
 3.  Open up your browser and navigate to `chrome://extensions/`
 4.  Check the `Developer mode` switch at the top right of your window
@@ -43,6 +45,19 @@ Some web apps and sites require special attention to work properly, therefore th
 8.  Continue with the [Setup](#setup) section
 
 The extension will be uploaded to the chrome web store once its in a more mature state!
+
+### Firefox
+
+1. Download the latest `-firefox.xpi` file from the releases page
+2. Open up your browser and navigate to `about:debugging`
+3. Click on `This firefox`, then `Load temporary addon`
+4. In the file picker dialog, navigate to the folder you downloaded the xpi file to.
+7. Click select/open/choose to exit the dialog and load the extension
+8. Continue with the [Setup](#setup) section
+
+Please note, that the extension will be unloaded the next time you open firefox. Your settings will be preserved.
+
+The extension will be uploaded to the firefox web store once its in a more mature state!
 
 ## Setup
 
@@ -142,6 +157,8 @@ List of classes:
 
 ## Building
 
+Node version 22.x is used!
+
 You can run the following command to build the extension locally:
 ```sh
 $ npm install
@@ -167,10 +184,16 @@ Also, please look at the [Contributing](#contributing) section if you plan on co
 Issues with feedback or ideas for new features are very welcome. You can also message me on the JPDB and Refold Japanese Discord servers (@chinokusari).
 
 The following commands may be of interest to you:
-*  `npm run lint`: Checks your code for formatting issues, linter warnings and type errors. The CI also runs this, so your pull request will only be accepted if it passes. You can use eslint ignore comments if you get false positives, but leave a comment explaining why you think the error is false and safe to ignore.
-*  `npm run lint:fix`: Reformats your code, as well as fixing any fixable lint issues. Note, if your editor has a `prettier` plugin, installing that and turning on "format on save" will be more convenient.
-*  `npm run build`: Compiles the code, putting the compiled code into `anki-jpdb.reader/`
-*  `npm run watch`: Automatically recompiles code when it changes, putting the output into `anki-jpdb.reader/`. Using this is recommended during development.
+* `npm run lint`: Checks your code for formatting issues, linter warnings and type errors. The CI also runs this, so your pull request will only be accepted if it passes. You can use eslint ignore comments if you get false positives, but leave a comment explaining why you think the error is false and safe to ignore.
+* `npm run lint:fix`: Reformats your code, as well as fixing any fixable lint issues. Note, if your editor has a `prettier` plugin, installing that and turning on "format on save" will be more convenient.
+* `npm run build`: Compiles the code for chrome, putting the compiled code into `anki-jpdb.reader/`
+* `npm run build [target]` builds for a specific target
+* `npm run watch`: Automatically recompiles the code for chrome when it changes, putting the output into `anki-jpdb.reader/`. Using this is recommended during development.
+* `npm run watch [target]` recompiles for the specified target
+* `npm run pack` builds, then packs the extension for all targets. The archives are placed inside `packages/`
+* `npm run pack [target, [target...]]` builds for specified targets
+
+Currently `chrome|chromium` and `firefox` are supported
 
 ## License
 
