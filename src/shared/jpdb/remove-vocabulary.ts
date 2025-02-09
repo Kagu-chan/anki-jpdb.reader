@@ -1,5 +1,6 @@
 import { JPDBRemoveVocabularyRequest, JPDBRequestOptions } from './api.types';
 import { request } from './request';
+import { requestByUrl } from './request-by-url';
 import { JPDBSpecialDeckNames } from './types';
 
 export const removeVocabulary = async (
@@ -12,6 +13,19 @@ export const removeVocabulary = async (
     id,
     vocabulary: [[vid, sid]],
   };
+
+  if (id === 'forq') {
+    return await requestByUrl(
+      undefined,
+      'deprioritize',
+      {
+        v: vid,
+        s: sid,
+        origin: '/',
+      },
+      options,
+    );
+  }
 
   await request('deck/remove-vocabulary', payload, options);
 };
