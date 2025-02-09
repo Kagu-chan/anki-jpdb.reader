@@ -33,7 +33,6 @@ export type ConfigurationSchema = {
   ankiReadonlyConfigs: DiscoverWordConfiguration[];
 
   setSentences: boolean;
-  sentenceContextLength: number;
   hidePopupAutomatically: boolean;
   hidePopupDelay: number;
   hideAfterAction: boolean;

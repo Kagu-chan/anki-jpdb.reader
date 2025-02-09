@@ -59,7 +59,6 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   ankiReadonlyConfigs: [],
 
   setSentences: false,
-  sentenceContextLength: 1,
 
   hidePopupAutomatically: true,
   hidePopupDelay: 500,

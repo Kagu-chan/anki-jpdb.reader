@@ -8,11 +8,7 @@ import {
 } from './keys.types';
 import { ConfigurationSchema, Keybind } from './types';
 
-const NUMBER_KEYS: ConfigurationNumberKeys = [
-  'schemaVersion',
-  'sentenceContextLength',
-  'hidePopupDelay',
-];
+const NUMBER_KEYS: ConfigurationNumberKeys = ['schemaVersion', 'hidePopupDelay'];
 const BOOLEAN_KEYS: ConfigurationBooleanKeys = [
   'jpdbAddToForq',
   'jpdbUseTwoGrades',
