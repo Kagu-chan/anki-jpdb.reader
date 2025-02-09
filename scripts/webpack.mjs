@@ -54,6 +54,7 @@ export default (env = {}) => ({
         { from: 'src/hosts.json', to: '[name][ext]' },
         { from: 'src/manifest.json', to: '[name][ext]', transform: (content) => transformManifest(content, env) },
         { from: 'LICENSE.md', to: '[name][ext]' },
+        { from: 'PRIVACY.md', to: '[name][ext]' },
       ],
     }),
   ].filter(Boolean),

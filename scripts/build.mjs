@@ -147,7 +147,7 @@ if (isFirefoxSubmission) {
     cpSync(dir, `submission/${dir}`, { recursive: true });
   });
 
-  ['package.json', 'package-lock.json', 'LICENSE.md'].forEach((file) => {
+  ['package.json', 'package-lock.json', 'LICENSE.md', 'PRIVACY.md'].forEach((file) => {
     copyFileSync(file, `submission/${file}`);
   });
 
