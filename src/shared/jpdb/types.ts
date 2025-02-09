@@ -28,7 +28,7 @@ export type JPDBDeck = {
   is_built_in?: boolean;
 };
 
-export type JPDBSpecialDeckNames = 'blacklist' | 'never-forget';
+export type JPDBSpecialDeckNames = 'blacklist' | 'never-forget' | 'forq';
 export type JPDBGrade = 'nothing' | 'something' | 'hard' | 'okay' | 'easy' | 'fail' | 'pass';
 export type JPDBCardState =
   | 'not-in-deck'
@@ -75,4 +75,5 @@ export type JPDBToken = {
   end: number;
   length: number;
   rubies: JPDBRuby[];
+  pitchClass: string;
 };

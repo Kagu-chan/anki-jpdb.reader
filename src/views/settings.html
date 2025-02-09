@@ -60,7 +60,7 @@
 
           <div class="form-box-parent distance-after">
             <div class="form-box">
-              <div class="not-implemented">
+              <div>
                 <div class="checkbox">
                   <input type="checkbox" id="jpdbAddToForq" name="jpdbAddToForq" shows="#forq" />
                   <label for="jpdbAddToForq">Add to FORQ when mining</label>
@@ -334,7 +334,7 @@
           <div class="form-box">
             <div>
               <div class="checkbox">
-                <input type="checkbox" id="useLegacyHighlighter" name="useLegacyHighlighter" hides="#skipFuriganaBox" />
+                <input type="checkbox" id="useLegacyHighlighter" name="useLegacyHighlighter" hides=".legacyNotSupported" />
                 <label for="useLegacyHighlighter">Use the old text highlighting</label>
               </div>
               <div style="opacity: 0.8">Although the new highlighting has some advantages over the old one, it is not as thoroughly tested.</div>
@@ -345,10 +345,46 @@
                 <li>The new highlighting can recognize obvious misparses and mark them as such.</li>
               </ul>
 
-              <div class="checkbox" id="skipFuriganaBox" hidden>
+              <div class="checkbox legacyNotSupported" hidden>
                 <input type="checkbox" id="skipFurigana" name="skipFurigana" />
                 <label for="skipFurigana">Prevent Furigana from generating</label>
               </div>
+
+              <div class="checkbox legacyNotSupported" hidden>
+                <input type="checkbox" id="generatePitch" name="generatePitch" shows="#explain-pitch" />
+                <label for="generatePitch">Generate pitch accent markers</label>
+              </div>
+              <details class="accordion" id="explain-pitch" hidden>
+                <summary>Japanese Pitch Accent Patterns</summary>
+                <div>
+                  <p>Japanese pitch accent is a feature of the Japanese language that determines the pitch of a word. There are five main pitch accent patterns in Japanese:</p>
+                  <div class="distance-before">
+                    <p>Heiban (平板型) - Low-High (L-H)</p>
+                    <p>The pitch starts low and rises, remaining high for the rest of the word, including any attached particles.</p>
+                    <p>Example: あさ (asa - morning) [LHH]</p>
+                  </div>
+                  <div class="distance-before">
+                    <p>Atamadaka (頭高型) - High-Low (H-L)</p>
+                    <p>The pitch starts high on the first mora and then drops to low for the rest of the word, including any attached particles.</p>
+                    <p>Example: いぬ (inu - dog) [HLL]</p>
+                  </div>
+                  <div class="distance-before">
+                    <p>Nakadaka (中高型) - Low-High-Low (L-H-L)</p>
+                    <p>The pitch starts low, rises to high at some point within the word, and then drops back to low before any attached particles.</p>
+                    <p>Example: さくら (sakura - cherry blossom) [LHL]</p>
+                  </div>
+                  <div class="distance-before">
+                    <p>Odaka (尾高型) - Low-High-Low (L-H-L)</p>
+                    <p>The pitch starts low, rises to high, and remains high until the end of the word. The pitch drops to low when a particle is attached.</p>
+                    <p>Example: はし (hashi - bridge) [LHH] + が (ga) [L]</p>
+                  </div>
+                  <div class="distance-before">
+                    <p>Kifuku (起伏型) - Multiple rises and falls</p>
+                    <p>This pattern involves multiple rises and falls within the word. It is less common and typically found in longer words or compounds. The pitch of attached particles depends on the specific rises and falls within the word.</p>
+                    <p>Example: おもしろい (omoshiroi - interesting) [LHLH]</p>
+                  </div>
+                </div>
+              </details>
             </div>
           </div>
         </div>

@@ -27,6 +27,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
 
   useLegacyHighlighter: false,
   skipFurigana: false,
+  generatePitch: false,
 
   enableAnkiIntegration: false,
   ankiUrl: 'http://localhost:8765',

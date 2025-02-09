@@ -21,9 +21,11 @@ export class AJB {
     this._lookupKeyManager.activate();
 
     receiveBackgroundMessage('toast', displayToast);
-    Registry.events.on('lookupSelectionKey', () =>
-      this.lookupText(window.getSelection()?.toString()),
-    );
+    Registry.events.on('lookupSelectionKey', () => {
+      this.withHiddenRT(() => {
+        this.lookupText(window.getSelection()?.toString());
+      });
+    });
 
     this.installParsers();
 
@@ -38,9 +40,11 @@ export class AJB {
       async (): Promise<void> => {
         const useLegacyHighlighter = await getConfiguration('useLegacyHighlighter', true);
         const skipFurigana = await getConfiguration('skipFurigana', false);
+        const generatePitch = await getConfiguration('generatePitch', false);
 
         Registry.textHighlighter = useLegacyHighlighter ? LegacyTextHighlighter : TextHighlighter;
         Registry.skipFurigana = skipFurigana;
+        Registry.generatePitch = generatePitch;
       },
       true,
     );
@@ -56,7 +60,20 @@ export class AJB {
     new LookupTextCommand(text).send();
   }
 
-  private installParsers(): void {
+  protected withHiddenRT(action: () => void): void {
+    const style = document.createElement('style');
+
+    style.innerHTML = 'rt { display: none !important; }';
+    document.head.appendChild(style);
+
+    try {
+      action();
+    } finally {
+      document.head.removeChild(style);
+    }
+  }
+
+  protected installParsers(): void {
     const { hostEvaluator, parsers } = Registry;
 
     void hostEvaluator.load().then(({ canBeTriggered, relevantMeta }) => {

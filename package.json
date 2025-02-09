@@ -1,14 +1,16 @@
 {
   "name": "anki-jpdb.reader",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "Mine from JPDB directly into Anki",
   "private": true,
   "scripts": {
-    "changelog": "node changelog.mjs",
     "preversion": "npm run build",
-    "version": "node version && git add src/manifest.json",
-    "build": "webpack --mode production --config webpack.prod.js",
-    "watch": "webpack --watch --mode development --config webpack.dev.js",
+    "version": "node scripts/version.mjs && git add src/manifest.json",
+    "changelog": "node scripts/changelog.mjs",
+    "build": "node scripts/build.mjs",
+    "watch": "node scripts/build.mjs --watch",
+    "pack": "node scripts/build.mjs --pack",
+    "ff-submission": "node scripts/build.mjs --ff-submission",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix"
   },
@@ -34,14 +36,14 @@
   "devDependencies": {
     "@eslint/compat": "^1.2.6",
     "@eslint/eslintrc": "^3.2.0",
-    "@eslint/js": "^9.19.0",
-    "@types/chrome": "^0.0.301",
-    "@types/node": "^22.13.0",
+    "@eslint/js": "^9.20.0",
+    "@types/chrome": "^0.0.304",
+    "@types/node": "^22.13.1",
     "@typescript-eslint/eslint-plugin": "^8.23.0",
     "@typescript-eslint/parser": "^8.23.0",
     "browserlist": "^1.0.1",
     "copy-webpack-plugin": "^12.0.2",
-    "eslint": "^9.19.0",
+    "eslint": "^9.20.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-import-resolver-typescript": "^3.7.0",
     "eslint-plugin-import": "^2.31.0",
@@ -50,12 +52,13 @@
     "glob": "^11.0.1",
     "globals": "^15.14.0",
     "prettier": "^3.4.2",
-    "sass": "^1.83.4",
+    "rimraf": "^6.0.1",
+    "sass": "^1.84.0",
     "sass-loader": "^16.0.4",
     "ts-loader": "^9.5.2",
     "typescript": "^5.7.3",
     "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1",
-    "zip-webpack-plugin": "^4.0.3"
+    "zip-a-folder": "^3.1.8"
   }
 }

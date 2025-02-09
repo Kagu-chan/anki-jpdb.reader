@@ -14,6 +14,7 @@ export class TextHighlighter extends BaseTextHighlighter {
     fragments: Fragment[],
     tokens: JPDBToken[],
     protected _skipFurigana?: boolean,
+    protected _generatePitch?: boolean,
   ) {
     super(fragments, tokens);
 
@@ -296,12 +297,12 @@ export class TextHighlighter extends BaseTextHighlighter {
         return this.markElementAsMisparsed(rubyElement);
       }
 
-      this.patchElement(rubyElement, token.card);
+      this.patchElement(rubyElement, token.card, token.pitchClass);
     });
   }
 
   protected applyRubyToFragment(fragment: Fragment, token: JPDBToken): void {
-    const newRuby = this.wrapElement(fragment.node, token.card);
+    const newRuby = this.wrapElement(fragment.node, token.card, token.pitchClass);
 
     if (this._skipFurigana) {
       return;
@@ -346,7 +347,7 @@ export class TextHighlighter extends BaseTextHighlighter {
         const fragmentsRuby = this.findParent(fragment.node, 'RUBY');
 
         if (fragmentsRuby) {
-          this.patchElement(fragmentsRuby, token.card);
+          this.patchElement(fragmentsRuby, token.card, token.pitchClass);
           this.dismissElements(fragment, token);
 
           return;
@@ -375,7 +376,7 @@ export class TextHighlighter extends BaseTextHighlighter {
       const fragmentText = fragments.map((fragment) => fragment.node.textContent).join('');
 
       if (cloneText === fragmentText) {
-        this.patchElement(sharedParentNode, token.card);
+        this.patchElement(sharedParentNode, token.card, token.pitchClass);
 
         fragments.forEach((fragment) => {
           this.dismissElements(fragment, token);
@@ -541,7 +542,7 @@ export class TextHighlighter extends BaseTextHighlighter {
     }
 
     if (fragmentsParent.childNodes.length > 1) {
-      const element = this.wrapElement(node, token?.card);
+      const element = this.wrapElement(node, token?.card, token?.pitchClass);
 
       if (!this._skipFurigana) {
         element.querySelectorAll('rt').forEach((rt) => rt.classList.add('jpdb-furi'));
@@ -550,7 +551,7 @@ export class TextHighlighter extends BaseTextHighlighter {
       return element;
     }
 
-    this.patchElement(fragmentsParent, token?.card);
+    this.patchElement(fragmentsParent, token?.card, token?.pitchClass);
 
     return fragmentsParent;
   }
@@ -571,10 +572,10 @@ export class TextHighlighter extends BaseTextHighlighter {
     }
   }
 
-  protected wrapElement(node: Text, card?: JPDBCard): HTMLElement {
+  protected wrapElement(node: Text, card?: JPDBCard, pitchClass?: string): HTMLElement {
     const element = document.createElement('span');
 
-    this.patchElement(element, card);
+    this.patchElement(element, card, pitchClass);
 
     node.parentElement?.replaceChild(element, node);
     element.appendChild(node);
@@ -582,7 +583,7 @@ export class TextHighlighter extends BaseTextHighlighter {
     return element;
   }
 
-  protected patchElement(element: HTMLElement, card?: JPDBCard): void {
+  protected patchElement(element: HTMLElement, card?: JPDBCard, pitchClass?: string): void {
     // do not apply the same card twice
     if (element.hasAttribute('ajb')) {
       return;
@@ -598,6 +599,10 @@ export class TextHighlighter extends BaseTextHighlighter {
       Registry.addCard(card);
 
       element.classList.add('jpdb-word', ...card.cardState);
+
+      if (pitchClass && this._generatePitch) {
+        element.classList.add(pitchClass);
+      }
 
       element.setAttribute('vid', card.vid.toString());
       element.setAttribute('sid', card.sid.toString());

@@ -19,6 +19,8 @@ export class RunDeckActionCommandHandler extends BackgroundCommandHandler<RunDec
     action: 'add' | 'remove',
   ): Promise<void> {
     const deckIdOrName = await this.getDeck(sender, deck);
+    const addToForqOnAdd = await getConfiguration('jpdbAddToForq', true);
+    const forqDeck = addToForqOnAdd ? await this.getDeck(sender, 'forq') : false;
 
     if (!deckIdOrName) {
       return;
@@ -27,16 +29,21 @@ export class RunDeckActionCommandHandler extends BackgroundCommandHandler<RunDec
     const fn = action === 'add' ? addVocabulary : removeVocabulary;
 
     await fn(deckIdOrName, vid, sid);
+
+    if (forqDeck && deck === 'mining') {
+      await fn(forqDeck, vid, sid);
+    }
   }
 
   private async getDeck(
     sender: MessageSender,
-    key: 'mining' | 'blacklist' | 'neverForget',
+    key: 'mining' | 'blacklist' | 'neverForget' | 'forq',
   ): Promise<JPDBSpecialDeckNames | number | false> {
     const deckKey = {
       mining: 'jpdbMiningDeck',
       blacklist: 'jpdbBlacklistDeck',
       neverForget: 'jpdbNeverForgetDeck',
+      forq: 'jpdbForqDeck',
     }[key] as keyof ConfigurationSchema;
 
     const deck = await getConfiguration(deckKey, true);
