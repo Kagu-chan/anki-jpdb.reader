@@ -14,6 +14,7 @@ export class PopupManager {
 
   private _showPopupOnHover: boolean;
   private _currentHover?: HTMLElement;
+  private _currentSentence?: string;
 
   constructor() {
     onBroadcastMessage(
@@ -34,7 +35,7 @@ export class PopupManager {
    * @param {MouseEvent} event The mouse event containing the target node
    * @returns {void}
    */
-  public enter(event: MouseEvent): void {
+  public enter(event: MouseEvent, sentence?: string): void {
     const { target } = event;
 
     if (!target) {
@@ -42,9 +43,10 @@ export class PopupManager {
     }
 
     this._currentHover = target as HTMLElement;
+    this._currentSentence = sentence;
 
     this._keyManager.activate();
-    this._miningActions.activate(this._currentHover);
+    this._miningActions.activate(this._currentHover, sentence);
     this._gradingActions.activate(this._currentHover);
 
     if (this._showPopupOnHover) {
@@ -59,6 +61,7 @@ export class PopupManager {
    */
   public leave(): void {
     this._currentHover = undefined;
+    this._currentSentence = undefined;
 
     this._keyManager.deactivate();
     this._miningActions.deactivate();
@@ -79,7 +82,7 @@ export class PopupManager {
     }
 
     // TODO: Implement touchscreen support
-    this._popup.show(this._currentHover);
+    this._popup.show(this._currentHover, this._currentSentence);
   }
 
   private handleAdvancedDialog(): void {

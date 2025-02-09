@@ -13,6 +13,7 @@ export class MiningActions {
 
   private _wordstatesSuspended = false;
   private _card?: JPDBCard;
+  private _sentence?: string;
 
   constructor() {
     const { events } = Registry;
@@ -22,13 +23,16 @@ export class MiningActions {
     events.on('addToNeverForgetKey', () => this.addToDeck('neverForget'));
   }
 
-  public activate(context: HTMLElement): void {
+  public activate(context: HTMLElement, sentence?: string): void {
     this._card = Registry.getCardFromElement(context);
+    this._sentence = sentence;
     this._keyManager.activate();
   }
 
   public deactivate(): void {
     this._card = undefined;
+    this._sentence = undefined;
+
     this._keyManager.deactivate();
   }
 
@@ -84,7 +88,7 @@ export class MiningActions {
       return;
     }
 
-    await new RunDeckActionCommand(vid, sid, key, 'add').call();
+    await new RunDeckActionCommand(vid, sid, key, 'add', this._sentence).call();
   }
 
   private async removeFromDeck(key: 'mining' | 'blacklist' | 'neverForget'): Promise<void> {

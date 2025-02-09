@@ -1,5 +1,5 @@
 import { createElement } from '@shared/dom/create-element';
-import { JPDBCard, JPDBToken } from '@shared/jpdb/types';
+import { JPDBToken } from '@shared/jpdb/types';
 import { Fragment } from '../batches/types';
 import { Registry } from '../integration/registry';
 import { BaseTextHighlighter } from './base.text-highlighter';
@@ -297,12 +297,12 @@ export class TextHighlighter extends BaseTextHighlighter {
         return this.markElementAsMisparsed(rubyElement);
       }
 
-      this.patchElement(rubyElement, token.card, token.pitchClass);
+      this.patchElement(rubyElement, token);
     });
   }
 
   protected applyRubyToFragment(fragment: Fragment, token: JPDBToken): void {
-    const newRuby = this.wrapElement(fragment.node, token.card, token.pitchClass);
+    const newRuby = this.wrapElement(fragment.node, token);
 
     if (this._skipFurigana) {
       return;
@@ -347,7 +347,7 @@ export class TextHighlighter extends BaseTextHighlighter {
         const fragmentsRuby = this.findParent(fragment.node, 'RUBY');
 
         if (fragmentsRuby) {
-          this.patchElement(fragmentsRuby, token.card, token.pitchClass);
+          this.patchElement(fragmentsRuby, token);
           this.dismissElements(fragment, token);
 
           return;
@@ -376,7 +376,7 @@ export class TextHighlighter extends BaseTextHighlighter {
       const fragmentText = fragments.map((fragment) => fragment.node.textContent).join('');
 
       if (cloneText === fragmentText) {
-        this.patchElement(sharedParentNode, token.card, token.pitchClass);
+        this.patchElement(sharedParentNode, token);
 
         fragments.forEach((fragment) => {
           this.dismissElements(fragment, token);
@@ -542,7 +542,7 @@ export class TextHighlighter extends BaseTextHighlighter {
     }
 
     if (fragmentsParent.childNodes.length > 1) {
-      const element = this.wrapElement(node, token?.card, token?.pitchClass);
+      const element = this.wrapElement(node, token);
 
       if (!this._skipFurigana) {
         element.querySelectorAll('rt').forEach((rt) => rt.classList.add('jpdb-furi'));
@@ -551,7 +551,7 @@ export class TextHighlighter extends BaseTextHighlighter {
       return element;
     }
 
-    this.patchElement(fragmentsParent, token?.card, token?.pitchClass);
+    this.patchElement(fragmentsParent, token);
 
     return fragmentsParent;
   }
@@ -572,10 +572,10 @@ export class TextHighlighter extends BaseTextHighlighter {
     }
   }
 
-  protected wrapElement(node: Text, card?: JPDBCard, pitchClass?: string): HTMLElement {
+  protected wrapElement(node: Text, token: JPDBToken | undefined): HTMLElement {
     const element = document.createElement('span');
 
-    this.patchElement(element, card, pitchClass);
+    this.patchElement(element, token);
 
     node.parentElement?.replaceChild(element, node);
     element.appendChild(node);
@@ -583,7 +583,9 @@ export class TextHighlighter extends BaseTextHighlighter {
     return element;
   }
 
-  protected patchElement(element: HTMLElement, card?: JPDBCard, pitchClass?: string): void {
+  protected patchElement(element: HTMLElement, token: JPDBToken | undefined): void {
+    const { card, pitchClass, sentence } = token ?? {};
+
     // do not apply the same card twice
     if (element.hasAttribute('ajb')) {
       return;
@@ -608,7 +610,7 @@ export class TextHighlighter extends BaseTextHighlighter {
       element.setAttribute('sid', card.sid.toString());
 
       element.addEventListener('mouseenter', (event: MouseEvent) => {
-        Registry.popupManager?.enter(event);
+        Registry.popupManager?.enter(event, sentence);
       });
       element.addEventListener('mouseleave', () => {
         Registry.popupManager?.leave();
