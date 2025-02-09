@@ -76,4 +76,5 @@ export type JPDBToken = {
   length: number;
   rubies: JPDBRuby[];
   pitchClass: string;
+  sentence?: string;
 };
