@@ -83,6 +83,7 @@ export class Popup {
 
   private _cardContext?: HTMLElement;
   private _card?: JPDBCard;
+  private _sentence?: string;
 
   constructor() {
     this.renderNodes();
@@ -103,9 +104,10 @@ export class Popup {
     onBroadcastMessage('configurationUpdated', () => this.applyConfiguration(), true);
   }
 
-  public show(context: HTMLElement): void {
+  public show(context: HTMLElement, sentence?: string): void {
     this._cardContext = context;
     this._card = Registry.getCardFromElement(context);
+    this._sentence = sentence;
 
     this.clearTimer();
     this.updateParentElement();
@@ -375,10 +377,11 @@ export class Popup {
     const performDeckAction = (
       action: 'add' | 'remove',
       key: 'mining' | 'neverForget' | 'blacklist',
+      sentence?: string,
     ): void => {
       const { vid, sid } = this._card!;
 
-      const deckAction = new RunDeckActionCommand(vid, sid, key, action);
+      const deckAction = new RunDeckActionCommand(vid, sid, key, action, sentence);
       const updateCardState = new UpdateCardStateCommand(vid, sid);
 
       deckAction.send(() => updateCardState.send());
@@ -392,7 +395,7 @@ export class Popup {
     this._mineButtons.replaceChildren();
 
     this.addMiningButton(this._miningDeck, 'mining', 'Add', () =>
-      performDeckAction('add', 'mining'),
+      performDeckAction('add', 'mining', this._sentence),
     );
 
     this.addMiningButton(this._neverForgetDeck, 'never-forget', undefined, () =>

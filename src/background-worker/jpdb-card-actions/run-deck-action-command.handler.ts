@@ -3,6 +3,7 @@ import { ConfigurationSchema } from '@shared/configuration/types';
 import { MessageSender } from '@shared/extension/types';
 import { addVocabulary } from '@shared/jpdb/add-vocabulary';
 import { removeVocabulary } from '@shared/jpdb/remove-vocabulary';
+import { setCardSentence } from '@shared/jpdb/set-card-sentence';
 import { JPDBSpecialDeckNames } from '@shared/jpdb/types';
 import { RunDeckActionCommand } from '@shared/messages/background/run-deck-action.command';
 import { ToastCommand } from '@shared/messages/foreground/toast.command';
@@ -17,9 +18,11 @@ export class RunDeckActionCommandHandler extends BackgroundCommandHandler<RunDec
     sid: number,
     deck: 'mining' | 'blacklist' | 'neverForget',
     action: 'add' | 'remove',
+    sentence?: string,
   ): Promise<void> {
     const deckIdOrName = await this.getDeck(sender, deck);
     const addToForqOnAdd = await getConfiguration('jpdbAddToForq', true);
+    const addSentence = await getConfiguration('setSentences', true);
     const forqDeck = addToForqOnAdd ? await this.getDeck(sender, 'forq') : false;
 
     if (!deckIdOrName) {
@@ -32,6 +35,10 @@ export class RunDeckActionCommandHandler extends BackgroundCommandHandler<RunDec
 
     if (forqDeck && deck === 'mining') {
       await fn(forqDeck, vid, sid);
+    }
+
+    if (addSentence && sentence?.length && action === 'add' && deck === 'mining') {
+      await setCardSentence(vid, sid, sentence);
     }
   }
 

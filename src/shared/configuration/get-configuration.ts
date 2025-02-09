@@ -8,7 +8,7 @@ import {
 } from './keys.types';
 import { ConfigurationSchema, Keybind } from './types';
 
-const NUMBER_KEYS: ConfigurationNumberKeys = ['schemaVersion', 'contextWidth', 'hidePopupDelay'];
+const NUMBER_KEYS: ConfigurationNumberKeys = ['schemaVersion', 'hidePopupDelay'];
 const BOOLEAN_KEYS: ConfigurationBooleanKeys = [
   'jpdbAddToForq',
   'jpdbUseTwoGrades',
@@ -25,6 +25,7 @@ const BOOLEAN_KEYS: ConfigurationBooleanKeys = [
   'skipFurigana',
   'generatePitch',
   'skipReleaseNotes',
+  'setSentences',
 ];
 const OBJECT_KEYS: ConfigurationObjectKeys = [
   'jpdbReviewNothing',

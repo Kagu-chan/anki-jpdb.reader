@@ -59,7 +59,8 @@ export class LegacyTextHighlighter extends BaseTextHighlighter {
                 attributes,
                 class: classes,
                 events: {
-                  onmouseenter: (event: MouseEvent) => Registry.popupManager?.enter(event),
+                  onmouseenter: (event: MouseEvent) =>
+                    Registry.popupManager?.enter(event, token.sentence),
                   onmouseleave: () => Registry.popupManager?.leave(),
                 },
               })
@@ -67,7 +68,8 @@ export class LegacyTextHighlighter extends BaseTextHighlighter {
                 attributes,
                 class: classes,
                 events: {
-                  onmouseenter: (event: MouseEvent) => Registry.popupManager?.enter(event),
+                  onmouseenter: (event: MouseEvent) =>
+                    Registry.popupManager?.enter(event, token.sentence),
                   onmouseleave: () => Registry.popupManager?.leave(),
                 },
               });

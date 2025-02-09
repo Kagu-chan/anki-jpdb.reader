@@ -41,6 +41,12 @@ type JPDBReviewRequest = {
   grade: JPDBGrade;
 };
 
+type JPDBSetSentenceRequest = {
+  vid: number;
+  sid: number;
+  sentence: string;
+};
+
 type JPDBListUserDecksRequest = {
   fields: JPDBDeckFields[];
 };
@@ -74,6 +80,7 @@ export type JPDBEndpoints = {
   'list-user-decks': [JPDBListUserDecksRequest, JPDBListUserDecksResult];
   'deck/add-vocabulary': [JPDBAddVocabularyRequest, void];
   'deck/remove-vocabulary': [JPDBRemoveVocabularyRequest, void];
+  'set-card-sentence': [JPDBSetSentenceRequest, void];
   prioritize: [{ v: number; s: number; origin: string }, void];
   deprioritize: [{ v: number; s: number; origin: string }, void];
 };

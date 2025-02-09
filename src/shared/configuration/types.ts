@@ -32,7 +32,7 @@ export type ConfigurationSchema = {
   ankiNeverForgetConfig: DeckConfiguration;
   ankiReadonlyConfigs: DiscoverWordConfiguration[];
 
-  contextWidth: number;
+  setSentences: boolean;
   hidePopupAutomatically: boolean;
   hidePopupDelay: number;
   hideAfterAction: boolean;
