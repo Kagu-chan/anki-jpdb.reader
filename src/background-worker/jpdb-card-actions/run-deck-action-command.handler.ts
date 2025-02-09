@@ -20,6 +20,7 @@ export class RunDeckActionCommandHandler extends BackgroundCommandHandler<RunDec
   ): Promise<void> {
     const deckIdOrName = await this.getDeck(sender, deck);
     const addToForqOnAdd = await getConfiguration('jpdbAddToForq', true);
+    const forqDeck = addToForqOnAdd ? await this.getDeck(sender, 'forq') : false;
 
     if (!deckIdOrName) {
       return;
@@ -29,8 +30,8 @@ export class RunDeckActionCommandHandler extends BackgroundCommandHandler<RunDec
 
     await fn(deckIdOrName, vid, sid);
 
-    if (addToForqOnAdd && deck === 'mining') {
-      await fn('forq', vid, sid);
+    if (forqDeck && deck === 'mining') {
+      await fn(forqDeck, vid, sid);
     }
   }
 
