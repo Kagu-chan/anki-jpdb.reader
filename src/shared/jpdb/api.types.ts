@@ -75,4 +75,5 @@ export type JPDBEndpoints = {
   'deck/add-vocabulary': [JPDBAddVocabularyRequest, void];
   'deck/remove-vocabulary': [JPDBRemoveVocabularyRequest, void];
   prioritize: [{ v: number; s: number; origin: string }, void];
+  deprioritize: [{ v: number; s: number; origin: string }, void];
 };
