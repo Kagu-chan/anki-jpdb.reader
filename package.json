@@ -1,6 +1,6 @@
 {
   "name": "anki-jpdb.reader",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Mine from JPDB directly into Anki",
   "private": true,
   "scripts": {
