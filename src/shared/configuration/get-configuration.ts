@@ -23,6 +23,7 @@ const BOOLEAN_KEYS: ConfigurationBooleanKeys = [
   'disableFadeAnimation',
   'useLegacyHighlighter',
   'skipFurigana',
+  'generatePitch',
   'skipReleaseNotes',
 ];
 const OBJECT_KEYS: ConfigurationObjectKeys = [

@@ -1,6 +1,7 @@
 import { parse } from '@shared/jpdb/parse';
 import { JPDBCard, JPDBRawToken, JPDBRawVocabulary, JPDBToken } from '@shared/jpdb/types';
 import { Batch } from './parser.types';
+import { getPitchClass } from './pitch-accent-utils';
 
 export class Parser {
   constructor(private batch: Batch) {}
@@ -53,8 +54,10 @@ export class Parser {
   }
 
   private parseTokens(tokens: JPDBRawToken[][], cards: JPDBCard[]): JPDBToken[][] {
-    return tokens.map((innerTokens) =>
-      innerTokens.map((token) => {
+    return tokens.map((innerTokens) => {
+      let lastPitchClass = '';
+
+      return innerTokens.map((token) => {
         const [vocabularyIndex, position, length, furigana] = token;
         const card = cards[vocabularyIndex];
 
@@ -78,19 +81,25 @@ export class Parser {
                 return { text: ruby, start, end, length };
               });
 
-        const result = {
+        const isParticle = card.partOfSpeech.includes('prt');
+        const pitchClass = isParticle ? '' : getPitchClass(card.pitchAccent, card.reading);
+
+        lastPitchClass = pitchClass || lastPitchClass;
+
+        const result: JPDBToken = {
           card,
           start: position,
           end: position + length,
           length: length,
           rubies,
+          pitchClass: lastPitchClass,
         };
 
         this.assignWordWithReading(result);
 
         return result;
-      }),
-    );
+      });
+    });
   }
 
   private assignWordWithReading(token: JPDBToken): void {

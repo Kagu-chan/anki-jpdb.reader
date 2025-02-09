@@ -153,6 +153,12 @@ List of classes:
 - `.suspended` - Suspended words (for example, through the "Suspend words outside of a given top most common words" feature)
 - `.blacklisted` - Blacklisted words (either individually, or through settings like "Blacklist particles", "Blacklist katakana loanwords", etc.)
 - `.misparsed` - Words that are clearly mistaken by jpdb. Only works if the source already has furigana.
+- `.heiban` - Words that follow the heiban (平板型) pitch accent pattern
+- `.atamadaka` - Words that follow the atamadaka (頭高型) pitch accent pattern
+- `.nakadaka` - Words that follow the nakadaka (中高型) pitch accent pattern
+- `.odaka` - Words that follow the odaka (尾高型) pitch accent pattern
+- `.kifuku` - Words that follow the kifuku (起伏型) pitch accent pattern
+- `.unknown-pattern` - Words where the pitch accent pattern could not be determined
 
 ## Building
 

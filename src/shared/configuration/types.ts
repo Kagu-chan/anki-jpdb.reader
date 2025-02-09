@@ -39,6 +39,7 @@ export type ConfigurationSchema = {
 
   useLegacyHighlighter: boolean;
   skipFurigana: boolean;
+  generatePitch: boolean;
 
   showPopupOnHover: boolean;
   touchscreenSupport: boolean;
