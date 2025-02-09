@@ -58,3 +58,28 @@
 .jpdb-word.failed {
     color: rgb(255, 0, 0);
 }
+
+.jpdb-word.heiban {
+    text-decoration: underline;
+    text-decoration-color: #359eff;
+}
+
+.jpdb-word.atamadaka {
+    text-decoration: underline;
+    text-decoration-color: #fe4b74;
+}
+
+.jpdb-word.nakadaka {
+    text-decoration: underline;
+    text-decoration-color: #fba840;
+}
+
+.jpdb-word.odaka {
+    text-decoration: underline;
+    text-decoration-color: #57ccb7;
+}
+
+.jpdb-word.kifuku {
+    text-decoration: underline;
+    text-decoration-color: #9050f6;
+}
