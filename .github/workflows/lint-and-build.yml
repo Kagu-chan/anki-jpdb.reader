@@ -3,9 +3,9 @@ run-name: ${{ github.actor }} (Lint and Build)
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches: [ dev ]
   pull_request:
-    branches: [ $default-branch ]
+    branches: [ dev ]
 
 
 jobs:
