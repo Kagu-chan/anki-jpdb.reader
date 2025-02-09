@@ -35,14 +35,12 @@ const isPack = args.includes('--pack');
 const isWatch = args.includes('--watch');
 
 const isFirefox = args.includes('firefox');
-const isFirefoxAndroid = args.includes('firefox-android');
-const isChrome = args.includes('chrome');
+const isChrome = args.includes('chrome') || args.includes('chromium');
 
-const noTarget = !isFirefox && !isFirefoxAndroid && !isChrome;
+const noTarget = !isFirefox && !isChrome;
 
 const buildFirefox = isFirefox || (isPack && noTarget);
-const buildFirefoxAndroid = isFirefoxAndroid || (isPack && noTarget);
-const buildChrome = isChrome || (isPack ? noTarget : !isFirefox && !isFirefoxAndroid);
+const buildChrome = isChrome || (isPack ? noTarget : !isFirefox);
 
 const webpackArgs = ['webpack', '--config', 'scripts/webpack.mjs'];
 
@@ -64,10 +62,6 @@ if (!isPack) {
     webpackArgs.push('--env', 'firefox');
   }
 
-  if (buildFirefoxAndroid) {
-    targets++;
-    webpackArgs.push('--env', 'firefox-android');
-  }
 
   if (buildChrome) {
     targets++;
@@ -86,7 +80,6 @@ rimrafSync(dist);
 
 console.log(`${isWatch ? 'Watching' : 'Building'} project...`, {
   Firefox: buildFirefox,
-  FirefoxAndroid: buildFirefoxAndroid,
   Chrome: buildChrome,
 });
 
@@ -112,15 +105,6 @@ const manifest = readFileSync(`${source}/manifest.json`, 'utf8');
 if (isChrome || noTarget) {
   console.log('Packaging project for chrome...');
   await zip(source, `${dist}/${fileName}-chromium.zip`);
-}
-
-if (isFirefoxAndroid || noTarget) {
-  console.log('Packaging project for firefox android...');
-
-  const firefoxAndroidManifest = transformManifest(manifest, { 'firefox-android': true });
-  writeFileSync(`${source}/manifest.json`, firefoxAndroidManifest);
-
-  await zip(source, `${dist}/${fileName}-firefox-android.xpi`);
 }
 
 if (isFirefox || noTarget) {

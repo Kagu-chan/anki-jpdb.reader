@@ -7,8 +7,7 @@ Thanks to Max and the [JPDB Discord](https://discord.gg/jWwVD7D2sZ) for making t
 Sadly, manifest 3 came along and thus the original is no longer working.
 
 ### Please note:
-* Currently only chromium-based browsers on Windows and Linux are supported
-    * Firefox support is experimental and only for testing, as well as support for firefox on android
+* Currently only chromium-based browsers on Windows and Linux are supported. Firefox support is experimental and for testing
 * Mobile support is currently not given - i do not own any android devices
 * Bunpro is currently not supported
 * Touchscreen support is currently missing
@@ -36,7 +35,7 @@ Some web apps and sites require special attention to work properly, therefore th
 
 ### Chrome
 
-1.  Download the latest `*-chome.zip` file from the releases page
+1.  Download the latest `*-chromium.zip` file from the releases page
 2.  Unpack the zip file in a location of your choosing
 3.  Open up your browser and navigate to `chrome://extensions/`
 4.  Check the `Developer mode` switch at the top right of your window
@@ -193,6 +192,8 @@ The following commands may be of interest to you:
 * `npm run watch [target]` recompiles for the specified target
 * `npm run pack` builds, then packs the extension for all targets. The archives are placed inside `packages/`
 * `npm run pack [target, [target...]]` builds for specified targets
+
+Currently `chrome|chromium` and `firefox` are supported
 
 ## License
 

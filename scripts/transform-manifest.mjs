@@ -17,14 +17,5 @@ export const transformManifest = (content, env) => {
     });
   }
 
-  if (env['firefox-android']) {
-    Object.assign(manifest, {
-      gecko: {
-        id: '{748a7778-a751-4a23-8eb8-bb3390bf2164}',
-      },
-      gecko_android: {}
-    })
-  }
-
   return JSON.stringify(manifest, null, 2);
 };
