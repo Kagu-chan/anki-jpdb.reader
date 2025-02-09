@@ -8,7 +8,7 @@ Sadly, manifest 3 came along and thus the original is no longer working.
 
 ### Please note:
 * Currently only chromium-based browsers on Windows and Linux are supported
-    * Firefox support is experimental
+    * Firefox support is experimental and only for testing, as well as support for firefox on android
 * Mobile support is currently not given - i do not own any android devices
 * Bunpro is currently not supported
 * Touchscreen support is currently missing
@@ -50,7 +50,15 @@ The extension will be uploaded to the chrome web store once its in a more mature
 ### Firefox
 
 1. Download the latest `-firefox.xpi` file from the releases page
-2. Do stuff?
+2. Open up your browser and navigate to `about:debugging`
+3. Click on `This firefox`, then `Load temporary addon`
+4. In the file picker dialog, navigate to the folder you downloaded the xpi file to.
+7. Click select/open/choose to exit the dialog and load the extension
+8. Continue with the [Setup](#setup) section
+
+Please note, that the extension will be unloaded the next time you open firefox. Your settings will be preserved.
+
+The extension will be uploaded to the firefox web store once its in a more mature state!
 
 ## Setup
 
@@ -183,7 +191,7 @@ The following commands may be of interest to you:
 * `npm run build [target]` builds for a specific target
 * `npm run watch`: Automatically recompiles the code for chrome when it changes, putting the output into `anki-jpdb.reader/`. Using this is recommended during development.
 * `npm run watch [target]` recompiles for the specified target
-* `npm run pack` builds, then packs the extension for all targets
+* `npm run pack` builds, then packs the extension for all targets. The archives are placed inside `packages/`
 * `npm run pack [target, [target...]]` builds for specified targets
 
 ## License
