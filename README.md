@@ -11,7 +11,6 @@ Sadly, manifest 3 came along and thus the original is no longer working.
 * Mobile support is currently not given - i do not own any android devices
 * Bunpro is currently not supported
 * Touchscreen support is currently missing
-* Sentences are currently not set
 * An import and export of settings is currently missing
 * Support for youtube subtitles has been removed - please use this extension together with [asbplayer](https://github.com/killergerbah/asbplayer)
 
