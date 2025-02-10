@@ -161,6 +161,8 @@ export class MokuroParser extends AutomaticParser {
     for (const element of elements) {
       this._mangaPanels.set(element, new MokuroMangaPanel(element));
     }
+
+    this.installAppStyles();
   }
 
   /**

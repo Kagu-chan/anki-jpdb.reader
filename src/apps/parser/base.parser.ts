@@ -1,7 +1,11 @@
 import { HostMeta } from '@shared/host-meta/types';
+import { getParagraphs } from '../batches/get-paragraphs';
 import { Registry } from '../integration/registry';
 
 export abstract class BaseParser {
+  protected _hasInjectedClass = false;
+  protected getParagraphsFn?: typeof getParagraphs;
+
   /** The root element to parse */
   protected get root(): HTMLElement | null {
     const { parse } = this._meta;
@@ -59,6 +63,8 @@ export abstract class BaseParser {
     nodes: (Node | Element)[],
     filter?: (node: Node | Element) => boolean,
   ): void {
+    this.installAppStyles();
+
     const { batchController } = Registry;
 
     batchController.registerNodes(nodes, { filter });
@@ -194,11 +200,13 @@ export abstract class BaseParser {
   ): void {
     const { batchController } = Registry;
 
+    this.installAppStyles();
+
     batchController.registerNodes(elements, {
       filter,
       onEmpty: (e) => e instanceof Element && observer.unobserve(e),
+      getParagraphsFn: this.getParagraphsFn,
     });
-
     batchController.parseBatches();
   }
 
@@ -215,5 +223,27 @@ export abstract class BaseParser {
     const { batchController } = Registry;
 
     elements.forEach((node) => batchController.dismissNode(node));
+  }
+
+  protected installAppStyles(): void {
+    if (!this._hasInjectedClass) {
+      this._hasInjectedClass = true;
+
+      const parserClass =
+        this._meta.parserClass ?? this.pascalCaseToKebabCase(this.constructor.name);
+
+      document.body.classList.add(parserClass);
+
+      if (this._meta.css) {
+        const style = document.createElement('style');
+
+        style.textContent = this._meta.css;
+        document.head.appendChild(style);
+      }
+    }
+  }
+
+  protected pascalCaseToKebabCase(str: string): string {
+    return str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
   }
 }
