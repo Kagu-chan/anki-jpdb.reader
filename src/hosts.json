@@ -20,6 +20,7 @@
     "auto": true,
     "allFrames": false,
     "parseVisibleObserver": true,
+    "parserClass": "texthooker-parser",
     "addedObserver": {
       "notifyFor": ".textline, .line_box, .my-2.cursor-pointer, p",
       "observeFrom": ["#textlog, main", "body"],
@@ -79,6 +80,7 @@
     "auto": true,
     "allFrames": false,
     "parseVisibleObserver": true,
+    "parserClass": "youtube-parser",
     "addedObserver": {
       "notifyFor": "ytd-comment-view-model",
       "observeFrom": "body",
@@ -114,6 +116,7 @@
     "host": ["*://ja.wikipedia.org/*", "*://ja.m.wikipedia.org/*"],
     "auto": true,
     "allFrames": false,
+    "parserClass": "wikipedia-parser",
     "parseVisibleObserver": {
       "exclude": ".p-lang-btn, .vector-menu-heading-label, .vector-toc-toggle, .vector-page-toolbar, .mw-editsection, sup.reference"
     },
