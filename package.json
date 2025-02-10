@@ -1,7 +1,7 @@
 {
   "name": "anki-jpdb.reader",
   "version": "0.3.1",
-  "description": "Mine from JPDB directly into Anki",
+  "description": "Japanese text parsing + sentence mining with JPDB and Anki",
   "private": true,
   "scripts": {
     "preversion": "npm run build",
@@ -10,7 +10,7 @@
     "build": "node scripts/build.mjs",
     "watch": "node scripts/build.mjs --watch",
     "pack": "node scripts/build.mjs --pack",
-    "ff-submission": "node scripts/build.mjs --ff-submission",
+    "release": "node scripts/build.mjs --pack --ff-submission",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix"
   },

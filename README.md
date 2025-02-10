@@ -1,5 +1,10 @@
 # Anki JPDB Reader
 
+## Downloads
+
+* [Firefox (Browser Extension)](https://addons.mozilla.org/en-US/firefox/addon/anki-jpdb-reader/)
+* [All Releases](https://github.com/Kagu-chan/anki-jpdb.reader/releases)
+
 A browser extension thats aims to parse most japanese text in the browser using [JPDB](https://jpdb.io/) and mining into JPDB or [Anki](https://apps.ankiweb.net/) decks.
 
 ## This is a fork of the [JPDB Web Reader extension](https://github.com/max-kamps/jpd-breader)
@@ -7,12 +12,13 @@ Thanks to Max and the [JPDB Discord](https://discord.gg/jWwVD7D2sZ) for making t
 Sadly, manifest 3 came along and thus the original is no longer working.
 
 ### Please note:
-* Currently only chromium-based browsers on Windows and Linux are supported. Firefox support is experimental and for testing
-* Mobile support is currently not given - i do not own any android devices
+* Currently only chromium-based browsers and firefox are supported.
+* Installation in Kiwi and comparable browsers possible, but the extension is not adjusted for mobile use
 * Bunpro is currently not supported
 * Touchscreen support is currently missing
 * An import and export of settings is currently missing
 * Support for youtube subtitles has been removed - please use this extension together with [asbplayer](https://github.com/killergerbah/asbplayer)
+* Extension Updates in browser app stores are delayed from releases on github - this should usually make no difference
 
 ## Automatic parsing
 Some web apps and sites require special attention to work properly, therefore they parse automatically on certain triggers.
@@ -46,6 +52,7 @@ The extension will be uploaded to the chrome web store once its in a more mature
 
 ### Firefox
 
+1. [Firefox Browser Extension](https://addons.mozilla.org/en-US/firefox/addon/anki-jpdb-reader/) **or**
 1. Download the latest `-firefox.xpi` file from the releases page
 2. Open up your browser and navigate to `about:debugging`
 3. Click on `This firefox`, then `Load temporary addon`
@@ -53,9 +60,7 @@ The extension will be uploaded to the chrome web store once its in a more mature
 7. Click select/open/choose to exit the dialog and load the extension
 8. Continue with the [Setup](#setup) section
 
-Please note, that the extension will be unloaded the next time you open firefox. Your settings will be preserved.
-
-The extension will be uploaded to the firefox web store once its in a more mature state!
+Please note, that if you use the manual setup, the extension will be unloaded the next time you open firefox. Your settings will be preserved. This is only for testing and debugging!
 
 ## Setup
 
@@ -127,6 +132,13 @@ Disable misparsed word coloring
 }
 ```
 
+Add extra styles only for ABSPlayer subtitles
+```css
+.asb-player-parser {
+  .jpdb-word { color: white; }
+}
+```
+
 Notes if you aren't super familiar with CSS:
 - CSS supports many color formats, like colornames (`green`), hex `#a2ff0e` or `rgb(126, 230, 17)`. Pick whichever you find most convenient.
 - Selectors with more classes are higher priority. For example, `.jpdb-word.new` will overwrite `.jpdb-word`.
@@ -134,6 +146,12 @@ Notes if you aren't super familiar with CSS:
 - You can add `!important` after a property (like `color: red !important;`) to overwrite the priority system.
 - You can use `:is(.class, .class)` to select any element that has *at least one* of those classes. For example, `.jpdb-word:is(.due, .failed)` selects all words that are due *or* failed.
 - You can use `:not(.class)` to select any element that does *not* have that class. For example, `.jpdb-word:not(.new)` selects all words that are *not* new.
+- You can nest reoccuring classes to make the css simpler to read. To combine selectors (like `.jpdb-word.new`) you may use
+```css
+.jpdb-word {
+    &.new { color: rgb(75, 141, 255); }
+}
+```
 
 List of classes:
 - `.jpdb-word` - Any part of the text that was run through the jpdb parser
@@ -151,13 +169,29 @@ List of classes:
 - `.failed` - Failed words
 - `.suspended` - Suspended words (for example, through the "Suspend words outside of a given top most common words" feature)
 - `.blacklisted` - Blacklisted words (either individually, or through settings like "Blacklist particles", "Blacklist katakana loanwords", etc.)
-- `.misparsed` - Words that are clearly mistaken by jpdb. Only works if the source already has furigana.
+
+List of pitch pattern classes:
 - `.heiban` - Words that follow the heiban (平板型) pitch accent pattern
 - `.atamadaka` - Words that follow the atamadaka (頭高型) pitch accent pattern
 - `.nakadaka` - Words that follow the nakadaka (中高型) pitch accent pattern
 - `.odaka` - Words that follow the odaka (尾高型) pitch accent pattern
 - `.kifuku` - Words that follow the kifuku (起伏型) pitch accent pattern
+
+List of miscellaneous classes:
+- `.misparsed` - Words that are clearly mistaken by jpdb. Only works if the source already has furigana.
 - `.unknown-pattern` - Words where the pitch accent pattern could not be determined
+
+List of app container classes:
+- `.base-parser`
+- `.texthooker-parser`
+- `.ex-static-parser`
+- `.readwok-parser`
+- `.ttsu-parser`
+- `.youtube-parser`
+- `.mokuro-parser`
+- `.mokuro-legacy-parser`
+- `.wikipedia-parser`
+- `.asb-player-parser`
 
 ## Building
 

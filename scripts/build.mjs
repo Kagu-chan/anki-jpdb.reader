@@ -52,11 +52,11 @@ const runCommand = async (command, args) => {
 
 const args = process.argv;
 const isFirefoxSubmission = args.includes('--ff-submission');
-const isPack = isFirefoxSubmission || args.includes('--pack');
-const isWatch = !isFirefoxSubmission && args.includes('--watch');
+const isPack = args.includes('--pack');
+const isWatch = args.includes('--watch');
 
-const isFirefox = isFirefoxSubmission || args.includes('firefox');
-const isChrome = !isFirefoxSubmission && (args.includes('chrome') || args.includes('chromium'));
+const isFirefox = args.includes('firefox');
+const isChrome = args.includes('chrome') || args.includes('chromium');
 
 const noTarget = !isFirefox && !isChrome;
 
@@ -65,8 +65,8 @@ const buildChrome = isChrome || (isPack ? noTarget : !isFirefox);
 
 const webpackArgs = ['webpack', '--config', 'scripts/webpack.mjs'];
 
-if (isPack && isWatch) {
-  console.error('Cannot pack and watch at the same time');
+if (isWatch && (isPack || isFirefoxSubmission)) {
+  console.error('Cannot watch and pack at the same time');
 
   process.exit(1);
 }
