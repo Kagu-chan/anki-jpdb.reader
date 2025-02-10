@@ -79,4 +79,9 @@ export type HostMeta = {
    * If used in junction with `parseVisibleObserver`, the `MutationObserver` will add all added elements to the created `IntersectionObserver`
    */
   addedObserver?: AddedObserverOptions;
+
+  /**
+   * Optional class to add to the document body to indicate that the parser is active and style its elements.
+   */
+  parserClass?: string;
 };

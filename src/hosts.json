@@ -131,6 +131,7 @@
     "auto": true,
     "allFrames": true,
     "css": ".asbplayer-subtitles-container-bottom { z-index: 2147483646 }",
+    "parserClass": "asb-player-parser",
     "addedObserver": {
       "notifyFor": ".asbplayer-offscreen",
       "observeFrom": "body",
