@@ -27,6 +27,7 @@ export class Popup {
       onmousedown: (ev: MouseEvent) => ev.stopPropagation(),
       onclick: (ev: MouseEvent) => ev.stopPropagation(),
       onwheel: (ev: WheelEvent) => ev.stopPropagation(),
+      ontouchstarted: (ev: TouchEvent) => ev.stopPropagation(),
     },
     style: {
       all: 'initial',
@@ -53,6 +54,31 @@ export class Popup {
   /** Contains the various meanings of a word */
   private _details = createElement('section', { id: 'details' });
 
+  /** Contains the close button */
+  private _closeButton = createElement('section', {
+    id: 'close',
+    class: ['controls'],
+    style: {
+      display: 'none', // Hidden by default
+    },
+    children: [
+      createElement('a', {
+        id: 'close-btn',
+        class: ['outline', 'close'],
+        innerText: '❌', // Using ❌ emoji instead of × symbol
+        style: {
+          fontSize: '26px', // Adjust size for emoji
+          width: '45px', // Wider button
+          height: '45px', // Square button
+          display: 'flex',
+          alignItems: 'center', // Vertical centering
+          justifyContent: 'center', // Horizontal centering
+          padding: '0', // Remove padding
+        },
+        handler: () => this.hide(),
+      }),
+    ],
+  });
   //#endregion
 
   /**
@@ -64,7 +90,13 @@ export class Popup {
       onmouseenter: () => this.startHover(),
       onmouseleave: () => this.stopHover(),
     },
-    children: [this._mineButtons, this._gradeButtons, this._context, this._details],
+    children: [
+      this._closeButton,
+      this._mineButtons,
+      this._gradeButtons,
+      this._context,
+      this._details,
+    ],
   });
 
   private _hidePopupAutomatically: boolean;
@@ -73,6 +105,7 @@ export class Popup {
   private _disableReviews: boolean;
   private _disableFadeAnimation: boolean;
   private _useTwoPointGrading: boolean;
+  private _touchscreenSupport: boolean;
 
   private _miningDeck?: string;
   private _neverForgetDeck?: string;
@@ -166,6 +199,7 @@ export class Popup {
     this._disableFadeAnimation = await getConfiguration('disableFadeAnimation', true);
     this._useTwoPointGrading = await getConfiguration('jpdbUseTwoGrades', true);
     this._disableReviews = await getConfiguration('jpdbDisableReviews', true);
+    this._touchscreenSupport = await getConfiguration('touchscreenSupport', true);
 
     this._miningDeck = await getConfiguration('jpdbMiningDeck', true);
     this._neverForgetDeck = await getConfiguration('jpdbNeverForgetDeck', true);
@@ -173,6 +207,7 @@ export class Popup {
 
     this._customStyles.textContent = await getConfiguration('customPopupCSS', true);
 
+    this._closeButton.style.display = this._touchscreenSupport ? 'flex' : 'none';
     this.updateMiningButtons();
     this.updateGradingButtons();
   }
@@ -307,6 +342,18 @@ export class Popup {
         minLeft,
         maxLeft,
       );
+    }
+
+    // Add check for mobile viewport width
+    if (window.innerWidth <= 768) {
+      // Match your media query breakpoint
+      // Center the popup
+      const popupLeft = (window.innerWidth - this._popup.offsetWidth) / 2 + window.scrollX;
+      // const popupTop = window.scrollY + 50; // 50px from top, adjust as needed
+
+      this._root.style.transform = `translate(${popupLeft}px, ${popupTop}px)`;
+
+      return;
     }
 
     this._root.style.transform = `translate(${popupLeft}px, ${popupTop}px)`;
@@ -672,6 +719,10 @@ export class Popup {
   }
 
   private stopHover(): void {
+    if (this._touchscreenSupport) {
+      return;
+    }
+
     this._isHover = false;
 
     if (!this.isVisibile()) {
@@ -692,6 +743,11 @@ export class Popup {
   }
 
   private handleKeydown(e: MouseEvent | KeyboardEvent): void {
+    if (this._touchscreenSupport) {
+      // This blocks the popup closing immediately after a touch up event
+      return;
+    }
+
     if (e && 'key' in e && e.key === 'Escape' && this.isVisibile()) {
       e.stopPropagation();
 

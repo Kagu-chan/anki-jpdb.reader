@@ -13,6 +13,7 @@ export class PopupManager {
   private _popup = new Popup();
 
   private _showPopupOnHover: boolean;
+  private _touchscreenSupport: boolean;
   private _currentHover?: HTMLElement;
   private _currentSentence?: string;
 
@@ -21,6 +22,7 @@ export class PopupManager {
       'configurationUpdated',
       async () => {
         this._showPopupOnHover = await getConfiguration('showPopupOnHover', true);
+        this._touchscreenSupport = await getConfiguration('touchscreenSupport', true);
       },
       true,
     );
@@ -55,11 +57,46 @@ export class PopupManager {
   }
 
   /**
+   * Register a node for keybinds and the popup itself. Shows the popup if configured to do so.
+   *
+   * @param {TouchEvent} event The touch event containing the target node
+   * @returns {void}
+   */
+  public touch(event: TouchEvent): void {
+    const { target } = event;
+
+    if (!target) {
+      return;
+    }
+
+    // if (this._currentHover === target) {
+    //   Close the popup when clicking on a word, seems to be buggy
+    //   this._popup.hide();
+    //   this._currentHover = undefined;
+
+    //   return;
+    // }
+
+    this._currentHover = target as HTMLElement;
+
+    // this._keyManager.activate();
+    this._miningActions.activate(this._currentHover);
+    this._gradingActions.activate(this._currentHover);
+
+    this.handlePopup();
+  }
+
+  /**
    * Leave the current context. Deactivates keybinds. If the popup currently open, it will be hidden after a short delay
    *
    * @returns {void}
    */
   public leave(): void {
+    if (this._touchscreenSupport) {
+      // Click outside popup detection has many false positives on touchscreens
+      // so its disabled to not be annoying
+      return;
+    }
     this._currentHover = undefined;
     this._currentSentence = undefined;
 

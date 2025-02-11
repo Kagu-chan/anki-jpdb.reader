@@ -42,6 +42,34 @@
         }
       }
 
+      &#close {
+        position: absolute;
+        top: 0.5em;
+        right: 0.5em;
+        
+        a {
+          background-color: rgba(255, 255, 255, 0.1);
+          border: 2px solid currentColor;
+          border-radius: 6px;
+          color: map.get(colors.$colors, text-color);
+          opacity: 0.8;
+          transition: all 0.2s ease;
+          text-decoration: none;
+          user-select: none;  // Prevent emoji selection
+
+          &:hover {
+            opacity: 1;
+            background-color: rgba(255, 0, 0, 0.1);
+            border-color: rgba(255, 0, 0, 0.8);
+            color: rgba(255, 0, 0, 0.8);
+          }
+
+          &:active {
+            background-color: rgba(255, 0, 0, 0.2);
+          }
+        }
+      }
+
       &#mining {
         @each $id, $color in colors.$decks {
           .#{$id} {
@@ -165,5 +193,15 @@
         padding: 0 0 0 1.5em;
       }
     }
+  }
+
+
+  // Make the popup cover all the width
+  // on small screens
+  @media (max-width: 768px) {
+    width: 90vw;
+    max-width: none;
+    margin: 0 auto;
+    // padding: 1rem;
   }
 }
