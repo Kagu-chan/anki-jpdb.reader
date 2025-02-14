@@ -2,7 +2,8 @@
 
 ## Downloads
 
-* [Firefox (Browser Extension)](https://addons.mozilla.org/en-US/firefox/addon/anki-jpdb-reader/)
+* [Chrome (Browser Extension)](https://chromewebstore.google.com/detail/anki-jpdb-reader/ocmngfhjplhjgmkjmacdmkodkphnicad)
+* [Firefox (Browser Extension)](https://addons.mozilla.org/firefox/addon/anki-jpdb-reader/)
 * [All Releases](https://github.com/Kagu-chan/anki-jpdb.reader/releases)
 
 A browser extension thats aims to parse most japanese text in the browser using [JPDB](https://jpdb.io/) and mining into JPDB or [Anki](https://apps.ankiweb.net/) decks.
@@ -18,7 +19,7 @@ Sadly, manifest 3 came along and thus the original is no longer working.
 * Touchscreen support is currently missing
 * An import and export of settings is currently missing
 * Support for youtube subtitles has been removed - please use this extension together with [asbplayer](https://github.com/killergerbah/asbplayer)
-* Extension Updates in browser app stores are delayed from releases on github - this should usually make no difference
+* Extension Updates in browser app stores are sometimes delayed from releases on github - this should usually make no difference
 
 ## Automatic parsing
 Some web apps and sites require special attention to work properly, therefore they parse automatically on certain triggers.
@@ -39,6 +40,8 @@ Some web apps and sites require special attention to work properly, therefore th
 
 ### Chrome
 
+[Chrome Browser Extension](https://chromewebstore.google.com/detail/anki-jpdb-reader/ocmngfhjplhjgmkjmacdmkodkphnicad) **or**
+
 1.  Download the latest `*-chromium.zip` file from the releases page
 2.  Unpack the zip file in a location of your choosing
 3.  Open up your browser and navigate to `chrome://extensions/`
@@ -48,11 +51,10 @@ Some web apps and sites require special attention to work properly, therefore th
 7.  Click select/open/choose to exit the dialog and load the extension
 8.  Continue with the [Setup](#setup) section
 
-The extension will be uploaded to the chrome web store once its in a more mature state!
-
 ### Firefox
 
-1. [Firefox Browser Extension](https://addons.mozilla.org/en-US/firefox/addon/anki-jpdb-reader/) **or**
+[Firefox Browser Extension](https://addons.mozilla.org/firefox/addon/anki-jpdb-reader/) **or**
+
 1. Download the latest `-firefox.xpi` file from the releases page
 2. Open up your browser and navigate to `about:debugging`
 3. Click on `This firefox`, then `Load temporary addon`

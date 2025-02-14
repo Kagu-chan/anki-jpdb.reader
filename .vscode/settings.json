@@ -8,9 +8,12 @@
   "editor.formatOnSaveMode": "file",
   "editor.insertSpaces": true,
   "editor.tabSize": 2,
-  "vs-code-prettier-eslint.prettierLast": false,
   "[html]": {
     "files.insertFinalNewline": false
+  },
+  "[markdown]": {
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": false
   },
   "typescript.updateImportsOnFileMove.enabled": "always",
   "javascript.updateImportsOnFileMove.enabled": "always",
