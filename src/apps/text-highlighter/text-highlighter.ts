@@ -615,7 +615,7 @@ export class TextHighlighter extends BaseTextHighlighter {
       element.addEventListener('mouseleave', () => {
         Registry.popupManager?.leave();
       });
-      element.addEventListener('touchstart', (event: TouchEvent) => {
+      element.addEventListener('click', (event: TouchEvent) => {
         Registry.popupManager?.touch(event);
       });
 

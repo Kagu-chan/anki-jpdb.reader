@@ -63,6 +63,9 @@ export class PopupManager {
    * @returns {void}
    */
   public touch(event: TouchEvent): void {
+    if (!this._touchscreenSupport) {
+      return;
+    }
     const { target } = event;
 
     if (!target) {

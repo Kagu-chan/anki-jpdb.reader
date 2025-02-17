@@ -27,7 +27,6 @@ export class Popup {
       onmousedown: (ev: MouseEvent) => ev.stopPropagation(),
       onclick: (ev: MouseEvent) => ev.stopPropagation(),
       onwheel: (ev: WheelEvent) => ev.stopPropagation(),
-      ontouchstarted: (ev: TouchEvent) => ev.stopPropagation(),
     },
     style: {
       all: 'initial',
@@ -65,15 +64,13 @@ export class Popup {
       createElement('a', {
         id: 'close-btn',
         class: ['outline', 'close'],
-        innerText: '❌', // Using ❌ emoji instead of × symbol
         style: {
-          fontSize: '26px', // Adjust size for emoji
-          width: '45px', // Wider button
-          height: '45px', // Square button
+          width: '45px', // Square button
+          height: '45px',
           display: 'flex',
-          alignItems: 'center', // Vertical centering
-          justifyContent: 'center', // Horizontal centering
-          padding: '0', // Remove padding
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '0',
         },
         handler: () => this.hide(),
       }),
