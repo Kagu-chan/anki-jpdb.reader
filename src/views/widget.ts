@@ -16,8 +16,18 @@ onLoaded(async () => {
     void openView('changelog');
   });
 
+  const tabsFilter: Parameters<typeof chrome.tabs.query>[0] = { currentWindow: true };
+
   const showCurrentOnTop = await getConfiguration('showCurrentOnTop', true);
-  const allTabs = await getTabs({ currentWindow: true });
+  const hideInactiveTabs = await getConfiguration('hideInactiveTabs', true);
+
+  if (hideInactiveTabs) {
+    tabsFilter.active = true;
+
+    document.getElementById('not-parsable')!.innerText = 'Current tab parsed or disabled';
+  }
+
+  const allTabs = await getTabs(tabsFilter);
   const parsePage = new ParsePageCommand();
 
   let renderedTabs: chrome.tabs.Tab[] = [];

@@ -41,6 +41,7 @@ export type ConfigurationSchema = {
   skipFurigana: boolean;
   generatePitch: boolean;
   showCurrentOnTop: boolean;
+  hideInactiveTabs: boolean;
 
   showPopupOnHover: boolean;
   touchscreenSupport: boolean;
