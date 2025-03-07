@@ -51,6 +51,7 @@ export type ConfigurationSchema = {
   showPopupOnHover: boolean;
   touchscreenSupport: boolean;
   disableFadeAnimation: boolean;
+  showParseButton: boolean;
 
   parseKey: Keybind;
   showPopupKey: Keybind;
