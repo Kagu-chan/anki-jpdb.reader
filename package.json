@@ -40,7 +40,7 @@
     "@types/chrome": "^0.0.304",
     "@types/node": "^22.13.5",
     "@typescript-eslint/eslint-plugin": "^8.26.0",
-    "@typescript-eslint/parser": "^8.24.1",
+    "@typescript-eslint/parser": "^8.26.0",
     "browserlist": "^1.0.1",
     "copy-webpack-plugin": "^12.0.2",
     "eslint": "^9.21.0",
