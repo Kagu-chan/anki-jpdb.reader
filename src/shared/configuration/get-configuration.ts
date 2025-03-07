@@ -50,6 +50,7 @@ const OBJECT_KEYS: ConfigurationObjectKeys = [
   'addToMiningKey',
   'addToBlacklistKey',
   'addToNeverForgetKey',
+  'addToSuspendedKey',
 ];
 
 export const getConfiguration = async <K extends keyof ConfigurationSchema>(

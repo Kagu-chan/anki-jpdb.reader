@@ -55,6 +55,7 @@ export type ConfigurationSchema = {
   addToMiningKey: Keybind;
   addToBlacklistKey: Keybind;
   addToNeverForgetKey: Keybind;
+  addToSuspendedKey: Keybind;
 
   customWordCSS: string;
   customPopupCSS: string;

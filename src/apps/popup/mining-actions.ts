@@ -9,6 +9,7 @@ export class MiningActions {
     'addToMiningKey',
     'addToBlacklistKey',
     'addToNeverForgetKey',
+    'addToSuspendedKey',
   ]);
 
   private _wordstatesSuspended = false;
@@ -21,6 +22,7 @@ export class MiningActions {
     events.on('addToMiningKey', () => this.addToDeck('mining'));
     events.on('addToBlacklistKey', () => this.addToDeck('blacklist'));
     events.on('addToNeverForgetKey', () => this.addToDeck('neverForget'));
+    events.on('addToSuspendedKey', () => this.addToDeck('suspend'));
   }
 
   public activate(context: HTMLElement, sentence?: string): void {

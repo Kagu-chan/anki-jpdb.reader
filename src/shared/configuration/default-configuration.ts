@@ -78,6 +78,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   addToMiningKey: { key: '', code: '', modifiers: [] },
   addToBlacklistKey: { key: '', code: '', modifiers: [] },
   addToNeverForgetKey: { key: '', code: '', modifiers: [] },
+  addToSuspendedKey: { key: '', code: '', modifiers: [] },
 
   customWordCSS: '',
   customPopupCSS: '',

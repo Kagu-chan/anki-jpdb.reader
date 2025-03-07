@@ -19,6 +19,7 @@ type KeybindEvents = {
   addToMiningKey: KeybindEvent;
   addToBlacklistKey: KeybindEvent;
   addToNeverForgetKey: KeybindEvent;
+  addToSuspendedKey: KeybindEvent;
 };
 
 type ReleaseKeybindEvents = {
