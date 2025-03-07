@@ -27,6 +27,7 @@ const BOOLEAN_KEYS: ConfigurationBooleanKeys = [
   'skipReleaseNotes',
   'setSentences',
   'showCurrentOnTop',
+  'hideInactiveTabs',
 ];
 const OBJECT_KEYS: ConfigurationObjectKeys = [
   'jpdbReviewNothing',

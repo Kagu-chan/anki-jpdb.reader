@@ -401,8 +401,15 @@
 
             <div>
               <div class="checkbox">
+                <input type="checkbox" id="hideInactiveTabs" name="hideInactiveTabs" hides="#hideInactiveTabsBox" />
+                <label for="hideInactiveTabs">Only show currently opened tab in parse selection</label>
+              </div>
+            </div>
+
+            <div hidden id="hideInactiveTabsBox">
+              <div class="checkbox">
                 <input type="checkbox" id="showCurrentOnTop" name="showCurrentOnTop" />
-                <label for="showCurrentOnTop">Show current tab on top of list</label>
+                <label for="showCurrentOnTop">Show current tab on top of tab selection list</label>
               </div>
             </div>
           </div>
