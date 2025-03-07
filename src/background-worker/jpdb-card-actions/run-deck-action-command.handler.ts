@@ -16,7 +16,7 @@ export class RunDeckActionCommandHandler extends BackgroundCommandHandler<RunDec
     sender: MessageSender,
     vid: number,
     sid: number,
-    deck: 'mining' | 'blacklist' | 'neverForget',
+    deck: 'mining' | 'blacklist' | 'neverForget' | 'suspend',
     action: 'add' | 'remove',
     sentence?: string,
   ): Promise<void> {
@@ -44,13 +44,14 @@ export class RunDeckActionCommandHandler extends BackgroundCommandHandler<RunDec
 
   private async getDeck(
     sender: MessageSender,
-    key: 'mining' | 'blacklist' | 'neverForget' | 'forq',
+    key: 'mining' | 'blacklist' | 'neverForget' | 'forq' | 'suspend',
   ): Promise<JPDBSpecialDeckNames | number | false> {
     const deckKey = {
       mining: 'jpdbMiningDeck',
       blacklist: 'jpdbBlacklistDeck',
       neverForget: 'jpdbNeverForgetDeck',
       forq: 'jpdbForqDeck',
+      suspend: 'jpdbSuspendDeck',
     }[key] as keyof ConfigurationSchema;
 
     const deck = await getConfiguration(deckKey, true);

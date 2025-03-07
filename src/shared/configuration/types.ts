@@ -7,6 +7,7 @@ export type ConfigurationSchema = {
   jpdbMiningDeck: string;
   jpdbBlacklistDeck: string;
   jpdbForqDeck: string;
+  jpdbSuspendDeck: string;
   jpdbNeverForgetDeck: string;
   skipReleaseNotes: boolean;
   jpdbAddToForq: boolean;

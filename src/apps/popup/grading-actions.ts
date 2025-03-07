@@ -113,6 +113,7 @@ export class GradingActions {
     const state = this._card.cardState ?? [];
     const nf = state.includes('never-forget');
     const bl = state.includes('blacklisted');
+    // const sp = state.includes('suspended');
 
     this._miningActions.suspendUpdateWordStates();
 

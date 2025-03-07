@@ -10,6 +10,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   jpdbBlacklistDeck: 'blacklist',
   jpdbNeverForgetDeck: 'never-forget',
   jpdbForqDeck: 'forq',
+  jpdbSuspendDeck: '',
   jpdbAddToForq: false,
   jpdbUseTwoGrades: false,
   jpdbRotateFlags: false,
