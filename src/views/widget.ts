@@ -1,3 +1,4 @@
+import { getConfiguration } from '@shared/configuration/get-configuration';
 import { appendElement } from '@shared/dom/append-element';
 import { onLoaded } from '@shared/dom/on-loaded';
 import { getTabs } from '@shared/extension/get-tabs';
@@ -15,18 +16,38 @@ onLoaded(async () => {
     void openView('changelog');
   });
 
-  for (const tab of await getTabs({ currentWindow: true })) {
-    const parsePage = new ParsePageCommand();
-    const url = tab.url!;
+  const showCurrentOnTop = await getConfiguration('showCurrentOnTop', true);
+  const allTabs = await getTabs({ currentWindow: true });
+  const parsePage = new ParsePageCommand();
 
-    if (!tab.id || url.startsWith('about://') || url.startsWith('chrome://')) {
-      continue;
+  let renderedTabs: chrome.tabs.Tab[] = [];
+
+  for (const tab of allTabs) {
+    if (
+      tab.id &&
+      !tab.url?.startsWith('about://') &&
+      !tab.url?.startsWith('chrome://') &&
+      !(await isDisabled(tab.url!))
+    ) {
+      renderedTabs.push(tab);
     }
+  }
 
-    if (await isDisabled(url)) {
-      continue;
-    }
+  if (showCurrentOnTop) {
+    renderedTabs = renderedTabs.sort((a, b) => {
+      if (a.active) {
+        return -1;
+      }
 
+      if (b.active) {
+        return 1;
+      }
+
+      return 0;
+    });
+  }
+
+  for (const tab of renderedTabs) {
     appendElement<'a'>('.pages', {
       tag: 'a',
       class: ['outline'],
