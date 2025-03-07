@@ -15,6 +15,9 @@ const BOOLEAN_KEYS: ConfigurationBooleanKeys = [
   'jpdbDisableReviews',
   'jpdbRotateFlags',
   'jpdbRotateCycle',
+  'jpdbCycleNeverForget',
+  'jpdbCycleBlacklist',
+  'jpdbCycleSuspended',
   'enableAnkiIntegration',
   'showPopupOnHover',
   'hidePopupAutomatically',
@@ -50,6 +53,7 @@ const OBJECT_KEYS: ConfigurationObjectKeys = [
   'addToMiningKey',
   'addToBlacklistKey',
   'addToNeverForgetKey',
+  'addToSuspendedKey',
 ];
 
 export const getConfiguration = async <K extends keyof ConfigurationSchema>(

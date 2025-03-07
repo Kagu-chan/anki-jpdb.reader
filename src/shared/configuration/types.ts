@@ -7,13 +7,12 @@ export type ConfigurationSchema = {
   jpdbMiningDeck: string;
   jpdbBlacklistDeck: string;
   jpdbForqDeck: string;
+  jpdbSuspendDeck: string;
   jpdbNeverForgetDeck: string;
   skipReleaseNotes: boolean;
   jpdbAddToForq: boolean;
   jpdbUseTwoGrades: boolean;
   jpdbDisableReviews: boolean;
-  jpdbRotateFlags: boolean;
-  jpdbRotateCycle: boolean;
   jpdbReviewNothing: Keybind;
   jpdbReviewSomething: Keybind;
   jpdbReviewHard: Keybind;
@@ -23,6 +22,12 @@ export type ConfigurationSchema = {
   jpdbReviewPass: Keybind;
   jpdbRotateForward: Keybind;
   jpdbRotateBackward: Keybind;
+
+  jpdbRotateFlags: boolean;
+  jpdbRotateCycle: boolean;
+  jpdbCycleNeverForget: boolean;
+  jpdbCycleBlacklist: boolean;
+  jpdbCycleSuspended: boolean;
 
   enableAnkiIntegration: boolean;
   ankiUrl: string;
@@ -54,6 +59,7 @@ export type ConfigurationSchema = {
   addToMiningKey: Keybind;
   addToBlacklistKey: Keybind;
   addToNeverForgetKey: Keybind;
+  addToSuspendedKey: Keybind;
 
   customWordCSS: string;
   customPopupCSS: string;

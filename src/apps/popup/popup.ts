@@ -3,7 +3,7 @@ import { createElement } from '@shared/dom/create-element';
 import { findElements } from '@shared/dom/find-elements';
 import { withElement } from '@shared/dom/with-element';
 import { getStyleUrl } from '@shared/extension/get-style-url';
-import { JPDBCard, JPDBGrade } from '@shared/jpdb/types';
+import { JPDBCard, JPDBCardState, JPDBGrade } from '@shared/jpdb/types';
 import { GradeCardCommand } from '@shared/messages/background/grade-card.command';
 import { RunDeckActionCommand } from '@shared/messages/background/run-deck-action.command';
 import { UpdateCardStateCommand } from '@shared/messages/background/update-card-state.command';
@@ -77,6 +77,7 @@ export class Popup {
   private _miningDeck?: string;
   private _neverForgetDeck?: string;
   private _blacklistDeck?: string;
+  private _suspendDeck?: string;
 
   private _hideTimer?: NodeJS.Timeout;
   private _isHover?: boolean;
@@ -170,6 +171,7 @@ export class Popup {
     this._miningDeck = await getConfiguration('jpdbMiningDeck', true);
     this._neverForgetDeck = await getConfiguration('jpdbNeverForgetDeck', true);
     this._blacklistDeck = await getConfiguration('jpdbBlacklistDeck', true);
+    this._suspendDeck = await getConfiguration('jpdbSuspendDeck', true);
 
     this._customStyles.textContent = await getConfiguration('customPopupCSS', true);
 
@@ -376,7 +378,7 @@ export class Popup {
   private updateMiningButtons(): void {
     const performDeckAction = (
       action: 'add' | 'remove',
-      key: 'mining' | 'neverForget' | 'blacklist',
+      key: 'mining' | 'neverForget' | 'blacklist' | 'suspend',
       sentence?: string,
     ): void => {
       const { vid, sid } = this._card!;
@@ -386,7 +388,7 @@ export class Popup {
 
       deckAction.send(() => updateCardState.send());
     };
-    const performFlaggedDeckAction = (key: 'neverForget' | 'blacklist'): void => {
+    const performFlaggedDeckAction = (key: 'neverForget' | 'blacklist' | 'suspend'): void => {
       const action = this.cardHasState(key, this._card!) ? 'remove' : 'add';
 
       performDeckAction(action, key);
@@ -403,6 +405,9 @@ export class Popup {
     );
     this.addMiningButton(this._blacklistDeck, 'blacklist', undefined, () =>
       performFlaggedDeckAction('blacklist'),
+    );
+    this.addMiningButton(this._suspendDeck, 'suspend', undefined, () =>
+      performFlaggedDeckAction('suspend'),
     );
   }
 
@@ -455,9 +460,15 @@ export class Popup {
   //#endregion
   //#region Card Utils
 
-  private cardHasState(state: 'neverForget' | 'blacklist', card: JPDBCard): boolean {
+  private cardHasState(state: 'neverForget' | 'blacklist' | 'suspend', card: JPDBCard): boolean {
     const { cardState } = card;
-    const lookupState = state === 'neverForget' ? 'never-forget' : 'blacklisted';
+    const lookupState: JPDBCardState = (
+      {
+        neverForget: 'never-forget',
+        blacklist: 'blacklisted',
+        suspend: 'suspended',
+      } as Record<typeof state, JPDBCardState>
+    )[state];
 
     return cardState.includes(lookupState);
   }
@@ -478,12 +489,16 @@ export class Popup {
   private adjustMiningButtons(card: JPDBCard): void {
     const isNF = this.cardHasState('neverForget', card);
     const isBL = this.cardHasState('blacklist', card);
+    const isSP = this.cardHasState('suspend', card);
 
     withElement(this._mineButtons, '#never-forget-deck', (el) => {
-      el.innerText = isNF ? 'Unmark as never forget' : 'Never forget';
+      el.innerText = isNF ? 'Forget' : 'Never forget';
     });
     withElement(this._mineButtons, '#blacklist-deck', (el) => {
-      el.innerText = isBL ? 'Remove from blacklist' : 'Blacklist';
+      el.innerText = isBL ? 'Whitelist' : 'Blacklist';
+    });
+    withElement(this._mineButtons, '#suspend-deck', (el) => {
+      el.innerText = isSP ? 'Unsuspend' : 'Suspend';
     });
   }
 

@@ -84,14 +84,41 @@
               <div>
                 <div class="checkbox">
                   <input type="checkbox" id="jpdbRotateFlags" name="jpdbRotateFlags" shows=".rotate-flags" />
-                  <label for="jpdbRotateFlags">Rotate flags (<code>never-forget</code> -> <code>blacklisted</code> -> <code>none</code>)</label>
+                  <label for="jpdbRotateFlags">Cycle between decks</label>
+                </div>
+                <p style="opacity: 0.8" indent up>
+                  If enabled, you can move a word from one deck to another by pressing a keybind.
+                </p>
+              </div>
+
+              <div class="rotate-flags" indent>
+                <div class="checkbox">
+                  <input type="checkbox" id="jpdbRotateCycle" name="jpdbRotateCycle" />
+                  <label for="jpdbRotateCycle">Dont remove from any deck when cycling</label>
+                </div>
+                <p style="opacity: 0.8" indent up>
+                  If set, a word wont be removed from any deck when cycling. Otherwise it will be removed when the last deck in the chain is reached.
+                </p>
+              </div>
+
+              <div class="rotate-flags" indent>
+                <div class="checkbox">
+                  <input type="checkbox" id="jpdbCycleNeverForget" name="jpdbCycleNeverForget" />
+                  <label for="jpdbCycleNeverForget">Use Never Forget when cycling between decks</label>
                 </div>
               </div>
 
-              <div class="rotate-flags">
+              <div class="rotate-flags" indent>
                 <div class="checkbox">
-                  <input type="checkbox" id="jpdbRotateCycle" name="jpdbRotateCycle" />
-                  <label for="jpdbRotateCycle">Cycle between states when not unknown (<code>none</code> -> (<code>never-forget</code> <-> <code>blacklisted</code>))</label>
+                  <input type="checkbox" id="jpdbCycleBlacklist" name="jpdbCycleBlacklist" />
+                  <label for="jpdbCycleBlacklist">Use Blacklist when cycling between decks</label>
+                </div>
+              </div>
+
+              <div class="rotate-flags" indent>
+                <div class="checkbox">
+                  <input type="checkbox" id="jpdbCycleSuspended" name="jpdbCycleSuspended" />
+                  <label for="jpdbCycleSuspended">Use Suspend when cycling between decks</label>
                 </div>
               </div>
             </div>
@@ -186,6 +213,11 @@
                 <label for="jpdbBlacklistDeck">Blacklist Deck</label>
                 <select type="jpdb" id="jpdbBlacklistDeck" name="jpdbBlacklistDeck"></select>
               </div>
+
+              <div id="forq" hidden>
+                <label for="jpdbForqDeck">FORQ Deck</label>
+                <select type="jpdb" id="jpdbForqDeck" name="jpdbForqDeck"></select>
+              </div>
             </div>
 
             <div class="form-box">
@@ -194,9 +226,9 @@
                 <select type="jpdb" id="jpdbNeverForgetDeck" name="jpdbNeverForgetDeck"></select>
               </div>
 
-              <div id="forq" hidden>
-                <label for="jpdbForqDeck">FORQ Deck</label>
-                <select type="jpdb" id="jpdbForqDeck" name="jpdbForqDeck"></select>
+              <div>
+                <label for="jpdbSuspendDeck">Suspend Card Deck</label>
+                <select type="jpdb" id="jpdbSuspendDeck" name="jpdbSuspendDeck"></select>
               </div>
             </div>
           </div>
@@ -295,12 +327,12 @@
                 <input type="checkbox" id="hidePopupAutomatically" name="hidePopupAutomatically" shows="#hidePopupDelayBox" />
                 <label for="hidePopupAutomatically">Hide popup automatically after leaving it</label>
               </div>
-              <p style="opacity: 0.8">
+              <p style="opacity: 0.8" indent up>
                 If enabled, the popup will hide itself after you move your mouse out of it or unhovering the related word.
               </p>
             </div>
 
-            <div id="hidePopupDelayBox" hidden>
+            <div id="hidePopupDelayBox" hidden indent up>
               <label for="hidePopupDelay">Delay to hide in milliseconds</label>
               <input
                 style="width: 100%"
@@ -323,24 +355,24 @@
                 <input type="checkbox" id="useLegacyHighlighter" name="useLegacyHighlighter" hides=".legacyNotSupported" />
                 <label for="useLegacyHighlighter">Use the old text highlighting</label>
               </div>
-              <div style="opacity: 0.8">Although the new highlighting has some advantages over the old one, it is not as thoroughly tested.</div>
-              <div style="opacity: 0.8">If you experience issues with the updated version, you can switch back to the old one here.</div>
-              <ul style="margin-left: 1.5em; opacity: 0.8">
+              <div style="opacity: 0.8" indent up>Although the new highlighting has some advantages over the old one, it is not as thoroughly tested.</div>
+              <div style="opacity: 0.8" indent>If you experience issues with the updated version, you can switch back to the old one here.</div>
+              <ul style="opacity: 0.8" indent>
                 <li>The new highlighting is more accurate and can handle more edge cases.</li>
                 <li>The new highlighting is less obstructive towards the original styles and functions of a website.</li>
                 <li>The new highlighting can recognize obvious misparses and mark them as such.</li>
               </ul>
 
-              <div class="checkbox legacyNotSupported" hidden>
+              <div class="checkbox legacyNotSupported" hidden indent>
                 <input type="checkbox" id="skipFurigana" name="skipFurigana" />
                 <label for="skipFurigana">Prevent Furigana from generating</label>
               </div>
 
-              <div class="checkbox legacyNotSupported" hidden>
+              <div class="checkbox legacyNotSupported" hidden indent>
                 <input type="checkbox" id="generatePitch" name="generatePitch" shows="#explain-pitch" />
                 <label for="generatePitch">Generate pitch accent markers</label>
               </div>
-              <details class="accordion" id="explain-pitch" hidden>
+              <details class="accordion" id="explain-pitch" hidden indent>
                 <summary>Japanese Pitch Accent Patterns</summary>
                 <div>
                   <p>Japanese pitch accent is a feature of the Japanese language that determines the pitch of a word. There are five main pitch accent patterns in Japanese:</p>
@@ -458,12 +490,16 @@
               <keybind-input id="addToMiningKey" name="addToMiningKey"></keybind-input>
             </div>
             <div>
+              <label for="addToNeverForgetKey">Mark word as never forget</label>
+              <keybind-input id="addToNeverForgetKey" name="addToNeverForgetKey"></keybind-input>
+            </div>
+            <div>
               <label for="addToBlacklistKey">Add word to blacklist</label>
               <keybind-input id="addToBlacklistKey" name="addToBlacklistKey"></keybind-input>
             </div>
             <div>
-              <label for="addToNeverForgetKey">Mark word as never forget</label>
-              <keybind-input id="addToNeverForgetKey" name="addToNeverForgetKey"></keybind-input>
+              <label for="addToSuspendedKey">Suspend word</label>
+              <keybind-input id="addToSuspendedKey" name="addToSuspendedKey"></keybind-input>
             </div>
           </div>
         </div>

@@ -9,6 +9,7 @@ export class MiningActions {
     'addToMiningKey',
     'addToBlacklistKey',
     'addToNeverForgetKey',
+    'addToSuspendedKey',
   ]);
 
   private _wordstatesSuspended = false;
@@ -21,6 +22,7 @@ export class MiningActions {
     events.on('addToMiningKey', () => this.addToDeck('mining'));
     events.on('addToBlacklistKey', () => this.addToDeck('blacklist'));
     events.on('addToNeverForgetKey', () => this.addToDeck('neverForget'));
+    events.on('addToSuspendedKey', () => this.addToDeck('suspend'));
   }
 
   public activate(context: HTMLElement, sentence?: string): void {
@@ -40,9 +42,10 @@ export class MiningActions {
     mining?: boolean;
     blacklist?: boolean;
     neverForget?: boolean;
+    suspend?: boolean;
   }): Promise<void> {
-    const promises = ['mining', 'blacklist', 'neverForget'].map(
-      (key: 'mining' | 'blacklist' | 'neverForget') => {
+    const promises = ['mining', 'blacklist', 'neverForget', 'suspend'].map(
+      (key: 'mining' | 'blacklist' | 'neverForget' | 'suspend') => {
         if (decks[key]) {
           return this.addToDeck(key);
         }
@@ -81,7 +84,7 @@ export class MiningActions {
     await new UpdateCardStateCommand(vid, sid).call();
   }
 
-  private async addToDeck(key: 'mining' | 'blacklist' | 'neverForget'): Promise<void> {
+  private async addToDeck(key: 'mining' | 'blacklist' | 'neverForget' | 'suspend'): Promise<void> {
     const { vid, sid } = this._card || {};
 
     if (!vid || !sid) {
@@ -91,7 +94,9 @@ export class MiningActions {
     await new RunDeckActionCommand(vid, sid, key, 'add', this._sentence).call();
   }
 
-  private async removeFromDeck(key: 'mining' | 'blacklist' | 'neverForget'): Promise<void> {
+  private async removeFromDeck(
+    key: 'mining' | 'blacklist' | 'neverForget' | 'suspend',
+  ): Promise<void> {
     const { vid, sid } = this._card || {};
 
     if (!vid || !sid) {

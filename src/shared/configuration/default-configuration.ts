@@ -10,10 +10,9 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   jpdbBlacklistDeck: 'blacklist',
   jpdbNeverForgetDeck: 'never-forget',
   jpdbForqDeck: 'forq',
+  jpdbSuspendDeck: '',
   jpdbAddToForq: false,
   jpdbUseTwoGrades: false,
-  jpdbRotateFlags: false,
-  jpdbRotateCycle: false,
   jpdbDisableReviews: false,
   jpdbReviewNothing: { key: '', code: '', modifiers: [] },
   jpdbReviewSomething: { key: '', code: '', modifiers: [] },
@@ -24,6 +23,12 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   jpdbReviewPass: { key: '', code: '', modifiers: [] },
   jpdbRotateForward: { key: '', code: '', modifiers: [] },
   jpdbRotateBackward: { key: '', code: '', modifiers: [] },
+
+  jpdbRotateFlags: false,
+  jpdbRotateCycle: false,
+  jpdbCycleNeverForget: true,
+  jpdbCycleBlacklist: true,
+  jpdbCycleSuspended: false,
 
   useLegacyHighlighter: false,
   skipFurigana: false,
@@ -77,6 +82,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   addToMiningKey: { key: '', code: '', modifiers: [] },
   addToBlacklistKey: { key: '', code: '', modifiers: [] },
   addToNeverForgetKey: { key: '', code: '', modifiers: [] },
+  addToSuspendedKey: { key: '', code: '', modifiers: [] },
 
   customWordCSS: '',
   customPopupCSS: '',

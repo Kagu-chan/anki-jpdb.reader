@@ -13,7 +13,7 @@ $states: (
 
   blacklisted: #777,
   locked: #777,
-  suspended: #777,
+  suspended: #aaa,
 
   known: #70c000,
   never-forget: #70c000,
@@ -29,7 +29,6 @@ $grades: (
   hard: map.get($outlines, v3),
   okay: map.get($outlines, v4),
   easy: map.get($states, new),
-
   fail: map.get($outlines, v1),
   pass: map.get($outlines, v4),
 );
@@ -38,6 +37,7 @@ $decks: (
   mining: map.get($states, new),
   never-forget: map.get($states, known),
   blacklist: map.get($states, blacklisted),
+  suspend: map.get($states, suspended),
 );
 
 $buttons: (
