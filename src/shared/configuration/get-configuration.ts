@@ -31,6 +31,7 @@ const BOOLEAN_KEYS: ConfigurationBooleanKeys = [
   'setSentences',
   'showCurrentOnTop',
   'hideInactiveTabs',
+  'showParseButton',
 ];
 const OBJECT_KEYS: ConfigurationObjectKeys = [
   'jpdbReviewNothing',

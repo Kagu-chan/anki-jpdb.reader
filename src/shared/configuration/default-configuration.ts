@@ -74,6 +74,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   showPopupOnHover: false,
   touchscreenSupport: false,
   disableFadeAnimation: false,
+  showParseButton: true,
 
   parseKey: { key: 'P', code: 'KeyP', modifiers: ['Alt'] },
   showPopupKey: { key: 'Shift', code: 'ShiftLeft', modifiers: [] },
