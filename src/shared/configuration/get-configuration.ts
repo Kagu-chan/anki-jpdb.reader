@@ -26,6 +26,7 @@ const BOOLEAN_KEYS: ConfigurationBooleanKeys = [
   'generatePitch',
   'skipReleaseNotes',
   'setSentences',
+  'showCurrentOnTop',
 ];
 const OBJECT_KEYS: ConfigurationObjectKeys = [
   'jpdbReviewNothing',
