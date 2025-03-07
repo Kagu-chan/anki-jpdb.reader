@@ -11,8 +11,12 @@ import { MiningActions } from './mining-actions';
 
 export class GradingActions {
   private _keyManager = new KeybindManager([]);
-  private _rotateCycle = false;
   private _card?: JPDBCard;
+
+  private _rotateCycle = false;
+  private _cycleNeverForget = false;
+  private _cycleBlacklist = false;
+  private _cycleSuspended = false;
 
   constructor(private _miningActions: MiningActions) {
     const { events } = Registry;
@@ -23,6 +27,9 @@ export class GradingActions {
         await this.updateGradingKeys();
 
         this._rotateCycle = await getConfiguration('jpdbRotateCycle', true);
+        this._cycleNeverForget = await getConfiguration('jpdbCycleNeverForget', true);
+        this._cycleBlacklist = await getConfiguration('jpdbCycleBlacklist', true);
+        this._cycleSuspended = await getConfiguration('jpdbCycleSuspended', true);
       },
       true,
     );
@@ -110,41 +117,62 @@ export class GradingActions {
       return;
     }
 
+    // get the current card state and translate it into a flag
     const state = this._card.cardState ?? [];
-    const nf = state.includes('never-forget');
-    const bl = state.includes('blacklisted');
-    // const sp = state.includes('suspended');
+    const lookupState = state.includes('never-forget')
+      ? 'neverForget'
+      : state.includes('blacklisted')
+        ? 'blacklist'
+        : state.includes('suspended')
+          ? 'suspend'
+          : undefined;
+
+    // Build a list of valid flags to rotate through
+    const rotateArray = [
+      this._cycleNeverForget && 'neverForget',
+      this._cycleBlacklist && 'blacklist',
+      this._cycleSuspended && 'suspend',
+    ].filter(Boolean) as (string | undefined)[];
+
+    // Find the current index of the card state in the rotate array
+    const currentIndex = rotateArray.indexOf(lookupState);
+
+    let newIndex: number;
+
+    // If the index is -1, the newIndex will be 0 if rotating forward, or the last index if rotating backward
+    // If _rotateCycle is false, the newIndex will be -1 if rotating forward and the currentIndex is the last index or if rotating backwards and the currentIndex is 0
+    // If _rotateCycle is true, the newIndex will wrap around to the other end of the array if the new index would go out of bounds
+    if (currentIndex === -1) {
+      newIndex = forward ? 0 : rotateArray.length - 1;
+    } else {
+      if (forward) {
+        newIndex = currentIndex + 1;
+
+        if (newIndex >= rotateArray.length) {
+          newIndex = this._rotateCycle ? 0 : -1;
+        }
+      } else {
+        newIndex = currentIndex - 1;
+
+        if (newIndex < 0) {
+          newIndex = this._rotateCycle ? rotateArray.length - 1 : -1;
+        }
+      }
+    }
+
+    // the new index is translated into a map of flags to set or unset
+    const deckArgs = rotateArray.reduce(
+      (acc, key, index) => {
+        return { ...acc, [key!]: index === newIndex };
+      },
+      {} as { neverForget: boolean; blacklist: boolean; suspend: boolean },
+    );
 
     this._miningActions.suspendUpdateWordStates();
 
-    if (forward) {
-      if (!nf && !bl) {
-        await this._miningActions.setDecks({ neverForget: true });
-      }
+    // the flags are set or unset based on the new index
+    await this._miningActions.setDecks(deckArgs);
 
-      if (nf && !bl) {
-        await this._miningActions.setDecks({ neverForget: false, blacklist: true });
-      }
-
-      if (!nf && bl) {
-        await this._miningActions.setDecks({ blacklist: false, neverForget: this._rotateCycle });
-      }
-
-      return this._miningActions.resumeUpdateWordStates();
-    }
-
-    if (!nf && !bl) {
-      await this._miningActions.setDecks({ blacklist: true });
-    }
-
-    if (nf && !bl) {
-      await this._miningActions.setDecks({ neverForget: false, blacklist: this._rotateCycle });
-    }
-
-    if (!nf && bl) {
-      await this._miningActions.setDecks({ blacklist: false, neverForget: true });
-    }
-
-    this._miningActions.resumeUpdateWordStates();
+    return this._miningActions.resumeUpdateWordStates();
   }
 }
