@@ -6,10 +6,24 @@
 @use '@styles/theme/_outline';
 
 h6 {
-  margin-top: 1em;
   font-size: 135%;
   font-weight: bold;
   text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3em;
+
+  :where(.form-box-parent, .accordion) ~ :where(.form-box-parent, .accordion) {
+    margin-top: 1.5em;
+  }
+}
+
+.pitch-accent div {
+  margin-top: 1.5em;
 }
 
 #save-all-settings-box {
@@ -29,14 +43,6 @@ h6 {
   > input {
     margin-bottom: 1.2em;
   }
-}
-
-.distance-after {
-  padding-bottom: 1.5em;
-}
-
-.distance-before {
-  padding-top: 1.5em;
 }
 
 // Our text fields are not outlined by default, otherwise they would be blue
@@ -93,4 +99,16 @@ select {
 
 [up] {
   margin-top: -0.5em;
+}
+
+keybind-input {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+
+  input {
+    flex: 1;
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
 }
