@@ -1,12 +1,16 @@
 import { getConfiguration } from '@shared/configuration/get-configuration';
-import { ConfigurationSchema, Keybind } from '@shared/configuration/types';
+import { ConfigurationSchema, Keybind, Keybinds } from '@shared/configuration/types';
 import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
 import { FilterKeys } from '@shared/types';
 import { Registry } from './registry';
 
+type KeybindKey = FilterKeys<ConfigurationSchema, Keybinds>;
+
 export class KeybindManager {
   /** Map of configured keybinds */
-  private _keyMap: Partial<Record<FilterKeys<ConfigurationSchema, Keybind>, Keybind>> = {};
+  private _keyMap: Partial<Record<KeybindKey, Keybind[]>> = {};
+  private _sortedKeylist: { val: Keybind; key: KeybindKey }[] = [];
+
   /** Reference which can be added or removed as event listener */
   private _downListener = this.handleKeydown.bind(this) as (e: KeyboardEvent | MouseEvent) => void;
   private _upListener = this.handleKeyUp.bind(this) as (e: KeyboardEvent | MouseEvent) => void;
@@ -15,7 +19,7 @@ export class KeybindManager {
   private _keyup?: (e: MouseEvent | KeyboardEvent) => void;
 
   constructor(
-    private _events: FilterKeys<ConfigurationSchema, Keybind>[],
+    private _events: KeybindKey[],
     extraListeners?: Partial<Record<'keydown' | 'keyup', (e: MouseEvent | KeyboardEvent) => void>>,
   ) {
     onBroadcastMessage('configurationUpdated', () => this.buildKeyMap(), true);
@@ -24,16 +28,10 @@ export class KeybindManager {
     this._keyup = extraListeners?.keyup;
   }
 
-  public addKeys(
-    keys: FilterKeys<ConfigurationSchema, Keybind>[],
-    skipBuild?: false,
-  ): Promise<void>;
-  public addKeys(keys: FilterKeys<ConfigurationSchema, Keybind>[], skipBuild: true): void;
+  public addKeys(keys: KeybindKey[], skipBuild?: false): Promise<void>;
+  public addKeys(keys: KeybindKey[], skipBuild: true): void;
 
-  public addKeys(
-    keys: FilterKeys<ConfigurationSchema, Keybind>[],
-    skipBuild = false,
-  ): void | Promise<void> {
+  public addKeys(keys: KeybindKey[], skipBuild = false): void | Promise<void> {
     this._events = [...new Set([...this._events, ...keys])];
 
     if (!skipBuild) {
@@ -41,16 +39,10 @@ export class KeybindManager {
     }
   }
 
-  public async removeKeys(
-    keys: FilterKeys<ConfigurationSchema, Keybind>[],
-    skipBuild?: false,
-  ): Promise<void>;
-  public removeKeys(keys: FilterKeys<ConfigurationSchema, Keybind>[], skipBuild: true): void;
+  public async removeKeys(keys: KeybindKey[], skipBuild?: false): Promise<void>;
+  public removeKeys(keys: KeybindKey[], skipBuild: true): void;
 
-  public removeKeys(
-    keys: FilterKeys<ConfigurationSchema, Keybind>[],
-    skipBuild = false,
-  ): void | Promise<void> {
+  public removeKeys(keys: KeybindKey[], skipBuild = false): void | Promise<void> {
     this._events = this._events.filter((key) => !keys.includes(key));
 
     if (!skipBuild) {
@@ -74,29 +66,33 @@ export class KeybindManager {
     window.removeEventListener('mouseup', this._upListener);
   }
 
-  public isKeybind(
-    key: FilterKeys<ConfigurationSchema, Keybind>,
-    event: KeyboardEvent | MouseEvent,
-  ): boolean;
-  public isKeybind(key: Keybind, event: KeyboardEvent | MouseEvent): boolean;
-
-  public isKeybind(
-    key: FilterKeys<ConfigurationSchema, Keybind> | Keybind,
-    event: KeyboardEvent | MouseEvent,
-  ): boolean {
-    return this.checkKeybind(typeof key === 'string' ? this._keyMap[key] : key, event);
-  }
-
   private async buildKeyMap(): Promise<void> {
     this._keyMap = {};
+    this._sortedKeylist = [];
 
     for (const key of this._events) {
-      const value = await getConfiguration(key, true);
+      const raw = await getConfiguration(key, true);
+      const value = (Array.isArray(raw) ? raw.filter((v) => v?.code) : raw.code ? [raw] : null) as
+        | Keybind[]
+        | null;
 
-      if (value.code) {
-        this._keyMap[key] = value;
+      if (value?.length) {
+        this._keyMap[key] = value!;
       }
     }
+
+    // Sort the keybinds by the number of modifiers they have, then by the key code
+    // This way we can prioritize keybinds with more modifiers, as they may extend other keybinds (e.g. ALT + KEY should have a lower priority than ALT + SHIFT + KEY)
+    this._sortedKeylist = Object.entries(this._keyMap)
+      .map(([key, val]: [KeybindKey, Keybind[]]) => val.map((v) => ({ key, val: v })))
+      .flat()
+      .sort((l, r) => {
+        if (l.val.modifiers.length !== r.val.modifiers.length) {
+          return r.val.modifiers.length - l.val.modifiers.length;
+        }
+
+        return l.val.code.localeCompare(r.val.code);
+      });
   }
 
   private handleKeydown(e: KeyboardEvent | MouseEvent): void {
@@ -139,7 +135,7 @@ export class KeybindManager {
       e.stopPropagation();
       e.stopImmediatePropagation();
 
-      events.emit(`${keybind}Released` as FilterKeys<ConfigurationSchema, Keybind>, e);
+      events.emit(`${keybind}Released` as KeybindKey, e);
     }
   }
 
@@ -147,22 +143,8 @@ export class KeybindManager {
     return ['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName ?? '');
   }
 
-  private getActiveKeybind(
-    e: KeyboardEvent | MouseEvent,
-  ): FilterKeys<ConfigurationSchema, Keybind> | undefined {
-    // Sort the keybinds by the number of modifiers they have, then by the key code
-    // This way we can prioritize keybinds with more modifiers, as they may extend other keybinds (e.g. ALT + KEY should have a lower priority than ALT + SHIFT + KEY)
-    const sorted = Object.entries(this._keyMap)
-      .sort(([, lBind], [, rBind]) => {
-        if (lBind.modifiers.length !== rBind.modifiers.length) {
-          return rBind.modifiers.length - lBind.modifiers.length;
-        }
-
-        return lBind.code.localeCompare(rBind.code);
-      })
-      .map(([key]) => key) as FilterKeys<ConfigurationSchema, Keybind>[];
-
-    return sorted.find((keybind) => this.checkKeybind(this._keyMap[keybind], e));
+  private getActiveKeybind(e: KeyboardEvent | MouseEvent): KeybindKey | undefined {
+    return this._sortedKeylist.find(({ val }) => this.checkKeybind(val, e))?.key;
   }
 
   private checkKeybind(keybind: Keybind | undefined, event: KeyboardEvent | MouseEvent): boolean {
