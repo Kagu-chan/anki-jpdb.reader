@@ -56,6 +56,8 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   hideAfterAction: true,
   hidePopupAutomatically: true,
   hidePopupDelay: 500,
+  moveMiningActions: false,
+  moveGradingActions: false,
 
   customPopupCSS: '',
 

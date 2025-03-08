@@ -20,7 +20,7 @@
     <div class="container" style="padding-top: 1em">
       <h4 style="text-align: center; opacity: 0.85">Settings</h4>
       <form>
-        <div id="integration" class="section">
+        <div id="jpdb-integration" class="section">
           <h6>JPDB Integration</h6>
           <div class="form-box-parent">
             <div class="form-box">
@@ -49,7 +49,7 @@
             <div class="form-box">
               <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="enableAnkiIntegration" name="enableAnkiIntegration" disables="#jpdb-decks" enables="#anki-integration" />
+                  <input type="checkbox" id="enableAnkiIntegration" name="enableAnkiIntegration" disables="#mining-configuration" enables="#anki-integration" />
                   <label for="enableAnkiIntegration">Mine into Anki instead of JPDB</label>
                 </div>
               </div>
@@ -125,7 +125,7 @@
           </div>
         </div>
 
-        <div id="jpdb-decks" class="collapsible section" hidden skip-animation>
+        <div id="mining-configuration" class="collapsible section" hidden skip-animation>
           <h6>Mining Configuration</h6>
 
           <div class="form-box-parent">
@@ -150,11 +150,7 @@
                   <label for="jpdbDisableReviews">Disable review actions</label>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <div class="form-box-parent">
-            <div class="form-box">
               <div class="review" indent>
                 <div class="checkbox">
                   <input type="checkbox" id="jpdbUseTwoGrades" name="jpdbUseTwoGrades" hides=".grade-five" shows=".grade-two" />
@@ -267,8 +263,8 @@
           </div>
         </div>
 
-        <div id="highlighting" class="section">
-          <h6>Texthighlighting</h6>
+        <div id="text-highlighting" class="section">
+          <h6>Text Highlighting</h6>
 
           <div class="form-box-parent">
             <div class="form-box">
@@ -368,6 +364,20 @@
                 <div class="checkbox">
                   <input type="checkbox" id="disableFadeAnimation" name="disableFadeAnimation" />
                   <label for="disableFadeAnimation">Disable fade animation</label>
+                </div>
+              </div>
+
+              <div>
+                <div class="checkbox">
+                  <input type="checkbox" id="moveMiningActions" name="moveMiningActions" />
+                  <label for="moveMiningActions">Move Mining actions to the bottom of the popup</label>
+                </div>
+              </div>
+
+              <div class="review">
+                <div class="checkbox">
+                  <input type="checkbox" id="moveGradingActions" name="moveGradingActions" />
+                  <label for="moveGradingActions">Move Grading actions to the bottom of the popup</label>
                 </div>
               </div>
 
