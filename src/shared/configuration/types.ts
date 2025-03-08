@@ -5,9 +5,11 @@ export type Keybinds = Keybind | [Keybind?, Keybind?];
 export type ConfigurationSchema = {
   schemaVersion: number;
 
-  // JPDB Integration
+  //#region JPDB Integration
+
   jpdbApiToken: string;
 
+  //#endregion
   //#region Mining configuration
 
   jpdbAddToForq: boolean;
@@ -30,20 +32,34 @@ export type ConfigurationSchema = {
   jpdbNeverForgetDeck: string;
 
   //#endregion
-  //#region Accessibility
+  //#region Parsing
+
+  hideInactiveTabs: boolean;
+  showCurrentOnTop: boolean;
+  showParseButton: boolean;
+
+  //#endregion
+  //#region Texthighlighting
+
+  useLegacyHighlighter: boolean;
+  skipFurigana: boolean;
+  generatePitch: boolean;
+
+  customWordCSS: string;
+
+  //#endregion
+  //#region Popup
 
   showPopupOnHover: boolean;
   touchscreenSupport: boolean;
   disableFadeAnimation: boolean;
-  showCurrentOnTop: boolean;
-  hideInactiveTabs: boolean;
-  showParseButton: boolean;
-  skipReleaseNotes: boolean;
 
   // Popup settings
   hideAfterAction: boolean;
   hidePopupAutomatically: boolean;
   hidePopupDelay: number;
+
+  customPopupCSS: string;
 
   //#endregion
   //#region Keybinds
@@ -74,19 +90,6 @@ export type ConfigurationSchema = {
   jpdbRotateBackward: Keybinds;
 
   //#endregion
-  //#region Parsing
-
-  useLegacyHighlighter: boolean;
-  skipFurigana: boolean;
-  generatePitch: boolean;
-
-  //#endregion
-  //#region Appearance
-
-  customWordCSS: string;
-  customPopupCSS: string;
-
-  //#endregion
   //#region Anki Integration (not implemented!)
 
   enableAnkiIntegration: boolean;
@@ -98,4 +101,6 @@ export type ConfigurationSchema = {
   ankiReadonlyConfigs: DiscoverWordConfiguration[];
 
   //#endregion
+
+  skipReleaseNotes: boolean;
 };

@@ -3,9 +3,11 @@ import { ConfigurationSchema } from './types';
 export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   schemaVersion: 1,
 
-  // JPDB Integration
+  //#region JPDB Integration
+
   jpdbApiToken: '',
 
+  //#endregion
   //#region Mining configuration
 
   jpdbAddToForq: false,
@@ -28,20 +30,34 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   jpdbNeverForgetDeck: 'never-forget',
 
   //#endregion
-  //#region Accessibility
+  //#region Parsing
+
+  hideInactiveTabs: true,
+  showCurrentOnTop: true,
+  showParseButton: true,
+
+  //#endregion
+  //#region Texthighlighting
+
+  useLegacyHighlighter: false,
+  skipFurigana: false,
+  generatePitch: false,
+
+  customWordCSS: '',
+
+  //#endregion
+  //#region Popup
 
   showPopupOnHover: false,
   touchscreenSupport: false,
   disableFadeAnimation: false,
-  showCurrentOnTop: true,
-  hideInactiveTabs: true,
-  showParseButton: true,
-  skipReleaseNotes: false,
 
   // Popup settings
   hideAfterAction: true,
   hidePopupAutomatically: true,
   hidePopupDelay: 500,
+
+  customPopupCSS: '',
 
   //#endregion
   //#region Keybinds
@@ -70,19 +86,6 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   // Rotation keybinds
   jpdbRotateForward: [],
   jpdbRotateBackward: [],
-
-  //#endregion
-  //#region Parsing
-
-  useLegacyHighlighter: false,
-  skipFurigana: false,
-  generatePitch: false,
-
-  //#endregion
-  //#region Appearance
-
-  customWordCSS: '',
-  customPopupCSS: '',
 
   //#endregion
   //#region Anki Integration (not implemented!)
@@ -117,4 +120,6 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   ankiReadonlyConfigs: [],
 
   //#endregion
+
+  skipReleaseNotes: false,
 });
