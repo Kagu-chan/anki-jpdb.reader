@@ -3,17 +3,62 @@ import { ConfigurationSchema } from './types';
 export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   schemaVersion: 1,
 
-  skipReleaseNotes: false,
-
+  // JPDB Integration
   jpdbApiToken: '',
+
+  //#region Mining configuration
+
+  jpdbAddToForq: false,
+  setSentences: false,
+  jpdbDisableReviews: false,
+  jpdbUseTwoGrades: false,
+
+  // JPDB Flag settings
+  jpdbRotateFlags: false,
+  jpdbRotateCycle: false,
+  jpdbCycleNeverForget: true,
+  jpdbCycleBlacklist: true,
+  jpdbCycleSuspended: false,
+
+  // JPDB decks
   jpdbMiningDeck: '',
   jpdbBlacklistDeck: 'blacklist',
-  jpdbNeverForgetDeck: 'never-forget',
   jpdbForqDeck: 'forq',
   jpdbSuspendDeck: '',
-  jpdbAddToForq: false,
-  jpdbUseTwoGrades: false,
-  jpdbDisableReviews: false,
+  jpdbNeverForgetDeck: 'never-forget',
+
+  //#endregion
+  //#region Accessibility
+
+  showPopupOnHover: false,
+  touchscreenSupport: false,
+  disableFadeAnimation: false,
+  showCurrentOnTop: true,
+  hideInactiveTabs: true,
+  showParseButton: true,
+  skipReleaseNotes: false,
+
+  // Popup settings
+  hideAfterAction: true,
+  hidePopupAutomatically: true,
+  hidePopupDelay: 500,
+
+  //#endregion
+  //#region Keybinds
+
+  // General keybinds
+  parseKey: [{ key: 'P', code: 'KeyP', modifiers: ['Alt'] }],
+  showPopupKey: [{ key: 'Shift', code: 'ShiftLeft', modifiers: [] }],
+  showAdvancedDialogKey: [],
+  lookupSelectionKey: [{ key: 'L', code: 'KeyL', modifiers: ['Alt'] }],
+
+  // Mining keybinds
+  addToMiningKey: [],
+  addToBlacklistKey: [],
+  addToNeverForgetKey: [],
+  addToSuspendedKey: [],
+
+  // Review keybinds
   jpdbReviewNothing: [],
   jpdbReviewSomething: [],
   jpdbReviewHard: [],
@@ -21,20 +66,26 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   jpdbReviewEasy: [],
   jpdbReviewFail: [],
   jpdbReviewPass: [],
+
+  // Rotation keybinds
   jpdbRotateForward: [],
   jpdbRotateBackward: [],
 
-  jpdbRotateFlags: false,
-  jpdbRotateCycle: false,
-  jpdbCycleNeverForget: true,
-  jpdbCycleBlacklist: true,
-  jpdbCycleSuspended: false,
+  //#endregion
+  //#region Parsing
 
   useLegacyHighlighter: false,
   skipFurigana: false,
   generatePitch: false,
-  showCurrentOnTop: true,
-  hideInactiveTabs: true,
+
+  //#endregion
+  //#region Appearance
+
+  customWordCSS: '',
+  customPopupCSS: '',
+
+  //#endregion
+  //#region Anki Integration (not implemented!)
 
   enableAnkiIntegration: false,
   ankiUrl: 'http://localhost:8765',
@@ -65,26 +116,5 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   },
   ankiReadonlyConfigs: [],
 
-  setSentences: false,
-
-  hidePopupAutomatically: true,
-  hidePopupDelay: 500,
-  hideAfterAction: true,
-
-  showPopupOnHover: false,
-  touchscreenSupport: false,
-  disableFadeAnimation: false,
-  showParseButton: true,
-
-  parseKey: [{ key: 'P', code: 'KeyP', modifiers: ['Alt'] }],
-  showPopupKey: [{ key: 'Shift', code: 'ShiftLeft', modifiers: [] }],
-  showAdvancedDialogKey: [],
-  lookupSelectionKey: [{ key: 'L', code: 'KeyL', modifiers: ['Alt'] }],
-  addToMiningKey: [],
-  addToBlacklistKey: [],
-  addToNeverForgetKey: [],
-  addToSuspendedKey: [],
-
-  customWordCSS: '',
-  customPopupCSS: '',
+  //#endregion
 });
