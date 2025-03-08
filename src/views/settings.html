@@ -20,7 +20,7 @@
     <div class="container" style="padding-top: 1em">
       <h4 style="text-align: center; opacity: 0.85">Settings</h4>
       <form>
-        <div id="integration" class="section">
+        <div id="jpdb-integration" class="section">
           <h6>JPDB Integration</h6>
           <div class="form-box-parent">
             <div class="form-box">
@@ -49,7 +49,7 @@
             <div class="form-box">
               <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="enableAnkiIntegration" name="enableAnkiIntegration" disables="#jpdb-decks" enables="#anki-integration" />
+                  <input type="checkbox" id="enableAnkiIntegration" name="enableAnkiIntegration" disables="#mining-configuration" enables="#anki-integration" />
                   <label for="enableAnkiIntegration">Mine into Anki instead of JPDB</label>
                 </div>
               </div>
@@ -125,7 +125,7 @@
           </div>
         </div>
 
-        <div id="jpdb-decks" class="collapsible section" hidden skip-animation>
+        <div id="mining-configuration" class="collapsible section" hidden skip-animation>
           <h6>Mining Configuration</h6>
 
           <div class="form-box-parent">
@@ -233,8 +233,117 @@
           </div>
         </div>
 
-        <div id="accessability" class="section">
-          <h6>Accessibility</h6>
+        <div id="parsing" class="section">
+          <h6>Parsing</h6>
+          <div class="form-box-parent">
+            <div class="form-box">
+              <div>
+                <div class="checkbox">
+                  <input type="checkbox" id="hideInactiveTabs" name="hideInactiveTabs" hides="#hideInactiveTabsBox" />
+                  <label for="hideInactiveTabs">Only show currently opened tab in parse selection</label>
+                </div>
+              </div>
+
+              <div hidden id="hideInactiveTabsBox">
+                <div class="checkbox">
+                  <input type="checkbox" id="showCurrentOnTop" name="showCurrentOnTop" />
+                  <label for="showCurrentOnTop">Show current tab on top of tab selection list</label>
+                </div>
+              </div>
+
+              <div>
+                <div class="checkbox">
+                  <input type="checkbox" id="showParseButton" name="showParseButton" />
+                  <label for="showParseButton">Show small parse page button on the right bottom of manually parsed pages</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-box"></div>
+          </div>
+        </div>
+
+        <div id="text-highlighting" class="section">
+          <h6>Text Highlighting</h6>
+
+          <div class="form-box-parent">
+            <div class="form-box">
+              <div>
+                <div class="checkbox">
+                  <input type="checkbox" id="useLegacyHighlighter" name="useLegacyHighlighter" hides=".legacyNotSupported" />
+                  <label for="useLegacyHighlighter">Use the old text highlighting</label>
+                </div>
+                <div style="opacity: 0.8" indent up>Although the new highlighting has some advantages over the old one, it is not as thoroughly tested.</div>
+                <div style="opacity: 0.8" indent>If you experience issues with the updated version, you can switch back to the old one here.</div>
+                <ul style="opacity: 0.8" indent>
+                  <li>The new highlighting is more accurate and can handle more edge cases.</li>
+                  <li>The new highlighting is less obstructive towards the original styles and functions of a website.</li>
+                  <li>The new highlighting can recognize obvious misparses and mark them as such.</li>
+                </ul>
+
+                <div class="checkbox legacyNotSupported" hidden indent>
+                  <input type="checkbox" id="skipFurigana" name="skipFurigana" />
+                  <label for="skipFurigana">Prevent Furigana from generating</label>
+                </div>
+
+                <div class="checkbox legacyNotSupported" hidden indent>
+                  <input type="checkbox" id="generatePitch" name="generatePitch" shows="#explain-pitch" />
+                  <label for="generatePitch">Generate pitch accent markers</label>
+                </div>
+                <details class="accordion" id="explain-pitch" hidden indent>
+                  <summary>Japanese Pitch Accent Patterns</summary>
+                  <div class="pitch-accent">
+                    <p>Japanese pitch accent is a feature of the Japanese language that determines the pitch of a word. There are five main pitch accent patterns in Japanese:</p>
+                    <div>
+                      <p>Heiban (平板型) - Low-High (L-H)</p>
+                      <p>The pitch starts low and rises, remaining high for the rest of the word, including any attached particles.</p>
+                      <p>Example: あさ (asa - morning) [LHH]</p>
+                    </div>
+                    <div>
+                      <p>Atamadaka (頭高型) - High-Low (H-L)</p>
+                      <p>The pitch starts high on the first mora and then drops to low for the rest of the word, including any attached particles.</p>
+                      <p>Example: いぬ (inu - dog) [HLL]</p>
+                    </div>
+                    <div>
+                      <p>Nakadaka (中高型) - Low-High-Low (L-H-L)</p>
+                      <p>The pitch starts low, rises to high at some point within the word, and then drops back to low before any attached particles.</p>
+                      <p>Example: さくら (sakura - cherry blossom) [LHL]</p>
+                    </div>
+                    <div>
+                      <p>Odaka (尾高型) - Low-High-Low (L-H-L)</p>
+                      <p>The pitch starts low, rises to high, and remains high until the end of the word. The pitch drops to low when a particle is attached.</p>
+                      <p>Example: はし (hashi - bridge) [LHH] + が (ga) [L]</p>
+                    </div>
+                    <div>
+                      <p>Kifuku (起伏型) - Multiple rises and falls</p>
+                      <p>This pattern involves multiple rises and falls within the word. It is less common and typically found in longer words or compounds. The pitch of attached particles depends on the specific rises and falls within the word.</p>
+                      <p>Example: おもしろい (omoshiroi - interesting) [LHLH]</p>
+                    </div>
+                  </div>
+                </details>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-box-parent">
+            <div class="form-box">
+              <div>
+                <label for="customWordCSS">Custom Word CSS</label>
+                <textarea
+                  id="customWordCSS"
+                  name="customWordCSS"
+                  placeholder="Custom Word CSS"
+                  spellcheck="false"
+                  style="height: 15em; margin-bottom: 0"
+                ></textarea>
+                <p style="opacity: 0.8">This changes the appearance of words in text and subs.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="popup" class="section">
+          <h6>Popup</h6>
           <div class="form-box-parent">
             <div class="form-box">
               <div>
@@ -260,22 +369,15 @@
 
               <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="hideInactiveTabs" name="hideInactiveTabs" hides="#hideInactiveTabsBox" />
-                  <label for="hideInactiveTabs">Only show currently opened tab in parse selection</label>
+                  <input type="checkbox" id="moveMiningActions" name="moveMiningActions" />
+                  <label for="moveMiningActions">Move Mining actions to the bottom of the popup</label>
                 </div>
               </div>
 
-              <div hidden id="hideInactiveTabsBox">
+              <div class="review">
                 <div class="checkbox">
-                  <input type="checkbox" id="showCurrentOnTop" name="showCurrentOnTop" />
-                  <label for="showCurrentOnTop">Show current tab on top of tab selection list</label>
-                </div>
-              </div>
-
-              <div>
-                <div class="checkbox">
-                  <input type="checkbox" id="showParseButton" name="showParseButton" />
-                  <label for="showParseButton">Show small parse page button on the right bottom of manually parsed pages</label>
+                  <input type="checkbox" id="moveGradingActions" name="moveGradingActions" />
+                  <label for="moveGradingActions">Move Grading actions to the bottom of the popup</label>
                 </div>
               </div>
 
@@ -309,9 +411,21 @@
                   Delay to hide the popup in milliseconds. If set to 0, the popup will hide immediately.
                 </p>
               </div>
-            </div>
 
-            <div class="form-box"></div>
+              <div>
+                <label for="customPopupCSS">Custom Popup CSS</label>
+                <textarea
+                  id="customPopupCSS"
+                  name="customPopupCSS"
+                  placeholder="Custom Popup CSS"
+                  spellcheck="false"
+                  style="height: 15em; margin-bottom: 0"
+                ></textarea>
+                <p style="opacity: 0.8">
+                  This changes the appearance of the popup shown when hovering over words.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -434,101 +548,6 @@
               <keybind-input id="jpdbRotateBackward" name="jpdbRotateBackward"></keybind-input>
             </div>
           </details>
-        </div>
-
-        <div id="parser" class="section">
-          <h6>Parser</h6>
-          <div class="form-box-parent">
-            <div class="form-box">
-              <div>
-                <div class="checkbox">
-                  <input type="checkbox" id="useLegacyHighlighter" name="useLegacyHighlighter" hides=".legacyNotSupported" />
-                  <label for="useLegacyHighlighter">Use the old text highlighting</label>
-                </div>
-                <div style="opacity: 0.8" indent up>Although the new highlighting has some advantages over the old one, it is not as thoroughly tested.</div>
-                <div style="opacity: 0.8" indent>If you experience issues with the updated version, you can switch back to the old one here.</div>
-                <ul style="opacity: 0.8" indent>
-                  <li>The new highlighting is more accurate and can handle more edge cases.</li>
-                  <li>The new highlighting is less obstructive towards the original styles and functions of a website.</li>
-                  <li>The new highlighting can recognize obvious misparses and mark them as such.</li>
-                </ul>
-
-                <div class="checkbox legacyNotSupported" hidden indent>
-                  <input type="checkbox" id="skipFurigana" name="skipFurigana" />
-                  <label for="skipFurigana">Prevent Furigana from generating</label>
-                </div>
-
-                <div class="checkbox legacyNotSupported" hidden indent>
-                  <input type="checkbox" id="generatePitch" name="generatePitch" shows="#explain-pitch" />
-                  <label for="generatePitch">Generate pitch accent markers</label>
-                </div>
-                <details class="accordion" id="explain-pitch" hidden indent>
-                  <summary>Japanese Pitch Accent Patterns</summary>
-                  <div class="pitch-accent">
-                    <p>Japanese pitch accent is a feature of the Japanese language that determines the pitch of a word. There are five main pitch accent patterns in Japanese:</p>
-                    <div>
-                      <p>Heiban (平板型) - Low-High (L-H)</p>
-                      <p>The pitch starts low and rises, remaining high for the rest of the word, including any attached particles.</p>
-                      <p>Example: あさ (asa - morning) [LHH]</p>
-                    </div>
-                    <div>
-                      <p>Atamadaka (頭高型) - High-Low (H-L)</p>
-                      <p>The pitch starts high on the first mora and then drops to low for the rest of the word, including any attached particles.</p>
-                      <p>Example: いぬ (inu - dog) [HLL]</p>
-                    </div>
-                    <div>
-                      <p>Nakadaka (中高型) - Low-High-Low (L-H-L)</p>
-                      <p>The pitch starts low, rises to high at some point within the word, and then drops back to low before any attached particles.</p>
-                      <p>Example: さくら (sakura - cherry blossom) [LHL]</p>
-                    </div>
-                    <div>
-                      <p>Odaka (尾高型) - Low-High-Low (L-H-L)</p>
-                      <p>The pitch starts low, rises to high, and remains high until the end of the word. The pitch drops to low when a particle is attached.</p>
-                      <p>Example: はし (hashi - bridge) [LHH] + が (ga) [L]</p>
-                    </div>
-                    <div>
-                      <p>Kifuku (起伏型) - Multiple rises and falls</p>
-                      <p>This pattern involves multiple rises and falls within the word. It is less common and typically found in longer words or compounds. The pitch of attached particles depends on the specific rises and falls within the word.</p>
-                      <p>Example: おもしろい (omoshiroi - interesting) [LHLH]</p>
-                    </div>
-                  </div>
-                </details>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="appearance" class="section">
-          <h6>Appearance</h6>
-          <div class="form-box-parent">
-            <div class="form-box">
-              <div>
-                <label for="customWordCSS">Custom Word CSS</label>
-                <textarea
-                  id="customWordCSS"
-                  name="customWordCSS"
-                  placeholder="Custom Word CSS"
-                  spellcheck="false"
-                  style="height: 15em; margin-bottom: 0"
-                ></textarea>
-                <p style="opacity: 0.8">This changes the appearance of words in text and subs.</p>
-              </div>
-
-              <div>
-                <label for="customPopupCSS">Custom Popup CSS</label>
-                <textarea
-                  id="customPopupCSS"
-                  name="customPopupCSS"
-                  placeholder="Custom Popup CSS"
-                  spellcheck="false"
-                  style="height: 15em; margin-bottom: 0"
-                ></textarea>
-                <p style="opacity: 0.8">
-                  This changes the appearance of the popup shown when hovering over words.
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
 
         <div style="margin-top: 6em;"></div>

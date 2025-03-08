@@ -64,7 +64,7 @@ export class Popup {
       onmouseenter: () => this.startHover(),
       onmouseleave: () => this.stopHover(),
     },
-    children: [this._mineButtons, this._gradeButtons, this._context, this._details],
+    children: [],
   });
 
   private _hidePopupAutomatically: boolean;
@@ -72,6 +72,8 @@ export class Popup {
   private _hideAfterAction: boolean;
   private _disableReviews: boolean;
   private _disableFadeAnimation: boolean;
+  private _moveMiningActions: boolean;
+  private _moveGradingActions: boolean;
   private _useTwoPointGrading: boolean;
 
   private _miningDeck?: string;
@@ -166,7 +168,10 @@ export class Popup {
     this._hideAfterAction = await getConfiguration('hideAfterAction', true);
     this._disableFadeAnimation = await getConfiguration('disableFadeAnimation', true);
     this._useTwoPointGrading = await getConfiguration('jpdbUseTwoGrades', true);
+
     this._disableReviews = await getConfiguration('jpdbDisableReviews', true);
+    this._moveMiningActions = await getConfiguration('moveMiningActions', true);
+    this._moveGradingActions = await getConfiguration('moveGradingActions', true);
 
     this._miningDeck = await getConfiguration('jpdbMiningDeck', true);
     this._neverForgetDeck = await getConfiguration('jpdbNeverForgetDeck', true);
@@ -177,6 +182,7 @@ export class Popup {
 
     this.updateMiningButtons();
     this.updateGradingButtons();
+    this.applyPositions();
   }
 
   //#endregion
@@ -453,8 +459,24 @@ export class Popup {
     );
 
     this._gradeButtons.replaceChildren(...gradeButtons);
-
     this._gradeButtons.style.display = this._disableReviews ? 'none' : '';
+  }
+
+  private applyPositions(): void {
+    const sections = [this._context, this._details];
+    const before: HTMLElement[] = [];
+    const after: HTMLElement[] = [];
+
+    const miningTarget = this._moveMiningActions ? after : before;
+    const gradingTarget = this._moveGradingActions ? after : before;
+
+    miningTarget.push(this._mineButtons);
+    gradingTarget.push(this._gradeButtons);
+
+    sections.unshift(...before);
+    sections.push(...after);
+
+    this._popup.replaceChildren(...sections);
   }
 
   //#endregion

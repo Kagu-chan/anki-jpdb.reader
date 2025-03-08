@@ -4,16 +4,81 @@ export type Keybind = { key: string; code: string; modifiers: string[] };
 export type Keybinds = Keybind | [Keybind?, Keybind?];
 export type ConfigurationSchema = {
   schemaVersion: number;
+
+  //#region JPDB Integration
+
   jpdbApiToken: string;
+
+  //#endregion
+  //#region Mining configuration
+
+  jpdbAddToForq: boolean;
+  setSentences: boolean;
+  jpdbDisableReviews: boolean;
+  jpdbUseTwoGrades: boolean;
+
+  // JPDB Flag settings
+  jpdbRotateFlags: boolean;
+  jpdbRotateCycle: boolean;
+  jpdbCycleNeverForget: boolean;
+  jpdbCycleBlacklist: boolean;
+  jpdbCycleSuspended: boolean;
+
+  // JPDB decks
   jpdbMiningDeck: string;
   jpdbBlacklistDeck: string;
   jpdbForqDeck: string;
   jpdbSuspendDeck: string;
   jpdbNeverForgetDeck: string;
-  skipReleaseNotes: boolean;
-  jpdbAddToForq: boolean;
-  jpdbUseTwoGrades: boolean;
-  jpdbDisableReviews: boolean;
+
+  //#endregion
+  //#region Parsing
+
+  hideInactiveTabs: boolean;
+  showCurrentOnTop: boolean;
+  showParseButton: boolean;
+
+  //#endregion
+  //#region Texthighlighting
+
+  useLegacyHighlighter: boolean;
+  skipFurigana: boolean;
+  generatePitch: boolean;
+
+  customWordCSS: string;
+
+  //#endregion
+  //#region Popup
+
+  showPopupOnHover: boolean;
+  touchscreenSupport: boolean;
+  disableFadeAnimation: boolean;
+
+  // Popup settings
+  hideAfterAction: boolean;
+  hidePopupAutomatically: boolean;
+  hidePopupDelay: number;
+  moveMiningActions: boolean;
+  moveGradingActions: boolean;
+
+  customPopupCSS: string;
+
+  //#endregion
+  //#region Keybinds
+
+  // General keybinds
+  parseKey: Keybinds;
+  showPopupKey: Keybinds;
+  showAdvancedDialogKey: Keybinds;
+  lookupSelectionKey: Keybinds;
+
+  // Mining keybinds
+  addToMiningKey: Keybinds;
+  addToBlacklistKey: Keybinds;
+  addToNeverForgetKey: Keybinds;
+  addToSuspendedKey: Keybinds;
+
+  // Review keybinds
   jpdbReviewNothing: Keybinds;
   jpdbReviewSomething: Keybinds;
   jpdbReviewHard: Keybinds;
@@ -21,14 +86,13 @@ export type ConfigurationSchema = {
   jpdbReviewEasy: Keybinds;
   jpdbReviewFail: Keybinds;
   jpdbReviewPass: Keybinds;
+
+  // Rotation keybinds
   jpdbRotateForward: Keybinds;
   jpdbRotateBackward: Keybinds;
 
-  jpdbRotateFlags: boolean;
-  jpdbRotateCycle: boolean;
-  jpdbCycleNeverForget: boolean;
-  jpdbCycleBlacklist: boolean;
-  jpdbCycleSuspended: boolean;
+  //#endregion
+  //#region Anki Integration (not implemented!)
 
   enableAnkiIntegration: boolean;
   ankiUrl: string;
@@ -38,31 +102,7 @@ export type ConfigurationSchema = {
   ankiNeverForgetConfig: DeckConfiguration;
   ankiReadonlyConfigs: DiscoverWordConfiguration[];
 
-  setSentences: boolean;
-  hidePopupAutomatically: boolean;
-  hidePopupDelay: number;
-  hideAfterAction: boolean;
+  //#endregion
 
-  useLegacyHighlighter: boolean;
-  skipFurigana: boolean;
-  generatePitch: boolean;
-  showCurrentOnTop: boolean;
-  hideInactiveTabs: boolean;
-
-  showPopupOnHover: boolean;
-  touchscreenSupport: boolean;
-  disableFadeAnimation: boolean;
-  showParseButton: boolean;
-
-  parseKey: Keybinds;
-  showPopupKey: Keybinds;
-  showAdvancedDialogKey: Keybinds;
-  lookupSelectionKey: Keybinds;
-  addToMiningKey: Keybinds;
-  addToBlacklistKey: Keybinds;
-  addToNeverForgetKey: Keybinds;
-  addToSuspendedKey: Keybinds;
-
-  customWordCSS: string;
-  customPopupCSS: string;
+  skipReleaseNotes: boolean;
 };

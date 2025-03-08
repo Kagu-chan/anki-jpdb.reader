@@ -8,54 +8,17 @@ import {
 } from './keys.types';
 import { ConfigurationSchema, Keybind } from './types';
 
-const NUMBER_KEYS: ConfigurationNumberKeys = ['schemaVersion', 'hidePopupDelay'];
-const BOOLEAN_KEYS: ConfigurationBooleanKeys = [
-  'jpdbAddToForq',
-  'jpdbUseTwoGrades',
-  'jpdbDisableReviews',
-  'jpdbRotateFlags',
-  'jpdbRotateCycle',
-  'jpdbCycleNeverForget',
-  'jpdbCycleBlacklist',
-  'jpdbCycleSuspended',
-  'enableAnkiIntegration',
-  'showPopupOnHover',
-  'hidePopupAutomatically',
-  'hideAfterAction',
-  'touchscreenSupport',
-  'disableFadeAnimation',
-  'useLegacyHighlighter',
-  'skipFurigana',
-  'generatePitch',
-  'skipReleaseNotes',
-  'setSentences',
-  'showCurrentOnTop',
-  'hideInactiveTabs',
-  'showParseButton',
-];
-const OBJECT_KEYS: ConfigurationObjectKeys = [
-  'jpdbReviewNothing',
-  'jpdbReviewSomething',
-  'jpdbReviewHard',
-  'jpdbReviewOkay',
-  'jpdbReviewEasy',
-  'jpdbReviewFail',
-  'jpdbReviewPass',
-  'jpdbRotateForward',
-  'jpdbRotateBackward',
-  'ankiMiningConfig',
-  'ankiBlacklistConfig',
-  'ankiNeverForgetConfig',
-  'ankiReadonlyConfigs',
-  'parseKey',
-  'showPopupKey',
-  'showAdvancedDialogKey',
-  'lookupSelectionKey',
-  'addToMiningKey',
-  'addToBlacklistKey',
-  'addToNeverForgetKey',
-  'addToSuspendedKey',
-];
+// Fetch all configs which should be a number, boolean or object
+// Use those to properly parse stored values
+const NUMBER_KEYS = Object.keys(DEFAULT_CONFIGURATION).filter(
+  (key: keyof ConfigurationSchema) => typeof DEFAULT_CONFIGURATION[key] === 'number',
+) as ConfigurationNumberKeys;
+const BOOLEAN_KEYS = Object.keys(DEFAULT_CONFIGURATION).filter(
+  (key: keyof ConfigurationSchema) => typeof DEFAULT_CONFIGURATION[key] === 'boolean',
+) as ConfigurationBooleanKeys;
+const OBJECT_KEYS = Object.keys(DEFAULT_CONFIGURATION).filter(
+  (key: keyof ConfigurationSchema) => typeof DEFAULT_CONFIGURATION[key] === 'object',
+) as ConfigurationObjectKeys;
 
 export const getConfiguration = async <K extends keyof ConfigurationSchema>(
   key: K,
