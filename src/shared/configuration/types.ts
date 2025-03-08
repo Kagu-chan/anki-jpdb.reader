@@ -1,6 +1,7 @@
 import { DeckConfiguration, DiscoverWordConfiguration } from '../anki/types';
 
 export type Keybind = { key: string; code: string; modifiers: string[] };
+export type Keybinds = Keybind | [Keybind?, Keybind?];
 export type ConfigurationSchema = {
   schemaVersion: number;
   jpdbApiToken: string;
@@ -13,15 +14,15 @@ export type ConfigurationSchema = {
   jpdbAddToForq: boolean;
   jpdbUseTwoGrades: boolean;
   jpdbDisableReviews: boolean;
-  jpdbReviewNothing: Keybind;
-  jpdbReviewSomething: Keybind;
-  jpdbReviewHard: Keybind;
-  jpdbReviewOkay: Keybind;
-  jpdbReviewEasy: Keybind;
-  jpdbReviewFail: Keybind;
-  jpdbReviewPass: Keybind;
-  jpdbRotateForward: Keybind;
-  jpdbRotateBackward: Keybind;
+  jpdbReviewNothing: Keybinds;
+  jpdbReviewSomething: Keybinds;
+  jpdbReviewHard: Keybinds;
+  jpdbReviewOkay: Keybinds;
+  jpdbReviewEasy: Keybinds;
+  jpdbReviewFail: Keybinds;
+  jpdbReviewPass: Keybinds;
+  jpdbRotateForward: Keybinds;
+  jpdbRotateBackward: Keybinds;
 
   jpdbRotateFlags: boolean;
   jpdbRotateCycle: boolean;
@@ -53,14 +54,14 @@ export type ConfigurationSchema = {
   disableFadeAnimation: boolean;
   showParseButton: boolean;
 
-  parseKey: Keybind;
-  showPopupKey: Keybind;
-  showAdvancedDialogKey: Keybind;
-  lookupSelectionKey: Keybind;
-  addToMiningKey: Keybind;
-  addToBlacklistKey: Keybind;
-  addToNeverForgetKey: Keybind;
-  addToSuspendedKey: Keybind;
+  parseKey: Keybinds;
+  showPopupKey: Keybinds;
+  showAdvancedDialogKey: Keybinds;
+  lookupSelectionKey: Keybinds;
+  addToMiningKey: Keybinds;
+  addToBlacklistKey: Keybinds;
+  addToNeverForgetKey: Keybinds;
+  addToSuspendedKey: Keybinds;
 
   customWordCSS: string;
   customPopupCSS: string;

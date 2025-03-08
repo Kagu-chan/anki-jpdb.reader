@@ -20,222 +20,47 @@
     <div class="container" style="padding-top: 1em">
       <h4 style="text-align: center; opacity: 0.85">Settings</h4>
       <form>
-        <h6>JPDB Integration</h6>
-        <div class="form-box-parent">
-          <div class="form-box">
-            <div>
-              <label for="jpdbApiToken">JPDB API Token</label>
-              <div class="inline-group">
-                <input type="password" id="jpdbApiToken" name="jpdbApiToken" />
-                <div>
-                  <input type="button" id="apiTokenButton" class="button outline small" value="⭯"></input>
-                </div>
-              </div>
-              <p style="opacity: 0.8">
-                To find your API token, visit the
-                <a
-                  href="https://jpdb.io/settings#:~:text=in%20the%20future.-,Account%20information,-Username"
-                  target="_blank"
-                  >jpdb settings page</a
-                >
-                and scroll to the very bottom.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div id="DEBUG_ANKI" class="form-box-parent" style="display: none">
-          <div class="form-box">
-            <div>
-              <div class="checkbox">
-                <input type="checkbox" id="enableAnkiIntegration" name="enableAnkiIntegration" disables="#jpdb-decks" enables="#anki-integration" />
-                <label for="enableAnkiIntegration">Mine into Anki instead of JPDB</label>
-              </div>
-            </div>
-            <p style="opacity: 0.8">Anki will be implemented at a later point in time!</p>
-          </div>
-        </div>
-
-        <div id="jpdb-decks" class="collapsible" hidden skip-animation>
-          <h6>Mining Configuration</h6>
-
-          <div class="form-box-parent distance-after">
+        <div id="integration" class="section">
+          <h6>JPDB Integration</h6>
+          <div class="form-box-parent">
             <div class="form-box">
               <div>
-                <div class="checkbox">
-                  <input type="checkbox" id="jpdbAddToForq" name="jpdbAddToForq" shows="#forq" />
-                  <label for="jpdbAddToForq">Add to FORQ when mining</label>
+                <label for="jpdbApiToken">JPDB API Token</label>
+                <div class="inline-group">
+                  <input type="password" id="jpdbApiToken" name="jpdbApiToken" />
+                  <div>
+                    <input type="button" id="apiTokenButton" class="button outline small" value="⭯"></input>
+                  </div>
                 </div>
-              </div>
-
-              <div>
-                <div class="checkbox">
-                  <input type="checkbox" id="jpdbDisableReviews" name="jpdbDisableReviews" hides=".review" runlast />
-                  <label for="jpdbDisableReviews">Disable review actions</label>
-                </div>
-              </div>
-
-              <div class="review">
-                <div class="checkbox">
-                  <input type="checkbox" id="jpdbUseTwoGrades" name="jpdbUseTwoGrades" hides=".grade-five" shows=".grade-two" />
-                  <label for="jpdbUseTwoGrades">Use a 2-point pass/fail grading scale</label>
-                </div>
-              </div>
-
-              <div>
-                <div class="checkbox">
-                  <input type="checkbox" id="jpdbRotateFlags" name="jpdbRotateFlags" shows=".rotate-flags" />
-                  <label for="jpdbRotateFlags">Cycle between decks</label>
-                </div>
-                <p style="opacity: 0.8" indent up>
-                  If enabled, you can move a word from one deck to another by pressing a keybind.
+                <p style="opacity: 0.8">
+                  To find your API token, visit the
+                  <a
+                    href="https://jpdb.io/settings#:~:text=in%20the%20future.-,Account%20information,-Username"
+                    target="_blank"
+                    >jpdb settings page</a
+                  >
+                  and scroll to the very bottom.
                 </p>
               </div>
+            </div>
+          </div>
 
-              <div class="rotate-flags" indent>
+          <div id="DEBUG_ANKI" class="form-box-parent" style="display: none">
+            <div class="form-box">
+              <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="jpdbRotateCycle" name="jpdbRotateCycle" />
-                  <label for="jpdbRotateCycle">Dont remove from any deck when cycling</label>
-                </div>
-                <p style="opacity: 0.8" indent up>
-                  If set, a word wont be removed from any deck when cycling. Otherwise it will be removed when the last deck in the chain is reached.
-                </p>
-              </div>
-
-              <div class="rotate-flags" indent>
-                <div class="checkbox">
-                  <input type="checkbox" id="jpdbCycleNeverForget" name="jpdbCycleNeverForget" />
-                  <label for="jpdbCycleNeverForget">Use Never Forget when cycling between decks</label>
+                  <input type="checkbox" id="enableAnkiIntegration" name="enableAnkiIntegration" disables="#jpdb-decks" enables="#anki-integration" />
+                  <label for="enableAnkiIntegration">Mine into Anki instead of JPDB</label>
                 </div>
               </div>
-
-              <div class="rotate-flags" indent>
-                <div class="checkbox">
-                  <input type="checkbox" id="jpdbCycleBlacklist" name="jpdbCycleBlacklist" />
-                  <label for="jpdbCycleBlacklist">Use Blacklist when cycling between decks</label>
-                </div>
-              </div>
-
-              <div class="rotate-flags" indent>
-                <div class="checkbox">
-                  <input type="checkbox" id="jpdbCycleSuspended" name="jpdbCycleSuspended" />
-                  <label for="jpdbCycleSuspended">Use Suspend when cycling between decks</label>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <p style="opacity: 0.8; margin-bottom: 0">
-            Press escape to clear. Holding modifiers like shift or alt is supported. <br />
-            Hotkeys are based on key position and independent of your current keyboard layout.
-            <br />
-            Note: Keybinds currently always work on the word you are hovering your mouse over,
-            even if you have the popup for another word open.
-            <br />
-            Additionally, Left Mouse Click (without modifiers) as well as Right Mouse Click (no matter the modifiers) are not supported.
-          </p>
-
-          <div class="form-box-parent grade-five review" hidden>
-            <div class="form-box">
-              <div>
-                <label for="jpdbReviewNothing">Review word as nothing</label>
-                <keybind-input id="jpdbReviewNothing" name="jpdbReviewNothing"></keybind-input>
-              </div>
-            </div>
-            <div class="form-box">
-              <div>
-                <label for="jpdbReviewSomething">Review word as something</label>
-                <keybind-input id="jpdbReviewSomething" name="jpdbReviewSomething"></keybind-input>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-box-parent grade-five review" hidden>
-            <div class="form-box">
-              <div>
-                <label for="jpdbReviewHard">Review word as hard</label>
-                <keybind-input id="jpdbReviewHard" name="jpdbReviewHard"></keybind-input>
-              </div>
-            </div>
-            <div class="form-box">
-              <div>
-                <label for="jpdbReviewOkay">Review word as okay</label>
-                <keybind-input id="jpdbReviewOkay" name="jpdbReviewOkay"></keybind-input>
-              </div>
-            </div>
-            <div class="form-box">
-              <div>
-                <label for="jpdbReviewEasy">Review word as easy</label>
-                <keybind-input id="jpdbReviewEasy" name="jpdbReviewEasy"></keybind-input>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-box-parent grade-two review" hidden skip-animation>
-            <div class="form-box">
-              <div>
-                <label for="jpdbReviewFail">Review word as fail</label>
-                <keybind-input id="jpdbReviewFail" name="jpdbReviewFail"></keybind-input>
-              </div>
-            </div>
-
-            <div class="form-box">
-              <div>
-                <label for="jpdbReviewPass">Review word as pass</label>
-                <keybind-input id="jpdbReviewPass" name="jpdbReviewPass"></keybind-input>
-              </div>
-            </div>
-          </div>
-
-          <div class="rotate-flags form-box-parent" hidden>
-            <div class="form-box">
-              <div>
-                <label for="jpdbRotateForward">Rotate flags forward</label>
-                <keybind-input id="jpdbRotateForward" name="jpdbRotateForward"></keybind-input>
-              </div>
-            </div>
-
-            <div class="form-box">
-              <div>
-                <label for="jpdbRotateBackward">Rotate flags backward</label>
-                <keybind-input id="jpdbRotateBackward" name="jpdbRotateBackward"></keybind-input>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-box-parent distance-before">
-            <div class="form-box">
-              <div>
-                <label for="jpdbMiningDeck">Mining Deck</label>
-                <select type="jpdb" id="jpdbMiningDeck" name="jpdbMiningDeck"></select>
-              </div>
-
-              <div>
-                <label for="jpdbBlacklistDeck">Blacklist Deck</label>
-                <select type="jpdb" id="jpdbBlacklistDeck" name="jpdbBlacklistDeck"></select>
-              </div>
-
-              <div id="forq" hidden>
-                <label for="jpdbForqDeck">FORQ Deck</label>
-                <select type="jpdb" id="jpdbForqDeck" name="jpdbForqDeck"></select>
-              </div>
-            </div>
-
-            <div class="form-box">
-              <div>
-                <label for="jpdbNeverForgetDeck">Never Forget Deck</label>
-                <select type="jpdb" id="jpdbNeverForgetDeck" name="jpdbNeverForgetDeck"></select>
-              </div>
-
-              <div>
-                <label for="jpdbSuspendDeck">Suspend Card Deck</label>
-                <select type="jpdb" id="jpdbSuspendDeck" name="jpdbSuspendDeck"></select>
-              </div>
+              <p style="opacity: 0.8">Anki will be implemented at a later point in time!</p>
             </div>
           </div>
         </div>
 
-        <div id="anki-integration" class="collapsible" hidden skip-animation>
+        <div id="anki-integration" class="collapsible section" hidden skip-animation>
           <h6>Anki Integration</h6>
+
           <div class="form-box-parent">
             <div class="form-box">
               <div>
@@ -300,244 +125,408 @@
           </div>
         </div>
 
-        <div class="form-box-parent distance-before">
-          <div class="form-box">
-            <div>
-              <div class="checkbox">
-                <input type="checkbox" id="setSentences" name="setSentences" />
-                <label for="setSentences">Set sentence on card after mining</label>
-              </div>
-            </div>
-          </div>
+        <div id="jpdb-decks" class="collapsible section" hidden skip-animation>
+          <h6>Mining Configuration</h6>
 
-          <div class="form-box"></div>
-        </div>
-
-        <div class="form-box-parent">
-          <div class="form-box">
-            <div>
-              <div class="checkbox">
-                <input type="checkbox" id="hideAfterAction" name="hideAfterAction" />
-                <label for="hideAfterAction">Hide popup after interacting with the API</label>
-              </div>
-            </div>
-
-            <div>
-              <div class="checkbox">
-                <input type="checkbox" id="hidePopupAutomatically" name="hidePopupAutomatically" shows="#hidePopupDelayBox" />
-                <label for="hidePopupAutomatically">Hide popup automatically after leaving it</label>
-              </div>
-              <p style="opacity: 0.8" indent up>
-                If enabled, the popup will hide itself after you move your mouse out of it or unhovering the related word.
-              </p>
-            </div>
-
-            <div id="hidePopupDelayBox" hidden indent up>
-              <label for="hidePopupDelay">Delay to hide in milliseconds</label>
-              <input
-                style="width: 100%"
-                type="number"
-                id="hidePopupDelay"
-                name="hidePopupDelay"
-                min="0"
-              />
-              <p style="opacity: 0.8">
-                Delay to hide the popup in milliseconds. If set to 0, the popup will hide immediately.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-box-parent distance-before">
-          <div class="form-box">
-            <div>
-              <div class="checkbox">
-                <input type="checkbox" id="useLegacyHighlighter" name="useLegacyHighlighter" hides=".legacyNotSupported" />
-                <label for="useLegacyHighlighter">Use the old text highlighting</label>
-              </div>
-              <div style="opacity: 0.8" indent up>Although the new highlighting has some advantages over the old one, it is not as thoroughly tested.</div>
-              <div style="opacity: 0.8" indent>If you experience issues with the updated version, you can switch back to the old one here.</div>
-              <ul style="opacity: 0.8" indent>
-                <li>The new highlighting is more accurate and can handle more edge cases.</li>
-                <li>The new highlighting is less obstructive towards the original styles and functions of a website.</li>
-                <li>The new highlighting can recognize obvious misparses and mark them as such.</li>
-              </ul>
-
-              <div class="checkbox legacyNotSupported" hidden indent>
-                <input type="checkbox" id="skipFurigana" name="skipFurigana" />
-                <label for="skipFurigana">Prevent Furigana from generating</label>
-              </div>
-
-              <div class="checkbox legacyNotSupported" hidden indent>
-                <input type="checkbox" id="generatePitch" name="generatePitch" shows="#explain-pitch" />
-                <label for="generatePitch">Generate pitch accent markers</label>
-              </div>
-              <details class="accordion" id="explain-pitch" hidden indent>
-                <summary>Japanese Pitch Accent Patterns</summary>
-                <div>
-                  <p>Japanese pitch accent is a feature of the Japanese language that determines the pitch of a word. There are five main pitch accent patterns in Japanese:</p>
-                  <div class="distance-before">
-                    <p>Heiban (平板型) - Low-High (L-H)</p>
-                    <p>The pitch starts low and rises, remaining high for the rest of the word, including any attached particles.</p>
-                    <p>Example: あさ (asa - morning) [LHH]</p>
-                  </div>
-                  <div class="distance-before">
-                    <p>Atamadaka (頭高型) - High-Low (H-L)</p>
-                    <p>The pitch starts high on the first mora and then drops to low for the rest of the word, including any attached particles.</p>
-                    <p>Example: いぬ (inu - dog) [HLL]</p>
-                  </div>
-                  <div class="distance-before">
-                    <p>Nakadaka (中高型) - Low-High-Low (L-H-L)</p>
-                    <p>The pitch starts low, rises to high at some point within the word, and then drops back to low before any attached particles.</p>
-                    <p>Example: さくら (sakura - cherry blossom) [LHL]</p>
-                  </div>
-                  <div class="distance-before">
-                    <p>Odaka (尾高型) - Low-High-Low (L-H-L)</p>
-                    <p>The pitch starts low, rises to high, and remains high until the end of the word. The pitch drops to low when a particle is attached.</p>
-                    <p>Example: はし (hashi - bridge) [LHH] + が (ga) [L]</p>
-                  </div>
-                  <div class="distance-before">
-                    <p>Kifuku (起伏型) - Multiple rises and falls</p>
-                    <p>This pattern involves multiple rises and falls within the word. It is less common and typically found in longer words or compounds. The pitch of attached particles depends on the specific rises and falls within the word.</p>
-                    <p>Example: おもしろい (omoshiroi - interesting) [LHLH]</p>
-                  </div>
+          <div class="form-box-parent">
+            <div class="form-box">
+              <div>
+                <div class="checkbox">
+                  <input type="checkbox" id="jpdbAddToForq" name="jpdbAddToForq" shows="#forq" />
+                  <label for="jpdbAddToForq">Add to FORQ when mining</label>
                 </div>
-              </details>
+              </div>
+
+              <div>
+                <div class="checkbox">
+                  <input type="checkbox" id="setSentences" name="setSentences" />
+                  <label for="setSentences">Set sentence on card after mining</label>
+                </div>
+              </div>
+
+              <div>
+                <div class="checkbox">
+                  <input type="checkbox" id="jpdbDisableReviews" name="jpdbDisableReviews" hides=".review" runlast />
+                  <label for="jpdbDisableReviews">Disable review actions</label>
+                </div>
+              </div>
+
+              <div class="review" indent>
+                <div class="checkbox">
+                  <input type="checkbox" id="jpdbUseTwoGrades" name="jpdbUseTwoGrades" hides=".grade-five" shows=".grade-two" />
+                  <label for="jpdbUseTwoGrades">Use a 2-point pass/fail grading scale</label>
+                </div>
+              </div>
+
+              <div>
+                <div class="checkbox">
+                  <input type="checkbox" id="jpdbRotateFlags" name="jpdbRotateFlags" shows=".rotate-flags" />
+                  <label for="jpdbRotateFlags">Cycle between decks</label>
+                </div>
+                <p style="opacity: 0.8" indent up>
+                  If enabled, you can move a word from one deck to another by pressing a keybind.
+                </p>
+              </div>
+
+              <div class="rotate-flags" indent>
+                <div class="checkbox">
+                  <input type="checkbox" id="jpdbRotateCycle" name="jpdbRotateCycle" />
+                  <label for="jpdbRotateCycle">Dont remove from any deck when cycling</label>
+                </div>
+                <p style="opacity: 0.8" indent up>
+                  If set, a word wont be removed from any deck when cycling. Otherwise it will be removed when the last deck in the chain is reached.
+                </p>
+              </div>
+
+              <div class="rotate-flags" indent>
+                <div class="checkbox">
+                  <input type="checkbox" id="jpdbCycleNeverForget" name="jpdbCycleNeverForget" />
+                  <label for="jpdbCycleNeverForget">Use Never Forget when cycling between decks</label>
+                </div>
+              </div>
+
+              <div class="rotate-flags" indent>
+                <div class="checkbox">
+                  <input type="checkbox" id="jpdbCycleBlacklist" name="jpdbCycleBlacklist" />
+                  <label for="jpdbCycleBlacklist">Use Blacklist when cycling between decks</label>
+                </div>
+              </div>
+
+              <div class="rotate-flags" indent>
+                <div class="checkbox">
+                  <input type="checkbox" id="jpdbCycleSuspended" name="jpdbCycleSuspended" />
+                  <label for="jpdbCycleSuspended">Use Suspend when cycling between decks</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-box-parent">
+            <div class="form-box">
+              <div>
+                <label for="jpdbMiningDeck">Mining Deck</label>
+                <select type="jpdb" id="jpdbMiningDeck" name="jpdbMiningDeck"></select>
+              </div>
+
+              <div>
+                <label for="jpdbBlacklistDeck">Blacklist Deck</label>
+                <select type="jpdb" id="jpdbBlacklistDeck" name="jpdbBlacklistDeck"></select>
+              </div>
+
+              <div id="forq" hidden>
+                <label for="jpdbForqDeck">FORQ Deck</label>
+                <select type="jpdb" id="jpdbForqDeck" name="jpdbForqDeck"></select>
+              </div>
+            </div>
+
+            <div class="form-box">
+              <div>
+                <label for="jpdbNeverForgetDeck">Never Forget Deck</label>
+                <select type="jpdb" id="jpdbNeverForgetDeck" name="jpdbNeverForgetDeck"></select>
+              </div>
+
+              <div>
+                <label for="jpdbSuspendDeck">Suspend Card Deck</label>
+                <select type="jpdb" id="jpdbSuspendDeck" name="jpdbSuspendDeck"></select>
+              </div>
             </div>
           </div>
         </div>
 
-        <h6>Accessibility</h6>
-        <div class="form-box-parent">
-          <div class="form-box">
-            <div>
-              <div class="checkbox">
-                <input type="checkbox" id="showPopupOnHover" name="showPopupOnHover" hides="#showPopupKeyBox" />
-                <label for="showPopupOnHover">Show the popup on hover</label>
+        <div id="accessability" class="section">
+          <h6>Accessibility</h6>
+          <div class="form-box-parent">
+            <div class="form-box">
+              <div>
+                <div class="checkbox">
+                  <input type="checkbox" id="showPopupOnHover" name="showPopupOnHover" hides="#showPopupKeyBox" />
+                  <label for="showPopupOnHover">Show the popup on hover</label>
+                </div>
+              </div>
+
+              <div class="not-implemented">
+                <div class="checkbox">
+                  <input type="checkbox" id="touchscreenSupport" name="touchscreenSupport" />
+                  <label for="touchscreenSupport">Touchscreen support</label>
+                </div>
+              </div>
+
+              <div>
+                <div class="checkbox">
+                  <input type="checkbox" id="disableFadeAnimation" name="disableFadeAnimation" />
+                  <label for="disableFadeAnimation">Disable fade animation</label>
+                </div>
+              </div>
+
+              <div>
+                <div class="checkbox">
+                  <input type="checkbox" id="hideInactiveTabs" name="hideInactiveTabs" hides="#hideInactiveTabsBox" />
+                  <label for="hideInactiveTabs">Only show currently opened tab in parse selection</label>
+                </div>
+              </div>
+
+              <div hidden id="hideInactiveTabsBox">
+                <div class="checkbox">
+                  <input type="checkbox" id="showCurrentOnTop" name="showCurrentOnTop" />
+                  <label for="showCurrentOnTop">Show current tab on top of tab selection list</label>
+                </div>
+              </div>
+
+              <div>
+                <div class="checkbox">
+                  <input type="checkbox" id="showParseButton" name="showParseButton" />
+                  <label for="showParseButton">Show small parse page button on the right bottom of manually parsed pages</label>
+                </div>
+              </div>
+
+              <div>
+                <div class="checkbox">
+                  <input type="checkbox" id="hideAfterAction" name="hideAfterAction" />
+                  <label for="hideAfterAction">Hide popup after interacting with the API</label>
+                </div>
+              </div>
+
+              <div>
+                <div class="checkbox">
+                  <input type="checkbox" id="hidePopupAutomatically" name="hidePopupAutomatically" shows="#hidePopupDelayBox" />
+                  <label for="hidePopupAutomatically">Hide popup automatically after leaving it</label>
+                </div>
+                <p style="opacity: 0.8" indent up>
+                  If enabled, the popup will hide itself after you move your mouse out of it or unhovering the related word.
+                </p>
+              </div>
+
+              <div id="hidePopupDelayBox" hidden indent up>
+                <label for="hidePopupDelay">Delay to hide in milliseconds</label>
+                <input
+                  style="width: 100%"
+                  type="number"
+                  id="hidePopupDelay"
+                  name="hidePopupDelay"
+                  min="0"
+                />
+                <p style="opacity: 0.8">
+                  Delay to hide the popup in milliseconds. If set to 0, the popup will hide immediately.
+                </p>
               </div>
             </div>
 
-            <div class="not-implemented">
-              <div class="checkbox">
-                <input type="checkbox" id="touchscreenSupport" name="touchscreenSupport" />
-                <label for="touchscreenSupport">Touchscreen support</label>
-              </div>
-            </div>
+            <div class="form-box"></div>
+          </div>
+        </div>
 
-            <div>
-              <div class="checkbox">
-                <input type="checkbox" id="disableFadeAnimation" name="disableFadeAnimation" />
-                <label for="disableFadeAnimation">Disable fade animation</label>
-              </div>
-            </div>
-
-            <div>
-              <div class="checkbox">
-                <input type="checkbox" id="hideInactiveTabs" name="hideInactiveTabs" hides="#hideInactiveTabsBox" />
-                <label for="hideInactiveTabs">Only show currently opened tab in parse selection</label>
-              </div>
-            </div>
-
-            <div hidden id="hideInactiveTabsBox">
-              <div class="checkbox">
-                <input type="checkbox" id="showCurrentOnTop" name="showCurrentOnTop" />
-                <label for="showCurrentOnTop">Show current tab on top of tab selection list</label>
-              </div>
-            </div>
-
-            <div>
-              <div class="checkbox">
-                <input type="checkbox" id="showParseButton" name="showParseButton" />
-                <label for="showParseButton">Show small parse page button on the right bottom of manually parsed pages</label>
-              </div>
+        <div id="keybinds" class="section">
+          <h6>Keybinds</h6>
+          <div class="form-box-parent">
+            <div class="form-box">
+              <p style="opacity: 0.8; padding-top: .5em">
+                Press escape to clear. Holding modifiers like shift or alt is supported. <br />
+                Hotkeys are based on key position and independent of your current keyboard layout.
+                <br />
+                Note: Keybinds currently always work on the word you are hovering your mouse over,
+                even if you have the popup for another word open.
+                <br />
+                Additionally, Left Mouse Click (without modifiers) as well as Right Mouse Click (no matter the modifiers) are not supported.
+              </p>
             </div>
           </div>
 
-          <div class="form-box"></div>
-        </div>
-
-        <h6>Keybinds</h6>
-        <div class="form-box-parent">
-          <div class="form-box">
-            <p style="opacity: 0.8; padding-top: .5em">
-              Press escape to clear. Holding modifiers like shift or alt is supported. <br />
-              Hotkeys are based on key position and independent of your current keyboard layout.
-              <br />
-              Note: Keybinds currently always work on the word you are hovering your mouse over,
-              even if you have the popup for another word open.
-              <br />
-              Additionally, Left Mouse Click (without modifiers) as well as Right Mouse Click (no matter the modifiers) are not supported.
-            </p>
-          </div>
-        </div>
-
-        <div class="form-box-parent">
-          <div class="form-box">
+          <details class="accordion" open>
+            <summary>General</summary>
             <div>
               <label for="parseKey">Parse page or selection</label>
               <keybind-input id="parseKey" name="parseKey"></keybind-input>
             </div>
+
             <div id="showPopupKeyBox">
               <label for="showPopupKey">Show popup</label>
               <keybind-input id="showPopupKey" name="showPopupKey"></keybind-input>
             </div>
-            <div class="not-implemented">
-              <label for="showAdvancedDialogKey">Show advanced mining dialog</label>
-              <keybind-input id="showAdvancedDialogKey" name="showAdvancedDialogKey"></keybind-input>
-            </div>
+
             <div>
               <label for="lookupSelectionKey">Lookup selected text on JPDB</label>
               <keybind-input id="lookupSelectionKey" name="lookupSelectionKey"></keybind-input>
             </div>
-          </div>
+          </details>
 
-          <div class="form-box">
+          <details class="accordion">
+            <summary>Mining</summary>
+
+            <div class="not-implemented">
+              <label for="showAdvancedDialogKey">Show advanced mining dialog</label>
+              <keybind-input id="showAdvancedDialogKey" name="showAdvancedDialogKey"></keybind-input>
+            </div>
+
             <div>
               <label for="addToMiningKey">Add word to mining deck</label>
               <keybind-input id="addToMiningKey" name="addToMiningKey"></keybind-input>
             </div>
+
             <div>
               <label for="addToNeverForgetKey">Mark word as never forget</label>
               <keybind-input id="addToNeverForgetKey" name="addToNeverForgetKey"></keybind-input>
             </div>
+
             <div>
               <label for="addToBlacklistKey">Add word to blacklist</label>
               <keybind-input id="addToBlacklistKey" name="addToBlacklistKey"></keybind-input>
             </div>
+
             <div>
               <label for="addToSuspendedKey">Suspend word</label>
               <keybind-input id="addToSuspendedKey" name="addToSuspendedKey"></keybind-input>
             </div>
-          </div>
-        </div>
+          </details>
 
-        <h6 class="distance-before">Appearance</h6>
-        <div class="form-box-parent">
-          <div class="form-box">
+          <details class="accordion review" hidden>
+            <summary>Review</summary>
+
+            <div class="grade-five" hidden>
+              <div>
+                <label for="jpdbReviewNothing">Review word as nothing</label>
+                <keybind-input id="jpdbReviewNothing" name="jpdbReviewNothing"></keybind-input>
+              </div>
+
+              <div>
+                <label for="jpdbReviewSomething">Review word as something</label>
+                <keybind-input id="jpdbReviewSomething" name="jpdbReviewSomething"></keybind-input>
+              </div>
+
+              <div>
+                <label for="jpdbReviewHard">Review word as hard</label>
+                <keybind-input id="jpdbReviewHard" name="jpdbReviewHard"></keybind-input>
+              </div>
+
+              <div>
+                <label for="jpdbReviewOkay">Review word as okay</label>
+                <keybind-input id="jpdbReviewOkay" name="jpdbReviewOkay"></keybind-input>
+              </div>
+
+              <div>
+                <label for="jpdbReviewEasy">Review word as easy</label>
+                <keybind-input id="jpdbReviewEasy" name="jpdbReviewEasy"></keybind-input>
+              </div>
+            </div>
+
+            <div class="grade-two" hidden>
+              <div>
+                <label for="jpdbReviewFail">Review word as fail</label>
+                <keybind-input id="jpdbReviewFail" name="jpdbReviewFail"></keybind-input>
+              </div>
+
+              <div>
+                <label for="jpdbReviewPass">Review word as pass</label>
+                <keybind-input id="jpdbReviewPass" name="jpdbReviewPass"></keybind-input>
+              </div>
+            </div>
+          </details>
+
+          <details class="accordion rotate-flags" hidden>
+            <summary>Rotate Flags</summary>
+
             <div>
-              <label for="customWordCSS">Custom Word CSS</label>
-              <textarea
-                id="customWordCSS"
-                name="customWordCSS"
-                placeholder="Custom Word CSS"
-                spellcheck="false"
-                style="height: 15em; margin-bottom: 0"
-              ></textarea>
-              <p style="opacity: 0.8">This changes the appearance of words in text and subs.</p>
+              <label for="jpdbRotateForward">Rotate flags forward</label>
+              <keybind-input id="jpdbRotateForward" name="jpdbRotateForward"></keybind-input>
             </div>
 
             <div>
-              <label for="customPopupCSS">Custom Popup CSS</label>
-              <textarea
-                id="customPopupCSS"
-                name="customPopupCSS"
-                placeholder="Custom Popup CSS"
-                spellcheck="false"
-                style="height: 15em; margin-bottom: 0"
-              ></textarea>
-              <p style="opacity: 0.8">
-                This changes the appearance of the popup shown when hovering over words.
-              </p>
+              <label for="jpdbRotateBackward">Rotate flags backward</label>
+              <keybind-input id="jpdbRotateBackward" name="jpdbRotateBackward"></keybind-input>
+            </div>
+          </details>
+        </div>
+
+        <div id="parser" class="section">
+          <h6>Parser</h6>
+          <div class="form-box-parent">
+            <div class="form-box">
+              <div>
+                <div class="checkbox">
+                  <input type="checkbox" id="useLegacyHighlighter" name="useLegacyHighlighter" hides=".legacyNotSupported" />
+                  <label for="useLegacyHighlighter">Use the old text highlighting</label>
+                </div>
+                <div style="opacity: 0.8" indent up>Although the new highlighting has some advantages over the old one, it is not as thoroughly tested.</div>
+                <div style="opacity: 0.8" indent>If you experience issues with the updated version, you can switch back to the old one here.</div>
+                <ul style="opacity: 0.8" indent>
+                  <li>The new highlighting is more accurate and can handle more edge cases.</li>
+                  <li>The new highlighting is less obstructive towards the original styles and functions of a website.</li>
+                  <li>The new highlighting can recognize obvious misparses and mark them as such.</li>
+                </ul>
+
+                <div class="checkbox legacyNotSupported" hidden indent>
+                  <input type="checkbox" id="skipFurigana" name="skipFurigana" />
+                  <label for="skipFurigana">Prevent Furigana from generating</label>
+                </div>
+
+                <div class="checkbox legacyNotSupported" hidden indent>
+                  <input type="checkbox" id="generatePitch" name="generatePitch" shows="#explain-pitch" />
+                  <label for="generatePitch">Generate pitch accent markers</label>
+                </div>
+                <details class="accordion" id="explain-pitch" hidden indent>
+                  <summary>Japanese Pitch Accent Patterns</summary>
+                  <div class="pitch-accent">
+                    <p>Japanese pitch accent is a feature of the Japanese language that determines the pitch of a word. There are five main pitch accent patterns in Japanese:</p>
+                    <div>
+                      <p>Heiban (平板型) - Low-High (L-H)</p>
+                      <p>The pitch starts low and rises, remaining high for the rest of the word, including any attached particles.</p>
+                      <p>Example: あさ (asa - morning) [LHH]</p>
+                    </div>
+                    <div>
+                      <p>Atamadaka (頭高型) - High-Low (H-L)</p>
+                      <p>The pitch starts high on the first mora and then drops to low for the rest of the word, including any attached particles.</p>
+                      <p>Example: いぬ (inu - dog) [HLL]</p>
+                    </div>
+                    <div>
+                      <p>Nakadaka (中高型) - Low-High-Low (L-H-L)</p>
+                      <p>The pitch starts low, rises to high at some point within the word, and then drops back to low before any attached particles.</p>
+                      <p>Example: さくら (sakura - cherry blossom) [LHL]</p>
+                    </div>
+                    <div>
+                      <p>Odaka (尾高型) - Low-High-Low (L-H-L)</p>
+                      <p>The pitch starts low, rises to high, and remains high until the end of the word. The pitch drops to low when a particle is attached.</p>
+                      <p>Example: はし (hashi - bridge) [LHH] + が (ga) [L]</p>
+                    </div>
+                    <div>
+                      <p>Kifuku (起伏型) - Multiple rises and falls</p>
+                      <p>This pattern involves multiple rises and falls within the word. It is less common and typically found in longer words or compounds. The pitch of attached particles depends on the specific rises and falls within the word.</p>
+                      <p>Example: おもしろい (omoshiroi - interesting) [LHLH]</p>
+                    </div>
+                  </div>
+                </details>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="appearance" class="section">
+          <h6>Appearance</h6>
+          <div class="form-box-parent">
+            <div class="form-box">
+              <div>
+                <label for="customWordCSS">Custom Word CSS</label>
+                <textarea
+                  id="customWordCSS"
+                  name="customWordCSS"
+                  placeholder="Custom Word CSS"
+                  spellcheck="false"
+                  style="height: 15em; margin-bottom: 0"
+                ></textarea>
+                <p style="opacity: 0.8">This changes the appearance of words in text and subs.</p>
+              </div>
+
+              <div>
+                <label for="customPopupCSS">Custom Popup CSS</label>
+                <textarea
+                  id="customPopupCSS"
+                  name="customPopupCSS"
+                  placeholder="Custom Popup CSS"
+                  spellcheck="false"
+                  style="height: 15em; margin-bottom: 0"
+                ></textarea>
+                <p style="opacity: 0.8">
+                  This changes the appearance of the popup shown when hovering over words.
+                </p>
+              </div>
             </div>
           </div>
         </div>
