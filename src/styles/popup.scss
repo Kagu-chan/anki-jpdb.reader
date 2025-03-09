@@ -1,11 +1,14 @@
 @use 'sass:map';
 @use '_helpers' as helpers;
 
+@use 'theme/lib/_fonts';
+@use 'theme/lib/_scrollbar';
+
 .popup {
   @include helpers.font-sizes;
   @include helpers.scale;
 
-  @include helpers.outline-colors;
+  @include helpers.outline;
   @include helpers.word-colors;
   @include helpers.deck-colors;
   @include helpers.grade-colors;
@@ -47,7 +50,19 @@
     height: var(--jpdb-font-size-large);
     padding: var(--jpdb-padding) var(--jpdb-padding) 0 var(--jpdb-padding);
 
+    cursor: pointer;
+
+    border: 1px solid currentcolor;
+    border-radius: var(--jpdb-border-radius);
+
+    box-shadow: none;
+    transform: none;
+    transition: all ease-in-out 0.2s;
+
     &:hover {
+      transform: none;
+      box-shadow: inset 0 0 3px currentcolor;
+
       filter: brightness(1.2);
     }
 
@@ -87,6 +102,7 @@
 }
 
 .popup #link {
+  color: var(--jpdb-link-color);
   font-size: var(--jpdb-font-size-x-large);
   border-bottom: 1px dashed var(--jpdb-link-underline-color);
 

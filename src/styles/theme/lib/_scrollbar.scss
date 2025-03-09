@@ -1,9 +1,11 @@
-$scrollbar-color: #3b7def;
-$scrollbar-background-color: #111;
+:root {
+  --jpdb-scrollbar-color: #3b7def;
+  --scrollbar-background-color: #111;
+}
 
 * {
   scrollbar-width: 1em;
-  scrollbar-color: $scrollbar-color $scrollbar-background-color;
+  scrollbar-color: var(--jpdb-scrollbar-color) var(--scrollbar-background-color);
 }
 
 *::-webkit-scrollbar {
@@ -11,10 +13,10 @@ $scrollbar-background-color: #111;
 }
 
 *::-webkit-scrollbar-track {
-  background: $scrollbar-background-color;
+  background: var(--scrollbar-background-color);
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: $scrollbar-color;
-  border: 3px solid $scrollbar-background-color;
+  background-color: var(--jpdb-scrollbar-color);
+  border: 3px solid var(--scrollbar-background-color);
 }

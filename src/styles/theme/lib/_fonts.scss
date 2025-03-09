@@ -2,14 +2,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&display=swap');
 
+:root {
+  --jpdb-font-family:
+    'Nunito Sans', 'Noto Sans Symbols 2', 'Segoe UI', 'Noto Sans JP', 'Noto Sans CJK JP',
+    'Hiragino Sans GB', 'Meiryo', sans-serif;
+  --jpdb-input-font-family:
+    'Nunito Sans', 'Segoe UI', 'Noto Sans JP', 'Noto Sans CJK JP', 'Hiragino Sans GB', 'Meiryo',
+    sans-serif;
+}
+
 body,
 input {
-  font-family: 'Nunito Sans', 'Noto Sans Symbols 2', 'Segoe UI', 'Noto Sans JP', 'Noto Sans CJK JP',
-    'Hiragino Sans GB', 'Meiryo', sans-serif;
+  font-family: var(--jpdb-font-family);
 }
 
 input[type='text'],
 textarea {
-  font-family: 'Nunito Sans', 'Segoe UI', 'Noto Sans JP', 'Noto Sans CJK JP', 'Hiragino Sans GB',
-    'Meiryo', sans-serif;
+  font-family: var(--jpdb-input-font-family);
 }
