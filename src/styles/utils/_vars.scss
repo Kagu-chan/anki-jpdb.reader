@@ -1,0 +1,13 @@
+@mixin write-vars($maps...) {
+  @each $map in $maps {
+    @each $key, $value in $map {
+      --#{$key}: #{$value};
+    }
+  }
+}
+
+@mixin write-prefixed-vars($prefix, $map) {
+  @each $key, $value in $map {
+    --#{$prefix}-#{$key}: #{$value};
+  }
+}
