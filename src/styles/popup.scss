@@ -1,36 +1,52 @@
 @use 'sass:map';
 @use 'variables/_colors' as colors;
+@use 'variables/_sizes' as sizes;
+@use 'utils/_vars' as vars;
 
 @use 'theme/_common';
 @use 'theme/_forms';
 @use 'theme/_outline';
 
 .popup {
-  width: 350px;
-  max-height: 250px;
+  @include vars.write-vars(sizes.$popup, colors.$colors);
+
+  @include vars.write-prefixed-vars('pitch', colors.$pitch);
+  @include vars.write-prefixed-vars('deck', colors.$decks);
+  @include vars.write-prefixed-vars('grade', colors.$grades);
+  @include vars.write-prefixed-vars('state', colors.$states);
+
+  @include vars.write-prefixed-vars('scale', sizes.$scales);
+}
+
+.popup {
+  scale: var(--scale-normal);
+
+  width: var(--popup-width);
+  max-height: var(--popup-height);
+  font-size: var(--font-size);
 
   display: flex;
   flex-direction: column;
-  gap: .5em;
+  gap: 0.5em;
 
   margin: 0;
-  padding: .5em;
-  border-radius: .5em;
+  padding: 0.5em;
+  border-radius: 0.5em;
 
-  color: map.get(colors.$colors, text-color);
-  background-color: map.get(colors.$colors, background-color);
+  color: var(--text-color);
+  background-color: var(--background-color);
   box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.5);
 
   section {
     &.controls {
       display: flex;
       flex-direction: row;
-      gap: .5em;
+      gap: 0.5em;
 
       a {
-        line-height: .7em;
-        height: 1.2em;
-        font-size: .7em;
+        line-height: var(--font-size-small);
+        font-size: var(--font-size-small);
+        height: var(--font-size-large);
         padding: 0.5em 0.5em 0 0.5em;
 
         &:hover {
@@ -43,20 +59,20 @@
       }
 
       &#mining {
-        @each $id, $color in colors.$decks {
+        @each $id, $_ in colors.$decks {
           .#{$id} {
-            color: $color;
-            border-color: $color;
-            box-shadow: inset 0 0 3px $color;
+            color: var(--deck-#{$id});
+            border-color: var(--deck-#{$id});
+            box-shadow: inset 0 0 3px var(--deck-#{$id});
           }
         }
       }
       &#grading {
-        @each $id, $color in colors.$grades {
+        @each $id, $_ in colors.$grades {
           .#{$id} {
-            color: $color;
-            border-color: $color;
-            box-shadow: inset 0 0 3px $color;
+            color: var(--grade-#{$id});
+            border-color: var(--grade-#{$id});
+            box-shadow: inset 0 0 3px var(--grade-#{$id});
           }
         }
       }
@@ -65,7 +81,7 @@
     &#context {
       display: flex;
       flex-direction: column;
-      gap: .5em;
+      gap: 0.5em;
 
       .subsection {
         display: flex;
@@ -73,8 +89,8 @@
         justify-content: space-between;
 
         #link {
-          font-size: 150%;
-          border-bottom: 1px dashed map.get(colors.$colors, link-underline-color);
+          font-size: var(--font-size-x-large);
+          border-bottom: 1px dashed var(--link-underline-color);
 
           &:hover {
             border-bottom-style: solid;
@@ -84,32 +100,32 @@
         #state {
           display: flex;
           flex-direction: row;
-          gap: .5em;
+          gap: 0.5em;
           align-items: flex-end;
 
           span {
-            font-size: .7em;
-            line-height: .7em;
+            font-size: var(--font-size-small);
+            line-height: var(--font-size-small);
             text-decoration: underline;
 
-            padding: .5em;
+            padding: 0.5em;
 
             @each $id, $color in colors.$states {
               &.#{$id} {
-                color: $color;
+                color: var(--state-#{$id});
               }
             }
           }
         }
 
         &#meta {
-          font-size: 12px;
+          font-size: var(--font-size-small);
           white-space: nowrap;
 
           #pitch-accent {
             display: flex;
             flex-direction: row;
-            gap: .5em;
+            gap: 0.5em;
 
             .pitch span {
               padding: 1px 1px 1px 2px;
@@ -117,7 +133,11 @@
 
               border-style: solid;
               border-image-slice: 2;
-              border-image-source: linear-gradient(to bottom, rgba(232, 104, 123, 0.8), rgba(75, 141, 255, 0.8));
+              border-image-source: linear-gradient(
+                to bottom,
+                var(--pitch-upper),
+                var(--pitch-lower)
+              );
             }
 
             .pitch .low {
@@ -144,19 +164,19 @@
 
     &#details {
       overflow: auto;
-      margin-top: .5em;
+      margin-top: 0.5em;
 
       .pos {
         display: flex;
         flex-direction: row;
-        gap: .5em;
+        gap: 0.5em;
 
         span {
-          font-size: .7em;
-          line-height: .7em;
+          font-size: var(--font-size-small);
+          line-height: var(--font-size-small);
           text-decoration: underline;
 
-          padding: .5em 0;
+          padding: 0.5em 0;
         }
       }
 
