@@ -1,4 +1,5 @@
 import { getConfiguration } from '@shared/configuration/get-configuration';
+import { getStyleConfiguration } from '@shared/configuration/get-style-configuration';
 import { createElement } from '@shared/dom/create-element';
 import { findElements } from '@shared/dom/find-elements';
 import { withElement } from '@shared/dom/with-element';
@@ -178,7 +179,11 @@ export class Popup {
     this._blacklistDeck = await getConfiguration('jpdbBlacklistDeck', true);
     this._suspendDeck = await getConfiguration('jpdbSuspendDeck', true);
 
-    this._customStyles.textContent = await getConfiguration('customPopupCSS', true);
+    this._customStyles.textContent = await getStyleConfiguration(
+      'customPopupCSS',
+      'popup',
+      this._popup,
+    );
 
     this.updateMiningButtons();
     this.updateGradingButtons();
