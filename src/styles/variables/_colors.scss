@@ -81,6 +81,7 @@ $colors: (
   accordion-border-color: #444,
 
   misparsed-background-color: lightgray,
+  misparsed-text-decoration-color: red,
 );
 
 $pitch: (
@@ -94,4 +95,8 @@ $accents: (
   nakadaka: #fba840,
   odaka: #57ccb7,
   kifuku: #9050f6,
+);
+
+$ruby: (
+  color: inherit,
 );

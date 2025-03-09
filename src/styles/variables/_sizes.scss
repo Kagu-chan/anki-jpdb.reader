@@ -1,6 +1,8 @@
 @use 'sass:map';
 
 $font-sizes: (
+  inherit: inherit,
+  x-small: 0.5em,
   small: 0.7em,
   normal: 1em,
   large: 1.2em,

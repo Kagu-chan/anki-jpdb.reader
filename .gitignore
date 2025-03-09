@@ -20,3 +20,5 @@ Thumbs.db
 # Local files
 local/
 submission/
+
+*.bak.*

@@ -1,50 +1,59 @@
 @use 'sass:map';
-@use 'variables/_colors' as colors;
-@use 'utils/_vars' as vars;
+@use '_variables' as var;
 
 .jpdb-word {
-  @include vars.write-prefixed-vars('jpdb-word', colors.$states);
-  @include vars.write-prefixed-vars('jpdb-pitch', colors.$accents);
+  @include var.font-sizes;
+  @include var.word-colors;
 
-  @include vars.write-vars(
-    (
-      misparsed-background-color: map.get(colors.$colors, misparsed-background-color),
-    )
-  );
-}
-
-.jpdb-word ruby,
-.jpdb-word rt {
-  color: inherit !important;
-  font-size: inherit;
-}
-
-.jpdb-word rt {
-  user-select: none;
-  pointer-events: none;
-
-  font-size: 60%;
+  @include var.pitch;
+  @include var.parsed-text-decoration;
+  @include var.misparsed;
+  @include var.rt;
 }
 
 .jpdb-word {
-  @each $state, $_ in colors.$states {
-    &.#{$state} {
-      color: var(--jpdb-word-#{$state}, var(--jpdb-word-default-color));
-    }
+  rt {
+    color: var(--jpdb-rt-color);
+    font-size: var(--jpdb-rt-font-size);
+    display: var(--jpdb-rt-display);
+
+    user-select: var(--jpdb-rt-user-select);
+    pointer-events: var(--jpdb-rt-pointer-events);
   }
 
-  @each $pitch, $_ in colors.$accents {
+  &:hover rt {
+    display: var(--jpdb-rt-display--hover);
+  }
+}
+
+.jpdb-word:not(.unparsed) {
+  text-decoration: var(--jpdb-word-parsed-text-decoration);
+
+  &:hover {
+    text-decoration: var(--jpdb-word-parsed-text-decoration--hover);
+  }
+}
+
+.jpdb-word.misparsed {
+  color: var(--jpdb-word-misparsed-color, var(--jpdb-word-default-color));
+  background-color: var(--jpdb-word-misparsed-background-color);
+  text-decoration: var(--jpdb-word-misparsed-text-decoration);
+  text-decoration-color: var(--jpdb-word-misparsed-text-decoration-color);
+}
+
+.jpdb-word {
+  @each $pitch in var.$pitch-colors {
     &.#{$pitch} {
-      text-decoration: underline;
+      text-decoration: var(--jpdb-pitch-text-decoration);
       text-decoration-color: var(--jpdb-pitch-#{$pitch}, var(--jpdb-pitch-default-color));
     }
   }
 }
 
-.jpdb-word:not(.unparsed):hover {
-  text-decoration: underline;
-}
-
-.jpdb-word.misparsed {
-  background-color: var(--misparsed-background-color);
+.jpdb-word {
+  @each $state in var.$word-colors {
+    &.#{$state} {
+      color: var(--jpdb-word-#{$state}, var(--jpdb-word-default-color));
+    }
+  }
 }
