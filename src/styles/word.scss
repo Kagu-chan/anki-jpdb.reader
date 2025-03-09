@@ -1,24 +1,19 @@
 @use 'sass:map';
-@use '_variables' as var;
+@use '_helpers' as helpers;
 
 .jpdb-word {
-  @include var.font-sizes;
-  @include var.word-colors;
+  @include helpers.font-sizes;
+  @include helpers.word-colors;
 
-  @include var.pitch;
-  @include var.parsed-text-decoration;
-  @include var.misparsed;
-  @include var.rt;
+  @include helpers.pitch;
+  @include helpers.parsed-text-decoration;
+  @include helpers.misparsed;
+  @include helpers.rt;
 }
 
 .jpdb-word {
   rt {
-    color: var(--jpdb-rt-color);
-    font-size: var(--jpdb-rt-font-size);
-    display: var(--jpdb-rt-display);
-
-    user-select: var(--jpdb-rt-user-select);
-    pointer-events: var(--jpdb-rt-pointer-events);
+    @include helpers.rt-styles;
   }
 
   &:hover rt {
@@ -42,7 +37,7 @@
 }
 
 .jpdb-word {
-  @each $pitch in var.$pitch-colors {
+  @each $pitch in helpers.$pitch-colors {
     &.#{$pitch} {
       text-decoration: var(--jpdb-pitch-text-decoration);
       text-decoration-color: var(--jpdb-pitch-#{$pitch}, var(--jpdb-pitch-default-color));
@@ -51,7 +46,7 @@
 }
 
 .jpdb-word {
-  @each $state in var.$word-colors {
+  @each $state in helpers.$word-colors {
     &.#{$state} {
       color: var(--jpdb-word-#{$state}, var(--jpdb-word-default-color));
     }
