@@ -8,3 +8,7 @@ export type ConfigurationObjectKeys = FilterKeys<
   ConfigurationSchema,
   Keybinds | DeckConfiguration | DiscoverWordConfiguration[]
 >[];
+
+export type ConfigurationStyleKeys = keyof {
+  [K in keyof ConfigurationSchema as K extends `${string}CSS` ? K : never]: K;
+};
