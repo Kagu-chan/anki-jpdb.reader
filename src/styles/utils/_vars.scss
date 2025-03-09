@@ -11,3 +11,11 @@
     --#{$prefix}-#{$key}: #{$value};
   }
 }
+
+@mixin reset($prefix, $map) {
+  body {
+    @each $key, $value in $map {
+      --#{$prefix}-#{$key}: unset;
+    }
+  }
+}

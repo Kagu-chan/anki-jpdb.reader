@@ -1,85 +1,50 @@
-.jpdb-word ruby, .jpdb-word rt {
-    color: inherit !important;
-    font-size: inherit;
+@use 'sass:map';
+@use 'variables/_colors' as colors;
+@use 'utils/_vars' as vars;
+
+.jpdb-word {
+  @include vars.write-prefixed-vars('jpdb-word', colors.$states);
+  @include vars.write-prefixed-vars('jpdb-pitch', colors.$accents);
+
+  @include vars.write-vars(
+    (
+      misparsed-background-color: map.get(colors.$colors, misparsed-background-color),
+    )
+  );
+}
+
+.jpdb-word ruby,
+.jpdb-word rt {
+  color: inherit !important;
+  font-size: inherit;
 }
 
 .jpdb-word rt {
-    user-select: none;
-    pointer-events: none;
+  user-select: none;
+  pointer-events: none;
 
-    font-size: 60%;
+  font-size: 60%;
+}
+
+.jpdb-word {
+  @each $state, $_ in colors.$states {
+    &.#{$state} {
+      color: var(--jpdb-word-#{$state}, var(--jpdb-word-default-color));
+    }
+  }
+
+  @each $pitch, $_ in colors.$accents {
+    &.#{$pitch} {
+      text-decoration: underline;
+      text-decoration-color: var(--jpdb-pitch-#{$pitch}, var(--jpdb-pitch-default-color));
+    }
+  }
 }
 
 .jpdb-word:not(.unparsed):hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .jpdb-word.misparsed {
-    color: rgb(255, 0, 0);
-    background-color: lightgray;
-}
-
-.jpdb-word.locked {
-    color: rgb(119, 119, 119);
-}
-
-.jpdb-word.suspended {
-    color: rgb(119, 119, 119);
-}
-
-.jpdb-word.blacklisted {
-    color: rgb(119, 119, 119);
-}
-
-.jpdb-word.never-forget {
-    color: rgb(112, 192, 0);
-}
-
-.jpdb-word.not-in-deck {
-    color: rgba(75, 141, 255, 0.5);
-}
-
-.jpdb-word.new {
-    color: rgb(75, 141, 255);
-}
-
-.jpdb-word.learning {
-    color: rgb(94, 167, 128);
-}
-
-.jpdb-word.known {
-    color: rgb(112, 192, 0);
-}
-
-.jpdb-word.due {
-    color: rgb(255, 69, 0);
-}
-
-.jpdb-word.failed {
-    color: rgb(255, 0, 0);
-}
-
-.jpdb-word.heiban {
-    text-decoration: underline;
-    text-decoration-color: #359eff;
-}
-
-.jpdb-word.atamadaka {
-    text-decoration: underline;
-    text-decoration-color: #fe4b74;
-}
-
-.jpdb-word.nakadaka {
-    text-decoration: underline;
-    text-decoration-color: #fba840;
-}
-
-.jpdb-word.odaka {
-    text-decoration: underline;
-    text-decoration-color: #57ccb7;
-}
-
-.jpdb-word.kifuku {
-    text-decoration: underline;
-    text-decoration-color: #9050f6;
+  background-color: var(--misparsed-background-color);
 }

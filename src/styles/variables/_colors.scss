@@ -21,6 +21,8 @@ $states: (
   due: orangered,
   failed: red,
   learning: #5ea780,
+
+  misparsed: red,
 );
 
 $grades: (
@@ -77,9 +79,19 @@ $colors: (
   link-underline-color: #555,
 
   accordion-border-color: #444,
+
+  misparsed-background-color: lightgray,
 );
 
 $pitch: (
   upper: rgba(232, 104, 123, 0.8),
   lower: rgba(75, 141, 255, 0.8),
+);
+
+$accents: (
+  heiban: #359eff,
+  atamadaka: #fe4b74,
+  nakadaka: #fba840,
+  odaka: #57ccb7,
+  kifuku: #9050f6,
 );

@@ -179,11 +179,7 @@ export class Popup {
     this._blacklistDeck = await getConfiguration('jpdbBlacklistDeck', true);
     this._suspendDeck = await getConfiguration('jpdbSuspendDeck', true);
 
-    this._customStyles.textContent = await getStyleConfiguration(
-      'customPopupCSS',
-      'popup',
-      this._popup,
-    );
+    this._customStyles.textContent = await getStyleConfiguration('customPopupCSS');
 
     this.updateMiningButtons();
     this.updateGradingButtons();

@@ -1,4 +1,5 @@
 import { getConfiguration } from '@shared/configuration/get-configuration';
+import { getStyleConfiguration } from '@shared/configuration/get-style-configuration';
 import { injectStyle } from '@shared/extension/inject-style';
 import { openOptionsPage } from '@shared/extension/open-options-page';
 import { MessageSender } from '@shared/extension/types';
@@ -36,7 +37,7 @@ export class ParseCommandHandler extends BackgroundCommandHandler<ParseCommand> 
     onBroadcastMessage(
       'configurationUpdated',
       async () => {
-        const customWordCSS = await getConfiguration('customWordCSS', true);
+        const customWordCSS = await getStyleConfiguration('customWordCSS');
 
         await injectStyle(sender.tab!.id!, 'word', customWordCSS);
       },

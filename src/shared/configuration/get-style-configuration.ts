@@ -1,19 +1,32 @@
+import { displayToast } from '../dom/display-toast';
+import { getStyleUrl } from '../extension/get-style-url';
 import { getConfiguration } from './get-configuration';
 import { ConfigurationStyleKeys } from './keys.types';
 
 export const getStyleConfiguration = async <K extends ConfigurationStyleKeys>(
   key: K,
-  className: string,
-  hostElement: HTMLElement,
 ): Promise<string> => {
-  const style = await getConfiguration<K>(key, true);
+  let style = await getConfiguration<K>(key, true);
+  const replacements: string[] | null = style.match(/--reset-colors:\s*([^;]+);/g);
 
-  return style.replace(/--([\w-]+):\s*([^;]+);/g, (match, ...groups: string[]) => {
-    const propName = groups[0];
-    const propValue = groups[1];
+  for (const replacement of replacements || []) {
+    const color = /--reset-colors:\s*([^;]+);/.exec(replacement);
 
-    hostElement.setAttribute(propName, propValue);
+    if (color) {
+      const colorValue = color[1];
+      const url = getStyleUrl(`reset_${colorValue}`);
 
-    return `.${className} { --${propName}: attr(${propName} type(<length> | <color> | <number> | <percentage>)); }`;
-  });
+      try {
+        const response = await fetch(url);
+        const css = await response.text();
+        const lines = css.split('\n').slice(1, -1);
+
+        style = style.replace(replacement, lines.join('\n'));
+      } catch (_error: unknown) {
+        displayToast('error', `Unknown color preset: ${colorValue}`);
+      }
+    }
+  }
+
+  return style;
 };
