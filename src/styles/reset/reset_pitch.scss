@@ -1,5 +1,8 @@
 @use 'sass:map';
-@use '../variables/_colors' as colors;
-@use '../utils/_vars' as vars;
+@use '../_helpers' as helpers;
 
-@include vars.reset('jpdb-pitch', colors.$accents);
+body {
+  @each $key in helpers.$pitch-colors {
+    --jpdb-pitch-#{$key}: unset;
+  }
+}

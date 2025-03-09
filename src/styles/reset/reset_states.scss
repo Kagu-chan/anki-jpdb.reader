@@ -1,5 +1,0 @@
-@use 'sass:map';
-@use '../variables/_colors' as colors;
-@use '../utils/_vars' as vars;
-
-@include vars.reset('jpdb-word', colors.$states);
