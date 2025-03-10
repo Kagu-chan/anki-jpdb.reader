@@ -1,5 +1,5 @@
 @use 'sass:map';
-@use '../_helpers' as helpers;
+@use '../../_helpers' as helpers;
 
 body {
   @each $key in helpers.$word-colors {

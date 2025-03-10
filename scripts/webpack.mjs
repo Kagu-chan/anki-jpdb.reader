@@ -31,19 +31,20 @@ const styles = globSync(['src/styles/*.scss', 'src/views/**/*.scss']).reduce((cu
   });
 }, {});
 
-const resetStyles = globSync(['src/styles/reset/*.scss']).reduce((curr, item) => {
+const cssFunctions = globSync(['src/styles/fn/**/*.scss']).reduce((curr, item) => {
   const fileName = './' + item.replace(/\\/g, '/');
   const partials = fileName.split('/');
   const name = partials.pop().split('.').shift();
+  const scope = partials.pop();
 
   return Object.assign(curr, {
-    [`reset_${name}`]: fileName,
+    [`cssFn.${scope}.${name}`]: fileName,
   });
 }, {});
 
 export default (env = {}) => ({
   mode: 'none',
-  entry: { ...scripts, ...styles, ...resetStyles },
+  entry: { ...scripts, ...styles, ...cssFunctions },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.json'],
     extensionAlias: {
@@ -85,7 +86,15 @@ export default (env = {}) => ({
             },
           },
         ],
-        generator: { filename: 'css/[name].css' },
+        // generator: { filename: 'css/[name].css' },
+        generator: {
+          filename: (path) => {
+            return path.filename
+              .replace('src/', '')
+              .replace(/(views\/(\w+\/)*)|styles\//, 'css/')
+              .replace('.scss', '.css');
+          },
+        },
       },
       {
         test: /.([cm]?ts|tsx)$/,
