@@ -1,8 +1,8 @@
-@use 'sass:map';
-@use '../../_helpers' as helpers;
+// @use 'sass:map';
+// @use '../../_helpers' as helpers;
 
-body {
-  @each $key in helpers.$grade-colors {
-    --jpdb-grade-#{$key}: unset;
-  }
-}
+// body {
+//   @each $key in helpers.$grade-colors {
+//     --jpdb-grade-#{$key}: unset;
+//   }
+// }

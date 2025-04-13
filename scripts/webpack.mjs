@@ -82,6 +82,7 @@ export default (env = {}) => ({
           {
             loader: 'sass-loader',
             options: {
+              warnRuleAsWarning: true,
               sassOptions: { style: 'expanded' },
             },
           },

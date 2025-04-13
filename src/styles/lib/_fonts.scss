@@ -1,0 +1,66 @@
+@use 'sass:map';
+@use 'sass:string';
+
+$fontSizes: (
+  inherit: inherit,
+  x-small: 0.5em,
+  small: 0.7em,
+  normal: 1em,
+  large: 1.2em,
+  x-large: 1.5em,
+  xx-large: 2em,
+);
+
+@mixin font-sizes($sel) {
+  #{$sel} {
+    @each $name, $size in $fontSizes {
+      --jpdb-font-size-#{$name}: #{$size};
+    }
+
+    --jpdb-font-size: var(--jpdb-font-size-normal);
+
+    font-size: var(--jpdb-font-size);
+  }
+}
+
+@mixin font-size($size, $height: 0) {
+  font-size: var(--jpdb-font-size-#{$size});
+  line-height: var(--jpdb-font-size-#{$size});
+
+  @if ($height != 0) {
+    height: var(--jpdb-font-size-#{$height});
+  }
+}
+
+$fontUrls: (
+  'https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap',
+  'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap',
+  'https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&display=swap'
+);
+$defaultFonts: (
+  standard:
+    'Nunito Sans, Noto Sans Symbols 2, Segoe UI, Noto Sans JP, Noto Sans CJK JP, Hiragino Sans GB, Meiryo, sans-serif',
+  input:
+    'Nunito Sans, Segoe UI, Noto Sans JP, Noto Sans CJK JP, Hiragino Sans GB, Meiryo, sans-serif',
+);
+
+@mixin apply-fonts {
+  @each $url in $fontUrls {
+    @import url($url);
+  }
+
+  :root {
+    --jpdb-font-family: #{map.get($defaultFonts, standard)};
+    --jpdb-input-font-family: #{map.get($defaultFonts, input)};
+  }
+
+  body,
+  input {
+    font-family: var(--jpdb-font-family);
+  }
+
+  input[type='text'],
+  textarea {
+    font-family: var(--jpdb-input-font-family);
+  }
+}

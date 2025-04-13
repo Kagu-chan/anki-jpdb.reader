@@ -1,0 +1,29 @@
+$distances: (
+  base-distance: 0.5em,
+  gap: var(--jpdb-base-distance),
+  border-radius: var(--jpdb-base-distance),
+  margin: var(--jpdb-base-distance),
+  padding: var(--jpdb-base-distance),
+);
+
+@mixin distances($sel) {
+  #{$sel} {
+    @each $name, $size in $distances {
+      --jpdb-#{$name}: #{$size};
+    }
+  }
+}
+
+@mixin flex($direction, $justify: 0, $align: 0) {
+  display: flex;
+  flex-direction: $direction;
+  gap: var(--jpdb-gap);
+
+  @if ($justify != 0) {
+    justify-content: $justify;
+  }
+
+  @if ($align != 0) {
+    align-items: $align;
+  }
+}

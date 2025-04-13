@@ -1,114 +1,114 @@
-@use 'sass:map';
-@use '@styles/variables/_colors';
+// @use 'sass:map';
+// @use '@styles/variables/_colors';
 
-@use '@styles/theme/_common';
-@use '@styles/theme/_forms';
-@use '@styles/theme/_outline';
+// @use '@styles/theme/_common';
+// @use '@styles/theme/_forms';
+// @use '@styles/theme/_outline';
 
-h6 {
-  font-size: 135%;
-  font-weight: bold;
-  text-align: center;
-}
+// h6 {
+//   font-size: 135%;
+//   font-weight: bold;
+//   text-align: center;
+// }
 
-form {
-  display: flex;
-  flex-direction: column;
+// form {
+//   display: flex;
+//   flex-direction: column;
 
-  gap: 3em;
+//   gap: 3em;
 
-  :where(.form-box-parent, .accordion) ~ :where(.form-box-parent, .accordion) {
-    margin-top: 1.5em;
-  }
-}
+//   :where(.form-box-parent, .accordion) ~ :where(.form-box-parent, .accordion) {
+//     margin-top: 1.5em;
+//   }
+// }
 
-.pitch-accent div {
-  margin-top: 1.5em;
-}
+// .pitch-accent div {
+//   margin-top: 1.5em;
+// }
 
-#save-all-settings-box {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  z-index: 999;
-  display: flex;
-  justify-content: center;
-  padding-top: 1.2em;
-  border-top: 0;
-  box-shadow: 0 0 10px 2px #0f0f0f;
-  -webkit-box-shadow: 0 0 10px 2px #0f0f0f;
-  background-color: map.get(colors.$colors, background-color);
+// #save-all-settings-box {
+//   position: fixed;
+//   left: 0;
+//   bottom: 0;
+//   width: 100%;
+//   z-index: 999;
+//   display: flex;
+//   justify-content: center;
+//   padding-top: 1.2em;
+//   border-top: 0;
+//   box-shadow: 0 0 10px 2px #0f0f0f;
+//   -webkit-box-shadow: 0 0 10px 2px #0f0f0f;
+//   background-color: map.get(colors.$colors, background-color);
 
-  > input {
-    margin-bottom: 1.2em;
-  }
-}
+//   > input {
+//     margin-bottom: 1.2em;
+//   }
+// }
 
-// Our text fields are not outlined by default, otherwise they would be blue
-// This is a workaround to make them look like they are outlined in error cases
-input.v1 {
-  border: 1px solid map.get(colors.$outlines, v1);
-}
+// // Our text fields are not outlined by default, otherwise they would be blue
+// // This is a workaround to make them look like they are outlined in error cases
+// input.v1 {
+//   border: 1px solid map.get(colors.$outlines, v1);
+// }
 
-select {
-  margin-bottom: 0;
-  font-family: monospace;
-}
+// select {
+//   margin-bottom: 0;
+//   font-family: monospace;
+// }
 
-.collapsible {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height ease-out 0.3s;
+// .collapsible {
+//   max-height: 0;
+//   overflow: hidden;
+//   transition: max-height ease-out 0.3s;
 
-  &.is-open {
-    max-height: 100px;
-  }
+//   &.is-open {
+//     max-height: 100px;
+//   }
 
-  &.rem-height {
-    max-height: unset;
-  }
+//   &.rem-height {
+//     max-height: unset;
+//   }
 
-  [skip-animation] & {
-    transition: none;
-  }
-}
+//   [skip-animation] & {
+//     transition: none;
+//   }
+// }
 
-#requires-anki {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height ease-out 0.3s;
+// #requires-anki {
+//   max-height: 0;
+//   overflow: hidden;
+//   transition: max-height ease-out 0.3s;
 
-  &.is-open {
-    max-height: 1000px;
-  }
+//   &.is-open {
+//     max-height: 1000px;
+//   }
 
-  &.rem-height {
-    max-height: unset;
-  }
-}
+//   &.rem-height {
+//     max-height: unset;
+//   }
+// }
 
-// special for working on stuff
-.not-implemented {
-  display: none !important;
-}
+// // special for working on stuff
+// .not-implemented {
+//   display: none !important;
+// }
 
-[indent] {
-  margin-left: 1.7em;
-}
+// [indent] {
+//   margin-left: 1.7em;
+// }
 
-[up] {
-  margin-top: -0.5em;
-}
+// [up] {
+//   margin-top: -0.5em;
+// }
 
-keybind-input {
-  display: flex;
-  flex-direction: row;
-  gap: 1em;
+// keybind-input {
+//   display: flex;
+//   flex-direction: row;
+//   gap: 1em;
 
-  input {
-    flex: 1;
-    margin-top: 0.5em;
-    margin-bottom: 0;
-  }
-}
+//   input {
+//     flex: 1;
+//     margin-top: 0.5em;
+//     margin-bottom: 0;
+//   }
+// }

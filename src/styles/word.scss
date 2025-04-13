@@ -1,54 +1,54 @@
-@use 'sass:map';
-@use '_helpers' as helpers;
+// @use 'sass:map';
+// @use '_helpers' as helpers;
 
-.jpdb-word {
-  @include helpers.font-sizes;
-  @include helpers.word-colors;
+// .jpdb-word {
+//   @include helpers.font-sizes;
+//   @include helpers.word-colors;
 
-  @include helpers.pitch;
-  @include helpers.parsed-text-decoration;
-  @include helpers.misparsed;
-  @include helpers.rt;
-}
+//   @include helpers.pitch;
+//   @include helpers.parsed-text-decoration;
+//   @include helpers.misparsed;
+//   @include helpers.rt;
+// }
 
-.jpdb-word {
-  rt {
-    @include helpers.rt-styles;
-  }
+// .jpdb-word {
+//   rt {
+//     @include helpers.rt-styles;
+//   }
 
-  &:hover rt {
-    display: var(--jpdb-rt-display--hover);
-  }
-}
+//   &:hover rt {
+//     display: var(--jpdb-rt-display--hover);
+//   }
+// }
 
-.jpdb-word:not(.unparsed) {
-  text-decoration: var(--jpdb-word-parsed-text-decoration);
+// .jpdb-word:not(.unparsed) {
+//   text-decoration: var(--jpdb-word-parsed-text-decoration);
 
-  &:hover {
-    text-decoration: var(--jpdb-word-parsed-text-decoration--hover);
-  }
-}
+//   &:hover {
+//     text-decoration: var(--jpdb-word-parsed-text-decoration--hover);
+//   }
+// }
 
-.jpdb-word.misparsed {
-  color: var(--jpdb-word-misparsed-color, var(--jpdb-word-default-color));
-  background-color: var(--jpdb-word-misparsed-background-color);
-  text-decoration: var(--jpdb-word-misparsed-text-decoration);
-  text-decoration-color: var(--jpdb-word-misparsed-text-decoration-color);
-}
+// .jpdb-word.misparsed {
+//   color: var(--jpdb-word-misparsed-color, var(--jpdb-word-default-color));
+//   background-color: var(--jpdb-word-misparsed-background-color);
+//   text-decoration: var(--jpdb-word-misparsed-text-decoration);
+//   text-decoration-color: var(--jpdb-word-misparsed-text-decoration-color);
+// }
 
-.jpdb-word {
-  @each $pitch in helpers.$pitch-colors {
-    &.#{$pitch} {
-      text-decoration: var(--jpdb-pitch-text-decoration);
-      text-decoration-color: var(--jpdb-pitch-#{$pitch}, var(--jpdb-pitch-default-color));
-    }
-  }
-}
+// .jpdb-word {
+//   @each $pitch in helpers.$pitch-colors {
+//     &.#{$pitch} {
+//       text-decoration: var(--jpdb-pitch-text-decoration);
+//       text-decoration-color: var(--jpdb-pitch-#{$pitch}, var(--jpdb-pitch-default-color));
+//     }
+//   }
+// }
 
-.jpdb-word {
-  @each $state in helpers.$word-colors {
-    &.#{$state} {
-      color: var(--jpdb-word-#{$state}, var(--jpdb-word-default-color));
-    }
-  }
-}
+// .jpdb-word {
+//   @each $state in helpers.$word-colors {
+//     &.#{$state} {
+//       color: var(--jpdb-word-#{$state}, var(--jpdb-word-default-color));
+//     }
+//   }
+// }

@@ -1,22 +1,22 @@
-:root {
-  --jpdb-scrollbar-color: #3b7def;
-  --scrollbar-background-color: #111;
-}
+// :root {
+//   --jpdb-scrollbar-color: #3b7def;
+//   --scrollbar-background-color: #111;
+// }
 
-* {
-  scrollbar-width: 1em;
-  scrollbar-color: var(--jpdb-scrollbar-color) var(--scrollbar-background-color);
-}
+// * {
+//   scrollbar-width: 1em;
+//   scrollbar-color: var(--jpdb-scrollbar-color) var(--scrollbar-background-color);
+// }
 
-*::-webkit-scrollbar {
-  width: 1em;
-}
+// *::-webkit-scrollbar {
+//   width: 1em;
+// }
 
-*::-webkit-scrollbar-track {
-  background: var(--scrollbar-background-color);
-}
+// *::-webkit-scrollbar-track {
+//   background: var(--scrollbar-background-color);
+// }
 
-*::-webkit-scrollbar-thumb {
-  background-color: var(--jpdb-scrollbar-color);
-  border: 3px solid var(--scrollbar-background-color);
-}
+// *::-webkit-scrollbar-thumb {
+//   background-color: var(--jpdb-scrollbar-color);
+//   border: 3px solid var(--scrollbar-background-color);
+// }

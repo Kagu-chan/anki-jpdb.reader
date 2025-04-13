@@ -1,0 +1,17 @@
+$scales: (
+  small: 0.8,
+  normal: 1,
+  large: 1.2,
+  x-large: 1.5,
+  xx-large: 2,
+);
+
+@mixin scales($sel) {
+  #{$sel} {
+    @each $name, $size in $scales {
+      --jpdb-scale-#{$name}: #{$size};
+    }
+
+    scale: var(--jpdb-scale-normal);
+  }
+}

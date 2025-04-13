@@ -1,5 +1,31 @@
 // @use 'sass:map';
 
+$defaultColors: (
+  background-color: #181818,
+  text-color: #bbb,
+
+  link-color: #4b8dff,
+  link-underline-color: #555,
+
+  accordion-border-color: #444,
+);
+
+@mixin default-colors($sel) {
+  #{$sel} {
+    @each $key, $value in $defaultColors {
+      --jpdb-#{$key}: #{$value};
+    }
+
+    color: var(--jpdb-text-color);
+    background-color: var(--jpdb-background-color);
+
+    a {
+      color: var(--jpdb-link-color);
+      text-decoration-color: var(--jpdb-link-underline-color);
+    }
+  }
+}
+
 // $outlines: (
 //   v1: #ff3b3b,
 //   v2: #a0a0a0,

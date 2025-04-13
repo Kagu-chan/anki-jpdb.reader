@@ -1,30 +1,39 @@
-@use 'sass:map';
-@use '_helpers' as helpers;
+// @use 'sass:map';
+// @use '_helpers' as helpers;
 
-@use 'theme/lib/_fonts';
-@use 'theme/lib/_scrollbar';
+// @use 'theme/lib/_fonts';
+// @use 'theme/lib/_scrollbar';
+
+@use '@styles/lib/_colors' as colors;
+@use '@styles/lib/_layout' as layout;
+@use '@styles/lib/_fonts' as fonts;
+@use '@styles/lib/_scales' as scales;
+
+@include fonts.apply-fonts;
+@include fonts.font-sizes('.popup');
+
+@include layout.distances('.popup');
+
+@include colors.default-colors('.popup');
+@include scales.scales('.popup');
+
+// .popup {
+//   @include helpers.outline;
+//   @include helpers.word-colors;
+//   @include helpers.deck-colors;
+//   @include helpers.grade-colors;
+
+//   @include helpers.pitch;
+//   @include helpers.popup;
+
+//   @include helpers.rt;
+//   @include helpers.common;
+//   @include helpers.distances;
+// }
 
 .popup {
-  @include helpers.font-sizes;
-  @include helpers.scale;
-
-  @include helpers.outline;
-  @include helpers.word-colors;
-  @include helpers.deck-colors;
-  @include helpers.grade-colors;
-
-  @include helpers.pitch;
-  @include helpers.popup;
-
-  @include helpers.rt;
-  @include helpers.common;
-  @include helpers.distances;
-}
-
-.popup {
-  scale: var(--jpdb-scale-normal);
-
-  font-size: var(--jpdb-font-size);
+  --jpdb-popup-width: 350px;
+  --jpdb-popup-height: 250px;
 
   width: var(--jpdb-popup-width);
   max-height: var(--jpdb-popup-height);
@@ -33,21 +42,14 @@
   padding: var(--jpdb-padding);
   border-radius: var(--jpdb-border-radius);
 
-  color: var(--jpdb-text-color);
-  background-color: var(--jpdb-background-color);
-}
-
-.popup {
-  @include helpers.flex-column;
+  @include layout.flex(column);
 }
 
 .popup .controls {
-  @include helpers.flex-row;
+  @include layout.flex(row);
 
   a {
-    line-height: var(--jpdb-font-size-small);
-    font-size: var(--jpdb-font-size-small);
-    height: var(--jpdb-font-size-large);
+    @include fonts.font-size(small, $height: large);
     padding: var(--jpdb-padding) var(--jpdb-padding) 0 var(--jpdb-padding);
 
     cursor: pointer;
@@ -72,128 +74,131 @@
   }
 }
 
-.popup .controls {
-  @each $deck in helpers.$deck-colors {
-    .#{$deck} {
-      color: var(--jpdb-deck-#{$deck}, var(--jpdb-deck-default-color));
-      border-color: var(--jpdb-deck-#{$deck}, var(--jpdb-deck-default-color));
-      box-shadow: inset 0 0 3px var(--jpdb-deck-#{$deck}, var(--jpdb-deck-default-color));
-    }
-  }
-}
+// .popup .controls {
+//   @each $deck in helpers.$deck-colors {
+//     .#{$deck} {
+//       color: var(--jpdb-deck-#{$deck}, var(--jpdb-deck-default-color));
+//       border-color: var(--jpdb-deck-#{$deck}, var(--jpdb-deck-default-color));
+//       box-shadow: inset 0 0 3px var(--jpdb-deck-#{$deck}, var(--jpdb-deck-default-color));
+//     }
+//   }
+// }
 
-.popup .controls {
-  @each $grade in helpers.$grade-colors {
-    .#{$grade} {
-      color: var(--jpdb-grade-#{$grade}, var(--jpdb-grade-default-color));
-      border-color: var(--jpdb-grade-#{$grade}, var(--jpdb-grade-default-color));
-      box-shadow: inset 0 0 3px var(--jpdb-grade-#{$grade}, var(--jpdb-grade-default-color));
-    }
-  }
-}
+// .popup .controls {
+//   @each $grade in helpers.$grade-colors {
+//     .#{$grade} {
+//       color: var(--jpdb-grade-#{$grade}, var(--jpdb-grade-default-color));
+//       border-color: var(--jpdb-grade-#{$grade}, var(--jpdb-grade-default-color));
+//       box-shadow: inset 0 0 3px var(--jpdb-grade-#{$grade}, var(--jpdb-grade-default-color));
+//     }
+//   }
+// }
 
 .popup #context {
-  @include helpers.flex-column;
+  @include layout.flex(column);
 
   .subsection {
-    @include helpers.flex-row;
-    justify-content: space-between;
+    @include layout.flex(row, $justify: space-between);
   }
 }
 
-.popup #link {
-  color: var(--jpdb-link-color);
-  font-size: var(--jpdb-font-size-x-large);
-  border-bottom: 1px dashed var(--jpdb-link-underline-color);
+// .popup #link {
+//   color: var(--jpdb-link-color);
+//   font-size: var(--jpdb-font-size-x-large);
+//   border-bottom: 1px dashed var(--jpdb-link-underline-color);
 
-  &:hover {
-    border-bottom-style: solid;
-  }
+//   &:hover {
+//     border-bottom-style: solid;
+//   }
 
-  rt {
-    @include helpers.rt-styles;
-  }
-}
+//   rt {
+//     @include helpers.rt-styles;
+//   }
+// }
 
 .popup #state {
-  @include helpers.flex-row;
-  align-items: flex-end;
+  @include layout.flex(row, $align: flex-end);
 
   span {
-    font-size: var(--jpdb-font-size-small);
-    line-height: var(--jpdb-font-size-small);
-    text-decoration: underline;
-
-    padding-left: var(--jpdb-padding);
-    padding-bottom: var(--jpdb-padding);
-
-    @each $word in helpers.$word-colors {
-      &.#{$word} {
-        color: var(--jpdb-word-#{$word}, var(--jpdb-word-default-color));
-      }
-    }
   }
 }
+// .popup #state {
 
-.popup #meta {
-  font-size: var(--jpdb-font-size-small);
-  white-space: nowrap;
+//   span {
+//     font-size: var(--jpdb-font-size-small);
+//     line-height: var(--jpdb-font-size-small);
+//     text-decoration: underline;
 
-  #pitch-accent {
-    @include helpers.flex-row;
-    gap: 0.5em;
+//     padding-left: var(--jpdb-padding);
+//     padding-bottom: var(--jpdb-padding);
 
-    .pitch span {
-      padding: 1px 1px 1px 2px;
-      line-height: var(--jpdb-font-size);
+//     @each $word in helpers.$word-colors {
+//       &.#{$word} {
+//         color: var(--jpdb-word-#{$word}, var(--jpdb-word-default-color));
+//       }
+//     }
+//   }
+// }
 
-      border-style: solid;
-      border-image-slice: 2;
-      border-image-source: linear-gradient(
-        to bottom,
-        var(--jpdb-pitch-upper),
-        var(--jpdb-pitch-lower)
-      );
-    }
+// .popup #meta {
+//   font-size: var(--jpdb-font-size-small);
+//   white-space: nowrap;
 
-    .pitch .low {
-      border-width: 0 2px 2px 0;
-      margin-right: -2px;
-    }
+//   #pitch-accent {
+//     @include helpers.flex-row;
+//     gap: 0.5em;
 
-    .pitch .high {
-      border-width: 2px 2px 0 0;
-      margin-right: -2px;
-    }
+//     .pitch span {
+//       padding: 1px 1px 1px 2px;
+//       line-height: var(--jpdb-font-size);
 
-    .pitch .low-final {
-      border-width: 0 0 2px 0;
-    }
+//       border-style: solid;
+//       border-image-slice: 2;
+//       border-image-source: linear-gradient(
+//         to bottom,
+//         var(--jpdb-pitch-upper),
+//         var(--jpdb-pitch-lower)
+//       );
+//     }
 
-    .pitch .high-final {
-      border-width: 2px 0 0 0;
-    }
-  }
-}
+//     .pitch .low {
+//       border-width: 0 2px 2px 0;
+//       margin-right: -2px;
+//     }
 
-.popup #details {
-  margin-top: var(--jpdb-margin);
-  overflow: auto;
+//     .pitch .high {
+//       border-width: 2px 2px 0 0;
+//       margin-right: -2px;
+//     }
 
-  .pos {
-    @include helpers.flex-row;
+//     .pitch .low-final {
+//       border-width: 0 0 2px 0;
+//     }
 
-    span {
-      font-size: var(--jpdb-font-size-small);
-      line-height: var(--jpdb-font-size-small);
-      text-decoration: underline;
+//     .pitch .high-final {
+//       border-width: 2px 0 0 0;
+//     }
+//   }
+// }
 
-      padding: var(--jpdb-padding) 0;
-    }
-  }
+// .popup #details {
+//   margin-top: var(--jpdb-margin);
+//   overflow: auto;
 
-  ol {
-    margin: 0;
-    padding: 0 0 0 calc(var(--jpdb-padding) * 3);
-  }
-}
+//   .pos {
+//     @include helpers.flex-row;
+
+//     span {
+//       font-size: var(--jpdb-font-size-small);
+//       line-height: var(--jpdb-font-size-small);
+//       text-decoration: underline;
+
+//       padding: var(--jpdb-padding) 0;
+//     }
+//   }
+
+//   ol {
+//     margin: 0;
+//     padding: 0 0 0 calc(var(--jpdb-padding) * 3);
+//   }
+// }
