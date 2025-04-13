@@ -7,7 +7,8 @@ type Version =
   | '0.3.0'
   | '0.3.1'
   | '0.4.0'
-  | '0.5.0';
+  | '0.5.0'
+  | '0.5.1';
 
 type ChangeType = 'add' | 'change' | 'deprecate' | 'remove' | 'fix' | 'chore';
 enum Category {
@@ -195,8 +196,16 @@ const changelog: Changelog = {
     {
       type: 'add',
       description: 'A changelog is now available',
-      category: [Category.Documentation],
+      category: Category.Documentation,
       issue: 156,
+    },
+  ],
+  '0.5.1': [
+    {
+      type: 'fix',
+      description: 'Fix the parse page button shown despite the option being disabled',
+      category: Category.Parser,
+      issue: 190,
     },
   ],
 };
