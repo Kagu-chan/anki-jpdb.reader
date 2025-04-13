@@ -6,7 +6,7 @@
   "scripts": {
     "preversion": "npm run build",
     "version": "node scripts/version.mjs && npm run changelog && git add src/manifest.json",
-    "postversion": "npm run pack",
+    "postversion": "npm run release",
     "changelog": "tsc changelog/changelog.ts && node scripts/changelog.mjs && git add CHANGELOG.md src/views/changelog.html",
     "build": "node scripts/build.mjs",
     "watch": "node scripts/build.mjs --watch",
