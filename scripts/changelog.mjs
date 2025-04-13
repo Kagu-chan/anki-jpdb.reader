@@ -1,48 +1,78 @@
-import { spawn } from 'child_process';
-import { writeFileSync } from 'fs';
+import { unlinkSync, writeFileSync } from 'fs';
+import changelog from '../changelog/changelog.js';
 
-const run = (cmd, args) => {
-  return new Promise((resolve, reject) => {
-    const ls = spawn(cmd, args);
-    const out = [];
+const MD = [];
+const HTML = [
+  '<link rel="stylesheet" media="screen" href="../css/changelog.css" />',
+  '<h2>Changelog</h2>',
+];
 
-    ls.stdout.on('data', (data) => {
-      out.push(data);
-    });
+Object.keys(changelog.default)
+  .reverse()
+  .forEach((key) => {
+    const items = changelog.default[key];
+    const itemsSorted = items.sort((a, b) => {
+      if (a.type !== b.type) {
+        const order = ['fix', 'change', 'add', 'remove', 'deprecate', 'chore'];
 
-    ls.stderr.on('data', (data) => {
-      console.error(data);
-    });
-
-    ls.on('close', (code) => {
-      if (code === 0) {
-        resolve(out.join('').trim());
-      } else {
-        reject();
+        return order.indexOf(a.type) - order.indexOf(b.type);
       }
+
+      // items have a issue key:
+      // issue: number | [number, ...number[]] | 'N/A'
+      // If the issue is a number, sort ascending
+      // If the issue is an array, sort by the first element ascending
+      // If the issue is 'N/A', sort to the end
+      // If both issues are the same value (number or first element of array, or both 'N/A'), sort by description
+      const aIssue = Array.isArray(a.issue) ? a.issue[0] : a.issue;
+      const bIssue = Array.isArray(b.issue) ? b.issue[0] : b.issue;
+      if (aIssue === bIssue) {
+        return a.description.localeCompare(b.description);
+      }
+      if (aIssue === 'N/A') {
+        return 1;
+      }
+      if (bIssue === 'N/A') {
+        return -1;
+      }
+
+      return aIssue - bIssue;
     });
+
+    MD.push(`## ${key}`);
+    HTML.push(`<h5>${key}</h5>`);
+    HTML.push('<ul>');
+
+    itemsSorted.forEach((item) => {
+      const { type, description, issue, category } = item;
+
+      const linkMD = issue === 'N/A' ? '' : ` [[#${issue}](${issue})]`;
+      const catMD = Array.isArray(category) ? category.join(', ') : category;
+      const lineMD = `- ${type}: ${description}${linkMD} [${catMD}]`;
+
+      const linkTextHtml =
+        issue === 'N/A'
+          ? ''
+          : ` [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/${issue}" target="_blank">#${issue}</a>]`;
+      const catHtml = (Array.isArray(category) ? category : [category])
+        .map((c) => `<label class="category outline">${c}</label>`)
+        .join('');
+      const lineHTML = `<li><label class="type outline ${type}">${type}</label><span class="description">${description}</span>${linkTextHtml}${catHtml}</li>`;
+      HTML.push(lineHTML);
+
+      MD.push(lineMD);
+    });
+    HTML.push('</ul>');
+    MD.push('\n');
   });
-}
 
-const tag = await run("git", ["describe", "--tags", "--abbrev=0"]);
-const log = await run("git", ["log", "--pretty=format:%h%x09%p%x09%an%x09%s", `${tag}..@`]);
-const relevant = log.split('\n').filter(Boolean).filter((line => !line.includes('Merge remote-tracking')));
-const parsed = relevant.map(line => {
-  const [hash, p, author, original] = line.split('\t');
-  const prId = original.match(/\(#(\d+)\)$/)?.[1];
-  const message = original.replace(/ ?\(#(\d+)\)$/, '');
-  const parent = p.split(' ')[0];
-  const refParent = p.split(' ')[1];
+// write MD to CHANGELOG.md
+const md = MD.join('\n');
+writeFileSync('./CHANGELOG.md', md);
+console.log('CHANGELOG.md created');
+// write HTML to CHANGELOG.html
+const html = HTML.join('\n');
+writeFileSync('./src/views/changelog.html', html);
+console.log('CHANGELOG.html created');
 
-  return { hash, parent, refParent, author, prId, message };
-});
-const filtered = parsed.filter(({ hash }) => !parsed.some(({ refParent }) => hash === refParent));
-const items = filtered.map(({ hash, author, prId, message }) => ([
-  `<a class="hash" href="https://github.com/Kagu-chan/anki-jpdb.reader/commit/${hash}">${hash}</a>`,
-  `<span class="message">${message}</span>`,
-  `<span class="author">${author}</span>`,
-  prId ? `<a class="pr" href="https://github.com/Kagu-chan/anki-jpdb.reader/pull/${prId}">(#${prId})</a>` : undefined
-].filter(Boolean).join('\n\t'))).map((l) => `<li>\n\t${l}\n</li>`).join('\n');
-
-writeFileSync('changelog.html', `<ul>\n${items}\n</ul>`);
-console.log(items);
+unlinkSync('./changelog/changelog.js');

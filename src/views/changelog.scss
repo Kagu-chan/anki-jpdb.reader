@@ -1,0 +1,46 @@
+@use 'sass:map';
+@use '@styles/variables/_colors';
+@use '@styles/theme/_common';
+@use '@styles/theme/_outline';
+
+$c: (
+  fix: lightgreen,
+  add: green,
+  change: lightblue,
+  remove: red,
+  deprecate: orange,
+  chore: gray,
+  category: lightgray,
+);
+
+.outline {
+  @each $color, $value in $c {
+    &.#{$color} {
+      color: $value;
+      border-color: $value;
+    }
+  }
+
+  margin-bottom: unset !important;
+  margin: 0 0.2em;
+  padding: 0 1.25em !important;
+  border-radius: 0.5em !important;
+
+  &.type {
+    width: 75px;
+  }
+}
+
+.description {
+  font-size: larger;
+}
+
+ul {
+  margin-bottom: 1rem;
+  list-style: none;
+  padding-left: 0.8rem;
+}
+
+h2 {
+  margin-top: 0.5em;
+}

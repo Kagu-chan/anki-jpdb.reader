@@ -5,8 +5,9 @@
   "private": true,
   "scripts": {
     "preversion": "npm run build",
-    "version": "node scripts/version.mjs && git add src/manifest.json",
-    "changelog": "node scripts/changelog.mjs",
+    "version": "node scripts/version.mjs && npm run changelog && git add src/manifest.json",
+    "postversion": "npm run pack",
+    "changelog": "tsc changelog/changelog.ts && node scripts/changelog.mjs && git add CHANGELOG.md src/views/changelog.html",
     "build": "node scripts/build.mjs",
     "watch": "node scripts/build.mjs --watch",
     "pack": "node scripts/build.mjs --pack",
