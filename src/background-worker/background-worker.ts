@@ -50,7 +50,7 @@ addInstallListener(async ({ reason }) => {
 
     const skipReleaseNotes = await getConfiguration('skipReleaseNotes', false);
 
-    if (skipReleaseNotes || true) {
+    if (skipReleaseNotes) {
       return;
     }
 
