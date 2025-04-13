@@ -13,6 +13,28 @@
   },
   {
     "host": [
+      "*://jpdb.io/vocabulary/*",
+      "*://jpdb.io/review*",
+      "*://jpdb.io/deck*",
+      "*://jpdb.io/search*"
+    ],
+    "auto": true,
+    "allFrames": false,
+    "parserClass": "kochounoyume-parser",
+    "parseVisibleObserver": {
+      "exclude": ".meaning-subsection-label"
+    },
+    "addedObserver": {
+      "notifyFor": ".custom-dictionary-entry",
+      "observeFrom": "body",
+      "config": {
+        "childList": true,
+        "subtree": true
+      }
+    }
+  },
+  {
+    "host": [
       "*://anacreondjt.gitlab.io/texthooker.html",
       "*://learnjapanese.moe/texthooker.html",
       "*://renji-xd.github.io/texthooker-ui/",
