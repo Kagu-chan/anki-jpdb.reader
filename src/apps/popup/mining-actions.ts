@@ -59,10 +59,7 @@ export class MiningActions {
     );
 
     await Promise.all(promises);
-
-    if (!this._wordstatesSuspended) {
-      await this.updateWordStates();
-    }
+    await this.updateWordStates();
   }
 
   public suspendUpdateWordStates(): void {
@@ -77,7 +74,7 @@ export class MiningActions {
   private async updateWordStates(): Promise<void> {
     const { vid, sid } = this._card || {};
 
-    if (!vid || !sid) {
+    if (!vid || !sid || this._wordstatesSuspended) {
       return;
     }
 
@@ -92,6 +89,7 @@ export class MiningActions {
     }
 
     await new RunDeckActionCommand(vid, sid, key, 'add', this._sentence).call();
+    await this.updateWordStates();
   }
 
   private async removeFromDeck(
@@ -104,5 +102,6 @@ export class MiningActions {
     }
 
     await new RunDeckActionCommand(vid, sid, key, 'remove').call();
+    await this.updateWordStates();
   }
 }

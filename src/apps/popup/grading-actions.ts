@@ -1,5 +1,5 @@
 import { getConfiguration } from '@shared/configuration/get-configuration';
-import { ConfigurationSchema, Keybind } from '@shared/configuration/types';
+import { ConfigurationSchema, Keybinds } from '@shared/configuration/types';
 import { JPDBCard, JPDBGrade } from '@shared/jpdb/types';
 import { GradeCardCommand } from '@shared/messages/background/grade-card.command';
 import { UpdateCardStateCommand } from '@shared/messages/background/update-card-state.command';
@@ -60,18 +60,18 @@ export class GradingActions {
     const useTwoButtonGradingSystem = await getConfiguration('jpdbUseTwoGrades', true);
     const useFlagRotation = await getConfiguration('jpdbRotateFlags', true);
     const disableReviews = await getConfiguration('jpdbDisableReviews', true);
-    const fiveGradeKeys: FilterKeys<ConfigurationSchema, Keybind>[] = [
+    const fiveGradeKeys: FilterKeys<ConfigurationSchema, Keybinds>[] = [
       'jpdbReviewNothing',
       'jpdbReviewSomething',
       'jpdbReviewHard',
       'jpdbReviewOkay',
       'jpdbReviewEasy',
     ];
-    const twoGradeKeys: FilterKeys<ConfigurationSchema, Keybind>[] = [
+    const twoGradeKeys: FilterKeys<ConfigurationSchema, Keybinds>[] = [
       'jpdbReviewFail',
       'jpdbReviewPass',
     ];
-    const flagKeys: FilterKeys<ConfigurationSchema, Keybind>[] = [
+    const flagKeys: FilterKeys<ConfigurationSchema, Keybinds>[] = [
       'jpdbRotateForward',
       'jpdbRotateBackward',
     ];
