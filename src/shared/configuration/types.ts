@@ -38,6 +38,8 @@ export type ConfigurationSchema = {
   showCurrentOnTop: boolean;
   showParseButton: boolean;
 
+  disabledParsers: string[];
+
   //#endregion
   //#region Texthighlighting
 
