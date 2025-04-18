@@ -30,10 +30,9 @@ export class TriggerParser extends BaseParser {
     onBroadcastMessage(
       'configurationUpdated',
       async () => {
-        this._buttonRoot.classList.toggle(
-          'hidden',
-          !(await getConfiguration('showParseButton', true)),
-        );
+        const show = await getConfiguration('showParseButton', true);
+
+        this._buttonRoot.style.display = show ? 'block' : 'none';
       },
       true,
     );
