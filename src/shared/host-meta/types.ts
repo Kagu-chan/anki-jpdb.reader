@@ -24,6 +24,17 @@ export type VisibleObserverOptions =
 
 export type HostMeta = {
   /**
+   * Parser configuration id. This is used to identify the parser internally.
+   * It should be unique and not change over time.
+   */
+  id: string;
+
+  /**
+   * The name of the parser to use. This is used to identify the parser in the UI.
+   */
+  name: string;
+
+  /**
    * A host or list of hosts this configuration applies to.
    *
    * Roughly implements the functionality described here:
@@ -42,6 +53,11 @@ export type HostMeta = {
    * Videos often run in a separate frame, everything else probaply does not need this.
    */
   allFrames: boolean;
+
+  /**
+   * If not set or false, the parser is always active. If set true, the user can opt out and disable the parser.
+   */
+  optOut?: boolean;
 
   /**
    * Optional custom parser implementation to use.
