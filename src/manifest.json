@@ -30,37 +30,19 @@
     "96": "assets/96.png",
     "128": "assets/128.png"
   },
-  "permissions": [
-    "tabs",
-    "activeTab",
-    "contextMenus",
-    "scripting",
-    "storage"
-  ],
+  "permissions": ["tabs", "activeTab", "contextMenus", "scripting", "storage"],
   "content_scripts": [
     {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "js/ajb.js"
-      ],
+      "matches": ["<all_urls>"],
+      "js": ["js/ajb.js"],
       "all_frames": true
     }
   ],
-  "host_permissions": [
-    "<all_urls>"
-  ],
+  "host_permissions": ["<all_urls>"],
   "web_accessible_resources": [
     {
-      "resources": [
-        "assets/*",
-        "css/*",
-        "hosts.json"
-      ],
-      "matches": [
-        "<all_urls>"
-      ]
+      "resources": ["assets/*", "css/*"],
+      "matches": ["<all_urls>"]
     }
   ]
 }

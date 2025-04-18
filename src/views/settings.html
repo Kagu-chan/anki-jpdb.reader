@@ -11,6 +11,7 @@
 
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/16.png" />
     <link rel="icon" type="image/png" sizes="48x48" href="../assets/48.png" />
+    <link rel="stylesheet" media="screen" href="../assets/font-awesome.min.css" />
 
     <script async type="text/javascript" src="../js/settings.js"></script>
     <link rel="stylesheet" media="screen" href="../css/settings.css" />
@@ -260,6 +261,23 @@
             </div>
 
             <div class="form-box"></div>
+          </div>
+        </div>
+
+        <div id="parsers" class="section">
+          <h6>Parsers</h6>
+
+          <div class="form-box-parent">
+            <div class="form-box">
+              <p style="opacity: 0.8; padding-top: .5em">
+                Enable or disable parsers to stop certain apps from parsing.
+                Changes here require a reload of affected tabs to take effect.
+              </p>
+
+              <div>
+                <parsers-input id="disabledParsers" name="disabledParsers"></parsers-input>
+              </div>
+            </div>
           </div>
         </div>
 

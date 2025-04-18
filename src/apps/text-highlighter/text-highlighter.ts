@@ -626,6 +626,10 @@ export class TextHighlighter extends BaseTextHighlighter {
     reference: { start: number; end: number },
     targets: { start: number; end: number }[],
   ): boolean {
+    if (!targets.length) {
+      return false;
+    }
+
     return (
       reference.start === targets[0].start && reference.end === targets[targets.length - 1].end
     );

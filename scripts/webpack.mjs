@@ -5,23 +5,23 @@ import { transformManifest } from './transform-manifest.mjs';
 
 const __dirname = import.meta.dirname;
 
-const scripts = globSync(['src/background-worker/*.ts', 'src/apps/*.ts', 'src/views/*.ts']).reduce((curr, item) => {
-  const fileName = './' + item.replace(/\\/g, '/');
-  const partials = fileName.split('/');
-  const name = partials.pop().split('.').shift();
+const scripts = globSync(['src/background-worker/*.ts', 'src/apps/*.ts', 'src/views/*.ts']).reduce(
+  (curr, item) => {
+    const fileName = './' + item.replace(/\\/g, '/');
+    const partials = fileName.split('/');
+    const name = partials.pop().split('.').shift();
 
-  return Object.assign(curr, {
-    [name]: {
-      import: fileName,
-      filename: `js/${name}.js`,
-    },
-  });
-}, {});
+    return Object.assign(curr, {
+      [name]: {
+        import: fileName,
+        filename: `js/${name}.js`,
+      },
+    });
+  },
+  {},
+);
 
-const styles = globSync([
-  'src/styles/*.scss',
-  'src/views/**/*.scss',
-]).reduce((curr, item) => {
+const styles = globSync(['src/styles/*.scss', 'src/views/**/*.scss']).reduce((curr, item) => {
   const fileName = './' + item.replace(/\\/g, '/');
   const partials = fileName.split('/');
   const name = partials.pop().split('.').shift();
@@ -51,8 +51,11 @@ export default (env = {}) => ({
       patterns: [
         { from: 'assets', to: 'assets' },
         { from: 'src/views/*.html', to: 'views/[name][ext]' },
-        { from: 'src/hosts.json', to: '[name][ext]' },
-        { from: 'src/manifest.json', to: '[name][ext]', transform: (content) => transformManifest(content, env) },
+        {
+          from: 'src/manifest.json',
+          to: '[name][ext]',
+          transform: (content) => transformManifest(content, env),
+        },
         { from: 'LICENSE.md', to: '[name][ext]' },
         { from: 'PRIVACY.md', to: '[name][ext]' },
       ],
@@ -63,12 +66,14 @@ export default (env = {}) => ({
       {
         test: /\.scss$/,
         type: 'asset/resource',
-        use: [{
-          loader: 'sass-loader',
-          options: {
-            sassOptions: { style: 'expanded' },
-          }
-        }],
+        use: [
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: { style: 'expanded' },
+            },
+          },
+        ],
         generator: { filename: 'css/[name].css' },
       },
       {

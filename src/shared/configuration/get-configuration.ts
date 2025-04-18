@@ -25,8 +25,9 @@ export const getConfiguration = async <K extends keyof ConfigurationSchema>(
   fetchDefault: boolean,
 ): Promise<ConfigurationSchema[K]> => {
   const defaultValue = fetchDefault ? DEFAULT_CONFIGURATION[key] : undefined;
-  // eslint-disable-next-line @typescript-eslint/no-base-to-string
-  const value: string = await readStorage(key, defaultValue?.toString());
+  const stringDefault =
+    typeof defaultValue === 'object' ? JSON.stringify(defaultValue) : defaultValue?.toString();
+  const value: string = await readStorage(key, stringDefault);
 
   if (NUMBER_KEYS.includes(key as FilterKeys<ConfigurationSchema, number>)) {
     return parseInt(value, 10) as ConfigurationSchema[K];

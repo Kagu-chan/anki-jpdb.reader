@@ -6,5 +6,5 @@ export type ConfigurationNumberKeys = FilterKeys<ConfigurationSchema, number>[];
 export type ConfigurationBooleanKeys = FilterKeys<ConfigurationSchema, boolean>[];
 export type ConfigurationObjectKeys = FilterKeys<
   ConfigurationSchema,
-  Keybinds | DeckConfiguration | DiscoverWordConfiguration[]
+  Keybinds | DeckConfiguration | DiscoverWordConfiguration[] | string[]
 >[];

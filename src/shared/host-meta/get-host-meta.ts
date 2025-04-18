@@ -1,7 +1,6 @@
-import { getURL } from '../extension/get-url';
+import { getConfiguration } from '../configuration/get-configuration';
+import { DEFAULT_HOSTS } from './default-hosts';
 import { HostMeta } from './types';
-
-let hostsMeta: HostMeta[];
 
 export function getHostMeta(
   host: string,
@@ -19,14 +18,11 @@ export async function getHostMeta(
   filter: (meta: HostMeta) => boolean = (): boolean => true,
   multiple?: boolean,
 ): Promise<HostMeta[] | HostMeta | undefined> {
-  if (!hostsMeta) {
-    const fetchData = await fetch(getURL('hosts.json'));
-    const jsonData = (await fetchData.json()) as HostMeta[];
+  const disabledHosts = await getConfiguration('disabledParsers', true);
 
-    hostsMeta = jsonData;
-  }
+  const hostsMeta = DEFAULT_HOSTS.filter(({ id, optOut }) => optOut && !disabledHosts.includes(id)); // @todo Merge with custom defined hosts if any
 
-  const filterFn = (meta: HostMeta): boolean => {
+  const hostFilter = (meta: HostMeta): boolean => {
     const matchUrl = (matchPattern: string): boolean => {
       if (matchPattern === '<all_urls>') {
         return true;
@@ -62,7 +58,7 @@ export async function getHostMeta(
     return Array.isArray(meta.host) ? meta.host.some(matchUrl) : matchUrl(meta.host);
   };
 
-  const checkHosts = hostsMeta.filter(filterFn);
+  const enabledHosts = hostsMeta.filter(hostFilter);
 
-  return multiple ? checkHosts.filter(filter) : checkHosts.find(filter);
+  return Promise.resolve(multiple ? enabledHosts.filter(filter) : enabledHosts.find(filter));
 }
