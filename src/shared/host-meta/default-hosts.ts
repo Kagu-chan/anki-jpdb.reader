@@ -4,6 +4,7 @@ export const DEFAULT_HOSTS: HostMeta[] = [
   {
     id: 'disable-crunchyroll',
     name: '_disable_crunchyroll_',
+    description: 'Disable Crunchyroll Parser',
     host: '*://*.crunchyroll.com/*',
     auto: false,
     allFrames: false,
@@ -12,6 +13,7 @@ export const DEFAULT_HOSTS: HostMeta[] = [
   {
     id: 'trigger-parser',
     name: '_trigger_parser_',
+    description: 'Trigger Parser',
     host: '<all_urls>',
     auto: false,
     allFrames: false,
@@ -20,6 +22,7 @@ export const DEFAULT_HOSTS: HostMeta[] = [
   {
     id: 'kochounoyume-cde-parser',
     name: 'CDE Parser',
+    description: 'Parses dictionary entries for the JPDB CDE user script',
     host: [
       '*://jpdb.io/vocabulary/*',
       '*://jpdb.io/review*',
@@ -45,6 +48,7 @@ export const DEFAULT_HOSTS: HostMeta[] = [
   {
     id: 'texthooker-parser',
     name: 'Texthooker Parser',
+    description: 'Parse hooked texts (anacreondjt, renji-xd and learnjapanese.moe)',
     host: [
       '*://anacreondjt.gitlab.io/texthooker.html',
       '*://learnjapanese.moe/texthooker.html',
@@ -67,6 +71,7 @@ export const DEFAULT_HOSTS: HostMeta[] = [
   {
     id: 'exstatic-parser',
     name: 'ExStatic Parser',
+    description: 'Enables parsing for ExStatic',
     host: '*://kamwithk.github.io/exSTATic/tracker.html',
     auto: true,
     optOut: true,
@@ -85,6 +90,7 @@ export const DEFAULT_HOSTS: HostMeta[] = [
   {
     id: 'readwok-parser',
     name: 'Readwok Parser',
+    description: 'Parses Readwok books',
     host: '*://app.readwok.com/*',
     auto: true,
     optOut: true,
@@ -103,6 +109,7 @@ export const DEFAULT_HOSTS: HostMeta[] = [
   {
     id: 'ttsu-parser',
     name: 'Ttsu Parser',
+    description: 'Parses Ttsu books',
     host: '*://reader.ttsu.app/*',
     auto: true,
     optOut: true,
@@ -121,6 +128,7 @@ export const DEFAULT_HOSTS: HostMeta[] = [
   {
     id: 'youtube-comments-parser',
     name: 'YouTube Comments Parser',
+    description: 'Parses YouTube comments',
     host: ['*://*.youtube.com/*', '*://*.youtu.be/*'],
     auto: true,
     optOut: true,
@@ -139,6 +147,7 @@ export const DEFAULT_HOSTS: HostMeta[] = [
   {
     id: 'mokuro-parser',
     name: 'Mokuro Parser',
+    description: 'Parses manga on Mokuro',
     host: '*://reader.mokuro.app/*',
     auto: true,
     optOut: true,
@@ -157,6 +166,7 @@ export const DEFAULT_HOSTS: HostMeta[] = [
   {
     id: 'mokuro-legacy-parser',
     name: 'Mokuro Legacy Parser',
+    description: 'Parses manga on Mokuro (legacy)',
     host: 'file:///*mokuro*.html',
     auto: true,
     optOut: true,
@@ -167,6 +177,7 @@ export const DEFAULT_HOSTS: HostMeta[] = [
   {
     id: 'wikipedia-parser',
     name: 'Wikipedia Parser',
+    description: 'Parses Japanese Wikipedia',
     host: ['*://ja.wikipedia.org/*', '*://ja.m.wikipedia.org/*'],
     auto: true,
     optOut: true,
@@ -188,6 +199,7 @@ export const DEFAULT_HOSTS: HostMeta[] = [
   {
     id: 'asbplayer-parser',
     name: 'asbplayer Parser',
+    description: 'Parses asbplayer subtitles',
     host: '<all_urls>',
     auto: true,
     optOut: true,

@@ -14,6 +14,7 @@ import { JPDBDeck } from '@shared/jpdb/types';
 import { ConfigurationUpdatedCommand } from '@shared/messages/broadcast/configuration-updated.command';
 import { HTMLKeybindInputElement } from './elements/html-keybind-input-element';
 import { HTMLMiningInputElement } from './elements/html-mining-input-element';
+import { HTMLParsersInputElement } from './elements/html-parsers-input-element';
 
 class SettingsController {
   private _lastSavedConfiguration = new Map<
@@ -39,6 +40,7 @@ class SettingsController {
   constructor() {
     customElements.define('mining-input', HTMLMiningInputElement);
     customElements.define('keybind-input', HTMLKeybindInputElement);
+    customElements.define('parsers-input', HTMLParsersInputElement);
 
     void this.setup();
   }
@@ -60,7 +62,7 @@ class SettingsController {
    * Also, install listeners to keep track of the local changes.
    */
   private async _setupSimpleFields(): Promise<void> {
-    await this._setupFields('input, textarea, keybind-input', [''], (type) =>
+    await this._setupFields('input, textarea, keybind-input, parsers-input', [''], (type) =>
       type === 'checkbox' ? 'checked' : 'value',
     );
   }
@@ -83,8 +85,9 @@ class SettingsController {
     await Promise.all(
       withElements(selector, async (inputElement: HTMLInputElement) => {
         const name = inputElement.name as keyof ConfigurationSchema;
+        const internal = inputElement.hasAttribute('internal');
 
-        if (filter.includes(name) || inputElement.type === 'hidden') {
+        if (filter.includes(name) || inputElement.type === 'hidden' || internal) {
           return;
         }
 

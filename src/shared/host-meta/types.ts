@@ -35,6 +35,11 @@ export type HostMeta = {
   name: string;
 
   /**
+   * The description of the parser. This is used to describe the parser in the UI.
+   */
+  description: string;
+
+  /**
    * A host or list of hosts this configuration applies to.
    *
    * Roughly implements the functionality described here:
