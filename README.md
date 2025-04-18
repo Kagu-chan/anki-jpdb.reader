@@ -238,3 +238,5 @@ Currently `chrome|chromium` and `firefox` are supported
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
+This project uses [Font Awesome 4](https://fontawesome.com/v4.7.0/), which is licensed under the [MIT License](https://opensource.org/licenses/MIT). Please ensure compliance with its license when using or distributing this project.

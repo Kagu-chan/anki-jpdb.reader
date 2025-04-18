@@ -1,5 +1,7 @@
 import { createElement } from '@shared/dom/create-element';
+import { findElement } from '@shared/dom/find-element';
 import { DEFAULT_HOSTS } from '@shared/host-meta/default-hosts';
+import { HostMeta } from '@shared/host-meta/types';
 
 const observedAttributes = ['value', 'name'] as const;
 
@@ -123,32 +125,30 @@ export class HTMLParsersInputElement extends HTMLElement {
           },
         ],
       });
+      const code = createElement('div', {
+        class: 'col',
+        style: { width: '20px', textAlign: 'right' },
+        children: [
+          {
+            tag: 'i',
+            class: ['fa', 'fa-code'],
+            style: { cursor: 'pointer' },
+            attributes: {
+              ariaHidden: 'true',
+            },
+            handler: (): void => {
+              this.showCodeOverlay(host);
+            },
+          },
+        ],
+      });
 
       row.appendChild(checkboxTD);
       row.appendChild(name);
       row.appendChild(description);
+      row.appendChild(code);
 
       tableHost.appendChild(row);
-
-      // const container = document.createElement('div');
-      // const label = document.createElement('label');
-      // const description = document.createElement('div');
-
-      // container.classList.add('checkbox');
-
-      // label.setAttribute('for', host.id);
-      // label.textContent = host.name;
-
-      // description.style.opacity = '0.8';
-      // description.toggleAttribute('indent', true);
-      // description.toggleAttribute('up', true);
-      // description.textContent = host.description;
-
-      // container.appendChild(checkbox);
-      // container.appendChild(label);
-
-      // this.appendChild(container);
-      // this.appendChild(description);
     }
 
     this.updateCheckboxes();
@@ -192,5 +192,43 @@ export class HTMLParsersInputElement extends HTMLElement {
 
   protected disable(id: string): void {
     this.value = [...new Set([...this.value, id])];
+  }
+
+  protected showCodeOverlay(host: HostMeta): void {
+    const backdrop = createElement('div', {
+      class: 'backdrop',
+      attributes: {
+        role: 'dialog',
+        'aria-modal': 'true',
+        'aria-labelledby': host.id,
+        'aria-describedby': host.id,
+      },
+      handler: (): void => {
+        this.hideCodeOverlay();
+      },
+    });
+
+    this.appendChild(backdrop);
+
+    const overlay = createElement('div', {
+      class: 'overlay',
+      children: [
+        {
+          tag: 'h3',
+          innerText: host.name,
+        },
+        {
+          tag: 'pre',
+          innerText: JSON.stringify(host, null, 2),
+        },
+      ],
+    });
+
+    this.appendChild(overlay);
+  }
+
+  protected hideCodeOverlay(): void {
+    findElement(this, '.backdrop')?.remove();
+    findElement(this, '.overlay')?.remove();
   }
 }
