@@ -15,7 +15,8 @@
     "host": [
       "*://anacreondjt.gitlab.io/texthooker.html",
       "*://learnjapanese.moe/texthooker.html",
-      "*://renji-xd.github.io/texthooker-ui/"
+      "*://renji-xd.github.io/texthooker-ui/",
+      "*://*/texthooker$"
     ],
     "auto": true,
     "allFrames": false,
