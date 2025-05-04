@@ -34,6 +34,7 @@ Some web apps and sites require special attention to work properly, therefore th
 |Wikipedia|[ja.wikipedia.org](https://ja.wikipedia.org/)
 |asbplayer|[github.com/killergerbah/asbplayer](https://github.com/killergerbah/asbplayer)
 |Youtube comments|[youtube.com](https://youtube.com/)
+|Custom Dictionaries|[CDM by Nakura Nakamoto](https://gitlab.com/nakura/jpdb_cdm)
 
 
 ## Installation
@@ -77,7 +78,18 @@ You can use the reader on any website. Just select some text, right click, and c
 
 Words will be colored according to their state (known, new, etc.). Hover over words while holding Shift to see their meaning, and to mine or review them.
 
-## Can I customize the colors? Can I customize which furigana get shown?
+## Customize parsing
+
+Parsing can be enabled or disabled per integration. You can also add custom URLs to automatically parse in the settings:
+
+Additionally, you can add complete meta definitions in JSON format - refer to [the predefined defaults](https://github.com/Kagu-chan/anki-jpdb.reader/blob/dev/src/shared/host-meta/default-hosts.ts) for examples or [the typings](https://github.com/Kagu-chan/anki-jpdb.reader/blob/dev/src/shared/host-meta/types.ts)
+
+URL Matching - [Roughly implements the functionality described here](https://developer.chrome.com/docs/extensions/develop/concepts/match-patterns):
+- `*://` - Matches `http` or `https`
+- `*` - General placeholder
+- `*://*.website.com` - Matches a website and its subdomains
+
+## Customize text colors and furigana
 
 Customization is currently done with custom CSS, because its the most simple way to offer a flexible framework.
 

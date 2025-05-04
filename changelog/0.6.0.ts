@@ -34,6 +34,12 @@ export const _060: ChangelogEntry[] = [
   },
   {
     type: 'add',
+    description: 'Allow adding pages and meta definitions for custom parsing',
+    category: Category.Hosts,
+    issue: 176,
+  },
+  {
+    type: 'add',
     description: 'Allow marking more frequent words in the text highlighter',
     category: Category.Texthighlighter,
     issue: 210,

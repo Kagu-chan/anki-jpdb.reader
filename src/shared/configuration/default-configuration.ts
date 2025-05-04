@@ -37,6 +37,8 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   showParseButton: true,
 
   disabledParsers: [],
+  additionalHosts: '',
+  additionalMeta: '[]',
 
   //#endregion
   //#region Texthighlighting

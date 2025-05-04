@@ -277,6 +277,37 @@
               <div>
                 <parsers-input id="disabledParsers" name="disabledParsers"></parsers-input>
               </div>
+              
+              <div>
+                <label for="additionalHosts">Extra Hosts</label>
+                <textarea
+                id="additionalHosts"
+                name="additionalHosts"
+                placeholder="Extra Hosts"
+                spellcheck="false"
+                style="height: 15em; margin-bottom: 0"
+                ></textarea>
+                <p style="opacity: 0.8">
+                  Additional hosts (one per line or separated by <code>,</code>, <code>;</code> and <code>[space]</code>) to parse automatically. <br />
+                  This enables only simple parsing, interaction with other extensions or custom behavior is not supported.
+                </p>
+                <p style="opacity: 0.8">
+                </p>
+              </div>
+              
+              <div>
+                <label for="additionalMeta">Extra Meta</label>
+                <textarea
+                id="additionalMeta"
+                name="additionalMeta"
+                placeholder="Extra Meta"
+                spellcheck="false"
+                style="height: 15em; margin-bottom: 0"
+                ></textarea>
+                <p style="opacity: 0.8">
+                  Additional meta data (JSON) to parse automatically. <br />
+                </p>
+              </div>
             </div>
           </div>
         </div>

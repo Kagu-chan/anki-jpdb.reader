@@ -1,4 +1,5 @@
 import { getConfiguration } from '../configuration/get-configuration';
+import { displayToast } from '../dom/display-toast';
 import { DEFAULT_HOSTS } from './default-hosts';
 import { HostMeta } from './types';
 
@@ -19,8 +20,39 @@ export async function getHostMeta(
   multiple?: boolean,
 ): Promise<HostMeta[] | HostMeta | undefined> {
   const disabledHosts = await getConfiguration('disabledParsers', true);
+  const additionalHosts = await getConfiguration('additionalHosts', true);
+  const additionalMeta = await getConfiguration('additionalMeta', true);
 
-  const hostsMeta = DEFAULT_HOSTS; // @todo Merge with custom defined hosts if any
+  const hostsMeta = DEFAULT_HOSTS;
+
+  try {
+    const meta = JSON.parse(additionalMeta?.length ? additionalMeta : '[]') as HostMeta[];
+
+    hostsMeta.push(...meta);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to parse additional meta:', e);
+
+    displayToast('error', 'Failed to parse additional meta. Please check your configuration.');
+  }
+
+  additionalHosts
+    .trim()
+    .replace(/\r\n?/g, ' ')
+    .split(/[\s;,]/)
+    .filter(Boolean)
+    .forEach((host) => {
+      hostsMeta.push({
+        id: host,
+        name: `_custom:${host}`,
+        description: `Custom host ${host}`,
+        host,
+        auto: true,
+        allFrames: true,
+        parse: 'body',
+        parserClass: 'custom-parser',
+      });
+    });
 
   const hostFilter = (meta: HostMeta): boolean => {
     const matchUrl = (matchPattern: string): boolean => {

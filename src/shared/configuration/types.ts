@@ -39,6 +39,8 @@ export type ConfigurationSchema = {
   showParseButton: boolean;
 
   disabledParsers: string[];
+  additionalHosts: string;
+  additionalMeta: string;
 
   //#endregion
   //#region Texthighlighting
