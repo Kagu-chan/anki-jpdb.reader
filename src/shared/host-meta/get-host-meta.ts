@@ -20,10 +20,14 @@ export async function getHostMeta(
 ): Promise<HostMeta[] | HostMeta | undefined> {
   const disabledHosts = await getConfiguration('disabledParsers', true);
 
-  const hostsMeta = DEFAULT_HOSTS.filter(({ id, optOut }) => optOut && !disabledHosts.includes(id)); // @todo Merge with custom defined hosts if any
+  const hostsMeta = DEFAULT_HOSTS; // @todo Merge with custom defined hosts if any
 
   const hostFilter = (meta: HostMeta): boolean => {
     const matchUrl = (matchPattern: string): boolean => {
+      if (meta.optOut && disabledHosts.includes(meta.id)) {
+        return false;
+      }
+
       if (matchPattern === '<all_urls>') {
         return true;
       }
