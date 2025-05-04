@@ -34,6 +34,12 @@ export const _060: ChangelogEntry[] = [
   },
   {
     type: 'add',
+    description: 'Allow adding pages and meta definitions for custom parsing',
+    category: Category.Hosts,
+    issue: 176,
+  },
+  {
+    type: 'add',
     description: 'Allow marking more frequent words in the text highlighter',
     category: Category.Texthighlighter,
     issue: 210,
@@ -43,5 +49,11 @@ export const _060: ChangelogEntry[] = [
     description: 'Fix the popup staying when the hovered object is removed from the DOM',
     category: Category.Popup,
     issue: 164,
+  },
+  {
+    type: 'change',
+    description: 'Allow disabling automatic parsing for specific pages',
+    category: Category.Hosts,
+    issue: 144,
   },
 ];

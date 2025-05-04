@@ -11,6 +11,7 @@
 
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/16.png" />
     <link rel="icon" type="image/png" sizes="48x48" href="../assets/48.png" />
+    <link rel="stylesheet" media="screen" href="../assets/font-awesome.min.css" />
 
     <script async type="text/javascript" src="../js/settings.js"></script>
     <link rel="stylesheet" media="screen" href="../css/settings.css" />
@@ -260,6 +261,54 @@
             </div>
 
             <div class="form-box"></div>
+          </div>
+        </div>
+
+        <div id="parsers" class="section">
+          <h6>Parsers</h6>
+
+          <div class="form-box-parent">
+            <div class="form-box">
+              <p style="opacity: 0.8; padding-top: .5em">
+                Enable or disable parsers to stop certain apps from parsing.
+                Changes here require a reload of affected tabs to take effect.
+              </p>
+
+              <div>
+                <parsers-input id="disabledParsers" name="disabledParsers"></parsers-input>
+              </div>
+              
+              <div>
+                <label for="additionalHosts">Extra Hosts</label>
+                <textarea
+                id="additionalHosts"
+                name="additionalHosts"
+                placeholder="Extra Hosts"
+                spellcheck="false"
+                style="height: 15em; margin-bottom: 0"
+                ></textarea>
+                <p style="opacity: 0.8">
+                  Additional hosts (one per line or separated by <code>,</code>, <code>;</code> and <code>[space]</code>) to parse automatically. <br />
+                  This enables only simple parsing, interaction with other extensions or custom behavior is not supported.
+                </p>
+                <p style="opacity: 0.8">
+                </p>
+              </div>
+              
+              <div>
+                <label for="additionalMeta">Extra Meta</label>
+                <textarea
+                id="additionalMeta"
+                name="additionalMeta"
+                placeholder="Extra Meta"
+                spellcheck="false"
+                style="height: 15em; margin-bottom: 0"
+                ></textarea>
+                <p style="opacity: 0.8">
+                  Additional meta data (JSON) to parse automatically. <br />
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 

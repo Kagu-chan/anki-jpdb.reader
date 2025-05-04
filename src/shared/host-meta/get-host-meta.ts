@@ -1,7 +1,7 @@
-import { getURL } from '../extension/get-url';
+import { getConfiguration } from '../configuration/get-configuration';
+import { displayToast } from '../dom/display-toast';
+import { DEFAULT_HOSTS } from './default-hosts';
 import { HostMeta } from './types';
-
-let hostsMeta: HostMeta[];
 
 export function getHostMeta(
   host: string,
@@ -19,15 +19,47 @@ export async function getHostMeta(
   filter: (meta: HostMeta) => boolean = (): boolean => true,
   multiple?: boolean,
 ): Promise<HostMeta[] | HostMeta | undefined> {
-  if (!hostsMeta) {
-    const fetchData = await fetch(getURL('hosts.json'));
-    const jsonData = (await fetchData.json()) as HostMeta[];
+  const disabledHosts = await getConfiguration('disabledParsers', true);
+  const additionalHosts = await getConfiguration('additionalHosts', true);
+  const additionalMeta = await getConfiguration('additionalMeta', true);
 
-    hostsMeta = jsonData;
+  const hostsMeta = DEFAULT_HOSTS;
+
+  try {
+    const meta = JSON.parse(additionalMeta?.length ? additionalMeta : '[]') as HostMeta[];
+
+    hostsMeta.push(...meta);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to parse additional meta:', e);
+
+    displayToast('error', 'Failed to parse additional meta. Please check your configuration.');
   }
 
-  const filterFn = (meta: HostMeta): boolean => {
+  additionalHosts
+    .trim()
+    .replace(/\r\n?/g, ' ')
+    .split(/[\s;,]/)
+    .filter(Boolean)
+    .forEach((host) => {
+      hostsMeta.push({
+        id: host,
+        name: `_custom:${host}`,
+        description: `Custom host ${host}`,
+        host,
+        auto: true,
+        allFrames: true,
+        parse: 'body',
+        parserClass: 'custom-parser',
+      });
+    });
+
+  const hostFilter = (meta: HostMeta): boolean => {
     const matchUrl = (matchPattern: string): boolean => {
+      if (meta.optOut && disabledHosts.includes(meta.id)) {
+        return false;
+      }
+
       if (matchPattern === '<all_urls>') {
         return true;
       }
@@ -62,7 +94,7 @@ export async function getHostMeta(
     return Array.isArray(meta.host) ? meta.host.some(matchUrl) : matchUrl(meta.host);
   };
 
-  const checkHosts = hostsMeta.filter(filterFn);
+  const enabledHosts = hostsMeta.filter(hostFilter);
 
-  return multiple ? checkHosts.filter(filter) : checkHosts.find(filter);
+  return Promise.resolve(multiple ? enabledHosts.filter(filter) : enabledHosts.find(filter));
 }
