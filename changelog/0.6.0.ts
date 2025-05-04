@@ -38,4 +38,10 @@ export const _060: ChangelogEntry[] = [
     category: Category.Texthighlighter,
     issue: 210,
   },
+  {
+    type: 'fix',
+    description: 'Fix the popup staying when the hovered object is removed from the DOM',
+    category: Category.Popup,
+    issue: 164,
+  },
 ];
