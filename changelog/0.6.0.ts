@@ -44,4 +44,10 @@ export const _060: ChangelogEntry[] = [
     category: Category.Popup,
     issue: 164,
   },
+  {
+    type: 'change',
+    description: 'Allow disabling automatic parsing for specific pages',
+    category: Category.Hosts,
+    issue: 144,
+  },
 ];
