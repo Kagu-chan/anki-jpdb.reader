@@ -13,4 +13,10 @@ export const _060: ChangelogEntry[] = [
     description: 'Added the release date to the changelog',
     issue: 199,
   },
+  {
+    category: Category.Hosts,
+    type: 'add',
+    description: 'add new pattern for generic texthooker',
+    issue: 'N/A',
+  },
 ];
