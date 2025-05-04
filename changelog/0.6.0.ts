@@ -19,4 +19,17 @@ export const _060: ChangelogEntry[] = [
     description: 'add new pattern for generic texthooker',
     issue: 'N/A',
   },
+  {
+    type: 'add',
+    description:
+      'The TamperMonkey Addon for monolingual dictionaries by Nakura Nakamoto is now supported',
+    category: [Category.API, Category.Parser],
+    issue: 176,
+  },
+  {
+    type: 'fix',
+    description: 'Enhanced the token matching for text highlighting',
+    category: Category.Texthighlighter,
+    issue: 176,
+  },
 ];
