@@ -25,9 +25,11 @@ export class Registry {
     tokens: JPDBToken[],
     skipFurigana?: boolean,
     generatePitch?: boolean,
+    markFrequency?: number,
   ) => BaseTextHighlighter = TextHighlighter;
   public static skipFurigana = false;
   public static generatePitch = false;
+  public static markFrequency?: number;
 
   private static readonly cards = new Map<string, JPDBCard>();
 

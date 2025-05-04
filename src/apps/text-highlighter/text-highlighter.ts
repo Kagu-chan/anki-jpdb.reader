@@ -15,6 +15,7 @@ export class TextHighlighter extends BaseTextHighlighter {
     tokens: JPDBToken[],
     protected _skipFurigana?: boolean,
     protected _generatePitch?: boolean,
+    protected _markFrequency?: number,
   ) {
     super(fragments, tokens);
 
@@ -601,6 +602,14 @@ export class TextHighlighter extends BaseTextHighlighter {
       Registry.addCard(card);
 
       element.classList.add('jpdb-word', ...card.cardState);
+
+      if (
+        this._markFrequency &&
+        card.frequencyRank <= this._markFrequency &&
+        ((card.cardState as string[]).includes('new') || card.cardState.includes('not-in-deck'))
+      ) {
+        element.classList.add('frequent');
+      }
 
       if (pitchClass && this._generatePitch) {
         element.classList.add(pitchClass);

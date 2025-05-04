@@ -42,6 +42,8 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   //#region Texthighlighting
 
   useLegacyHighlighter: false,
+  markTopX: false,
+  markTopXCount: 10_000,
   skipFurigana: false,
   generatePitch: false,
 

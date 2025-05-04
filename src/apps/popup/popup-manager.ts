@@ -16,6 +16,14 @@ export class PopupManager {
   private _currentHover?: HTMLElement;
   private _currentSentence?: string;
 
+  private _observer = new MutationObserver((m) => {
+    // the parent of the currently hovered object is monitored.
+    // We want to hide the popup if the currently hovered object is removed from the DOM
+    if (m[0].removedNodes.length > 0 && m[0].removedNodes[0] === this._currentHover) {
+      this._popup.hide();
+    }
+  });
+
   constructor() {
     onBroadcastMessage(
       'configurationUpdated',
@@ -83,6 +91,10 @@ export class PopupManager {
 
     // TODO: Implement touchscreen support
     this._popup.show(this._currentHover, this._currentSentence);
+
+    if (this._currentHover.parentElement) {
+      this._observer.observe(this._currentHover.parentElement, { childList: true });
+    }
   }
 
   private handleAdvancedDialog(): void {

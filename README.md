@@ -95,6 +95,13 @@ Only color new words:
 .jpdb-word.not-in-deck { color: rgb(126, 173, 255); }
 ```
 
+Only color new words, but mark more frequent words additionally
+```css
+.jpdb-word { color: inherit; }
+.jpdb-word.new, .jpdb-word.not-in-deck { color: rgb(75, 141, 255); }
+.jpdb-word.frequent { color: rgb(126, 173, 122); }
+```
+
 Show an underline rather than changing the text color:
 ```css
 .jpdb-word.new {
@@ -171,6 +178,7 @@ List of classes:
 - `.failed` - Failed words
 - `.suspended` - Suspended words (for example, through the "Suspend words outside of a given top most common words" feature)
 - `.blacklisted` - Blacklisted words (either individually, or through settings like "Blacklist particles", "Blacklist katakana loanwords", etc.)
+- `.frequent` - Words in a top most frequency range. Only applied if enabled in the settings
 
 List of pitch pattern classes:
 - `.heiban` - Words that follow the heiban (平板型) pitch accent pattern
@@ -194,6 +202,7 @@ List of app container classes:
 - `.mokuro-legacy-parser`
 - `.wikipedia-parser`
 - `.asb-player-parser`
+- `.kochounoyume-parser`
 
 ## Building
 
