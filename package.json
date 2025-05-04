@@ -1,6 +1,6 @@
 {
   "name": "anki-jpdb.reader",
-  "version": "0.5.1",
+  "version": "0.5.0",
   "description": "Japanese text parsing + sentence mining with JPDB and Anki",
   "private": true,
   "scripts": {
