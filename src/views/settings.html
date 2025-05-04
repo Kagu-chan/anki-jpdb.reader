@@ -281,6 +281,25 @@
                   <li>The new highlighting can recognize obvious misparses and mark them as such.</li>
                 </ul>
 
+                <div class="legacyNotSupported" hidden indent>
+                  <div class="checkbox">
+                    <input type="checkbox" id="markTopX" name="markTopX" shows="#topX" />
+                    <label for="markTopX">Mark the top X words in the text</label>
+                  </div>
+                  <div style="opacity: 0.8" indent>Marks new and unminded words in a given frequency.</div>
+
+                  <div id="topX" hidden indent down>
+                    <label for="markTopXCount">Top words to mark</label>
+                    <input
+                    style="width: 100%"
+                    type="number"
+                    id="markTopXCount"
+                    name="markTopXCount"
+                    min="1000"
+                    />
+                  </div>
+                </div>
+
                 <div class="checkbox legacyNotSupported" hidden indent>
                   <input type="checkbox" id="skipFurigana" name="skipFurigana" />
                   <label for="skipFurigana">Prevent Furigana from generating</label>

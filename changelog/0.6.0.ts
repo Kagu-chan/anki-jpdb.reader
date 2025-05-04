@@ -32,4 +32,10 @@ export const _060: ChangelogEntry[] = [
     category: Category.Texthighlighter,
     issue: 176,
   },
+  {
+    type: 'add',
+    description: 'Allow marking more frequent words in the text highlighter',
+    category: Category.Texthighlighter,
+    issue: 210,
+  },
 ];

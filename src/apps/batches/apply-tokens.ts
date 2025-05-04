@@ -8,5 +8,6 @@ export const applyTokens = (fragments: Fragment[], tokens: JPDBToken[]): void =>
     tokens,
     Registry.skipFurigana,
     Registry.generatePitch,
+    Registry.markFrequency,
   ).apply();
 };

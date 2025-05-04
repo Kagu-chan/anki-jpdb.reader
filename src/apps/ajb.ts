@@ -41,10 +41,13 @@ export class AJB {
         const useLegacyHighlighter = await getConfiguration('useLegacyHighlighter', true);
         const skipFurigana = await getConfiguration('skipFurigana', false);
         const generatePitch = await getConfiguration('generatePitch', false);
+        const markTopX = await getConfiguration('markTopX', false);
+        const markTopXCount = await getConfiguration('markTopXCount', true);
 
         Registry.textHighlighter = useLegacyHighlighter ? LegacyTextHighlighter : TextHighlighter;
         Registry.skipFurigana = skipFurigana;
         Registry.generatePitch = generatePitch;
+        Registry.markFrequency = markTopX ? markTopXCount : undefined;
       },
       true,
     );

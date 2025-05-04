@@ -42,6 +42,8 @@ export type ConfigurationSchema = {
   //#region Texthighlighting
 
   useLegacyHighlighter: boolean;
+  markTopX: boolean;
+  markTopXCount: number;
   skipFurigana: boolean;
   generatePitch: boolean;
 
