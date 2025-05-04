@@ -53,6 +53,7 @@ export const DEFAULT_HOSTS: HostMeta[] = [
       '*://anacreondjt.gitlab.io/texthooker.html',
       '*://learnjapanese.moe/texthooker.html',
       '*://renji-xd.github.io/texthooker-ui/',
+      '*://*/texthooker$',
     ],
     auto: true,
     optOut: true,
