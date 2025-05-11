@@ -19,14 +19,14 @@ export abstract class BackgroundCommand<
           isBroadcast: false,
           args: this.arguments,
         },
-        (response: TResult) => {
+        (response: { success: boolean; result: TResult }) => {
           const lastError = getLastError();
 
           if (lastError) {
             reject(lastError as Error);
           }
 
-          resolve(response);
+          resolve(response.result);
         },
       );
     });
