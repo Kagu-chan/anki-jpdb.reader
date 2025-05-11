@@ -67,7 +67,18 @@ export class BatchController {
     batches.forEach((batch) => {
       void batch.promise
         .then((value) => {
-          applyFn(batch.data, value);
+          try {
+            applyFn(batch.data, value);
+          } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error);
+
+            displayToast(
+              'error',
+              'An error occurred while applying the tokens',
+              (error as Error).message,
+            );
+          }
         })
         .catch((error) => {
           if (error instanceof Canceled) {
@@ -77,7 +88,11 @@ export class BatchController {
           // eslint-disable-next-line no-console
           console.error(error);
 
-          displayToast('error', 'An error occurred while parsing the text');
+          displayToast(
+            'error',
+            'An error occurred while parsing the text',
+            (error as Error).message,
+          );
         });
     });
   }

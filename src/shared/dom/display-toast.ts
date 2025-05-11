@@ -2,6 +2,25 @@ import { getStyleUrl } from '../extension/get-style-url';
 import { createElement } from './create-element';
 import { findElement } from './find-element';
 
+const toasts: Map<string, NodeJS.Timeout> = new Map<string, NodeJS.Timeout>();
+
+function startMessageTimeout(message: string): void {
+  const timeout = setTimeout(() => {
+    toasts.delete(message);
+  }, 5000);
+
+  toasts.set(message, timeout);
+}
+
+function restartMessageTimeout(message: string): void {
+  const timeout = toasts.get(message);
+
+  if (timeout) {
+    clearTimeout(timeout);
+    startMessageTimeout(message);
+  }
+}
+
 function getOrCreateToastContainer(): HTMLDivElement {
   let shadowRoot: ShadowRoot | null = findElement<'div'>('#ajb-toast-container')?.shadowRoot;
 
@@ -25,11 +44,17 @@ function getOrCreateToastContainer(): HTMLDivElement {
   return shadowRoot.getElementById('ajb-toast-item-container') as HTMLDivElement;
 }
 
-export function displayToast(
-  type: 'error' | 'success',
-  message: string,
-  timeoutDuration = 5000,
-): void {
+export function displayToast(type: 'error' | 'success', message: string, error?: string): void {
+  const timeoutDuration = 500;
+
+  if (toasts.has(message)) {
+    restartMessageTimeout(message);
+
+    return;
+  }
+
+  startMessageTimeout(message);
+
   const container = getOrCreateToastContainer();
   const toast: HTMLLIElement = createElement('li', {
     class: ['toast', 'outline', type],
@@ -50,7 +75,7 @@ export function displayToast(
                 handler(ev?: MouseEvent): void {
                   ev?.stopPropagation();
 
-                  void navigator.clipboard.writeText(message);
+                  void navigator.clipboard.writeText(error ?? message);
                 },
               }
             : false,

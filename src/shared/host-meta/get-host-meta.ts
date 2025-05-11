@@ -33,7 +33,11 @@ export async function getHostMeta(
     // eslint-disable-next-line no-console
     console.error('Failed to parse additional meta:', e);
 
-    displayToast('error', 'Failed to parse additional meta. Please check your configuration.');
+    displayToast(
+      'error',
+      'Failed to parse additional meta. Please check your configuration.',
+      (e as Error).message,
+    );
   }
 
   additionalHosts

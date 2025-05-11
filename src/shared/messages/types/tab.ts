@@ -7,7 +7,7 @@ export interface TabEvents {
   sequenceError: [[sequence: number, data: string], void];
   parsePage: [[], void];
   parseSelection: [[], void];
-  toast: [[type: 'error' | 'success', message: string, timeoutDuration?: number], void];
+  toast: [[type: 'error' | 'success', message: string, error?: string], void];
 }
 export type TabEventArgs<T extends keyof TabEvents> = TabEvents[T][0];
 export type TabEventResult<T extends keyof TabEvents> = TabEvents[T][1];
