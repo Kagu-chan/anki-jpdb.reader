@@ -85,6 +85,12 @@ export class BatchController {
             return;
           }
 
+          if ((error as Error).message === 'Failed to fetch') {
+            displayToast('error', 'JPDB.io is unreachable', (error as Error).message);
+
+            return;
+          }
+
           // eslint-disable-next-line no-console
           console.error(error);
 

@@ -17,15 +17,23 @@ export const requestByUrl = async <Key extends keyof JPDBEndpoints>(
   }
 
   const usedUrl = new URL(`${baseUrl}/${action}`);
-  const response = await fetch(usedUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiToken}`,
-      Accept: 'application/json',
-    },
-    body: params ? JSON.stringify(params) : undefined,
-  });
+  let response: Response;
+
+  try {
+    response = await fetch(usedUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiToken}`,
+        Accept: 'application/json',
+      },
+      body: params ? JSON.stringify(params) : undefined,
+    });
+  } catch (error) {
+    displayToast('error', 'JPDB.io is unreachable', (error as Error).message);
+
+    throw error;
+  }
 
   const responseObject = (await response.json()) as JPDBErrorResponse | JPDBEndpoints[Key][1];
 

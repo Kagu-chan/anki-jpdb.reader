@@ -45,6 +45,13 @@ function getOrCreateToastContainer(): HTMLDivElement {
 }
 
 export function displayToast(type: 'error' | 'success', message: string, error?: string): void {
+  if (typeof document === 'undefined') {
+    // This is a background-side environment, so we can't display a toast
+    // or manipulate the DOM.
+
+    return;
+  }
+
   const timeoutDuration = 5000;
 
   if (toasts.has(message)) {
