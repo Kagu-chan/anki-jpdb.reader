@@ -25,4 +25,10 @@ export const _061: ChangelogEntry[] = [
     category: Category.Popup,
     issue: 216,
   },
+  {
+    type: 'fix',
+    description: 'Issues with JPDB reachability will now get displayed properly',
+    category: Category.API,
+    issue: 193,
+  },
 ];
