@@ -45,7 +45,7 @@ function getOrCreateToastContainer(): HTMLDivElement {
 }
 
 export function displayToast(type: 'error' | 'success', message: string, error?: string): void {
-  const timeoutDuration = 500;
+  const timeoutDuration = 5000;
 
   if (toasts.has(message)) {
     restartMessageTimeout(message);
