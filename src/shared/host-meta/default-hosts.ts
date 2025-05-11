@@ -2,10 +2,10 @@ import { HostMeta } from './types';
 
 export const DEFAULT_HOSTS: HostMeta[] = [
   {
-    id: 'disable-crunchyroll',
-    name: '_disable_crunchyroll_',
-    description: 'Disable Crunchyroll Parser',
-    host: '*://*.crunchyroll.com/*',
+    id: 'disable-apps',
+    name: '_disable_apps',
+    description: 'Disable certain Apps',
+    host: ['*://*.crunchyroll.com/*', '*://music.youtube.com/*'],
     auto: false,
     allFrames: false,
     disabled: true,
