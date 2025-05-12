@@ -40,7 +40,7 @@ export type VisibleObserverOptions =
       exclude?: string;
     };
 
-export type AdditionalHostMeta = {
+export type CustomHostMeta = {
   /**
    * A host or list of hosts this configuration applies to.
    *
@@ -51,23 +51,31 @@ export type AdditionalHostMeta = {
 
   /**
    * Determines if the page is parsed automatically on a trigger or manually.
+   *
+   * @default true
    */
-  auto: boolean;
+  auto?: boolean;
 
   /**
    * Determines if the related parsing script should be executed in all related frames or only the main window.
    *
    * Videos often run in a separate frame, everything else probaply does not need this.
+   *
+   * @default false
    */
-  allFrames: boolean;
+  allFrames?: boolean;
 
   /**
    * If `disabled`, a page is extempt from trigger parsing. This automatically applies to pages having specific automatic parsers as well.
+   *
+   * @default false
    */
   disabled?: boolean;
 
   /**
    * The entrypoint for parsing, defaults to `body`
+   *
+   * @default 'body'
    */
   parse?: string;
 
@@ -98,39 +106,3 @@ export type AdditionalHostMeta = {
    */
   parserClass?: string;
 };
-
-export type PredefinedHostMeta = AdditionalHostMeta & {
-  /**
-   * Parser configuration id. This is used to identify the parser internally.
-   * It should be unique and not change over time.
-   */
-  id: string;
-
-  /**
-   * The name of the parser to use. This is used to identify the parser in the UI.
-   */
-  name: string;
-
-  /**
-   * The description of the parser. This is used to describe the parser in the UI.
-   */
-  description: string;
-
-  /**
-   * If not set or false, the parser is always active. If set true, the user can opt out and disable the parser.
-   */
-  optOut?: boolean;
-
-  /**
-   * Optional custom parser implementation to use.
-   */
-  custom?:
-    | 'BunproParser'
-    | 'MokuroParser'
-    | 'MokuroLegacyParser'
-    | 'ReadwokParser'
-    | 'TtsuParser'
-    | 'ExStaticParser';
-};
-
-export type HostMeta = AdditionalHostMeta | PredefinedHostMeta;
