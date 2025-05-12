@@ -1,3 +1,11 @@
+/**
+ * Gets a MutationObserver that observes for added nodes. When a node is added, it is parsed.
+ * Also, the callback is called with the initial nodes that match the notifyFor selector.
+ *
+ * If a visibleObserver is defined alongside the added observer, added elements wont get parsed, but observed for visibility first.
+ *
+ * Used to parse elements that are only available after a certain event or when new text is added in intervals or after interaction with the app.
+ */
 type AddedObserverOptions = {
   /**
    * The root element to observe. If multiple are given, the first found will be used.
@@ -9,10 +17,20 @@ type AddedObserverOptions = {
    */
   notifyFor: string;
 
-  /** @see MutationObserver.observe */
+  /**
+   * @see MutationObserver.observe
+   * https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe
+   */
   config: MutationObserverInit;
 };
 
+/**
+ * Gets an IntersectionObserver that observes for elements that are visible in the viewport.
+ * When an element is or becomes visible, it gets parsed.
+ * When an element is or becomes invisible, any outstanding parsing gets canceled.
+ *
+ * Used to parse elements that may become visible at a later point in time, for example when scrolling.
+ */
 export type VisibleObserverOptions =
   | boolean
   | {
@@ -22,23 +40,7 @@ export type VisibleObserverOptions =
       exclude?: string;
     };
 
-export type HostMeta = {
-  /**
-   * Parser configuration id. This is used to identify the parser internally.
-   * It should be unique and not change over time.
-   */
-  id: string;
-
-  /**
-   * The name of the parser to use. This is used to identify the parser in the UI.
-   */
-  name: string;
-
-  /**
-   * The description of the parser. This is used to describe the parser in the UI.
-   */
-  description: string;
-
+export type AdditionalHostMeta = {
   /**
    * A host or list of hosts this configuration applies to.
    *
@@ -58,22 +60,6 @@ export type HostMeta = {
    * Videos often run in a separate frame, everything else probaply does not need this.
    */
   allFrames: boolean;
-
-  /**
-   * If not set or false, the parser is always active. If set true, the user can opt out and disable the parser.
-   */
-  optOut?: boolean;
-
-  /**
-   * Optional custom parser implementation to use.
-   */
-  custom?:
-    | 'BunproParser'
-    | 'MokuroParser'
-    | 'MokuroLegacyParser'
-    | 'ReadwokParser'
-    | 'TtsuParser'
-    | 'ExStaticParser';
 
   /**
    * If `disabled`, a page is extempt from trigger parsing. This automatically applies to pages having specific automatic parsers as well.
@@ -112,3 +98,39 @@ export type HostMeta = {
    */
   parserClass?: string;
 };
+
+export type PredefinedHostMeta = AdditionalHostMeta & {
+  /**
+   * Parser configuration id. This is used to identify the parser internally.
+   * It should be unique and not change over time.
+   */
+  id: string;
+
+  /**
+   * The name of the parser to use. This is used to identify the parser in the UI.
+   */
+  name: string;
+
+  /**
+   * The description of the parser. This is used to describe the parser in the UI.
+   */
+  description: string;
+
+  /**
+   * If not set or false, the parser is always active. If set true, the user can opt out and disable the parser.
+   */
+  optOut?: boolean;
+
+  /**
+   * Optional custom parser implementation to use.
+   */
+  custom?:
+    | 'BunproParser'
+    | 'MokuroParser'
+    | 'MokuroLegacyParser'
+    | 'ReadwokParser'
+    | 'TtsuParser'
+    | 'ExStaticParser';
+};
+
+export type HostMeta = AdditionalHostMeta | PredefinedHostMeta;

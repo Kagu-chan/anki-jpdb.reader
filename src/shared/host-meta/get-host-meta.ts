@@ -1,7 +1,7 @@
 import { getConfiguration } from '../configuration/get-configuration';
 import { displayToast } from '../dom/display-toast';
 import { DEFAULT_HOSTS } from './default-hosts';
-import { HostMeta } from './types';
+import { HostMeta, PredefinedHostMeta } from './types';
 
 export function getHostMeta(
   host: string,
@@ -23,12 +23,40 @@ export async function getHostMeta(
   const additionalHosts = await getConfiguration('additionalHosts', true);
   const additionalMeta = await getConfiguration('additionalMeta', true);
 
-  const hostsMeta = DEFAULT_HOSTS;
+  const hostsMeta: HostMeta[] = DEFAULT_HOSTS;
+
+  const isPredefined = (meta: HostMeta): meta is PredefinedHostMeta => 'id' in meta;
 
   try {
     const meta = JSON.parse(additionalMeta?.length ? additionalMeta : '[]') as HostMeta[];
 
-    hostsMeta.push(...meta);
+    hostsMeta.push(
+      ...meta.map(
+        ({
+          host,
+          auto = true,
+          allFrames = false,
+          disabled,
+          parse,
+          filter,
+          css,
+          parseVisibleObserver,
+          addedObserver,
+          parserClass,
+        }) => ({
+          host,
+          auto,
+          allFrames,
+          disabled,
+          parse,
+          filter,
+          css,
+          parseVisibleObserver,
+          addedObserver,
+          parserClass,
+        }),
+      ),
+    );
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error('Failed to parse additional meta:', e);
@@ -47,9 +75,6 @@ export async function getHostMeta(
     .filter(Boolean)
     .forEach((host) => {
       hostsMeta.push({
-        id: host,
-        name: `_custom:${host}`,
-        description: `Custom host ${host}`,
         host,
         auto: true,
         allFrames: true,
@@ -60,7 +85,7 @@ export async function getHostMeta(
 
   const hostFilter = (meta: HostMeta): boolean => {
     const matchUrl = (matchPattern: string): boolean => {
-      if (meta.optOut && disabledHosts.includes(meta.id)) {
+      if (isPredefined(meta) && meta.optOut && disabledHosts.includes(meta.id)) {
         return false;
       }
 
@@ -100,5 +125,5 @@ export async function getHostMeta(
 
   const enabledHosts = hostsMeta.filter(hostFilter);
 
-  return Promise.resolve(multiple ? enabledHosts.filter(filter) : enabledHosts.find(filter));
+  return multiple ? enabledHosts.filter(filter) : enabledHosts.find(filter);
 }

@@ -1,5 +1,6 @@
 import { getConfiguration } from '@shared/configuration/get-configuration';
 import { displayToast } from '@shared/dom/display-toast';
+import { HostMeta, PredefinedHostMeta } from '@shared/host-meta/types';
 import { JPDBCardState } from '@shared/jpdb/types';
 import { LookupTextCommand } from '@shared/messages/background/lookup-text.command';
 import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
@@ -78,6 +79,7 @@ export class AJB {
 
   protected installParsers(): void {
     const { hostEvaluator, parsers } = Registry;
+    const isPredefined = (meta: HostMeta): meta is PredefinedHostMeta => 'id' in meta;
 
     void hostEvaluator.load().then(({ canBeTriggered, relevantMeta }) => {
       if (!canBeTriggered) {
@@ -93,7 +95,7 @@ export class AJB {
           continue;
         }
 
-        if (meta.custom) {
+        if (isPredefined(meta) && meta.custom) {
           parsers.push(getCustomParser(meta.custom, meta));
 
           continue;

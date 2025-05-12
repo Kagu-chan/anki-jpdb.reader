@@ -61,4 +61,10 @@ export const _061: ChangelogEntry[] = [
     category: Category.Hosts,
     issue: 'N/A',
   },
+  {
+    type: 'change',
+    description: 'Update documentation for custom parsing',
+    category: [Category.Hosts, Category.Documentation],
+    issue: 217,
+  },
 ];

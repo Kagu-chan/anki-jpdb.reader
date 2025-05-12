@@ -1,6 +1,6 @@
-import { HostMeta } from './types';
+import { PredefinedHostMeta } from './types';
 
-export const DEFAULT_HOSTS: HostMeta[] = [
+export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
   {
     id: 'disable-apps',
     name: '_disable_apps',
