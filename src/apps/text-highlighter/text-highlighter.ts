@@ -489,7 +489,19 @@ export class TextHighlighter extends BaseTextHighlighter {
   protected splitFragmentsNode(fragment: Fragment, start: number): Text {
     const node = fragment.node as Text;
 
+    try {
     return node.splitText(start - fragment.start);
+    } catch (error) {
+      // In case of an error we push additional details to the console and rethrow the error for further handling
+      // eslint-disable-next-line no-console
+      console.error('Error splitting fragment node', {
+        fragment,
+        start,
+        internalLength: node.data.length,
+      });
+
+      throw error;
+    }
   }
 
   protected fixFragmentParameters(fragment: Fragment): void {
