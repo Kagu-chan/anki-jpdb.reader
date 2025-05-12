@@ -43,4 +43,10 @@ export const _061: ChangelogEntry[] = [
     category: Category.Hosts,
     issue: 'N/A',
   },
+  {
+    type: 'fix',
+    description: 'Fix Kanji tokens not being applied for fragmented words',
+    category: Category.Texthighlighter,
+    issue: 215,
+  },
 ];

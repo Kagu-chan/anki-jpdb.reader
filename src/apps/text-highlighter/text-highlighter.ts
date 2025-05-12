@@ -1,5 +1,5 @@
 import { createElement } from '@shared/dom/create-element';
-import { JPDBToken } from '@shared/jpdb/types';
+import { JPDBRuby, JPDBToken } from '@shared/jpdb/types';
 import { Fragment } from '../batches/types';
 import { Registry } from '../integration/registry';
 import { BaseTextHighlighter } from './base.text-highlighter';
@@ -301,6 +301,7 @@ export class TextHighlighter extends BaseTextHighlighter {
   protected applyRubiesToFragment(
     fragment: Fragment,
     token: JPDBToken,
+    rubies: JPDBRuby[] = token.rubies,
   ): void {
     const newRuby = this.wrapElement(fragment.node, token);
 
@@ -310,8 +311,8 @@ export class TextHighlighter extends BaseTextHighlighter {
 
     let nodeText = fragment.node.textContent!;
 
-    for (let i = token.rubies.length - 1; i >= 0; i--) {
-      const ruby = token.rubies[i];
+    for (let i = rubies.length - 1; i >= 0; i--) {
+      const ruby = rubies[i];
       const rubyStart = ruby.start - fragment.start;
       const rubyEnd = ruby.end - fragment.start;
 
@@ -351,6 +352,14 @@ export class TextHighlighter extends BaseTextHighlighter {
           this.dismissElements(fragment, token);
 
           return;
+        }
+
+        const fragmentRubies = token.rubies.filter(
+          (ruby) => ruby.start >= fragment.start && ruby.end <= fragment.end,
+        );
+
+        if (fragmentRubies?.length) {
+          return this.applyRubiesToFragment(fragment, token, fragmentRubies);
         }
 
         this.patchOrWrap(fragment, token);
@@ -490,7 +499,7 @@ export class TextHighlighter extends BaseTextHighlighter {
     const node = fragment.node as Text;
 
     try {
-    return node.splitText(start - fragment.start);
+      return node.splitText(start - fragment.start);
     } catch (error) {
       // In case of an error we push additional details to the console and rethrow the error for further handling
       // eslint-disable-next-line no-console
