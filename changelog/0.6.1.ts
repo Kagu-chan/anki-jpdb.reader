@@ -37,4 +37,10 @@ export const _061: ChangelogEntry[] = [
     category: Category.Hosts,
     issue: 'N/A',
   },
+  {
+    type: 'change',
+    description: 'Allow filtering simple hosts',
+    category: Category.Hosts,
+    issue: 'N/A',
+  },
 ];

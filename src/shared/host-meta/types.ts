@@ -86,6 +86,12 @@ export type HostMeta = {
   parse?: string;
 
   /**
+   * Optional selector to filter the elements to parse. If not set, all elements will be parsed.
+   * Only evaluated for `parse`, not for other observer patterns.
+   */
+  filter?: string;
+
+  /**
    * Optional css to inject upon first parse trigger. `word.css` will always be injected.
    */
   css?: string;

@@ -13,6 +13,20 @@ export abstract class BaseParser {
     return parse ? document.querySelector<HTMLElement>(parse) : document.body;
   }
 
+  protected get filter(): (node: Node | Element) => boolean {
+    const { filter } = this._meta;
+
+    return filter
+      ? (node: Node | Element): boolean => {
+          if (node instanceof Element && node.matches(filter)) {
+            return false;
+          }
+
+          return true;
+        }
+      : (): boolean => true;
+  }
+
   /** @param {HostMeta} _meta The host meta */
   constructor(protected _meta: HostMeta) {}
 
@@ -25,7 +39,10 @@ export abstract class BaseParser {
     const selection = window.getSelection()!;
     const range = selection.getRangeAt(0);
 
-    this.parseNode(range.commonAncestorContainer, (node) => range.intersectsNode(node));
+    this.parseNode(
+      range.commonAncestorContainer,
+      (node) => range.intersectsNode(node) && this.filter(node),
+    );
   }
 
   /**
@@ -40,7 +57,7 @@ export abstract class BaseParser {
       return;
     }
 
-    this.parseNode(root);
+    this.parseNode(root, this.filter);
   }
 
   /**
