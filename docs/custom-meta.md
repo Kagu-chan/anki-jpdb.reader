@@ -36,16 +36,16 @@ The configuration can be added as a JSON Array in the settings (*you wont see th
     "host": ["*://*.crunchyroll.com/*", "*://music.youtube.com/*"],
     // auto: false makes this configuration not parse automatically
     "auto": false,
-    // disable excludes those pages from parsing. CR does not has any Japanese text at all, for youtube it is to rmove the parse controls
-    "disabled": true,
+    // disable excludes those pages from parsing. CR does not have any Japanese text at all, for YouTube it is to remove the parse controls
+    "disabled": true
   },
   { // The actual keyboard shortcut and "Parse page" logic refers to this configuration
-    // Match all pages (that is, if they dont find any other configuration that matches)
+    // Match all pages (that is, if they don't find any other configuration that matches)
     "host": "<all_urls>",
-    // dont parse them automatically, so they respond to the shortcuts defined in the settings
+    // Don't parse them automatically, so they respond to the shortcuts defined in the settings
     "auto": false,
     // Parse the 'body' of the page
-    "parse": "body",
+    "parse": "body"
   },
   { // The CDE extension from JPDB is implemented here:
     "host": [
@@ -53,23 +53,23 @@ The configuration can be added as a JSON Array in the settings (*you wont see th
       "*://jpdb.io/vocabulary/*",
       "*://jpdb.io/review*",
       "*://jpdb.io/deck*",
-      "*://jpdb.io/search*",
+      "*://jpdb.io/search*"
     ],
-    // We define a parser class - this way we can style those dict entries seperately if we want
+    // We define a parser class - this way we can style those dict entries separately if we want
     "parserClass": "kochounoyume-parser",
     // We wait for elements to be added to the DOM to parse them
     "addedObserver": {
-      // We search for childs of the body element - can be omitted
+      // We search for children of the body element - can be omitted
       "observeFrom": "body",
       // If the added elements match this class, they should be parsed
       "notifyFor": ".custom-dictionary-entry",
       // A standard configuration that notifies us about added or removed child nodes - can be omitted
       "config": {
         "childList": true,
-        "subtree": true,
-      },
+        "subtree": true
+      }
     },
-    // Dont parse elements matching this class
+    // Don't parse elements matching this class
     "filter": ".meaning-subsection-label"
   },
   {
@@ -77,13 +77,13 @@ The configuration can be added as a JSON Array in the settings (*you wont see th
     "parseVisibleObserver": true,
     "parserClass": "youtube-parser",
     "addedObserver": {
-      "notifyFor": "ytd-comment-view-model",
-    },
+      "notifyFor": "ytd-comment-view-model"
+    }
   },
   {
     "host": ["*://ja.wikipedia.org/*", "*://ja.m.wikipedia.org/*"],
     "parserClass": "wikipedia-parser",
-    // wikipedia works like the most other extensions, but it contains a very large amount of text.
+    // Wikipedia works like most other extensions, but it contains a very large amount of text.
     // The parseVisibleObserver limits the parsing to the content you currently read (e.g. visible on the screen)
     "parseVisibleObserver": true,
     "addedObserver": {
@@ -91,8 +91,8 @@ The configuration can be added as a JSON Array in the settings (*you wont see th
       "observeFrom": "body",
       "config": {
         "childList": true,
-        "subtree": true,
-      },
+        "subtree": true
+      }
     },
     "filter": ".p-lang-btn, .vector-menu-heading-label, .vector-toc-toggle, .vector-page-toolbar, .mw-editsection, sup.reference"
   },
@@ -100,7 +100,7 @@ The configuration can be added as a JSON Array in the settings (*you wont see th
     "host": "*://*.satorireader.com/articles/*",
     "parserClass": "satori-reader-parser",
     "parse": "#article-content", // Satori is nothing special - only automated parsing for the content
-    "filter": ".play-button-container, .notes-button-container, .fg, .wpr", // we exclude some learning stuff and pay buttons however
-  },
+    "filter": ".play-button-container, .notes-button-container, .fg, .wpr" // We exclude some learning stuff and pay buttons however
+  }
 ]
 ```
