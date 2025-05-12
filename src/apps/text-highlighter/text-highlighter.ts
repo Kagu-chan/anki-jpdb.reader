@@ -33,10 +33,6 @@ export class TextHighlighter extends BaseTextHighlighter {
     this.patchFragmentedRubyTokens();
 
     this.patchRemainingMisparses();
-
-    if (!this._fragments.size && !this._tokens.size) {
-      return;
-    }
   }
 
   /**
