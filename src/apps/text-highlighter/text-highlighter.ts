@@ -287,7 +287,7 @@ export class TextHighlighter extends BaseTextHighlighter {
       this.dismissElements(fragment, token);
 
       if (!rubyElement) {
-        return this.applyRubyToFragment(fragment, token);
+        return this.applyRubiesToFragment(fragment, token);
       }
 
       if (this.isMisparsedRuby(rubyElement, token)) {
@@ -298,7 +298,10 @@ export class TextHighlighter extends BaseTextHighlighter {
     });
   }
 
-  protected applyRubyToFragment(fragment: Fragment, token: JPDBToken): void {
+  protected applyRubiesToFragment(
+    fragment: Fragment,
+    token: JPDBToken,
+  ): void {
     const newRuby = this.wrapElement(fragment.node, token);
 
     if (this._skipFurigana) {
