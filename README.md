@@ -31,6 +31,7 @@ Some web apps and sites require special attention to work properly, therefore th
 |Mokuro|[reader.mokuro.app](https://reader.mokuro.app)
 |Mokuro (Legacy)|[Mokuro](https://github.com/kha-white/mokuro): **IMPORTANT**: File path must contain `mokuro`, and file name must end in `.html`
 |Readwok|[app.readwok.com](https://app.readwok.com/)
+|Satori Reader|[satorireader.com](https://www.satorireader.com/)
 |Wikipedia|[ja.wikipedia.org](https://ja.wikipedia.org/)
 |asbplayer|[github.com/killergerbah/asbplayer](https://github.com/killergerbah/asbplayer)
 |Youtube comments|[youtube.com](https://youtube.com/)

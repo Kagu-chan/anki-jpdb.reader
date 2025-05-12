@@ -49,4 +49,10 @@ export const _061: ChangelogEntry[] = [
     category: Category.Texthighlighter,
     issue: 215,
   },
+  {
+    type: 'add',
+    description: 'Add Satori Reader support',
+    category: Category.Hosts,
+    issue: 'N/A',
+  },
 ];

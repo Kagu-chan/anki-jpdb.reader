@@ -198,6 +198,18 @@ export const DEFAULT_HOSTS: HostMeta[] = [
     },
   },
   {
+    id: 'satori-reader-parser',
+    name: 'Satori Reader Parser',
+    description: 'Parses Satori Reader articles',
+    host: '*://*.satorireader.com/articles/*',
+    auto: true,
+    optOut: true,
+    allFrames: false,
+    parserClass: 'satori-reader-parser',
+    parse: '#article-content',
+    filter: '.play-button-container, .notes-button-container, .fg, .wpr',
+  },
+  {
     id: 'asbplayer-parser',
     name: 'asbplayer Parser',
     description: 'Parses asbplayer subtitles',
