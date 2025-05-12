@@ -55,4 +55,10 @@ export const _061: ChangelogEntry[] = [
     category: Category.Hosts,
     issue: 'N/A',
   },
+  {
+    type: 'add',
+    description: 'Add NHK news support',
+    category: Category.Hosts,
+    issue: 'N/A',
+  },
 ];

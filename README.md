@@ -22,7 +22,7 @@ Sadly, manifest 3 came along and thus the original is no longer working.
 * Extension Updates in browser app stores are sometimes delayed from releases on github - this should usually make no difference
 
 ## Automatic parsing
-Some web apps and sites require special attention to work properly, therefore they parse automatically on certain triggers.
+Some web apps and sites require special attention to work properly, therefore they parse automatically on certain triggers. Those can be disabled or extended in the settings.
 
 |App|URLs
 |---|---
@@ -32,6 +32,7 @@ Some web apps and sites require special attention to work properly, therefore th
 |Mokuro (Legacy)|[Mokuro](https://github.com/kha-white/mokuro): **IMPORTANT**: File path must contain `mokuro`, and file name must end in `.html`
 |Readwok|[app.readwok.com](https://app.readwok.com/)
 |Satori Reader|[satorireader.com](https://www.satorireader.com/)
+|NHK News|[nhk.or.jp](https://www3.nhk.or.jp/news/)
 |Wikipedia|[ja.wikipedia.org](https://ja.wikipedia.org/)
 |asbplayer|[github.com/killergerbah/asbplayer](https://github.com/killergerbah/asbplayer)
 |Youtube comments|[youtube.com](https://youtube.com/)

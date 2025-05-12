@@ -210,6 +210,25 @@ export const DEFAULT_HOSTS: HostMeta[] = [
     filter: '.play-button-container, .notes-button-container, .fg, .wpr',
   },
   {
+    id: 'nhk-parser',
+    name: 'NHK Parser',
+    description: 'Parses NHK articles and content',
+    host: ['*://*.nhk.or.jp/news/html/*', '*://*.nhk.or.jp/news/easy/*'],
+    auto: true,
+    optOut: true,
+    allFrames: false,
+    parserClass: 'nhk-parser',
+    parseVisibleObserver: true,
+    addedObserver: {
+      notifyFor: '#main, #js-article-body, #js-article-date, .article-title',
+      observeFrom: 'body',
+      config: {
+        childList: true,
+        subtree: true,
+      },
+    },
+  },
+  {
     id: 'asbplayer-parser',
     name: 'asbplayer Parser',
     description: 'Parses asbplayer subtitles',
