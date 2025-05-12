@@ -29,7 +29,19 @@ export class HostEvaluator {
 
     result.push(...this._defaultAutomaticMeta);
 
-    return result;
+    const seen = new Set<string>();
+
+    return result.filter((meta) => {
+      const id = ('id' in meta && meta.id) || JSON.stringify(meta);
+
+      if (seen.has(id)) {
+        return false;
+      }
+
+      seen.add(id);
+
+      return true;
+    });
   }
 
   public get canBeTriggered(): boolean {

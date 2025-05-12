@@ -31,4 +31,10 @@ export const _061: ChangelogEntry[] = [
     category: Category.API,
     issue: 193,
   },
+  {
+    type: 'fix',
+    description: 'Fix custom meta being applied twice',
+    category: Category.Hosts,
+    issue: 'N/A',
+  },
 ];
