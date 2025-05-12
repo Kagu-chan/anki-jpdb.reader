@@ -49,7 +49,7 @@ export class AutomaticParser extends BaseParser {
       };
     }
 
-    this._visibleObserver = this.getParseVisibleObserver(filter);
+    this._visibleObserver = this.getParseVisibleObserver(filter ?? this.filter);
   }
 
   /**
@@ -60,9 +60,9 @@ export class AutomaticParser extends BaseParser {
    */
   protected setupAddedObserver(): void {
     this._addedObserver = this.getAddedObserver(
-      this._meta.addedObserver!.observeFrom,
+      this._meta.addedObserver!.observeFrom ?? 'body',
       this._meta.addedObserver!.notifyFor,
-      this._meta.addedObserver!.config,
+      this._meta.addedObserver!.config ?? { childList: true, subtree: true },
       (nodes) => this.addedObserverCallback(nodes),
     );
   }
@@ -75,7 +75,7 @@ export class AutomaticParser extends BaseParser {
    */
   protected addedObserverCallback(nodes: HTMLElement[]): void {
     if (!this._visibleObserver) {
-      return this.parseNodes(nodes);
+      return this.parseNodes(nodes, this.filter);
     }
 
     nodes.forEach((node) => this._visibleObserver?.observe(node));

@@ -9,8 +9,10 @@
 export type AddedObserverOptions = {
   /**
    * The root element to observe. If multiple are given, the first found will be used.
+   *
+   * @default 'body'
    */
-  observeFrom: string | string[];
+  observeFrom?: string | string[];
 
   /**
    * Notify only for added elements matching the given selector.
@@ -20,8 +22,10 @@ export type AddedObserverOptions = {
   /**
    * @see MutationObserver.observe
    * https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe
+   *
+   * @default { childList: true, subtree: true }
    */
-  config: MutationObserverInit;
+  config?: MutationObserverInit;
 };
 
 /**
@@ -81,7 +85,8 @@ export type CustomHostMeta = {
 
   /**
    * Optional selector to filter the elements to parse. If not set, all elements will be parsed.
-   * Only evaluated for `parse`, not for other observer patterns.
+   * If parseVisibleObserver is set to `true`, this will be used as a filter for the visible observer as well.
+   * If parseVisibleObserver is set to `false` or not set, this will be used as a filter for the added observer.
    */
   filter?: string;
 

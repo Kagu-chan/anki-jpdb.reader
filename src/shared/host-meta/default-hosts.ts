@@ -33,16 +33,9 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     optOut: true,
     allFrames: false,
     parserClass: 'kochounoyume-parser',
-    parseVisibleObserver: {
-      exclude: '.meaning-subsection-label',
-    },
+    filter: '.meaning-subsection-label',
     addedObserver: {
       notifyFor: '.custom-dictionary-entry',
-      observeFrom: 'body',
-      config: {
-        childList: true,
-        subtree: true,
-      },
     },
   },
   {
@@ -63,10 +56,6 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     addedObserver: {
       notifyFor: '.textline, .line_box, .my-2.cursor-pointer, p',
       observeFrom: ['#textlog, main', 'body'],
-      config: {
-        childList: true,
-        subtree: true,
-      },
     },
   },
   {
@@ -82,10 +71,6 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     addedObserver: {
       notifyFor: '.sentence-entry',
       observeFrom: '#entry_holder',
-      config: {
-        childList: true,
-        subtree: true,
-      },
     },
   },
   {
@@ -100,11 +85,6 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     custom: 'ReadwokParser',
     addedObserver: {
       notifyFor: 'div[class*="styles_paragraph_"], div[class*="styles_reader_"]',
-      observeFrom: 'body',
-      config: {
-        childList: true,
-        subtree: true,
-      },
     },
   },
   {
@@ -119,11 +99,6 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     parseVisibleObserver: true,
     addedObserver: {
       notifyFor: 'div.book-content',
-      observeFrom: 'body',
-      config: {
-        childList: true,
-        subtree: true,
-      },
     },
   },
   {
@@ -138,11 +113,6 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     parserClass: 'youtube-parser',
     addedObserver: {
       notifyFor: 'ytd-comment-view-model',
-      observeFrom: 'body',
-      config: {
-        childList: true,
-        subtree: true,
-      },
     },
   },
   {
@@ -157,11 +127,6 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     parseVisibleObserver: true,
     addedObserver: {
       notifyFor: '#manga-panel',
-      observeFrom: 'body',
-      config: {
-        childList: true,
-        subtree: true,
-      },
     },
   },
   {
@@ -184,17 +149,11 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     optOut: true,
     allFrames: false,
     parserClass: 'wikipedia-parser',
-    parseVisibleObserver: {
-      exclude:
-        '.p-lang-btn, .vector-menu-heading-label, .vector-toc-toggle, .vector-page-toolbar, .mw-editsection, sup.reference',
-    },
+    parseVisibleObserver: true,
+    filter:
+      '.p-lang-btn, .vector-menu-heading-label, .vector-toc-toggle, .vector-page-toolbar, .mw-editsection, sup.reference',
     addedObserver: {
       notifyFor: '#firstHeading, #mw-content-text .mw-parser-output > *, .mwe-popups-extract > *',
-      observeFrom: 'body',
-      config: {
-        childList: true,
-        subtree: true,
-      },
     },
   },
   {
@@ -221,11 +180,6 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     parseVisibleObserver: true,
     addedObserver: {
       notifyFor: '#main, #js-article-body, #js-article-date, .article-title',
-      observeFrom: 'body',
-      config: {
-        childList: true,
-        subtree: true,
-      },
     },
   },
   {
@@ -240,11 +194,6 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     parserClass: 'asb-player-parser',
     addedObserver: {
       notifyFor: '.asbplayer-offscreen',
-      observeFrom: 'body',
-      config: {
-        childList: true,
-        subtree: true,
-      },
     },
   },
 ];
