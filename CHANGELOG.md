@@ -1,3 +1,18 @@
+## 0.6.1 (2025.05.17)
+- fix: Issues with JPDB reachability will now get displayed properly [[#193](193)] [API]
+- fix: Fix Kanji tokens not being applied for fragmented words [[#215](215)] [Texthighlighter]
+- fix: Fix the same error message being shown multiple times [[#216](216)] [Popup]
+- fix: Improved the error shown on text highlighter errors [[#216](216)] [Popup]
+- fix: The copy error button now writes the actual exception to the clipboard [[#216](216)] [Popup]
+- fix: Fix custom meta being applied twice [Hosts]
+- change: Update documentation for custom parsing [[#217](217)] [Hosts, Documentation]
+- change: Allow marking all words as frequent [[#237](237)] [Texthighlighter]
+- change: Allow filtering simple hosts [Hosts]
+- change: Disable youtube music parsing [Hosts]
+- add: Add NHK news support [Hosts]
+- add: Add Satori Reader support [Hosts]
+
+
 ## 0.6.0 (2025.05.04)
 - fix: Fix the popup staying when the hovered object is removed from the DOM [[#164](164)] [Popup]
 - fix: Enhanced the token matching for text highlighting [[#176](176)] [Texthighlighter]

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Anki JPDB Reader",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Japanese text parsing + sentence mining with JPDB and Anki",
   "minimum_chrome_version": "116",
   "background": {
