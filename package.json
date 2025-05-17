@@ -50,7 +50,7 @@
     "eslint-import-resolver-typescript": "^4.3.4",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsdoc": "^50.6.17",
-    "eslint-plugin-prettier": "^5.2.6",
+    "eslint-plugin-prettier": "^5.4.0",
     "glob": "^11.0.1",
     "globals": "^16.0.0",
     "prettier": "^3.5.3",
