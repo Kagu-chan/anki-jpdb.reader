@@ -1,7 +1,7 @@
 import { createElement } from '@shared/dom/create-element';
 import { findElement } from '@shared/dom/find-element';
 import { DEFAULT_HOSTS } from '@shared/host-meta/default-hosts';
-import { HostMeta } from '@shared/host-meta/types';
+import { PredefinedHostMeta } from '@shared/host-meta/types';
 
 const observedAttributes = ['value', 'name'] as const;
 
@@ -194,7 +194,7 @@ export class HTMLParsersInputElement extends HTMLElement {
     this.value = [...new Set([...this.value, id])];
   }
 
-  protected showCodeOverlay(host: HostMeta): void {
+  protected showCodeOverlay(host: PredefinedHostMeta): void {
     const backdrop = createElement('div', {
       class: 'backdrop',
       attributes: {

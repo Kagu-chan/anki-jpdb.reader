@@ -48,6 +48,8 @@ export type ConfigurationSchema = {
   useLegacyHighlighter: boolean;
   markTopX: boolean;
   markTopXCount: number;
+  markSuspended: boolean;
+  markAllTypes: boolean;
   skipFurigana: boolean;
   generatePitch: boolean;
 

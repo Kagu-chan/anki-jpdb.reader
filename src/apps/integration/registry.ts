@@ -6,6 +6,7 @@ import { PopupManager } from '../popup/popup-manager';
 import { SequenceManager } from '../sequence/sequence-manager';
 import { BaseTextHighlighter } from '../text-highlighter/base.text-highlighter';
 import { TextHighlighter } from '../text-highlighter/text-highlighter';
+import { TextHighlighterOptions } from '../text-highlighter/types';
 import { EventCollection } from './event-collection';
 import { HostEvaluator } from './host-evaluator';
 
@@ -23,13 +24,15 @@ export class Registry {
   public static textHighlighter: new (
     fragments: Fragment[],
     tokens: JPDBToken[],
-    skipFurigana?: boolean,
-    generatePitch?: boolean,
-    markFrequency?: number,
+    options: TextHighlighterOptions,
   ) => BaseTextHighlighter = TextHighlighter;
-  public static skipFurigana = false;
-  public static generatePitch = false;
-  public static markFrequency?: number;
+  public static textHighlighterOptions: TextHighlighterOptions = {
+    skipFurigana: false,
+    generatePitch: false,
+    markFrequency: false,
+    markAll: false,
+    markSuspended: false,
+  };
 
   private static readonly cards = new Map<string, JPDBCard>();
 

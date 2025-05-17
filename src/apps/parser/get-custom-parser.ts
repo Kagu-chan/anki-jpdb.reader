@@ -1,4 +1,4 @@
-import { HostMeta } from '@shared/host-meta/types';
+import { HostMeta, PredefinedHostMeta } from '@shared/host-meta/types';
 import { BaseParser } from './base.parser';
 import { BunproParser } from './custom-parsers/bunpro.parser';
 import { ExStaticParser } from './custom-parsers/ex-static.parser';
@@ -8,11 +8,11 @@ import { ReadwokParser } from './custom-parsers/readwok.parser';
 import { TtsuParser } from './custom-parsers/ttsu.parser';
 
 export const getCustomParser = (
-  name: Exclude<HostMeta['custom'], undefined>,
+  name: Exclude<PredefinedHostMeta['custom'], undefined>,
   meta: HostMeta,
 ): BaseParser => {
   const parsers: Record<
-    Exclude<HostMeta['custom'], undefined>,
+    Exclude<PredefinedHostMeta['custom'], undefined>,
     new (meta: HostMeta) => BaseParser
   > = {
     BunproParser,

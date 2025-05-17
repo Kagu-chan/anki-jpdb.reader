@@ -5,23 +5,10 @@ import { Registry } from '../integration/registry';
 import { BaseTextHighlighter } from './base.text-highlighter';
 
 export class TextHighlighter extends BaseTextHighlighter {
-  protected _fragments: Set<Fragment>;
-  protected _tokens: Set<JPDBToken>;
+  protected _fragments = new Set<Fragment>(this.fragments);
+  protected _tokens = new Set<JPDBToken>(this.tokens);
   protected _tokenToFragmentsMap = new Map<JPDBToken, Fragment[]>();
   protected _fragmentToTokensMap = new Map<Fragment, JPDBToken[]>();
-
-  constructor(
-    fragments: Fragment[],
-    tokens: JPDBToken[],
-    protected _skipFurigana?: boolean,
-    protected _generatePitch?: boolean,
-    protected _markFrequency?: number,
-  ) {
-    super(fragments, tokens);
-
-    this._fragments = new Set(this.fragments);
-    this._tokens = new Set(this.tokens);
-  }
 
   public apply(): void {
     this.preprocess();
@@ -305,7 +292,7 @@ export class TextHighlighter extends BaseTextHighlighter {
   ): void {
     const newRuby = this.wrapElement(fragment.node, token);
 
-    if (this._skipFurigana) {
+    if (this.options.skipFurigana) {
       return;
     }
 
@@ -377,7 +364,7 @@ export class TextHighlighter extends BaseTextHighlighter {
     if (sharedParentNode && anyHasRuby) {
       const clone = sharedParentNode.cloneNode(true) as HTMLElement;
 
-      if (!this._skipFurigana) {
+      if (!this.options.skipFurigana) {
         clone.querySelectorAll('rt').forEach((rt) => rt.remove());
       }
 
@@ -565,7 +552,7 @@ export class TextHighlighter extends BaseTextHighlighter {
     if (fragmentsParent.childNodes.length > 1) {
       const element = this.wrapElement(node, token);
 
-      if (!this._skipFurigana) {
+      if (!this.options.skipFurigana) {
         element.querySelectorAll('rt').forEach((rt) => rt.classList.add('jpdb-furi'));
       }
 
@@ -614,7 +601,7 @@ export class TextHighlighter extends BaseTextHighlighter {
 
     element.setAttribute('ajb', 'true');
 
-    if (!this._skipFurigana) {
+    if (!this.options.skipFurigana) {
       element.querySelectorAll('rt').forEach((rt) => rt.classList.add('jpdb-furi'));
     }
 
@@ -623,15 +610,17 @@ export class TextHighlighter extends BaseTextHighlighter {
 
       element.classList.add('jpdb-word', ...card.cardState);
 
-      if (
-        this._markFrequency &&
-        card.frequencyRank <= this._markFrequency &&
-        ((card.cardState as string[]).includes('new') || card.cardState.includes('not-in-deck'))
-      ) {
-        element.classList.add('frequent');
+      if (this.options.markFrequency && card.frequencyRank <= this.options.markFrequency) {
+        const states = card.cardState as string[];
+        const isSuspended = states.includes('suspended');
+        const isNew = states.includes('new') || states.includes('not-in-deck');
+
+        if (this.options.markAll || isNew || (this.options.markSuspended && isSuspended)) {
+          element.classList.add('frequent');
+        }
       }
 
-      if (pitchClass && this._generatePitch) {
+      if (pitchClass && this.options.generatePitch) {
         element.classList.add(pitchClass);
       }
 

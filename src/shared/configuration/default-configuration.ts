@@ -45,6 +45,8 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
 
   useLegacyHighlighter: false,
   markTopX: false,
+  markSuspended: false,
+  markAllTypes: false,
   markTopXCount: 10_000,
   skipFurigana: false,
   generatePitch: false,

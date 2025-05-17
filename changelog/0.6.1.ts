@@ -67,4 +67,10 @@ export const _061: ChangelogEntry[] = [
     category: [Category.Hosts, Category.Documentation],
     issue: 217,
   },
+  {
+    type: 'change',
+    description: 'Allow marking all words as frequent',
+    category: Category.Texthighlighter,
+    issue: 237,
+  },
 ];

@@ -44,11 +44,17 @@ export class AJB {
         const generatePitch = await getConfiguration('generatePitch', false);
         const markTopX = await getConfiguration('markTopX', false);
         const markTopXCount = await getConfiguration('markTopXCount', true);
+        const markAllTypes = await getConfiguration('markAllTypes', false);
+        const markSuspended = await getConfiguration('markSuspended', false);
 
         Registry.textHighlighter = useLegacyHighlighter ? LegacyTextHighlighter : TextHighlighter;
-        Registry.skipFurigana = skipFurigana;
-        Registry.generatePitch = generatePitch;
-        Registry.markFrequency = markTopX ? markTopXCount : undefined;
+        Registry.textHighlighterOptions = {
+          skipFurigana,
+          generatePitch,
+          markFrequency: markTopX ? markTopXCount : false,
+          markSuspended,
+          markAll: markAllTypes,
+        };
       },
       true,
     );
