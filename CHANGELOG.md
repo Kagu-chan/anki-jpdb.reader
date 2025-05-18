@@ -1,4 +1,10 @@
-## 0.6.1 (2025.05.17)
+## 0.6.2 (2025.05.18)
+- fix: Use options_ui for compatibility with LunaTranslator [[#227](227)] [Settings]
+- change: Popup state classes are not applied to the popup container itself [Popup]
+- add: Add support for Luna Translator [[#227](227)] [Hosts]
+
+
+## 0.6.1 (2025.05.18)
 - fix: Issues with JPDB reachability will now get displayed properly [[#193](193)] [API]
 - fix: Fix Kanji tokens not being applied for fragmented words [[#215](215)] [Texthighlighter]
 - fix: Fix the same error message being shown multiple times [[#216](216)] [Popup]
