@@ -506,6 +506,8 @@ export class Popup {
     this.adjustMiningButtons(this._card);
     this.adjustContext(this._card);
     this.adjustDetails(this._card);
+
+    this._popup.setAttribute('class', `popup ${this._card.cardState.join(' ')}`);
   }
 
   private adjustMiningButtons(card: JPDBCard): void {
@@ -525,7 +527,6 @@ export class Popup {
   }
 
   private adjustContext(card: JPDBCard): void {
-    this._context.setAttribute('class', card.cardState.join(' '));
     this._context.replaceChildren(
       createElement('div', {
         id: 'header',
@@ -633,7 +634,6 @@ export class Popup {
   private adjustDetails(card: JPDBCard): void {
     const groupedMeanings = this.getGroupedMeanings(card);
 
-    this._details.setAttribute('class', card.cardState.join(' '));
     this._details.replaceChildren(
       ...groupedMeanings.flatMap(({ partOfSpeech, glosses, startIndex }) => [
         createElement('div', {
