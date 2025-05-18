@@ -59,6 +59,7 @@ export type ConfigurationSchema = {
   //#region Popup
 
   showPopupOnHover: boolean;
+  renderCloseButton: boolean;
   touchscreenSupport: boolean;
   disableFadeAnimation: boolean;
 

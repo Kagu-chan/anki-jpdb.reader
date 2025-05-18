@@ -57,6 +57,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   //#region Popup
 
   showPopupOnHover: false,
+  renderCloseButton: true,
   touchscreenSupport: false,
   disableFadeAnimation: false,
 

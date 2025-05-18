@@ -11,11 +11,11 @@
 
   display: flex;
   flex-direction: column;
-  gap: .5em;
+  gap: 0.5em;
 
   margin: 0;
-  padding: .5em;
-  border-radius: .5em;
+  padding: 0.5em;
+  border-radius: 0.5em;
 
   color: map.get(colors.$colors, text-color);
   background-color: map.get(colors.$colors, background-color);
@@ -25,12 +25,12 @@
     &.controls {
       display: flex;
       flex-direction: row;
-      gap: .5em;
+      gap: 0.5em;
 
       a {
-        line-height: .7em;
+        line-height: 0.7em;
         height: 1.2em;
-        font-size: .7em;
+        font-size: 0.7em;
         padding: 0.5em 0.5em 0 0.5em;
 
         &:hover {
@@ -60,12 +60,51 @@
           }
         }
       }
+      &#close {
+        position: absolute;
+        top: 0.5em;
+        right: 0.5em;
+
+        a {
+          background-color: rgba(255, 255, 255, 0.1);
+          border: 0 solid currentColor;
+          border-radius: 4px;
+          color: map.get(colors.$colors, text-color);
+          opacity: 0.8;
+          transition: all 0.2s ease;
+          text-decoration: none;
+          user-select: none; // Prevent emoji selection
+
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
+
+          &::before {
+            content: '❌';
+            font-size: 22px;
+          }
+
+          &:hover {
+            opacity: 1;
+            background-color: rgba(255, 0, 0, 0.1);
+            border-color: rgba(255, 0, 0, 0.8);
+            color: rgba(255, 0, 0, 0.8);
+          }
+
+          &:active {
+            background-color: rgba(255, 0, 0, 0.2);
+          }
+        }
+      }
     }
 
     &#context {
       display: flex;
       flex-direction: column;
-      gap: .5em;
+      gap: 0.5em;
 
       .subsection {
         display: flex;
@@ -84,15 +123,15 @@
         #state {
           display: flex;
           flex-direction: row;
-          gap: .5em;
+          gap: 0.5em;
           align-items: flex-end;
 
           span {
-            font-size: .7em;
-            line-height: .7em;
+            font-size: 0.7em;
+            line-height: 0.7em;
             text-decoration: underline;
 
-            padding: .5em;
+            padding: 0.5em;
 
             @each $id, $color in colors.$states {
               &.#{$id} {
@@ -109,7 +148,7 @@
           #pitch-accent {
             display: flex;
             flex-direction: row;
-            gap: .5em;
+            gap: 0.5em;
 
             .pitch span {
               padding: 1px 1px 1px 2px;
@@ -117,7 +156,11 @@
 
               border-style: solid;
               border-image-slice: 2;
-              border-image-source: linear-gradient(to bottom, rgba(232, 104, 123, 0.8), rgba(75, 141, 255, 0.8));
+              border-image-source: linear-gradient(
+                to bottom,
+                rgba(232, 104, 123, 0.8),
+                rgba(75, 141, 255, 0.8)
+              );
             }
 
             .pitch .low {
@@ -144,19 +187,19 @@
 
     &#details {
       overflow: auto;
-      margin-top: .5em;
+      margin-top: 0.5em;
 
       .pos {
         display: flex;
         flex-direction: row;
-        gap: .5em;
+        gap: 0.5em;
 
         span {
-          font-size: .7em;
-          line-height: .7em;
+          font-size: 0.7em;
+          line-height: 0.7em;
           text-decoration: underline;
 
-          padding: .5em 0;
+          padding: 0.5em 0;
         }
       }
 

@@ -428,8 +428,15 @@
             <div class="form-box">
               <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="touchscreenSupport" name="touchscreenSupport" hides=".no-touch" />
+                  <input type="checkbox" id="touchscreenSupport" name="touchscreenSupport" hides=".no-touch" shows=".touch" />
                   <label for="touchscreenSupport">Enable touchscreen support</label>
+                </div>
+              </div>
+
+              <div class="touch" hidden indent>
+                <div class="checkbox">
+                  <input type="checkbox" id="renderCloseButton" name="renderCloseButton" />
+                  <label for="renderCloseButton">Add a close button to the popup</label>
                 </div>
               </div>
 

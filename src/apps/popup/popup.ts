@@ -44,6 +44,20 @@ export class Popup {
   /** The user declared styles - syncronized with extension storage */
   private _customStyles: HTMLStyleElement = createElement('style');
 
+  private _closeButton = createElement('section', {
+    id: 'close',
+    class: ['controls'],
+    style: {
+      display: 'none', // Hidden by default
+    },
+    children: [
+      createElement('a', {
+        id: 'close-btn',
+        class: ['outline', 'close'],
+        handler: () => this.hide(),
+      }),
+    ],
+  });
   /** Contains the buttons to manage the card and its decks */
   private _mineButtons = createElement('section', { id: 'mining', class: ['controls'] });
   /** Contains the buttons to manage card states */
@@ -67,6 +81,8 @@ export class Popup {
     children: [],
   });
 
+  private _touchscreenSupport: boolean;
+  private _renderCloseButton: boolean;
   private _hidePopupAutomatically: boolean;
   private _hidePopupDelay: number;
   private _hideAfterAction: boolean;
@@ -169,6 +185,8 @@ export class Popup {
     this._disableFadeAnimation = await getConfiguration('disableFadeAnimation', true);
     this._useTwoPointGrading = await getConfiguration('jpdbUseTwoGrades', true);
 
+    this._renderCloseButton = await getConfiguration('renderCloseButton', true);
+    this._touchscreenSupport = await getConfiguration('touchscreenSupport', false);
     this._disableReviews = await getConfiguration('jpdbDisableReviews', true);
     this._moveMiningActions = await getConfiguration('moveMiningActions', true);
     this._moveGradingActions = await getConfiguration('moveGradingActions', true);
@@ -179,6 +197,9 @@ export class Popup {
     this._suspendDeck = await getConfiguration('jpdbSuspendDeck', true);
 
     this._customStyles.textContent = await getConfiguration('customPopupCSS', true);
+
+    this._closeButton.style.display =
+      this._touchscreenSupport && this._renderCloseButton ? 'flex' : 'none';
 
     this.updateMiningButtons();
     this.updateGradingButtons();
@@ -471,7 +492,7 @@ export class Popup {
   }
 
   private applyPositions(): void {
-    const sections = [this._context, this._details];
+    const sections = [this._closeButton, this._context, this._details];
     const before: HTMLElement[] = [];
     const after: HTMLElement[] = [];
 
