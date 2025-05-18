@@ -259,8 +259,6 @@
                 </div>
               </div>
             </div>
-
-            <div class="form-box"></div>
           </div>
         </div>
 
@@ -277,7 +275,11 @@
               <div>
                 <parsers-input id="disabledParsers" name="disabledParsers"></parsers-input>
               </div>
-              
+            </div>
+          </div>
+
+          <div class="form-box-parent">
+            <div class="form-box">
               <div>
                 <label for="additionalHosts">Extra Hosts</label>
                 <textarea
@@ -426,15 +428,15 @@
             <div class="form-box">
               <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="showPopupOnHover" name="showPopupOnHover" hides="#showPopupKeyBox" />
-                  <label for="showPopupOnHover">Show the popup on hover</label>
+                  <input type="checkbox" id="touchscreenSupport" name="touchscreenSupport" hides=".no-touch" />
+                  <label for="touchscreenSupport">Enable touchscreen support</label>
                 </div>
               </div>
 
-              <div class="not-implemented">
+              <div class="no-touch" hidden>
                 <div class="checkbox">
-                  <input type="checkbox" id="touchscreenSupport" name="touchscreenSupport" />
-                  <label for="touchscreenSupport">Touchscreen support</label>
+                  <input type="checkbox" id="showPopupOnHover" name="showPopupOnHover" hides="#showPopupKeyBox" />
+                  <label for="showPopupOnHover">Show the popup on hover</label>
                 </div>
               </div>
 
@@ -466,7 +468,7 @@
                 </div>
               </div>
 
-              <div>
+              <div class="no-touch" hidden>
                 <div class="checkbox">
                   <input type="checkbox" id="hidePopupAutomatically" name="hidePopupAutomatically" shows="#hidePopupDelayBox" />
                   <label for="hidePopupAutomatically">Hide popup automatically after leaving it</label>

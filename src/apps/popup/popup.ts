@@ -317,6 +317,14 @@ export class Popup {
       );
     }
 
+    if (innerWidth < 380) {
+      popupLeft = 8;
+
+      // we subtract 32px to account for the left and right padding
+      this._root.style.width = `${innerWidth - 32}px`;
+      this._popup.style.width = `${innerWidth - 32}px`;
+    }
+
     this._root.style.transform = `translate(${popupLeft}px, ${popupTop}px)`;
   }
 

@@ -30,6 +30,10 @@ class SettingsController {
 
   private _saveButton = findElement<'button'>('#save-all-settings');
 
+  private _touchscreenSupport = findElement<'input'>('#touchscreenSupport');
+  private _showPopupOnHover = findElement<'input'>('#showPopupOnHover');
+  private _hidePopupAutomatically = findElement<'input'>('#hidePopupAutomatically');
+
   private _configurationUpdated = new ConfigurationUpdatedCommand();
 
   /**
@@ -55,6 +59,22 @@ class SettingsController {
 
     this._setupSaveButton();
     this._setupCollapsibleTriggers();
+
+    this.setupTouchTriggers();
+  }
+
+  private setupTouchTriggers(): void {
+    this._touchscreenSupport.addEventListener('change', () => {
+      const enableTouch = this._touchscreenSupport.checked;
+
+      if (enableTouch) {
+        this._showPopupOnHover.checked = false;
+        this._hidePopupAutomatically.checked = false;
+
+        this._showPopupOnHover.dispatchEvent(new Event('change'));
+        this._hidePopupAutomatically.dispatchEvent(new Event('change'));
+      }
+    });
   }
 
   /**

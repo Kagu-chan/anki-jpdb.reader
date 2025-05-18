@@ -13,6 +13,7 @@ export class PopupManager {
   private _popup = new Popup();
 
   private _showPopupOnHover: boolean;
+  private _touchscreenSupport: boolean;
   private _currentHover?: HTMLElement;
   private _currentSentence?: string;
 
@@ -29,6 +30,7 @@ export class PopupManager {
       'configurationUpdated',
       async () => {
         this._showPopupOnHover = await getConfiguration('showPopupOnHover', true);
+        this._touchscreenSupport = await getConfiguration('touchscreenSupport', false);
       },
       true,
     );
@@ -60,6 +62,31 @@ export class PopupManager {
     if (this._showPopupOnHover) {
       this.handlePopup();
     }
+  }
+
+  public touch(event: MouseEvent, sentence?: string): void {
+    let target: HTMLElement | null = event.target as HTMLElement;
+
+    if (!target?.classList?.contains('jpdb-word')) {
+      target = target?.closest('.jpdb-word');
+    }
+
+    if (!this._touchscreenSupport || !target) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+
+    this._currentHover = target;
+    this._currentSentence = sentence;
+
+    this._keyManager.activate();
+    this._miningActions.activate(this._currentHover, sentence);
+    this._gradingActions.activate(this._currentHover);
+
+    this.handlePopup();
   }
 
   /**
