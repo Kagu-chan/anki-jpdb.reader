@@ -13,4 +13,10 @@ export const _062: ChangelogEntry[] = [
     category: Category.Popup,
     issue: 'N/A',
   },
+  {
+    type: 'add',
+    description: 'Add support for Luna Translator',
+    category: Category.Hosts,
+    issue: 227,
+  },
 ];

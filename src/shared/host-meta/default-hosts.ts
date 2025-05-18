@@ -39,6 +39,25 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     },
   },
   {
+    id: 'luna-translator-parser',
+    name: 'Luna Translator Parser',
+    description: 'Parse lunatranslator span content from local HTML file',
+    host: ['file:///*LunaTranslator*mainui.html', 'file:///*LunaTranslator*transhist.html'],
+    auto: true,
+    optOut: true,
+    allFrames: false,
+    parseVisibleObserver: true,
+    parserClass: 'luna-translator-parser',
+    addedObserver: {
+      notifyFor: '.lunatranslator_clickword, .lunatranslator_text_all, .origin',
+      observeFrom: 'body',
+      config: {
+        childList: true,
+        subtree: true,
+      },
+    },
+  },
+  {
     id: 'texthooker-parser',
     name: 'Texthooker Parser',
     description: 'Parse hooked texts (anacreondjt, renji-xd and learnjapanese.moe)',
