@@ -317,7 +317,7 @@ export class Popup {
       );
     }
 
-    if (innerWidth < 380) {
+    if (innerWidth < 450) {
       popupLeft = 8;
 
       // we subtract 32px to account for the left and right padding
