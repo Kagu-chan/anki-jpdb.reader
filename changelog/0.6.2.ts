@@ -9,7 +9,7 @@ export const _062: ChangelogEntry[] = [
   },
   {
     type: 'change',
-    description: 'Popup state classes are not applied to the popup container itself',
+    description: 'Popup state classes are now applied to the popup container itself',
     category: Category.Popup,
     issue: 'N/A',
   },
