@@ -13,4 +13,10 @@ export const _063: ChangelogEntry[] = [
     category: Category.Popup,
     issue: 63,
   },
+  {
+    type: 'fix',
+    description: 'Keybinds did not work when the browser was not focused',
+    category: Category.Browser,
+    issue: 239,
+  },
 ];
