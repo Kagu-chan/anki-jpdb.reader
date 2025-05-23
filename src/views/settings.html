@@ -259,8 +259,6 @@
                 </div>
               </div>
             </div>
-
-            <div class="form-box"></div>
           </div>
         </div>
 
@@ -277,7 +275,11 @@
               <div>
                 <parsers-input id="disabledParsers" name="disabledParsers"></parsers-input>
               </div>
-              
+            </div>
+          </div>
+
+          <div class="form-box-parent">
+            <div class="form-box">
               <div>
                 <label for="additionalHosts">Extra Hosts</label>
                 <textarea
@@ -426,15 +428,22 @@
             <div class="form-box">
               <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="showPopupOnHover" name="showPopupOnHover" hides="#showPopupKeyBox" />
-                  <label for="showPopupOnHover">Show the popup on hover</label>
+                  <input type="checkbox" id="touchscreenSupport" name="touchscreenSupport" hides=".no-touch" shows=".touch" />
+                  <label for="touchscreenSupport">Enable touchscreen support</label>
                 </div>
               </div>
 
-              <div class="not-implemented">
+              <div class="touch" hidden indent>
                 <div class="checkbox">
-                  <input type="checkbox" id="touchscreenSupport" name="touchscreenSupport" />
-                  <label for="touchscreenSupport">Touchscreen support</label>
+                  <input type="checkbox" id="renderCloseButton" name="renderCloseButton" />
+                  <label for="renderCloseButton">Add a close button to the popup</label>
+                </div>
+              </div>
+
+              <div class="no-touch" hidden>
+                <div class="checkbox">
+                  <input type="checkbox" id="showPopupOnHover" name="showPopupOnHover" hides="#showPopupKeyBox" />
+                  <label for="showPopupOnHover">Show the popup on hover</label>
                 </div>
               </div>
 
@@ -447,15 +456,43 @@
 
               <div>
                 <div class="checkbox">
+                  <input type="checkbox" id="showMiningActions" name="showMiningActions" shows="#moveMiningDown" />
+                  <label for="showMiningActions">Show mining controls in the popup</label>
+                </div>
+              </div>
+
+              <div id="moveMiningDown" hidden indent>
+                <div class="checkbox">
                   <input type="checkbox" id="moveMiningActions" name="moveMiningActions" />
                   <label for="moveMiningActions">Move Mining actions to the bottom of the popup</label>
+                </div>
+              </div>
+              
+              <div class="rotate-flags">
+                <div class="checkbox">
+                  <input type="checkbox" id="showRotateActions" name="showRotateActions" shows="#moveRotateDown" />
+                  <label for="showRotateActions">Show flag rotation controls in the popup</label>
+                </div>
+              </div>
+
+              <div id="moveRotateDown" hidden indent>
+                <div class="checkbox">
+                  <input type="checkbox" id="moveRotateActions" name="moveRotateActions" />
+                  <label for="moveRotateActions">Move Rotate Flags actions to the bottom of the popup</label>
                 </div>
               </div>
 
               <div class="review">
                 <div class="checkbox">
+                  <input type="checkbox" id="showGradingActions" name="showGradingActions" shows="#moveGradingDown" />
+                  <label for="showGradingActions">Show review controls in the popup</label>
+                </div>
+              </div>
+
+              <div id="moveGradingDown" hidden indent>
+                <div class="checkbox">
                   <input type="checkbox" id="moveGradingActions" name="moveGradingActions" />
-                  <label for="moveGradingActions">Move Grading actions to the bottom of the popup</label>
+                  <label for="moveGradingActions">Move Review actions to the bottom of the popup</label>
                 </div>
               </div>
 
@@ -466,7 +503,7 @@
                 </div>
               </div>
 
-              <div>
+              <div class="no-touch" hidden>
                 <div class="checkbox">
                   <input type="checkbox" id="hidePopupAutomatically" name="hidePopupAutomatically" shows="#hidePopupDelayBox" />
                   <label for="hidePopupAutomatically">Hide popup automatically after leaving it</label>
@@ -517,6 +554,8 @@
                 <br />
                 Note: Keybinds currently always work on the word you are hovering your mouse over,
                 even if you have the popup for another word open.
+                <br />
+                Note: Keybinds consisting of only special keys (Ctrl, Alt, Shift) should work when the window is out of focus, others do not.
                 <br />
                 Additionally, Left Mouse Click (without modifiers) as well as Right Mouse Click (no matter the modifiers) are not supported.
               </p>

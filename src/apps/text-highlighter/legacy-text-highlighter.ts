@@ -62,6 +62,8 @@ export class LegacyTextHighlighter extends BaseTextHighlighter {
                   onmouseenter: (event: MouseEvent) =>
                     Registry.popupManager?.enter(event, token.sentence),
                   onmouseleave: () => Registry.popupManager?.leave(),
+                  onclick: (event: MouseEvent) =>
+                    Registry.popupManager?.touch(event, token.sentence),
                 },
               })
             : createElement('span', {
@@ -71,6 +73,8 @@ export class LegacyTextHighlighter extends BaseTextHighlighter {
                   onmouseenter: (event: MouseEvent) =>
                     Registry.popupManager?.enter(event, token.sentence),
                   onmouseleave: () => Registry.popupManager?.leave(),
+                  onclick: (event: MouseEvent) =>
+                    Registry.popupManager?.touch(event, token.sentence),
                 },
               });
 

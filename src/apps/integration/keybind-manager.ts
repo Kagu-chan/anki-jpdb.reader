@@ -2,6 +2,7 @@ import { getConfiguration } from '@shared/configuration/get-configuration';
 import { ConfigurationSchema, Keybind, Keybinds } from '@shared/configuration/types';
 import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
 import { FilterKeys } from '@shared/types';
+import { NoFocusTrigger } from './no-focus-trigger';
 import { Registry } from './registry';
 
 type KeybindKey = FilterKeys<ConfigurationSchema, Keybinds>;
@@ -51,6 +52,8 @@ export class KeybindManager {
   }
 
   public activate(): void {
+    NoFocusTrigger.get().register(this, this._downListener);
+
     window.addEventListener('keydown', this._downListener);
     window.addEventListener('mousedown', this._downListener);
 
@@ -59,6 +62,8 @@ export class KeybindManager {
   }
 
   public deactivate(): void {
+    NoFocusTrigger.get().unregister(this);
+
     window.removeEventListener('keydown', this._downListener);
     window.removeEventListener('mousedown', this._downListener);
 
@@ -152,8 +157,30 @@ export class KeybindManager {
       return false;
     }
 
+    if (event instanceof MouseEvent && event.type === 'mousemove') {
+      return this.checkMoveEvent(keybind, event);
+    }
+
     const code = event instanceof KeyboardEvent ? event.code : `Mouse${event.button}`;
 
     return code === keybind.code && keybind.modifiers.every((name) => event.getModifierState(name));
+  }
+
+  private checkMoveEvent(keybind: Keybind, event: MouseEvent): boolean {
+    // Map left/right-specific modifiers to their generic names
+    const modifierMap: Record<string, string> = {
+      ShiftLeft: 'Shift',
+      ShiftRight: 'Shift',
+      ControlLeft: 'Control',
+      ControlRight: 'Control',
+      AltLeft: 'Alt',
+      AltRight: 'Alt',
+    };
+
+    const required = [...keybind.modifiers, modifierMap[keybind.code] ?? keybind.code].filter(
+      Boolean,
+    );
+
+    return required.length > 0 && required.every((name) => event.getModifierState(name));
   }
 }

@@ -59,6 +59,7 @@ export type ConfigurationSchema = {
   //#region Popup
 
   showPopupOnHover: boolean;
+  renderCloseButton: boolean;
   touchscreenSupport: boolean;
   disableFadeAnimation: boolean;
 
@@ -66,8 +67,15 @@ export type ConfigurationSchema = {
   hideAfterAction: boolean;
   hidePopupAutomatically: boolean;
   hidePopupDelay: number;
+
+  showMiningActions: boolean;
   moveMiningActions: boolean;
+
+  showGradingActions: boolean;
   moveGradingActions: boolean;
+
+  showRotateActions: boolean;
+  moveRotateActions: boolean;
 
   customPopupCSS: string;
 

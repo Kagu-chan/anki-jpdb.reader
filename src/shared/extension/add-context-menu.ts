@@ -12,7 +12,7 @@ export const addContextMenu = (
   if (!handlers) {
     handlers = new Map();
 
-    chrome.contextMenus.onClicked.addListener((info, tab) => {
+    chrome.contextMenus?.onClicked.addListener((info, tab) => {
       const id = info.menuItemId as string;
       const handler = handlers.get(id);
 
@@ -32,5 +32,5 @@ export const addContextMenu = (
 
   handlers.set(id, handler);
 
-  addInstallListener(() => chrome.contextMenus.create(options));
+  addInstallListener(() => chrome.contextMenus?.create(options));
 };

@@ -15,6 +15,17 @@ import { AbortRequestCommandHandler } from './parser/abort-request-command.handl
 import { ParseCommandHandler } from './parser/parse-command.handler';
 import { ParseController } from './parser/parse.controller';
 
+const isMobile =
+  navigator.userAgent.toLowerCase().includes('android') ??
+  (
+    navigator as {
+      userAgentData?: {
+        mobile: boolean;
+      };
+    }
+  ).userAgentData?.mobile ??
+  false;
+
 const parsePageCommand = new ParsePageCommand();
 const parseSelectionCommand = new ParseSelectionCommand();
 
@@ -58,20 +69,22 @@ addInstallListener(async ({ reason }) => {
   }
 });
 
-addContextMenu(
-  {
-    id: 'parse-page',
-    title: 'Parse Page',
-    contexts: ['page'],
-  },
-  (_, { id }) => parsePageCommand.send(id!),
-);
+if (!isMobile) {
+  addContextMenu(
+    {
+      id: 'parse-page',
+      title: 'Parse Page',
+      contexts: ['page'],
+    },
+    (_, { id }) => parsePageCommand.send(id!),
+  );
 
-addContextMenu(
-  {
-    id: 'parse-selection',
-    title: 'Parse Selection',
-    contexts: ['selection'],
-  },
-  (_, { id }) => parseSelectionCommand.send(id!),
-);
+  addContextMenu(
+    {
+      id: 'parse-selection',
+      title: 'Parse Selection',
+      contexts: ['selection'],
+    },
+    (_, { id }) => parseSelectionCommand.send(id!),
+  );
+}

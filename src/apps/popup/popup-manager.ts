@@ -2,17 +2,33 @@ import { getConfiguration } from '@shared/configuration/get-configuration';
 import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
 import { KeybindManager } from '../integration/keybind-manager';
 import { Registry } from '../integration/registry';
-import { GradingActions } from './grading-actions';
-import { MiningActions } from './mining-actions';
+import { GradingActions } from './actions/grading-actions';
+import { GradingController } from './actions/grading-controller';
+import { MiningActions } from './actions/mining-actions';
+import { MiningController } from './actions/mining-controller';
+import { RotationActions } from './actions/rotation-actions';
+import { RotationController } from './actions/rotation-controller';
 import { Popup } from './popup';
 
 export class PopupManager {
   private _keyManager = new KeybindManager(['showPopupKey', 'showAdvancedDialogKey']);
-  private _miningActions = new MiningActions();
-  private _gradingActions = new GradingActions(this._miningActions);
-  private _popup = new Popup();
+
+  private _miningController = new MiningController();
+  private _rotationController = new RotationController();
+  private _gradingController = new GradingController();
+
+  private _miningActions = new MiningActions(this._miningController);
+  private _rotationActions = new RotationActions(this._rotationController);
+  private _gradingActions = new GradingActions(this._gradingController);
+
+  private _popup = new Popup(
+    this._miningController,
+    this._rotationController,
+    this._gradingController,
+  );
 
   private _showPopupOnHover: boolean;
+  private _touchscreenSupport: boolean;
   private _currentHover?: HTMLElement;
   private _currentSentence?: string;
 
@@ -29,6 +45,7 @@ export class PopupManager {
       'configurationUpdated',
       async () => {
         this._showPopupOnHover = await getConfiguration('showPopupOnHover', true);
+        this._touchscreenSupport = await getConfiguration('touchscreenSupport', false);
       },
       true,
     );
@@ -55,11 +72,38 @@ export class PopupManager {
 
     this._keyManager.activate();
     this._miningActions.activate(this._currentHover, sentence);
+    this._rotationActions.activate(this._currentHover);
     this._gradingActions.activate(this._currentHover);
 
     if (this._showPopupOnHover) {
       this.handlePopup();
     }
+  }
+
+  public touch(event: MouseEvent, sentence?: string): void {
+    let target: HTMLElement | null = event.target as HTMLElement;
+
+    if (!target?.classList?.contains('jpdb-word')) {
+      target = target?.closest('.jpdb-word');
+    }
+
+    if (!this._touchscreenSupport || !target) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+
+    this._currentHover = target;
+    this._currentSentence = sentence;
+
+    this._keyManager.activate();
+    this._miningActions.activate(this._currentHover, sentence);
+    this._rotationActions.activate(this._currentHover);
+    this._gradingActions.activate(this._currentHover);
+
+    this.handlePopup();
   }
 
   /**
@@ -73,6 +117,7 @@ export class PopupManager {
 
     this._keyManager.deactivate();
     this._miningActions.deactivate();
+    this._rotationActions.deactivate();
     this._gradingActions.deactivate();
 
     this._popup.initHide();
@@ -89,7 +134,6 @@ export class PopupManager {
       return;
     }
 
-    // TODO: Implement touchscreen support
     this._popup.show(this._currentHover, this._currentSentence);
 
     if (this._currentHover.parentElement) {

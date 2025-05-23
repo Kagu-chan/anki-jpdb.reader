@@ -109,6 +109,7 @@ keybind-input {
   display: flex;
   flex-direction: row;
   gap: 1em;
+  flex-wrap: wrap;
 
   input {
     flex: 1;
@@ -132,6 +133,7 @@ keybind-input {
     flex-direction: row;
     align-items: center;
     padding: 0.5em 2em;
+    flex-wrap: wrap;
 
     &:not(:last-of-type) {
       border-bottom: 1px solid #444;

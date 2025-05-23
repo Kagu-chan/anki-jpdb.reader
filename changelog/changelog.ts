@@ -10,6 +10,7 @@ import { _050 } from './0.5.0';
 import { _060 } from './0.6.0';
 import { _061 } from './0.6.1';
 import { _062 } from './0.6.2';
+import { _063 } from './0.6.3';
 import { Changelog } from './types';
 
 export const changelog: Changelog = {
@@ -25,4 +26,5 @@ export const changelog: Changelog = {
   '0.6.0': _060,
   '0.6.1': _061,
   '0.6.2': _062,
+  '0.6.3': _063,
 };

@@ -30,6 +30,14 @@ class SettingsController {
 
   private _saveButton = findElement<'button'>('#save-all-settings');
 
+  private _disableWhenActive: Record<string, string[]> = {
+    touchscreenSupport: ['showPopupOnHover', 'hidePopupAutomatically'],
+    jpdbDisableReviews: ['showGradingActions'],
+  };
+  private _disableWhenInactive: Record<string, string[]> = {
+    jpdbRotateFlags: ['showRotateActions'],
+  };
+
   private _configurationUpdated = new ConfigurationUpdatedCommand();
 
   /**
@@ -55,6 +63,31 @@ class SettingsController {
 
     this._setupSaveButton();
     this._setupCollapsibleTriggers();
+
+    this.setupDependencyTriggers();
+  }
+
+  private setupDependencyTriggers(): void {
+    const runMap = (map: Record<string, string[]>, reverse: boolean): void => {
+      Object.keys(map).forEach((key) => {
+        const element = findElement<'input'>(`#${key}`);
+        const targets = map[key].map((target) => findElement<'input'>(`#${target}`));
+
+        element.addEventListener('change', () => {
+          const shouldDisable = reverse ? !element.checked : element.checked;
+
+          if (shouldDisable) {
+            targets.forEach((target) => {
+              target.checked = false;
+              target.dispatchEvent(new Event('change'));
+            });
+          }
+        });
+      });
+    };
+
+    runMap(this._disableWhenActive, false);
+    runMap(this._disableWhenInactive, true);
   }
 
   /**

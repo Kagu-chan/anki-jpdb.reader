@@ -10,7 +10,8 @@ export type Version =
   | '0.5.0'
   | '0.6.0'
   | '0.6.1'
-  | '0.6.2';
+  | '0.6.2'
+  | '0.6.3';
 
 export type ChangeType = 'add' | 'change' | 'deprecate' | 'remove' | 'fix' | 'chore';
 export enum Category {

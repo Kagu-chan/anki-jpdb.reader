@@ -4,17 +4,17 @@
   "description": "Japanese text parsing + sentence mining with JPDB and Anki",
   "private": true,
   "scripts": {
-    "preversion": "npm run build",
-    "version": "node scripts/version.mjs && npm run changelog && git add src/manifest.json",
-    "postversion": "npm run release",
-    "changelog": "tsc changelog/changelog.ts && node scripts/changelog.mjs && git add CHANGELOG.md src/views/changelog.html",
-    "changelog:test": "tsc changelog/changelog.ts && node scripts/changelog.mjs",
     "build": "node scripts/build.mjs",
     "watch": "node scripts/build.mjs --watch",
     "pack": "node scripts/build.mjs --pack",
+    "preversion": "eslint src && npm run lint:ff && npm run build",
+    "version": "node scripts/version.mjs && npm run changelog && git add src/manifest.json",
+    "postversion": "npm run release",
+    "changelog": "tsc changelog/changelog.ts && node scripts/changelog.mjs && git add CHANGELOG.md src/views/changelog.html",
     "release": "node scripts/build.mjs --pack --ff-submission",
     "lint": "eslint src",
-    "lint:fix": "eslint src --fix"
+    "lint:fix": "eslint src --fix",
+    "lint:ff": "node scripts/build.mjs firefox && web-ext lint --source-dir anki-jpdb.reader"
   },
   "repository": {
     "type": "git",
@@ -59,6 +59,7 @@
     "sass-loader": "^16.0.5",
     "ts-loader": "^9.5.2",
     "typescript": "^5.8.3",
+    "web-ext": "^8.7.0",
     "webpack": "^5.99.8",
     "webpack-cli": "^6.0.1",
     "zip-a-folder": "^3.1.9"

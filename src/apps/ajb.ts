@@ -6,6 +6,7 @@ import { LookupTextCommand } from '@shared/messages/background/lookup-text.comma
 import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
 import { receiveBackgroundMessage } from '@shared/messages/receiving/receive-background-message';
 import { KeybindManager } from './integration/keybind-manager';
+import { NoFocusTrigger } from './integration/no-focus-trigger';
 import { Registry } from './integration/registry';
 import { AutomaticParser } from './parser/automatic.parser';
 import { getCustomParser } from './parser/get-custom-parser';
@@ -20,6 +21,8 @@ export class AJB {
 
   constructor() {
     this._lookupKeyManager.activate();
+
+    NoFocusTrigger.get().install();
 
     receiveBackgroundMessage('toast', displayToast);
     Registry.events.on('lookupSelectionKey', () => {
@@ -73,7 +76,7 @@ export class AJB {
   protected withHiddenRT(action: () => void): void {
     const style = document.createElement('style');
 
-    style.innerHTML = 'rt { display: none !important; }';
+    style.innerText = 'rt { display: none !important; }';
     document.head.appendChild(style);
 
     try {
