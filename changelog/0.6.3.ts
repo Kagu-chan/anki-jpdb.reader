@@ -19,4 +19,10 @@ export const _063: ChangelogEntry[] = [
     category: Category.Browser,
     issue: 239,
   },
+  {
+    type: 'change',
+    description: 'Reduced the permission the extension requires',
+    category: Category.Browser,
+    issue: 91,
+  },
 ];
