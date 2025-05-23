@@ -25,4 +25,10 @@ export const _063: ChangelogEntry[] = [
     category: Category.Browser,
     issue: 91,
   },
+  {
+    type: 'change',
+    description: 'Skip context menus on mobile devices or if not granted',
+    category: Category.Browser,
+    issue: [59, 60, 99, 100],
+  },
 ];

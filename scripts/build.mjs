@@ -1,9 +1,9 @@
-import { spawn } from "child_process";
-import { zip } from "zip-a-folder";
-import { rimrafSync } from "rimraf";
-import { copyFileSync, cpSync, mkdirSync, readFileSync, writeFileSync } from "fs";
+import { spawn } from 'child_process';
+import { zip } from 'zip-a-folder';
+import { rimrafSync } from 'rimraf';
+import { copyFileSync, cpSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 
-import { transformManifest } from "./transform-manifest.mjs";
+import { transformManifest } from './transform-manifest.mjs';
 
 const NOTE_FOR_REVIEWERS = `# Notes for reviewers
 
@@ -30,24 +30,24 @@ const source = fileName;
 const dist = 'packages';
 
 const runCommand = async (command, args) => {
-	await new Promise((resolve, reject) => {
-		const executedCommand = spawn(command, args, {
-			stdio: "inherit",
-			shell: true
-		});
+  await new Promise((resolve, reject) => {
+    const executedCommand = spawn(command, args, {
+      stdio: 'inherit',
+      shell: true,
+    });
 
-		executedCommand.on("error", error => {
-			reject(error);
-		});
+    executedCommand.on('error', (error) => {
+      reject(error);
+    });
 
-		executedCommand.on("exit", code => {
-			if (code === 0) {
-				resolve();
-			} else {
-				reject();
-			}
-		});
-	});
+    executedCommand.on('exit', (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        reject();
+      }
+    });
+  });
 };
 
 const args = process.argv;
@@ -83,7 +83,6 @@ if (!isPack) {
     webpackArgs.push('--env', 'firefox');
   }
 
-
   if (buildChrome) {
     targets++;
     webpackArgs.push('--env', 'chrome');
@@ -101,8 +100,8 @@ rimrafSync(dist);
 rimrafSync('submission');
 
 console.log(`${isWatch ? 'Watching' : 'Building'} project...`, {
-  Firefox: buildFirefox,
   Chrome: buildChrome,
+  Firefox: buildFirefox,
 });
 
 await runCommand('npx', webpackArgs);
@@ -136,11 +135,12 @@ if (isFirefox || noTarget) {
   writeFileSync(`${source}/manifest.json`, firefoxManifest);
 
   await zip(source, `${dist}/${fileName}-firefox.xpi`);
+  await createReleaseNotes();
 }
 
 if (isFirefoxSubmission) {
   console.log('Packaging project for firefox submission...');
-  
+
   mkdirSync(`submission`);
 
   ['src', 'assets', 'scripts'].forEach((dir) => {
@@ -154,4 +154,39 @@ if (isFirefoxSubmission) {
   writeFileSync('submission/README.md', NOTE_FOR_REVIEWERS);
 
   await zip('submission', `${dist}/${fileName}-firefox-submission.zip`);
+}
+
+function createReleaseNotes() {
+  const changeLog = readFileSync('./CHANGELOG.md', 'utf8');
+  const lines = changeLog.split('\n');
+  const releaseNotes = [];
+  let start = false;
+
+  while (lines.length) {
+    const line = lines.shift();
+
+    if (line.startsWith('## ')) {
+      if (!start) {
+        start = true;
+        continue;
+      } else {
+        break;
+      }
+    }
+
+    if (line.trim() === '') {
+      continue;
+    }
+
+    // Remove [[#123]] links and [Foo] categories
+    const [cleanLine, _] = line.split('[');
+
+    releaseNotes.push(cleanLine.trim());
+  }
+
+  const releaseNotesText = releaseNotes.join('\n');
+
+  writeFileSync(`${dist}/CURRENT_VERSION.md`, releaseNotesText);
+
+  console.log('Release notes for current version created');
 }
