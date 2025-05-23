@@ -296,25 +296,49 @@ export class TextHighlighter extends BaseTextHighlighter {
       return;
     }
 
-    let nodeText = fragment.node.textContent!;
+    const nodes = this.createRubyNodesForFragment(fragment, rubies);
 
-    for (let i = rubies.length - 1; i >= 0; i--) {
-      const ruby = rubies[i];
+    newRuby.textContent = '';
+    newRuby.append(...nodes);
+  }
+
+  protected createRubyNodesForFragment(fragment: Fragment, rubies: JPDBRuby[]): Node[] {
+    const nodeText = fragment.node.textContent!;
+    let lastIndex = 0;
+    const nodes: Node[] = [];
+
+    // Sort rubies by start position to process in order
+    const sortedRubies = [...rubies].sort((a, b) => a.start - b.start);
+
+    for (const ruby of sortedRubies) {
       const rubyStart = ruby.start - fragment.start;
       const rubyEnd = ruby.end - fragment.start;
 
-      const beforeRuby = nodeText.slice(0, rubyStart);
-      const rubyText = nodeText.slice(rubyStart, rubyEnd);
-      const afterRuby = nodeText.slice(rubyEnd);
+      // Add text before the ruby
+      if (rubyStart > lastIndex) {
+        nodes.push(document.createTextNode(nodeText.slice(lastIndex, rubyStart)));
+      }
 
-      nodeText = [
-        beforeRuby,
-        `<ruby>${rubyText}<rt class="jpdb-furi">${ruby.text}</rt></ruby>`,
-        afterRuby,
-      ].join('');
+      // Create ruby element
+      const rubyElem = document.createElement('ruby');
+      const rt = document.createElement('rt');
+
+      rubyElem.append(document.createTextNode(nodeText.slice(rubyStart, rubyEnd)));
+      rt.className = 'jpdb-furi';
+      rt.textContent = ruby.text;
+
+      rubyElem.append(rt);
+      nodes.push(rubyElem);
+
+      lastIndex = rubyEnd;
     }
 
-    newRuby.innerHTML = nodeText;
+    // Add any remaining text after the last ruby
+    if (lastIndex < nodeText.length) {
+      nodes.push(document.createTextNode(nodeText.slice(lastIndex)));
+    }
+
+    return nodes;
   }
 
   //#endregion Patch contained ruby elements

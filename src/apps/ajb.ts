@@ -73,7 +73,7 @@ export class AJB {
   protected withHiddenRT(action: () => void): void {
     const style = document.createElement('style');
 
-    style.innerHTML = 'rt { display: none !important; }';
+    style.innerText = 'rt { display: none !important; }';
     document.head.appendChild(style);
 
     try {

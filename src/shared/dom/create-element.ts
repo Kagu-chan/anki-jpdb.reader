@@ -27,10 +27,6 @@ export function createElement(
     e.innerText = String(options.innerText);
   }
 
-  if (options.innerHTML) {
-    e.innerHTML = options.innerHTML;
-  }
-
   if (options.handler) {
     e.onclick = options.handler;
   }

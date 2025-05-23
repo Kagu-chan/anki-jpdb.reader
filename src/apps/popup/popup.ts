@@ -258,7 +258,7 @@ export class Popup {
 
     testNode.style.position = 'absolute';
     testNode.style.zIndex = '2147483647';
-    testNode.innerHTML = '&nbsp;'; // The node needs to take up some space to perform test clicks
+    testNode.innerText = '&nbsp;'; // The node needs to take up some space to perform test clicks
 
     while (currentNode && !currentNode.isSameNode(document.body.parentElement)) {
       const rect = currentNode.getBoundingClientRect();
@@ -574,24 +574,55 @@ export class Popup {
     const { vid, spelling, reading, wordWithReading } = card;
     const url = `https://jpdb.io/vocabulary/${vid}/${encodeURIComponent(spelling)}/${encodeURIComponent(reading)}`;
 
-    return createElement('a', {
+    const a = createElement('a', {
       id: 'link',
       attributes: { href: url, target: '_blank', lang: 'ja' },
-      innerHTML: this.convertToRuby(wordWithReading ?? spelling),
     });
+
+    a.append(...this.convertToRubyNodes(wordWithReading ?? spelling));
+
+    return a;
   }
 
-  private convertToRuby(wordWithReading: string): string {
+  private convertToRubyNodes(wordWithReading: string): Node[] {
+    // If no brackets, return as a single text node
     if (!wordWithReading.includes('[')) {
-      return wordWithReading;
+      return [document.createTextNode(wordWithReading)];
     }
 
-    return wordWithReading.replace(
-      /([^\u3040-\u309F\u30A0-\u30FF]+)\[(.+?)\]/g,
-      (_: string, nonKana: string, reading: string) => {
-        return `<ruby>${nonKana}<rt>${reading}</rt></ruby>`;
-      },
-    );
+    // Regex to match kanji[reading] patterns
+    const regex = /([^\u3040-\u309F\u30A0-\u30FF]+)\[(.+?)\]/g;
+    const nodes: Node[] = [];
+    let lastIndex = 0;
+    let match: RegExpExecArray | null;
+
+    while ((match = regex.exec(wordWithReading)) !== null) {
+      // Add text before the match
+      if (match.index > lastIndex) {
+        nodes.push(document.createTextNode(wordWithReading.slice(lastIndex, match.index)));
+      }
+
+      // Create ruby element
+      const ruby = document.createElement('ruby');
+
+      const rt = document.createElement('rt');
+
+      rt.textContent = match[2];
+
+      ruby.append(document.createTextNode(match[1]));
+      ruby.append(rt);
+
+      nodes.push(ruby);
+
+      lastIndex = regex.lastIndex;
+    }
+
+    // Add any remaining text after the last match
+    if (lastIndex < wordWithReading.length) {
+      nodes.push(document.createTextNode(wordWithReading.slice(lastIndex)));
+    }
+
+    return nodes;
   }
 
   private getCardStateBlock(card: JPDBCard): HTMLDivElement {

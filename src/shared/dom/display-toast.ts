@@ -73,7 +73,7 @@ export function displayToast(type: 'error' | 'success', message: string, error?:
         children: [
           {
             tag: 'span',
-            innerHTML: message,
+            innerText: message,
           },
           type === 'error'
             ? {
