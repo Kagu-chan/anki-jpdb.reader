@@ -26,10 +26,9 @@ Thanks to Max and the [JPDB Discord](https://discord.gg/jWwVD7D2sZ) for making t
 Sadly, manifest 3 came along and thus the original is no longer working.
 
 ### Please note:
-* Currently only chromium-based browsers and firefox are supported.
-* Installation in Kiwi and comparable browsers is possible, but the extension is not adjusted for mobile use
+* Currently only chromium-based browsers and firefox are supported
+* Mobile support for kiwi and comparable browsers as well as firefox android is experimental
 * Bunpro is currently not supported
-* Touchscreen support is currently missing
 * An import and export of settings is currently missing
 * Support for youtube subtitles has been removed - please use this extension together with [asbplayer](https://github.com/killergerbah/asbplayer)
 * Extension Updates in browser app stores are sometimes delayed from releases on github - this should usually make no difference
@@ -50,6 +49,7 @@ Some web apps and sites require special attention to work properly, therefore th
 |asbplayer|[github.com/killergerbah/asbplayer](https://github.com/killergerbah/asbplayer)
 |Youtube comments|[youtube.com](https://youtube.com/)
 |Custom Dictionaries|[CDM by Nakura Nakamoto](https://gitlab.com/nakura/jpdb_cdm)
+|LunaTranslator|[Luna Translator](https://docs.lunatranslator.org/en/) with webview2 enabled
 
 ## Installation
 

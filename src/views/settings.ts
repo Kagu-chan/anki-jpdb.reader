@@ -30,9 +30,13 @@ class SettingsController {
 
   private _saveButton = findElement<'button'>('#save-all-settings');
 
-  private _touchscreenSupport = findElement<'input'>('#touchscreenSupport');
-  private _showPopupOnHover = findElement<'input'>('#showPopupOnHover');
-  private _hidePopupAutomatically = findElement<'input'>('#hidePopupAutomatically');
+  private _disableWhenActive: Record<string, string[]> = {
+    touchscreenSupport: ['showPopupOnHover', 'hidePopupAutomatically'],
+    jpdbDisableReviews: ['showGradingActions'],
+  };
+  private _disableWhenInactive: Record<string, string[]> = {
+    jpdbRotateFlags: ['showRotateActions'],
+  };
 
   private _configurationUpdated = new ConfigurationUpdatedCommand();
 
@@ -60,21 +64,30 @@ class SettingsController {
     this._setupSaveButton();
     this._setupCollapsibleTriggers();
 
-    this.setupTouchTriggers();
+    this.setupDependencyTriggers();
   }
 
-  private setupTouchTriggers(): void {
-    this._touchscreenSupport.addEventListener('change', () => {
-      const enableTouch = this._touchscreenSupport.checked;
+  private setupDependencyTriggers(): void {
+    const runMap = (map: Record<string, string[]>, reverse: boolean): void => {
+      Object.keys(map).forEach((key) => {
+        const element = findElement<'input'>(`#${key}`);
+        const targets = map[key].map((target) => findElement<'input'>(`#${target}`));
 
-      if (enableTouch) {
-        this._showPopupOnHover.checked = false;
-        this._hidePopupAutomatically.checked = false;
+        element.addEventListener('change', () => {
+          const shouldDisable = reverse ? !element.checked : element.checked;
 
-        this._showPopupOnHover.dispatchEvent(new Event('change'));
-        this._hidePopupAutomatically.dispatchEvent(new Event('change'));
-      }
-    });
+          if (shouldDisable) {
+            targets.forEach((target) => {
+              target.checked = false;
+              target.dispatchEvent(new Event('change'));
+            });
+          }
+        });
+      });
+    };
+
+    runMap(this._disableWhenActive, false);
+    runMap(this._disableWhenInactive, true);
   }
 
   /**

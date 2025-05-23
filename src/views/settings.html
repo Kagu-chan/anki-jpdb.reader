@@ -456,15 +456,43 @@
 
               <div>
                 <div class="checkbox">
+                  <input type="checkbox" id="showMiningActions" name="showMiningActions" shows="#moveMiningDown" />
+                  <label for="showMiningActions">Show mining controls in the popup</label>
+                </div>
+              </div>
+
+              <div id="moveMiningDown" hidden indent>
+                <div class="checkbox">
                   <input type="checkbox" id="moveMiningActions" name="moveMiningActions" />
                   <label for="moveMiningActions">Move Mining actions to the bottom of the popup</label>
+                </div>
+              </div>
+              
+              <div class="rotate-flags">
+                <div class="checkbox">
+                  <input type="checkbox" id="showRotateActions" name="showRotateActions" shows="#moveRotateDown" />
+                  <label for="showRotateActions">Show flag rotation controls in the popup</label>
+                </div>
+              </div>
+
+              <div id="moveRotateDown" hidden indent>
+                <div class="checkbox">
+                  <input type="checkbox" id="moveRotateActions" name="moveRotateActions" />
+                  <label for="moveRotateActions">Move Rotate Flags actions to the bottom of the popup</label>
                 </div>
               </div>
 
               <div class="review">
                 <div class="checkbox">
+                  <input type="checkbox" id="showGradingActions" name="showGradingActions" shows="#moveGradingDown" />
+                  <label for="showGradingActions">Show review controls in the popup</label>
+                </div>
+              </div>
+
+              <div id="moveGradingDown" hidden indent>
+                <div class="checkbox">
                   <input type="checkbox" id="moveGradingActions" name="moveGradingActions" />
-                  <label for="moveGradingActions">Move Grading actions to the bottom of the popup</label>
+                  <label for="moveGradingActions">Move Review actions to the bottom of the popup</label>
                 </div>
               </div>
 
@@ -526,6 +554,8 @@
                 <br />
                 Note: Keybinds currently always work on the word you are hovering your mouse over,
                 even if you have the popup for another word open.
+                <br />
+                Note: Keybinds consisting of only special keys (Ctrl, Alt, Shift) should work when the window is out of focus, others do not.
                 <br />
                 Additionally, Left Mouse Click (without modifiers) as well as Right Mouse Click (no matter the modifiers) are not supported.
               </p>

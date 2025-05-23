@@ -42,7 +42,8 @@
         }
       }
 
-      &#mining {
+      &#mining,
+      &#rotation {
         @each $id, $color in colors.$decks {
           .#{$id} {
             color: $color;
@@ -51,6 +52,7 @@
           }
         }
       }
+
       &#grading {
         @each $id, $color in colors.$grades {
           .#{$id} {
@@ -60,6 +62,7 @@
           }
         }
       }
+
       &#close {
         position: absolute;
         top: 0.5em;

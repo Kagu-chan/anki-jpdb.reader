@@ -67,8 +67,15 @@ export type ConfigurationSchema = {
   hideAfterAction: boolean;
   hidePopupAutomatically: boolean;
   hidePopupDelay: number;
+
+  showMiningActions: boolean;
   moveMiningActions: boolean;
+
+  showGradingActions: boolean;
   moveGradingActions: boolean;
+
+  showRotateActions: boolean;
+  moveRotateActions: boolean;
 
   customPopupCSS: string;
 

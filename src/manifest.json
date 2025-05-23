@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Anki JPDB Reader",
   "version": "0.6.2",
-  "description": "Japanese text parsing + sentence mining with JPDB and Anki",
+  "description": "Japanese text parsing + sentence mining with JPDB",
   "minimum_chrome_version": "116",
   "background": {
     "service_worker": "js/background-worker.js"
@@ -22,8 +22,7 @@
   },
   "options_ui": {
     "page": "views/settings.html",
-    "open_in_tab": true,
-    "browser_style": true
+    "open_in_tab": true
   },
   "icons": {
     "16": "assets/16.png",

@@ -3,13 +3,13 @@ import { createElement } from '@shared/dom/create-element';
 import { findElements } from '@shared/dom/find-elements';
 import { withElement } from '@shared/dom/with-element';
 import { getStyleUrl } from '@shared/extension/get-style-url';
-import { JPDBCard, JPDBCardState, JPDBGrade } from '@shared/jpdb/types';
-import { GradeCardCommand } from '@shared/messages/background/grade-card.command';
-import { RunDeckActionCommand } from '@shared/messages/background/run-deck-action.command';
-import { UpdateCardStateCommand } from '@shared/messages/background/update-card-state.command';
+import { JPDBCard, JPDBCardState } from '@shared/jpdb/types';
 import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
 import { KeybindManager } from '../integration/keybind-manager';
 import { Registry } from '../integration/registry';
+import { GradingController } from './actions/grading-controller';
+import { MiningController } from './actions/mining-controller';
+import { RotationController } from './actions/rotation-controller';
 import { PARTS_OF_SPEECH } from './part-of-speech';
 
 export class Popup {
@@ -60,6 +60,8 @@ export class Popup {
   });
   /** Contains the buttons to manage the card and its decks */
   private _mineButtons = createElement('section', { id: 'mining', class: ['controls'] });
+  /** Contains the buttons to manage the card rotation */
+  private _rotateButtons = createElement('section', { id: 'rotation', class: ['controls'] });
   /** Contains the buttons to manage card states */
   private _gradeButtons = createElement('section', { id: 'grading', class: ['controls'] });
   /** Contains the header data - all information about a word except its meaning */
@@ -86,16 +88,10 @@ export class Popup {
   private _hidePopupAutomatically: boolean;
   private _hidePopupDelay: number;
   private _hideAfterAction: boolean;
-  private _disableReviews: boolean;
   private _disableFadeAnimation: boolean;
   private _moveMiningActions: boolean;
+  private _moveRotationActions: boolean;
   private _moveGradingActions: boolean;
-  private _useTwoPointGrading: boolean;
-
-  private _miningDeck?: string;
-  private _neverForgetDeck?: string;
-  private _blacklistDeck?: string;
-  private _suspendDeck?: string;
 
   private _hideTimer?: NodeJS.Timeout;
   private _isHover?: boolean;
@@ -104,12 +100,14 @@ export class Popup {
   private _card?: JPDBCard;
   private _sentence?: string;
 
-  constructor() {
+  constructor(
+    private _mining: MiningController,
+    private _rotation: RotationController,
+    private _grading: GradingController,
+  ) {
     this.renderNodes();
 
     onBroadcastMessage('cardStateUpdated', (vid, sid) => {
-      // wait for next tick - the card may not be updated in the registry yet.
-      // TODO: Add a priority to listeners to avoid this.
       setTimeout(() => {
         this._card = Registry.getCard(vid, sid);
 
@@ -183,18 +181,12 @@ export class Popup {
     this._hidePopupDelay = await getConfiguration('hidePopupDelay', true);
     this._hideAfterAction = await getConfiguration('hideAfterAction', true);
     this._disableFadeAnimation = await getConfiguration('disableFadeAnimation', true);
-    this._useTwoPointGrading = await getConfiguration('jpdbUseTwoGrades', true);
 
     this._renderCloseButton = await getConfiguration('renderCloseButton', true);
     this._touchscreenSupport = await getConfiguration('touchscreenSupport', false);
-    this._disableReviews = await getConfiguration('jpdbDisableReviews', true);
     this._moveMiningActions = await getConfiguration('moveMiningActions', true);
+    this._moveRotationActions = await getConfiguration('moveRotateActions', true);
     this._moveGradingActions = await getConfiguration('moveGradingActions', true);
-
-    this._miningDeck = await getConfiguration('jpdbMiningDeck', true);
-    this._neverForgetDeck = await getConfiguration('jpdbNeverForgetDeck', true);
-    this._blacklistDeck = await getConfiguration('jpdbBlacklistDeck', true);
-    this._suspendDeck = await getConfiguration('jpdbSuspendDeck', true);
 
     this._customStyles.textContent = await getConfiguration('customPopupCSS', true);
 
@@ -202,6 +194,7 @@ export class Popup {
       this._touchscreenSupport && this._renderCloseButton ? 'flex' : 'none';
 
     this.updateMiningButtons();
+    this.updateRotationButtons();
     this.updateGradingButtons();
     this.applyPositions();
   }
@@ -415,14 +408,7 @@ export class Popup {
       action: 'add' | 'remove',
       key: 'mining' | 'neverForget' | 'blacklist' | 'suspend',
       sentence?: string,
-    ): void => {
-      const { vid, sid } = this._card!;
-
-      const deckAction = new RunDeckActionCommand(vid, sid, key, action, sentence);
-      const updateCardState = new UpdateCardStateCommand(vid, sid);
-
-      deckAction.send(() => updateCardState.send());
-    };
+    ): void => this._mining.addOrRemove(action, key, this._card!, sentence);
     const performFlaggedDeckAction = (key: 'neverForget' | 'blacklist' | 'suspend'): void => {
       const action = this.cardHasState(key, this._card!) ? 'remove' : 'add';
 
@@ -430,18 +416,19 @@ export class Popup {
     };
 
     this._mineButtons.replaceChildren();
+    this._mineButtons.style.display = this._mining.showActions ? '' : 'none';
 
-    this.addMiningButton(this._miningDeck, 'mining', 'Add', () =>
+    this.addMiningButton(this._mining.miningDeck, 'mining', 'Add', () =>
       performDeckAction('add', 'mining', this._sentence),
     );
 
-    this.addMiningButton(this._neverForgetDeck, 'never-forget', undefined, () =>
+    this.addMiningButton(this._mining.neverForgetDeck, 'never-forget', undefined, () =>
       performFlaggedDeckAction('neverForget'),
     );
-    this.addMiningButton(this._blacklistDeck, 'blacklist', undefined, () =>
+    this.addMiningButton(this._mining.blacklistDeck, 'blacklist', undefined, () =>
       performFlaggedDeckAction('blacklist'),
     );
-    this.addMiningButton(this._suspendDeck, 'suspend', undefined, () =>
+    this.addMiningButton(this._mining.suspendDeck, 'suspend', undefined, () =>
       performFlaggedDeckAction('suspend'),
     );
   }
@@ -466,29 +453,36 @@ export class Popup {
     );
   }
 
-  private updateGradingButtons(): void {
-    const buttons: JPDBGrade[] = this._useTwoPointGrading
-      ? ['fail', 'pass']
-      : ['nothing', 'something', 'hard', 'okay', 'easy'];
+  private updateRotationButtons(): void {
+    const previous = createElement('a', {
+      id: 'previous',
+      class: ['outline', 'previous'],
+      innerText: 'Previous',
+      handler: () => this._rotation.rotate(this._card!, -1),
+    });
+    const next = createElement('a', {
+      id: 'next',
+      class: ['outline', 'next'],
+      innerText: 'Next',
+      handler: () => this._rotation.rotate(this._card!, 1),
+    });
 
-    const gradeButtons = buttons.map((grade) =>
+    this._rotateButtons.replaceChildren(previous, next);
+    this._rotateButtons.style.display = this._rotation.showActions ? '' : 'none';
+  }
+
+  private updateGradingButtons(): void {
+    const gradeButtons = this._grading.getGradingActions().map((grade) =>
       createElement('a', {
         id: grade,
         class: ['outline', grade],
         innerText: grade,
-        handler: () => {
-          const { vid, sid } = this._card!;
-
-          const gradeCard = new GradeCardCommand(vid, sid, grade);
-          const updateCardState = new UpdateCardStateCommand(vid, sid);
-
-          gradeCard.send(() => updateCardState.send());
-        },
+        handler: () => this._grading.gradeCard(this._card!, grade),
       }),
     );
 
     this._gradeButtons.replaceChildren(...gradeButtons);
-    this._gradeButtons.style.display = this._disableReviews ? 'none' : '';
+    this._gradeButtons.style.display = this._grading.showActions ? '' : 'none';
   }
 
   private applyPositions(): void {
@@ -497,9 +491,11 @@ export class Popup {
     const after: HTMLElement[] = [];
 
     const miningTarget = this._moveMiningActions ? after : before;
+    const rotationTarget = this._moveRotationActions ? after : before;
     const gradingTarget = this._moveGradingActions ? after : before;
 
     miningTarget.push(this._mineButtons);
+    rotationTarget.push(this._rotateButtons);
     gradingTarget.push(this._gradeButtons);
 
     sections.unshift(...before);
@@ -533,6 +529,7 @@ export class Popup {
     }
 
     this.adjustMiningButtons(this._card);
+    this.adjustRotateButtons(this._card);
     this.adjustContext(this._card);
     this.adjustDetails(this._card);
 
@@ -552,6 +549,50 @@ export class Popup {
     });
     withElement(this._mineButtons, '#suspend-deck', (el) => {
       el.innerText = isSP ? 'Unsuspend' : 'Suspend';
+    });
+  }
+
+  private adjustRotateButtons(card: JPDBCard): void {
+    const previous = this._rotation.getNextCardState(card, -1);
+    const next = this._rotation.getNextCardState(card, 1);
+    const same = previous === next;
+
+    const getText = (state: string | undefined, arrow?: 'left' | 'right'): string => {
+      const text = !state
+        ? 'Unflag'
+        : state
+            .replace(/^\w/, (c) => c.toUpperCase())
+            .replace(/([a-z])([A-Z])/g, (c) => `${c[0]} ${c[1].toLowerCase()}`);
+
+      if (arrow === 'left') {
+        return `← ${text}`;
+      }
+
+      if (arrow === 'right') {
+        return `${text} →`;
+      }
+
+      return text;
+    };
+    const getCls = (state: string | undefined): string => {
+      if (!state) {
+        return '';
+      }
+
+      return state.replace(/([a-z])([A-Z])/g, (c) => `${c[0]}-${c[1].toLowerCase()}`);
+    };
+
+    withElement(this._rotateButtons, '#previous', (el) => {
+      el.style.display = same ? 'none' : '';
+      el.innerText = getText(previous, 'left');
+
+      el.setAttribute('class', `outline previous ${getCls(previous)}`);
+    });
+
+    withElement(this._rotateButtons, '#next', (el) => {
+      el.innerText = getText(next, same ? undefined : 'right');
+
+      el.setAttribute('class', `outline next ${getCls(next)}`);
     });
   }
 
@@ -789,6 +830,10 @@ export class Popup {
   }
 
   private handleKeydown(e: MouseEvent | KeyboardEvent): void {
+    if (!document.hasFocus()) {
+      return;
+    }
+
     if (e && 'key' in e && e.key === 'Escape' && this.isVisibile()) {
       e.stopPropagation();
 
