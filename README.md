@@ -30,7 +30,6 @@ Sadly, manifest 3 came along and thus the original is no longer working.
 * Currently only chromium-based browsers and firefox (including Android) are supported
 * Mobile support for kiwi, Edge Canary and comparable browsers as well as firefox android is experimental
 * Bunpro is currently not supported
-* An import and export of settings is currently missing
 * Support for youtube subtitles has been removed - please use this extension together with [asbplayer](https://github.com/killergerbah/asbplayer)
 * Extension Updates in browser app stores are sometimes delayed from releases on github - this should usually make no difference
 
