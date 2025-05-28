@@ -1,6 +1,14 @@
+## 0.6.3 (2025.05.23)
+- fix: Readded touchscreen support [[#63](63)] [Popup]
+- fix: Keybinds did not work when the browser was not focused [[#239](239)] [Browser]
+- change: Skip context menus on mobile devices or if not granted [[#59,60,99,100](59,60,99,100)] [Browser]
+- change: Reduced the permission the extension requires [[#91](91)] [Browser]
+- add: Allow adding cycling options to the popup [[#63](63)] [Popup]
+
+
 ## 0.6.2 (2025.05.18)
 - fix: Use options_ui for compatibility with LunaTranslator [[#227](227)] [Settings]
-- change: Popup state classes are not applied to the popup container itself [Popup]
+- change: Popup state classes are now applied to the popup container itself [Popup]
 - add: Add support for Luna Translator [[#227](227)] [Hosts]
 
 
