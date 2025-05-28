@@ -29,6 +29,8 @@ class SettingsController {
   private _invalidFields = new Set<keyof ConfigurationSchema>();
 
   private _saveButton = findElement<'button'>('#save-all-settings');
+  private _importButton = findElement<'button'>('#import-settings');
+  private _exportButton = findElement<'button'>('#export-settings');
 
   private _disableWhenActive: Record<string, string[]> = {
     touchscreenSupport: ['showPopupOnHover', 'hidePopupAutomatically'],
@@ -62,6 +64,8 @@ class SettingsController {
     await this._setupApiFields();
 
     this._setupSaveButton();
+    this._setupImportButton();
+    this._setupExportButton();
     this._setupCollapsibleTriggers();
 
     this.setupDependencyTriggers();
@@ -202,6 +206,71 @@ class SettingsController {
     this._saveButton.disabled = localChanges.length === 0 || invalidFields.length > 0;
   }
 
+  //#region Import/Export
+
+  private _setupImportButton(): void {
+    this._importButton.onclick = (event: Event): void => {
+      event.stopPropagation();
+      event.preventDefault();
+
+      const fileInput = createElement('input', {
+        attributes: { type: 'file', accept: '.json' },
+      });
+
+      fileInput.onchange = async (): Promise<void> => {
+        if (!fileInput.files?.length) {
+          return;
+        }
+
+        const file = fileInput.files[0];
+        const text = await file.text();
+        const data = JSON.parse(text) as ConfigurationSchema;
+
+        for (const key in data) {
+          if (Object.prototype.hasOwnProperty.call(data, key)) {
+            await setConfiguration(
+              key as keyof ConfigurationSchema,
+              data[key as keyof ConfigurationSchema],
+            );
+          }
+        }
+
+        this._configurationUpdated.send();
+        window.location.reload();
+      };
+
+      fileInput.click();
+    };
+  }
+
+  private _setupExportButton(): void {
+    this._exportButton.onclick = (event: Event): void => {
+      event.stopPropagation();
+      event.preventDefault();
+
+      const downloadTitleWithDate = `configuration-${new Date().toISOString().slice(0, 10)}.json`;
+      const configuration = Object.fromEntries(this._lastSavedConfiguration.entries());
+
+      delete configuration.jpdbApiToken; // Do not export the API token for security reasons
+
+      const blob = new Blob([JSON.stringify(configuration, null, 2)], {
+        type: 'application/json',
+      });
+
+      const url = URL.createObjectURL(blob);
+      const a = createElement('a', {
+        attributes: { href: url, download: downloadTitleWithDate },
+      });
+
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      URL.revokeObjectURL(url);
+    };
+  }
+
+  //#endregion
   //#region JPDB
 
   private async _setupJPDB(): Promise<void> {

@@ -27,6 +27,10 @@ export async function getHostMeta(
 
   const isPredefined = (meta: HostMeta): meta is PredefinedHostMeta => 'id' in meta;
 
+  if (!host?.length) {
+    return multiple ? [] : undefined;
+  }
+
   try {
     const meta = JSON.parse(additionalMeta?.length ? additionalMeta : '[]') as HostMeta[];
 

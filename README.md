@@ -15,8 +15,9 @@
 
 ## Downloads
 
-* [Chrome (Browser Extension)](https://chromewebstore.google.com/detail/anki-jpdb-reader/ocmngfhjplhjgmkjmacdmkodkphnicad)
-* [Firefox (Browser Extension)](https://addons.mozilla.org/firefox/addon/anki-jpdb-reader/)
+* [Chrome (Browser Extension) for chromium based browsers](https://chromewebstore.google.com/detail/anki-jpdb-reader/ocmngfhjplhjgmkjmacdmkodkphnicad)
+* [Firefox (Browser Extension) for Firefox and Firefox Android](https://addons.mozilla.org/firefox/addon/anki-jpdb-reader/)
+* [Edge (Browser Extension) for Edge or Edge Canary Edition](https://microsoftedge.microsoft.com/addons/detail/gpomfklkdbhmpagecjpnlhlffdlhcbnb)
 * [All Releases](https://github.com/Kagu-chan/anki-jpdb.reader/releases)
 
 A browser extension thats aims to parse most japanese text in the browser using [JPDB](https://jpdb.io/) and mining into JPDB or [Anki](https://apps.ankiweb.net/) decks.
@@ -26,8 +27,8 @@ Thanks to Max and the [JPDB Discord](https://discord.gg/jWwVD7D2sZ) for making t
 Sadly, manifest 3 came along and thus the original is no longer working.
 
 ### Please note:
-* Currently only chromium-based browsers and firefox are supported
-* Mobile support for kiwi and comparable browsers as well as firefox android is experimental
+* Currently only chromium-based browsers and firefox (including Android) are supported
+* Mobile support for kiwi, Edge Canary and comparable browsers as well as firefox android is experimental
 * Bunpro is currently not supported
 * An import and export of settings is currently missing
 * Support for youtube subtitles has been removed - please use this extension together with [asbplayer](https://github.com/killergerbah/asbplayer)
@@ -68,7 +69,7 @@ Some web apps and sites require special attention to work properly, therefore th
 
 ### Firefox
 
-[Firefox Browser Extension](https://addons.mozilla.org/firefox/addon/anki-jpdb-reader/) **or**
+[Firefox Browser Extension](https://addons.mozilla.org/firefox/addon/anki-jpdb-reader/), install it via Firefox for Android **or**
 
 1. Download the latest `-firefox.xpi` file from the releases page
 2. Open up your browser and navigate to `about:debugging`
@@ -78,6 +79,12 @@ Some web apps and sites require special attention to work properly, therefore th
 8. Continue with the [Setup](#setup) section
 
 Please note, that if you use the manual setup, the extension will be unloaded the next time you open firefox. Your settings will be preserved. This is only for testing and debugging!
+
+### Edge Canary
+
+I am currently not able to test or verify the Edge version of the extension, but you can follow the instructions [on the Kiwi browser repository](https://github.com/kiwibrowser/src.next) as a starting point.
+
+The extension ID is `gpomfklkdbhmpagecjpnlhlffdlhcbnb`.
 
 ## Setup
 
