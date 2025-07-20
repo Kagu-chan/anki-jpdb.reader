@@ -8,11 +8,14 @@ chrome.storage.local.onChanged.addListener(
     }
   },
 );
-chrome.storage.local.get('enableDebugMode', (result: { enableDebugMode?: boolean }): void => {
-  debugEnabled = result.enableDebugMode ?? false;
+chrome.storage.local.get(
+  'enableDebugMode',
+  (result: { enableDebugMode?: 'true' | 'false' }): void => {
+    debugEnabled = result.enableDebugMode ? result.enableDebugMode === 'true' : false;
 
-  drainBufferedDebugMessages();
-});
+    drainBufferedDebugMessages();
+  },
+);
 
 export const debug = (message: string, ...optionalParams: unknown[]): void => {
   if (debugEnabled === undefined) {
