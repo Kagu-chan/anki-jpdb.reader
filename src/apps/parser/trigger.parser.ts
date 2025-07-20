@@ -1,4 +1,5 @@
 import { getConfiguration } from '@shared/configuration/get-configuration';
+import { debug } from '@shared/debug';
 import { createElement } from '@shared/dom/create-element';
 import { getStyleUrl } from '@shared/extension/get-style-url';
 import { isDisabled } from '@shared/host-meta/is-disabled';
@@ -48,8 +49,12 @@ export class TriggerParser extends BaseParser {
     this._buttonRoot.style.display = 'none';
 
     if (window.getSelection()?.toString()) {
+      debug('TriggerParser: Parsing selection');
+
       return this.parseSelection();
     }
+
+    debug('TriggerParser: Parsing page');
 
     return this.parsePage();
   }

@@ -1,3 +1,4 @@
+import { debug } from '@shared/debug';
 import { HostMeta } from '@shared/host-meta/types';
 import { getParagraphs } from '../batches/get-paragraphs';
 import { Registry } from '../integration/registry';
@@ -54,6 +55,8 @@ export abstract class BaseParser {
     const { root } = this;
 
     if (!root) {
+      debug('parsePage: No root element found, aborting parsing');
+
       return;
     }
 
@@ -83,6 +86,8 @@ export abstract class BaseParser {
     this.installAppStyles();
 
     const { batchController } = Registry;
+
+    debug('parseNodes called with nodes:', nodes, 'filter:', filter);
 
     batchController.registerNodes(nodes, { filter });
     batchController.parseBatches();
@@ -115,6 +120,8 @@ export abstract class BaseParser {
     const initialNodes = Array.from<HTMLElement>(root?.querySelectorAll(notifyFor) ?? []);
 
     if (initialNodes.length) {
+      debug('getAddedObserver: Initial nodes found:', initialNodes);
+
       callback(initialNodes);
     }
 
@@ -125,13 +132,22 @@ export abstract class BaseParser {
         .flat()
         .filter((node) => {
           if (node instanceof HTMLElement) {
-            return node.matches(notifyFor);
+            const isBreaderToken = node.matches('.jpdb-word');
+            const matches = !isBreaderToken && node.matches(notifyFor);
+
+            if (!isBreaderToken) {
+              debug('getAddedObserver: Node added, validate if match:', { node, matches });
+            }
+
+            return matches;
           }
 
           return false;
         }) as HTMLElement[];
 
       if (nodes.length) {
+        debug('getAddedObserver: Matching nodes added:', nodes);
+
         callback(nodes);
       }
     });
@@ -217,6 +233,7 @@ export abstract class BaseParser {
   ): void {
     const { batchController } = Registry;
 
+    debug('visibleObserverOnEnter', elements);
     this.installAppStyles();
 
     batchController.registerNodes(elements, {
@@ -238,6 +255,8 @@ export abstract class BaseParser {
    */
   protected visibleObserverOnExit(elements: Element[], _observer: IntersectionObserver): void {
     const { batchController } = Registry;
+
+    debug('visibleObserverOnExit', elements);
 
     elements.forEach((node) => batchController.dismissNode(node));
   }

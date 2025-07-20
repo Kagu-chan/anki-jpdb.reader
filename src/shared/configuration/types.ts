@@ -121,4 +121,5 @@ export type ConfigurationSchema = {
   //#endregion
 
   skipReleaseNotes: boolean;
+  enableDebugMode: boolean;
 };

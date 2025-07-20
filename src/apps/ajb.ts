@@ -1,4 +1,5 @@
 import { getConfiguration } from '@shared/configuration/get-configuration';
+import { debug } from '@shared/debug';
 import { displayToast } from '@shared/dom/display-toast';
 import { HostMeta, PredefinedHostMeta } from '@shared/host-meta/types';
 import { JPDBCardState } from '@shared/jpdb/types';
@@ -20,6 +21,8 @@ export class AJB {
   private _lookupKeyManager = new KeybindManager(['lookupSelectionKey']);
 
   constructor() {
+    debug('Initialize AJB', { mainFrame: window === window.top });
+
     this._lookupKeyManager.activate();
 
     NoFocusTrigger.get().install();

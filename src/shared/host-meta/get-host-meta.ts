@@ -1,7 +1,8 @@
 import { getConfiguration } from '../configuration/get-configuration';
+import { debug } from '../debug';
 import { displayToast } from '../dom/display-toast';
 import { DEFAULT_HOSTS } from './default-hosts';
-import { HostMeta, PredefinedHostMeta } from './types';
+import { AdditionalHostMeta, HostMeta, PredefinedHostMeta } from './types';
 
 export function getHostMeta(
   host: string,
@@ -22,17 +23,22 @@ export async function getHostMeta(
   const disabledHosts = await getConfiguration('disabledParsers', true);
   const additionalHosts = await getConfiguration('additionalHosts', true);
   const additionalMeta = await getConfiguration('additionalMeta', true);
-
   const hostsMeta: HostMeta[] = DEFAULT_HOSTS;
 
   const isPredefined = (meta: HostMeta): meta is PredefinedHostMeta => 'id' in meta;
 
+  debug('getHostMeta called with host:', host, 'filter:', filter, 'multiple:', multiple);
+
   if (!host?.length) {
+    debug('getHostMeta called with empty host string');
+
     return multiple ? [] : undefined;
   }
 
   try {
     const meta = JSON.parse(additionalMeta?.length ? additionalMeta : '[]') as HostMeta[];
+
+    debug('Loaded additional meta:', meta);
 
     hostsMeta.push(
       ...meta.map(
@@ -78,13 +84,16 @@ export async function getHostMeta(
     .split(/[\s;,]/)
     .filter(Boolean)
     .forEach((host) => {
-      hostsMeta.push({
+      const additionalHostObject: AdditionalHostMeta = {
         host,
         auto: true,
         allFrames: true,
         parse: 'body',
         parserClass: 'custom-parser',
-      });
+      };
+
+      debug('Adding additional host:', additionalHostObject);
+      hostsMeta.push(additionalHostObject);
     });
 
   const hostFilter = (meta: HostMeta): boolean => {
@@ -128,6 +137,9 @@ export async function getHostMeta(
   };
 
   const enabledHosts = hostsMeta.filter(hostFilter);
+  const result = multiple ? enabledHosts.filter(filter) : enabledHosts.find(filter);
 
-  return multiple ? enabledHosts.filter(filter) : enabledHosts.find(filter);
+  debug('getHostMeta result:', { host, result });
+
+  return result;
 }

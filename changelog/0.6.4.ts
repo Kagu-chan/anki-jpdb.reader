@@ -7,4 +7,16 @@ export const _064: ChangelogEntry[] = [
     category: Category.Settings,
     issue: 66,
   },
+  {
+    type: 'add',
+    description: 'Added a link to the GitHub issues page',
+    category: Category.Settings,
+    issue: 'N/A',
+  },
+  {
+    type: 'add',
+    description: 'Added a debug mode for host configuration',
+    category: Category.Settings,
+    issue: 'N/A',
+  },
 ];

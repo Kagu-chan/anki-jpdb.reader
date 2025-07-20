@@ -31,7 +31,8 @@ a {
   border-bottom: 1px solid transparent;
   outline: none !important;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     border-bottom: 1px solid map.get(colors.$colors, link-underline-color);
   }
 
@@ -107,4 +108,8 @@ code {
   border: 1px solid #444;
   padding: 4px;
   border-radius: 4px;
+}
+
+.spacer {
+  flex: 1;
 }
