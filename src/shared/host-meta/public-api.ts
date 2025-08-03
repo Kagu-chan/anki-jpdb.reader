@@ -2,7 +2,7 @@
  * Gets a MutationObserver that observes for added nodes. When a node is added, it is parsed.
  * Also, the callback is called with the initial nodes that match the notifyFor selector.
  *
- * If a visibleObserver is defined alongside the added observer, added elements wont get parsed, but observed for visibility first.
+ * If a visibleObserver is defined alongside the added observer, added elements won't get parsed, but are observed for visibility first.
  *
  * Used to parse elements that are only available after a certain event or when new text is added in intervals or after interaction with the app.
  */
@@ -43,9 +43,9 @@ export type AddedObserverOptions = {
 export type VisibleObserverOptions =
   | boolean
   | {
-      /** Selector to include in the visible observer. Defauls to all */
+      /** Selector to include in the visible observer. Defaults to all. */
       include?: string;
-      /** Selector to exclude in the visible observer. Defaults to nothing */
+      /** Selector to exclude in the visible observer. Defaults to nothing. */
       exclude?: string;
     };
 
@@ -68,21 +68,21 @@ export type CustomHostMeta = {
   /**
    * Determines if the related parsing script should be executed in all related frames or only the main window.
    *
-   * Videos often run in a separate frame, everything else probaply does not need this.
+   * Videos often run in a separate frame; everything else probably does not need this.
    *
    * @default false
    */
   allFrames?: boolean;
 
   /**
-   * If `disabled`, a page is extempt from trigger parsing. This automatically applies to pages having specific automatic parsers as well.
+   * If `disabled`, a page is exempt from trigger parsing. This automatically applies to pages having specific automatic parsers as well.
    *
    * @default false
    */
   disabled?: boolean;
 
   /**
-   * The entrypoint for parsing, defaults to `body`
+   * The entry point for parsing, defaults to `body`.
    *
    * @default 'body'
    */
@@ -96,7 +96,7 @@ export type CustomHostMeta = {
   filter?: string;
 
   /**
-   * Optional css to inject upon first parse trigger. `word.css` will always be injected.
+   * Optional CSS to inject upon first parse trigger. `word.css` will always be injected.
    */
   css?: string;
 
@@ -107,12 +107,12 @@ export type CustomHostMeta = {
 
   /**
    * Configuration object defining a MutationObserver waiting for added elements.
-   * If used in junction with `parseVisibleObserver`, the `MutationObserver` will add all added elements to the created `IntersectionObserver`
+   * If used in conjunction with `parseVisibleObserver`, the `MutationObserver` will add all added elements to the created `IntersectionObserver`.
    */
   addedObserver?: AddedObserverOptions;
 
   /**
-   * Optional class to add to the document body to indicate that the parser is active and style its elements.
+   * Optional class to add to the document body to indicate that the parser is active and to style its elements.
    */
   parserClass?: string;
 };

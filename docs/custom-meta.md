@@ -1,16 +1,16 @@
 # Custom Parsing
 
 ## Preintegrated apps
-[Some apps](../README.md#automatic-parsing) require additional logic to handle properly. Those apps have either custom configuration or custom code to behave as expected and interact with the extension automatically on page load.
+[Some apps](../README.md#automatic-parsing) require additional logic to handle properly. These apps have either custom configuration or custom code to behave as expected and interact with the extension automatically on page load.
 
-Those apps can be viewed and disabled in the settings.
+These apps can be viewed and disabled in the settings.
 
 ## Custom hosts
-If a you find yourself often parsing a specific web app, you can enable autoatic parsing for such an app.
+If you often parse a specific web app, you can enable automatic parsing for that app.
 
-Just fill in the hosts (one per line, or seperate by `,`, `;` or `[space]`) in the settings. Those hosts are recognized by the extension and parsed as soon as you navigated to it or inside the app. URL matching implements [roughly the functionality described here](https://developer.chrome.com/docs/extensions/develop/concepts/match-patterns).
+Just fill in the hosts (one per line, or separated by `,`, `;`, or `[space]`) in the settings. These hosts are recognized by the extension and parsed as soon as you navigate to them or inside the app. URL matching implements [roughly the functionality described here](https://developer.chrome.com/docs/extensions/develop/concepts/match-patterns).
 
-Please note that this works only properly for static content - apps loading its content async wont work properly. For anything advanced see [Custom meta](#custom-meta).
+Please note that this works properly only for static content - apps loading their content asynchronously may not work as expected. For anything advanced, see [Custom meta](#custom-meta).
 
 ```
 # Parsing an app, e.g. satorireader
@@ -21,22 +21,22 @@ file:///*local-japanese*.html
 ```
 
 ## Custom meta
-App integrations is done by configuring a JSON object which maches to one or multiple hosts.
+App integration is done by configuring a JSON object which matches one or multiple hosts.
 
 * [The complete schema can be viewed here](https://github.com/Kagu-chan/anki-jpdb.reader/blob/dev/src/shared/host-meta/public-api.ts)
 * [All internal integrations are here](https://github.com/Kagu-chan/anki-jpdb.reader/blob/dev/src/shared/host-meta/default-hosts.ts)
-  * please be aware that the samples use configuration objects that are ignored for custom meta. This serves only as a sample!
+  * Please be aware that the samples use configuration objects that are ignored for custom meta. This serves only as a sample!
 
-The configuration can be added as a JSON Array in the settings (*you wont see them in the list however, they are not processed in the settings page. To disable them, remove them from your configuration*)
+The configuration can be added as a JSON array in the settings (*you won't see them in the list, however; they are not processed in the settings page. To disable them, remove them from your configuration*).
 
 ```json5
 [
   { // We can exclude apps from parsing completely
-    // Defines a list of hosts, here crunchyroll and YouTube music
+    // Defines a list of hosts, here Crunchyroll and YouTube Music
     "host": ["*://*.crunchyroll.com/*", "*://music.youtube.com/*"],
     // auto: false makes this configuration not parse automatically
     "auto": false,
-    // disable excludes those pages from parsing. CR does not have any Japanese text at all, for YouTube it is to remove the parse controls
+    // disabled excludes those pages from parsing. CR does not have any Japanese text at all; for YouTube it is to remove the parse controls
     "disabled": true
   },
   { // The actual keyboard shortcut and "Parse page" logic refers to this configuration
@@ -49,13 +49,13 @@ The configuration can be added as a JSON Array in the settings (*you wont see th
   },
   { // The CDE extension from JPDB is implemented here:
     "host": [
-      // We match a list of jpdb pages that contain dictionary entries
+      // We match a list of JPDB pages that contain dictionary entries
       "*://jpdb.io/vocabulary/*",
       "*://jpdb.io/review*",
       "*://jpdb.io/deck*",
       "*://jpdb.io/search*"
     ],
-    // We define a parser class - this way we can style those dict entries separately if we want
+    // We define a parser class - this way we can style those dictionary entries separately if we want
     "parserClass": "kochounoyume-parser",
     // We wait for elements to be added to the DOM to parse them
     "addedObserver": {
@@ -63,6 +63,8 @@ The configuration can be added as a JSON Array in the settings (*you wont see th
       "observeFrom": "body",
       // If the added elements match this class, they should be parsed
       "notifyFor": ".custom-dictionary-entry",
+      // If the added elements do not match notifyFor, but match this class, its children will be checked for notifyFor instead. Sometimes the element to be parsed is added as a child of another added element
+      "checkNested": ".result.vocabulary",
       // A standard configuration that notifies us about added or removed child nodes - can be omitted
       "config": {
         "childList": true,
@@ -100,7 +102,7 @@ The configuration can be added as a JSON Array in the settings (*you wont see th
     "host": "*://*.satorireader.com/articles/*",
     "parserClass": "satori-reader-parser",
     "parse": "#article-content", // Satori is nothing special - only automated parsing for the content
-    "filter": ".play-button-container, .notes-button-container, .fg, .wpr" // We exclude some learning stuff and pay buttons however
+    "filter": ".play-button-container, .notes-button-container, .fg, .wpr" // We exclude some learning and play-related elements and buttons here.
   }
 ]
 ```
