@@ -63,11 +63,13 @@ export class HostEvaluator {
   public async load(): Promise<HostEvaluator> {
     this._targetedTriggerMeta = await getHostMeta(
       this._host,
+      'targetedTrigger',
       ({ auto, host, allFrames }) =>
         !auto && host !== '<all_urls>' && (allFrames || this._isMainFrame),
     );
     this._targetedAutomaticMeta = await getHostMeta(
       this._host,
+      'targetedAutomatic',
       ({ auto, host, allFrames }) =>
         auto && host !== '<all_urls>' && (allFrames || this._isMainFrame),
       true,
@@ -75,11 +77,13 @@ export class HostEvaluator {
 
     this._defaultTriggerMeta = await getHostMeta(
       this._host,
+      'defaultTrigger',
       ({ auto, host, allFrames }) =>
         auto === false && host === '<all_urls>' && (allFrames || this._isMainFrame),
     );
     this._defaultAutomaticMeta = await getHostMeta(
       this._host,
+      'defaultAutomatic',
       ({ auto, host, allFrames }) =>
         auto && host === '<all_urls>' && (allFrames || this._isMainFrame),
       true,

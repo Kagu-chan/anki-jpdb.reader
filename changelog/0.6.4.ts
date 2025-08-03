@@ -19,4 +19,10 @@ export const _064: ChangelogEntry[] = [
     category: Category.Settings,
     issue: 'N/A',
   },
+  {
+    type: 'fix',
+    description: 'Fixed a bug where the parser would not parse nested elements',
+    category: Category.Parser,
+    issue: 238,
+  },
 ];

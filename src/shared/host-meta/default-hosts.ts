@@ -36,6 +36,7 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     filter: '.meaning-subsection-label',
     addedObserver: {
       notifyFor: '.custom-dictionary-entry',
+      checkNested: '.result.vocabulary',
     },
   },
   {

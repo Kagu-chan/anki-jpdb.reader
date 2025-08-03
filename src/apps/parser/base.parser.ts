@@ -101,6 +101,7 @@ export abstract class BaseParser {
    *
    * @param {string | string[]} observeFrom The root element to observe from. If an array is provided, the first element that matches is used.
    * @param {string} notifyFor The selector to match the added nodes against
+   * @param {string} checkNested If added elements match `checkNested`, check if they contain nested elements matching the `notifyFor` selector.
    * @param {MutationObserverInit} config The mutation observer configuration
    * @param {(nodes: HTMLElement[]) => void} callback The callback to call when nodes are added.
    * @returns {MutationObserver}
@@ -108,9 +109,12 @@ export abstract class BaseParser {
   protected getAddedObserver(
     observeFrom: string | string[],
     notifyFor: string,
+    checkNested: string | undefined,
     config: MutationObserverInit,
     callback: (nodes: HTMLElement[]) => void,
   ): MutationObserver {
+    debug('getAddedObserver', { observeFrom, notifyFor, config });
+
     const observeTargets = Array.isArray(observeFrom) ? observeFrom : [observeFrom];
     let root: HTMLElement | null | undefined;
 
@@ -133,26 +137,59 @@ export abstract class BaseParser {
         .filter((node) => {
           if (node instanceof HTMLElement) {
             const isBreaderToken = node.matches('.jpdb-word');
-            const matches = !isBreaderToken && node.matches(notifyFor);
 
-            if (!isBreaderToken) {
-              debug('getAddedObserver: Node added, validate if match:', { node, matches });
+            // If an element is a Breader token, it should be ignored
+            if (isBreaderToken) {
+              return false;
             }
 
-            return matches;
+            // Fetch direct matches
+            if (node.matches(notifyFor)) {
+              debug('getAddedObserver: Node added, matches notifyFor -> validate:', node);
+
+              return true;
+            }
+
+            if (!checkNested) {
+              return false;
+            }
+
+            if (node.matches(checkNested) && node.querySelector(notifyFor)) {
+              debug(
+                'getAddedObserver: Node added, matches checkNested and contains notifyFor -> validate:',
+                node,
+              );
+
+              return true;
+            }
+
+            return false;
           }
 
           return false;
         }) as HTMLElement[];
 
       if (nodes.length) {
-        debug('getAddedObserver: Matching nodes added:', nodes);
+        // If we used checkNested, the found items may be nestend somewhere we dont want to parse directly - filter them out
+        const relevantNodes = !checkNested
+          ? nodes
+          : nodes.flatMap((node) => {
+              if (node.matches(notifyFor)) {
+                return node;
+              }
 
-        callback(nodes);
+              return Array.from(node.querySelectorAll<HTMLElement>(notifyFor));
+            });
+
+        debug('getAddedObserver: Matching nodes added:', relevantNodes);
+
+        callback(relevantNodes);
       }
     });
 
     if (root) {
+      debug('getAddedObserver: Observing root:', root, 'with config:', config);
+
       observer.observe(root, config);
     }
 

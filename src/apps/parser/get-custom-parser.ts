@@ -1,3 +1,4 @@
+import { debug } from '@shared/debug';
 import { HostMeta, PredefinedHostMeta } from '@shared/host-meta/types';
 import { BaseParser } from './base.parser';
 import { BunproParser } from './custom-parsers/bunpro.parser';
@@ -23,6 +24,8 @@ export const getCustomParser = (
     ExStaticParser,
   };
   const parser = parsers[name];
+
+  debug(`getCustomParser called with name: ${name}`, 'meta:', meta);
 
   return new parser(meta);
 };

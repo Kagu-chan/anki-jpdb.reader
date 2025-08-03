@@ -21,4 +21,5 @@ Thumbs.db
 local/
 submission/
 
+*.bak
 *.bak.*

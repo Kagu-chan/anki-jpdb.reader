@@ -20,6 +20,11 @@ export type AddedObserverOptions = {
   notifyFor: string;
 
   /**
+   * If added elements match `checkNested`, check if they contain nested elements matching the `notifyFor` selector.
+   */
+  checkNested?: string;
+
+  /**
    * @see MutationObserver.observe
    * https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe
    *

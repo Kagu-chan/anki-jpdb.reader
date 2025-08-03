@@ -6,17 +6,20 @@ import { AdditionalHostMeta, HostMeta, PredefinedHostMeta } from './types';
 
 export function getHostMeta(
   host: string,
+  role: string,
   filter?: (meta: HostMeta) => boolean,
   multiple?: false,
 ): Promise<HostMeta | undefined>;
 export function getHostMeta(
   host: string,
+  role: string,
   filter: (meta: HostMeta) => boolean,
   multiple: true,
 ): Promise<HostMeta[]>;
 
 export async function getHostMeta(
   host: string,
+  role: string,
   filter: (meta: HostMeta) => boolean = (): boolean => true,
   multiple?: boolean,
 ): Promise<HostMeta[] | HostMeta | undefined> {
@@ -27,10 +30,16 @@ export async function getHostMeta(
 
   const isPredefined = (meta: HostMeta): meta is PredefinedHostMeta => 'id' in meta;
 
-  debug('getHostMeta called with host:', host, 'filter:', filter, 'multiple:', multiple);
+  debug(
+    `[${role}] getHostMeta called with host: ${host}`,
+    'filter:',
+    filter,
+    'multiple:',
+    multiple,
+  );
 
   if (!host?.length) {
-    debug('getHostMeta called with empty host string');
+    debug(`[${role}] getHostMeta called with empty host string`);
 
     return multiple ? [] : undefined;
   }
@@ -38,7 +47,7 @@ export async function getHostMeta(
   try {
     const meta = JSON.parse(additionalMeta?.length ? additionalMeta : '[]') as HostMeta[];
 
-    debug('Loaded additional meta:', meta);
+    debug(`[${role}] Loaded additional meta:`, meta);
 
     hostsMeta.push(
       ...meta.map(
@@ -69,7 +78,7 @@ export async function getHostMeta(
     );
   } catch (e) {
     // eslint-disable-next-line no-console
-    console.error('Failed to parse additional meta:', e);
+    console.error(`[${role}] Failed to parse additional meta:`, e);
 
     displayToast(
       'error',
@@ -92,7 +101,7 @@ export async function getHostMeta(
         parserClass: 'custom-parser',
       };
 
-      debug('Adding additional host:', additionalHostObject);
+      debug(`[${role}] Adding additional host:`, additionalHostObject);
       hostsMeta.push(additionalHostObject);
     });
 
@@ -139,7 +148,7 @@ export async function getHostMeta(
   const enabledHosts = hostsMeta.filter(hostFilter);
   const result = multiple ? enabledHosts.filter(filter) : enabledHosts.find(filter);
 
-  debug('getHostMeta result:', { host, result });
+  debug(`[${role}] getHostMeta result:`, { host, result });
 
   return result;
 }

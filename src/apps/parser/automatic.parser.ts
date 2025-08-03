@@ -1,3 +1,4 @@
+import { debug } from '@shared/debug';
 import { HostMeta } from '@shared/host-meta/types';
 import { BaseParser } from './base.parser';
 
@@ -9,14 +10,20 @@ export class AutomaticParser extends BaseParser {
     super(meta);
 
     if (this._meta.parseVisibleObserver) {
+      debug('AutomaticParser: Setting up visible observer', this._meta.parseVisibleObserver);
+
       this.setupVisibleObserver();
     }
 
     if (this._meta.addedObserver) {
+      debug('AutomaticParser: Setting up added observer', this._meta.addedObserver);
+
       this.setupAddedObserver();
     }
 
     if (this._meta.parse) {
+      debug('AutomaticParser: Parsing page with parse function', this._meta.parse);
+
       this.parsePage();
     }
   }
@@ -62,6 +69,7 @@ export class AutomaticParser extends BaseParser {
     this._addedObserver = this.getAddedObserver(
       this._meta.addedObserver!.observeFrom ?? 'body',
       this._meta.addedObserver!.notifyFor,
+      this._meta.addedObserver!.checkNested,
       this._meta.addedObserver!.config ?? { childList: true, subtree: true },
       (nodes) => this.addedObserverCallback(nodes),
     );

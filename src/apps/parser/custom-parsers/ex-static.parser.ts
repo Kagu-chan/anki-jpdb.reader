@@ -9,6 +9,7 @@ export class ExStaticParser extends AutomaticParser {
    *
    * @param {string | string[]} observeFrom The root element to observe from. If an array is provided, the first element that matches is used.
    * @param {string} notifyFor The selector to match the added nodes against
+   * @param {string} checkNested If added elements match `checkNested`, check if they contain nested elements matching the `notifyFor` selector.
    * @param {MutationObserverInit} config The mutation observer configuration
    * @param {(nodes: HTMLElement[]) => void} callback The callback to call when nodes are added.
    * @returns {MutationObserver}
@@ -16,6 +17,7 @@ export class ExStaticParser extends AutomaticParser {
   protected getAddedObserver(
     observeFrom: string,
     notifyFor: string,
+    checkNested: string | undefined,
     config: MutationObserverInit,
     callback: (nodes: HTMLElement[]) => void,
   ): MutationObserver {
