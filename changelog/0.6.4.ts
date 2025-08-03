@@ -29,6 +29,6 @@ export const _064: ChangelogEntry[] = [
     type: 'fix',
     description: 'Improved CSS injection and reduced flickering.',
     category: Category.Texthighlighter,
-    issue: [235, 272],
+    issue: [235, 272, 306],
   },
 ];
