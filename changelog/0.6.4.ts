@@ -37,4 +37,16 @@ export const _064: ChangelogEntry[] = [
     category: Category.Parser,
     issue: 307,
   },
+  {
+    type: 'chore',
+    description: 'Updated wording and documentation.',
+    category: Category.Documentation,
+    issue: 'N/A',
+  },
+  {
+    type: 'chore',
+    description: 'Fixed links in the changelog.',
+    category: Category.Documentation,
+    issue: 'N/A',
+  },
 ];

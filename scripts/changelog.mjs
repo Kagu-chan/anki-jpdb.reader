@@ -67,14 +67,39 @@ for (const key of Object.keys(changelog).reverse()) {
   itemsSorted.forEach((item) => {
     const { type, description, issue, category } = item;
 
-    const linkMD = issue === 'N/A' ? '' : ` [[#${issue}](${issue})]`;
+    let linkMD = '';
+    if (issue !== 'N/A') {
+      if (Array.isArray(issue)) {
+        linkMD = issue
+          .map(
+            (num) =>
+              ` [#${num}](https://github.com/Kagu-chan/anki-jpdb.reader/issues/${num})`
+          )
+          .join('');
+      } else {
+        linkMD = ` [#${issue}](https://github.com/Kagu-chan/anki-jpdb.reader/issues/${issue})`;
+      }
+    }
     const catMD = Array.isArray(category) ? category.join(', ') : category;
     const lineMD = `- ${type}: ${description}${linkMD} [${catMD}]`;
 
-    const linkTextHtml =
-      issue === 'N/A'
-        ? ''
-        : ` [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/${issue}" target="_blank">#${issue}</a>]`;
+    let linkTextHtml = '';
+    if (issue !== 'N/A') {
+      if (Array.isArray(issue)) {
+        linkTextHtml =
+          ' ' +
+          issue
+            .map(
+              (num) =>
+                `<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/${num}" target="_blank">#${num}</a>`
+            )
+            .join(' ');
+      } else {
+        linkTextHtml = ` <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/${issue}" target="_blank">#${issue}</a>`;
+      }
+    }
+    if (linkTextHtml) linkTextHtml = ` [${linkTextHtml}]`;
+
     const catHtml = (Array.isArray(category) ? category : [category])
       .map((c) => `<label class="category outline">${c}</label>`)
       .join('');
