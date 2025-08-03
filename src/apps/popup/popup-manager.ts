@@ -87,7 +87,7 @@ export class PopupManager {
       target = target?.closest('.jpdb-word');
     }
 
-    if (!this._touchscreenSupport || !target) {
+    if (!this._touchscreenSupport || !target || Registry.skipTouchEvents) {
       return;
     }
 

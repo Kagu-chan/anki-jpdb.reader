@@ -29,6 +29,7 @@ export function createElement(
 
   if (options.handler) {
     e.onclick = options.handler;
+    e.ontouchstart = (e): void => options.handler!(e);
   }
 
   if (options.events) {

@@ -31,4 +31,10 @@ export const _064: ChangelogEntry[] = [
     category: Category.Texthighlighter,
     issue: [235, 272, 306],
   },
+  {
+    type: 'fix',
+    description: 'Added an option to disable touch events in Satori Reader.',
+    category: Category.Parser,
+    issue: 307,
+  },
 ];

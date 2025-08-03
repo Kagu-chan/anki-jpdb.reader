@@ -4,7 +4,7 @@ export interface DOMElementBaseOptions {
   attributes?: Record<string, string | boolean>;
   style?: Partial<CSSStyleDeclaration>;
   innerText?: string | number;
-  handler?: (ev?: MouseEvent) => void;
+  handler?: (ev?: MouseEvent | TouchEvent) => void;
   events?: Record<string, (ev: Event) => void>;
 }
 

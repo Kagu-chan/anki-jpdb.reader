@@ -6,6 +6,7 @@ import { ExStaticParser } from './custom-parsers/ex-static.parser';
 import { MokuroLegacyParser } from './custom-parsers/mokuro-legacy.parser';
 import { MokuroParser } from './custom-parsers/mokuro.parser';
 import { ReadwokParser } from './custom-parsers/readwok.parser';
+import { SatoriReaderParser } from './custom-parsers/satori-reader.parser';
 import { TtsuParser } from './custom-parsers/ttsu.parser';
 
 export const getCustomParser = (
@@ -22,6 +23,7 @@ export const getCustomParser = (
     ReadwokParser,
     TtsuParser,
     ExStaticParser,
+    SatoriReaderParser,
   };
   const parser = parsers[name];
 

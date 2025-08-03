@@ -187,6 +187,7 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     parserClass: 'satori-reader-parser',
     parse: '#article-content',
     filter: '.play-button-container, .notes-button-container, .fg, .wpr',
+    custom: 'SatoriReaderParser',
   },
   {
     id: 'nhk-parser',

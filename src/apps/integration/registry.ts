@@ -19,6 +19,7 @@ export class Registry {
   public static readonly parsers: BaseParser[] = [];
   public static readonly batchController = new BatchController();
   public static readonly sequenceManager = new SequenceManager();
+  public static skipTouchEvents = false;
   public static popupManager?: PopupManager;
 
   public static textHighlighter: new (

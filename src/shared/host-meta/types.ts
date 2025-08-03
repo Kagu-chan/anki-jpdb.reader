@@ -36,7 +36,8 @@ export type PredefinedHostMeta = AdditionalHostMeta & {
     | 'MokuroLegacyParser'
     | 'ReadwokParser'
     | 'TtsuParser'
-    | 'ExStaticParser';
+    | 'ExStaticParser'
+    | 'SatoriReaderParser';
 };
 
 export type HostMeta = AdditionalHostMeta | PredefinedHostMeta;

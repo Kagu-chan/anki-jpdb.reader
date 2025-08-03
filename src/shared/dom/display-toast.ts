@@ -79,7 +79,7 @@ export function displayToast(type: 'error' | 'success', message: string, error?:
             ? {
                 tag: 'span',
                 innerText: '⎘',
-                handler(ev?: MouseEvent): void {
+                handler(ev?: MouseEvent | TouchEvent): void {
                   ev?.stopPropagation();
 
                   void navigator.clipboard.writeText(error ?? message);
