@@ -30,7 +30,7 @@ Sadly, Manifest V3 came along and the original is no longer working.
 ### Please note:
 * Currently, only Chromium-based browsers and Firefox (including Android) are supported.
 * Mobile support for Kiwi, Edge Canary, and comparable browsers, as well as Firefox Android, is experimental.
-* Bunpro is currently not supported.
+* Support for Bunpro is currently considered experimental.
 * Support for YouTube subtitles has been removed - please use this extension together with [asbplayer](https://github.com/killergerbah/asbplayer).
 * Extension updates in browser app stores are sometimes delayed compared to releases on GitHub - this should usually make no difference.
 
@@ -48,6 +48,7 @@ Some web apps and sites require special attention to work properly; therefore, t
 | Satori Reader | [satorireader.com](https://www.satorireader.com/) |
 | NHK News | [nhk.or.jp](https://www3.nhk.or.jp/news/) |
 | Wikipedia | [ja.wikipedia.org](https://ja.wikipedia.org/) |
+| Bunpro | [bunpro.jp](https://bunpro.jp) (Experimental) |
 | asbplayer | [github.com/killergerbah/asbplayer](https://github.com/killergerbah/asbplayer) |
 | YouTube comments | [youtube.com](https://youtube.com/) |
 | Custom Dictionaries | [CDM by Nakura Nakamoto](https://gitlab.com/nakura/jpdb_cdm) |

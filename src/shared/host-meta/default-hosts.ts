@@ -204,6 +204,20 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     },
   },
   {
+    id: 'bunpro-parser',
+    name: 'Bunpro Parser',
+    description: 'Parses Bunpro graded reader sections',
+    host: '*://bunpro.jp/*',
+    auto: true,
+    optOut: true,
+    allFrames: false,
+    parserClass: 'bunpro-parser',
+    parseVisibleObserver: true,
+    addedObserver: {
+      notifyFor: 'div.mx-auto',
+    },
+  },
+  {
     id: 'asbplayer-parser',
     name: 'asbplayer Parser',
     description: 'Parses asbplayer subtitles',

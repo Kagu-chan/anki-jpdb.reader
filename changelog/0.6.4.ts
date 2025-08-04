@@ -49,4 +49,10 @@ export const _064: ChangelogEntry[] = [
     category: Category.Documentation,
     issue: 'N/A',
   },
+  {
+    type: 'fix',
+    description: 'Added experimental support for bunpro.',
+    category: Category.Parser,
+    issue: 61,
+  },
 ];
