@@ -25,6 +25,7 @@ export enum Category {
   Hosts = 'Hosts',
   Popup = 'Popup',
   Settings = 'Settings',
+  Features = 'Features',
 }
 export type ChangelogEntry = {
   type: ChangeType;

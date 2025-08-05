@@ -38,6 +38,7 @@ export type ConfigurationSchema = {
   showCurrentOnTop: boolean;
   showParseButton: boolean;
 
+  enabledFeatures: string[];
   disabledParsers: string[];
   additionalHosts: string;
   additionalMeta: string;

@@ -12,6 +12,7 @@ import { listUserDecks } from '@shared/jpdb/list-user-decks';
 import { ping } from '@shared/jpdb/ping';
 import { JPDBDeck } from '@shared/jpdb/types';
 import { ConfigurationUpdatedCommand } from '@shared/messages/broadcast/configuration-updated.command';
+import { HTMLFeaturesInputElement } from './elements/html-features-input-element';
 import { HTMLKeybindInputElement } from './elements/html-keybind-input-element';
 import { HTMLMiningInputElement } from './elements/html-mining-input-element';
 import { HTMLParsersInputElement } from './elements/html-parsers-input-element';
@@ -51,6 +52,7 @@ class SettingsController {
     customElements.define('mining-input', HTMLMiningInputElement);
     customElements.define('keybind-input', HTMLKeybindInputElement);
     customElements.define('parsers-input', HTMLParsersInputElement);
+    customElements.define('features-input', HTMLFeaturesInputElement);
 
     void this.setup();
   }
@@ -99,8 +101,10 @@ class SettingsController {
    * Also, install listeners to keep track of the local changes.
    */
   private async _setupSimpleFields(): Promise<void> {
-    await this._setupFields('input, textarea, keybind-input, parsers-input', [''], (type) =>
-      type === 'checkbox' ? 'checked' : 'value',
+    await this._setupFields(
+      'input, textarea, keybind-input, parsers-input, features-input',
+      [''],
+      (type) => (type === 'checkbox' ? 'checked' : 'value'),
     );
   }
 

@@ -6,6 +6,7 @@ import { JPDBCardState } from '@shared/jpdb/types';
 import { LookupTextCommand } from '@shared/messages/background/lookup-text.command';
 import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
 import { receiveBackgroundMessage } from '@shared/messages/receiving/receive-background-message';
+import { getFeatures } from './features/get-features';
 import { KeybindManager } from './integration/keybind-manager';
 import { NoFocusTrigger } from './integration/no-focus-trigger';
 import { Registry } from './integration/registry';
@@ -64,6 +65,8 @@ export class AJB {
       },
       true,
     );
+
+    void this.installFeatures();
   }
 
   protected lookupText(text: string | undefined): void {
@@ -116,6 +119,14 @@ export class AJB {
         parsers.push(new AutomaticParser(meta));
       }
     });
+  }
+
+  protected async installFeatures(): Promise<void> {
+    const features = await getFeatures();
+
+    for (const feature of features) {
+      feature.apply();
+    }
   }
 }
 

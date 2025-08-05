@@ -1,6 +1,7 @@
 import { getConfiguration } from '../configuration/get-configuration';
 import { debug } from '../debug';
 import { displayToast } from '../dom/display-toast';
+import { matchUrl } from '../match-url';
 import { DEFAULT_HOSTS } from './default-hosts';
 import { AdditionalHostMeta, HostMeta, PredefinedHostMeta } from './types';
 
@@ -106,43 +107,15 @@ export async function getHostMeta(
     });
 
   const hostFilter = (meta: HostMeta): boolean => {
-    const matchUrl = (matchPattern: string): boolean => {
+    const isMatch = (matchPattern: string): boolean => {
       if (isPredefined(meta) && meta.optOut && disabledHosts.includes(meta.id)) {
         return false;
       }
 
-      if (matchPattern === '<all_urls>') {
-        return true;
-      }
-
-      const [patternSchema, patternUrl] = matchPattern.split('://', 2);
-      const [patternHost, patternPath] = patternUrl.split(/\/(.*)/, 2);
-      const [hostSchema, hostUrl] = host.split('://', 2);
-      const [hostHost, hostPath] = hostUrl.split(/\/(.*)/, 2);
-
-      if (patternSchema === '*' && !['http', 'https'].includes(hostSchema)) {
-        return false;
-      }
-
-      if (patternSchema !== '*' && patternSchema !== hostSchema) {
-        return false;
-      }
-
-      const hostRegex = new RegExp(`^${patternHost.replace(/\./g, '\\.').replace(/\*/g, '.*')}$`);
-      const pathRegex = new RegExp(`^${patternPath.replace(/\./g, '\\.').replace(/\*/g, '.*')}$`);
-
-      if (!hostHost.match(hostRegex)) {
-        return false;
-      }
-
-      if (!hostPath.match(pathRegex)) {
-        return false;
-      }
-
-      return true;
+      return matchUrl(matchPattern, host);
     };
 
-    return Array.isArray(meta.host) ? meta.host.some(matchUrl) : matchUrl(meta.host);
+    return Array.isArray(meta.host) ? meta.host.some(isMatch) : isMatch(meta.host);
   };
 
   const enabledHosts = hostsMeta.filter(hostFilter);

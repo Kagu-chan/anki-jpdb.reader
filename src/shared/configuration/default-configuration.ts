@@ -36,6 +36,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   showCurrentOnTop: true,
   showParseButton: true,
 
+  enabledFeatures: [],
   disabledParsers: [],
   additionalHosts: '',
   additionalMeta: '[]',
