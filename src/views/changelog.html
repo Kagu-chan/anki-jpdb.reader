@@ -1,96 +1,108 @@
 <link rel="stylesheet" media="screen" href="../css/changelog.css" />
 <h2>Changelog</h2>
+<h5>0.6.4 (2025.08.05)</h5>
+<ul>
+<li><label class="type outline fix">fix</label><span class="description">Added experimental support for bunpro.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/61" target="_blank">#61</a>]<label class="category outline">Parser</label></li>
+<li><label class="type outline fix">fix</label><span class="description">Improved CSS injection and reduced flickering.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/235" target="_blank">#235</a> <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/272" target="_blank">#272</a> <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/306" target="_blank">#306</a>]<label class="category outline">Texthighlighter</label></li>
+<li><label class="type outline fix">fix</label><span class="description">Fixed a bug where the parser would not parse nested elements.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/238" target="_blank">#238</a>]<label class="category outline">Parser</label></li>
+<li><label class="type outline fix">fix</label><span class="description">Added an option to disable touch events in Satori Reader.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/307" target="_blank">#307</a>]<label class="category outline">Parser</label></li>
+<li><label class="type outline add">add</label><span class="description">Added import and export of settings.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/66" target="_blank">#66</a>]<label class="category outline">Settings</label></li>
+<li><label class="type outline add">add</label><span class="description">Added a debug mode for host configuration.</span><label class="category outline">Settings</label></li>
+<li><label class="type outline add">add</label><span class="description">Added a link to the GitHub issues page.</span><label class="category outline">Settings</label></li>
+<li><label class="type outline chore">chore</label><span class="description">Fixed links in the changelog.</span><label class="category outline">Documentation</label></li>
+<li><label class="type outline chore">chore</label><span class="description">Updated wording and documentation.</span><label class="category outline">Documentation</label></li>
+</ul>
 <h5>0.6.3 (2025.05.23)</h5>
 <ul>
-<li><label class="type outline fix">fix</label><span class="description">Readded touchscreen support</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/63" target="_blank">#63</a>]<label class="category outline">Popup</label></li>
-<li><label class="type outline fix">fix</label><span class="description">Keybinds did not work when the browser was not focused</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/239" target="_blank">#239</a>]<label class="category outline">Browser</label></li>
-<li><label class="type outline change">change</label><span class="description">Skip context menus on mobile devices or if not granted</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/59,60,99,100" target="_blank">#59,60,99,100</a>]<label class="category outline">Browser</label></li>
-<li><label class="type outline change">change</label><span class="description">Reduced the permission the extension requires</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/91" target="_blank">#91</a>]<label class="category outline">Browser</label></li>
-<li><label class="type outline add">add</label><span class="description">Allow adding cycling options to the popup</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/63" target="_blank">#63</a>]<label class="category outline">Popup</label></li>
+<li><label class="type outline fix">fix</label><span class="description">Re-added touchscreen support.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/63" target="_blank">#63</a>]<label class="category outline">Popup</label></li>
+<li><label class="type outline fix">fix</label><span class="description">Fixed keybinds not working when the browser was not focused.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/239" target="_blank">#239</a>]<label class="category outline">Browser</label></li>
+<li><label class="type outline change">change</label><span class="description">Context menus are now skipped on mobile devices or if not granted.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/59" target="_blank">#59</a> <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/60" target="_blank">#60</a> <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/99" target="_blank">#99</a> <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/100" target="_blank">#100</a>]<label class="category outline">Browser</label></li>
+<li><label class="type outline change">change</label><span class="description">Reduced the permissions required by the extension.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/91" target="_blank">#91</a>]<label class="category outline">Browser</label></li>
+<li><label class="type outline add">add</label><span class="description">Added the ability to add cycling options to the popup.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/63" target="_blank">#63</a>]<label class="category outline">Popup</label></li>
 </ul>
 <h5>0.6.2 (2025.05.18)</h5>
 <ul>
-<li><label class="type outline fix">fix</label><span class="description">Use options_ui for compatibility with LunaTranslator</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/227" target="_blank">#227</a>]<label class="category outline">Settings</label></li>
-<li><label class="type outline change">change</label><span class="description">Popup state classes are now applied to the popup container itself</span><label class="category outline">Popup</label></li>
-<li><label class="type outline add">add</label><span class="description">Add support for Luna Translator</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/227" target="_blank">#227</a>]<label class="category outline">Hosts</label></li>
+<li><label class="type outline fix">fix</label><span class="description">Used options_ui for compatibility with Luna Translator.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/227" target="_blank">#227</a>]<label class="category outline">Settings</label></li>
+<li><label class="type outline change">change</label><span class="description">Popup state classes are now applied to the popup container itself.</span><label class="category outline">Popup</label></li>
+<li><label class="type outline add">add</label><span class="description">Added support for Luna Translator.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/227" target="_blank">#227</a>]<label class="category outline">Hosts</label></li>
 </ul>
 <h5>0.6.1 (2025.05.18)</h5>
 <ul>
-<li><label class="type outline fix">fix</label><span class="description">Issues with JPDB reachability will now get displayed properly</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/193" target="_blank">#193</a>]<label class="category outline">API</label></li>
-<li><label class="type outline fix">fix</label><span class="description">Fix Kanji tokens not being applied for fragmented words</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/215" target="_blank">#215</a>]<label class="category outline">Texthighlighter</label></li>
-<li><label class="type outline fix">fix</label><span class="description">Fix the same error message being shown multiple times</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/216" target="_blank">#216</a>]<label class="category outline">Popup</label></li>
-<li><label class="type outline fix">fix</label><span class="description">Improved the error shown on text highlighter errors</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/216" target="_blank">#216</a>]<label class="category outline">Popup</label></li>
-<li><label class="type outline fix">fix</label><span class="description">The copy error button now writes the actual exception to the clipboard</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/216" target="_blank">#216</a>]<label class="category outline">Popup</label></li>
-<li><label class="type outline fix">fix</label><span class="description">Fix custom meta being applied twice</span><label class="category outline">Hosts</label></li>
-<li><label class="type outline change">change</label><span class="description">Update documentation for custom parsing</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/217" target="_blank">#217</a>]<label class="category outline">Hosts</label><label class="category outline">Documentation</label></li>
-<li><label class="type outline change">change</label><span class="description">Allow marking all words as frequent</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/237" target="_blank">#237</a>]<label class="category outline">Texthighlighter</label></li>
-<li><label class="type outline change">change</label><span class="description">Allow filtering simple hosts</span><label class="category outline">Hosts</label></li>
-<li><label class="type outline change">change</label><span class="description">Disable youtube music parsing</span><label class="category outline">Hosts</label></li>
-<li><label class="type outline add">add</label><span class="description">Add NHK news support</span><label class="category outline">Hosts</label></li>
-<li><label class="type outline add">add</label><span class="description">Add Satori Reader support</span><label class="category outline">Hosts</label></li>
+<li><label class="type outline fix">fix</label><span class="description">Issues with JPDB reachability are now displayed properly.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/193" target="_blank">#193</a>]<label class="category outline">API</label></li>
+<li><label class="type outline fix">fix</label><span class="description">Fixed Kanji tokens not being applied for fragmented words.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/215" target="_blank">#215</a>]<label class="category outline">Texthighlighter</label></li>
+<li><label class="type outline fix">fix</label><span class="description">Fixed the same error message being shown multiple times.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/216" target="_blank">#216</a>]<label class="category outline">Popup</label></li>
+<li><label class="type outline fix">fix</label><span class="description">Improved the error message shown on text highlighter errors.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/216" target="_blank">#216</a>]<label class="category outline">Popup</label></li>
+<li><label class="type outline fix">fix</label><span class="description">The copy error button now writes the actual exception to the clipboard.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/216" target="_blank">#216</a>]<label class="category outline">Popup</label></li>
+<li><label class="type outline fix">fix</label><span class="description">Fixed custom meta being applied twice.</span><label class="category outline">Hosts</label></li>
+<li><label class="type outline change">change</label><span class="description">Updated documentation for custom parsing.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/217" target="_blank">#217</a>]<label class="category outline">Hosts</label><label class="category outline">Documentation</label></li>
+<li><label class="type outline change">change</label><span class="description">Added the ability to mark all words as frequent.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/237" target="_blank">#237</a>]<label class="category outline">Texthighlighter</label></li>
+<li><label class="type outline change">change</label><span class="description">Added the ability to filter simple hosts.</span><label class="category outline">Hosts</label></li>
+<li><label class="type outline change">change</label><span class="description">Disabled YouTube Music parsing.</span><label class="category outline">Hosts</label></li>
+<li><label class="type outline add">add</label><span class="description">Added NHK News support.</span><label class="category outline">Hosts</label></li>
+<li><label class="type outline add">add</label><span class="description">Added Satori Reader support.</span><label class="category outline">Hosts</label></li>
 </ul>
 <h5>0.6.0 (2025.05.04)</h5>
 <ul>
-<li><label class="type outline fix">fix</label><span class="description">Fix the popup staying when the hovered object is removed from the DOM</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/164" target="_blank">#164</a>]<label class="category outline">Popup</label></li>
-<li><label class="type outline fix">fix</label><span class="description">Enhanced the token matching for text highlighting</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/176" target="_blank">#176</a>]<label class="category outline">Texthighlighter</label></li>
-<li><label class="type outline fix">fix</label><span class="description">Fix the parse page button shown despite the option being disabled</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/190" target="_blank">#190</a>]<label class="category outline">Parser</label></li>
-<li><label class="type outline change">change</label><span class="description">Allow disabling automatic parsing for specific pages</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/144" target="_blank">#144</a>]<label class="category outline">Hosts</label></li>
-<li><label class="type outline add">add</label><span class="description">Allow adding pages and meta definitions for custom parsing</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/176" target="_blank">#176</a>]<label class="category outline">Hosts</label></li>
-<li><label class="type outline add">add</label><span class="description">The TamperMonkey Addon for monolingual dictionaries by Nakura Nakamoto is now supported</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/176" target="_blank">#176</a>]<label class="category outline">API</label><label class="category outline">Parser</label></li>
-<li><label class="type outline add">add</label><span class="description">Added the release date to the changelog</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/199" target="_blank">#199</a>]<label class="category outline">Documentation</label></li>
-<li><label class="type outline add">add</label><span class="description">Allow marking more frequent words in the text highlighter</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/210" target="_blank">#210</a>]<label class="category outline">Texthighlighter</label></li>
-<li><label class="type outline add">add</label><span class="description">add new pattern for generic texthooker</span><label class="category outline">Hosts</label></li>
+<li><label class="type outline fix">fix</label><span class="description">Fixed the popup staying when the hovered object is removed from the DOM.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/164" target="_blank">#164</a>]<label class="category outline">Popup</label></li>
+<li><label class="type outline fix">fix</label><span class="description">Enhanced token matching for text highlighting.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/176" target="_blank">#176</a>]<label class="category outline">Texthighlighter</label></li>
+<li><label class="type outline fix">fix</label><span class="description">Fixed the parse page button being shown despite the option being disabled.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/190" target="_blank">#190</a>]<label class="category outline">Parser</label></li>
+<li><label class="type outline change">change</label><span class="description">Added the ability to disable automatic parsing for specific pages.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/144" target="_blank">#144</a>]<label class="category outline">Hosts</label></li>
+<li><label class="type outline add">add</label><span class="description">Added support for the TamperMonkey addon for monolingual dictionaries by Nakura Nakamoto.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/176" target="_blank">#176</a>]<label class="category outline">API</label><label class="category outline">Parser</label></li>
+<li><label class="type outline add">add</label><span class="description">Added the ability to add pages and meta definitions for custom parsing.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/176" target="_blank">#176</a>]<label class="category outline">Hosts</label></li>
+<li><label class="type outline add">add</label><span class="description">Added the release date to the changelog.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/199" target="_blank">#199</a>]<label class="category outline">Documentation</label></li>
+<li><label class="type outline add">add</label><span class="description">Added the ability to mark more frequent words in the text highlighter.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/210" target="_blank">#210</a>]<label class="category outline">Texthighlighter</label></li>
+<li><label class="type outline add">add</label><span class="description">Added a new pattern for the generic texthooker.</span><label class="category outline">Hosts</label></li>
 </ul>
 <h5>0.5.0 (2025.04.13)</h5>
 <ul>
-<li><label class="type outline fix">fix</label><span class="description">In certain cases the card state did not properly update</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/156" target="_blank">#156</a>]<label class="category outline">Texthighlighter</label><label class="category outline">API</label></li>
-<li><label class="type outline change">change</label><span class="description">The currently active tab can now be moved to the top of the list</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/108" target="_blank">#108</a>]<label class="category outline">Parser</label></li>
-<li><label class="type outline change">change</label><span class="description">The list of tabs can now be reduced to only the active tab</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/109" target="_blank">#109</a>]<label class="category outline">Parser</label></li>
-<li><label class="type outline change">change</label><span class="description">The settings page has been updated</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/110" target="_blank">#110</a>]<label class="category outline">Settings</label></li>
-<li><label class="type outline change">change</label><span class="description">Actions can now be assigned two keyboard shortcuts</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/134" target="_blank">#134</a>]<label class="category outline">Parser</label><label class="category outline">Texthighlighter</label></li>
-<li><label class="type outline change">change</label><span class="description">The states for card state rotation can now be changed</span><label class="category outline">Texthighlighter</label><label class="category outline">API</label></li>
-<li><label class="type outline add">add</label><span class="description">Added a little parse page control to web pages</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/133" target="_blank">#133</a>]<label class="category outline">Parser</label></li>
-<li><label class="type outline add">add</label><span class="description">Suspended cards and decks are now supported</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/133" target="_blank">#133</a>]<label class="category outline">API</label><label class="category outline">Texthighlighter</label><label class="category outline">Parser</label></li>
-<li><label class="type outline add">add</label><span class="description">Allow changing the position of deck and mining actions on the popup</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/151" target="_blank">#151</a>]<label class="category outline">Popup</label></li>
-<li><label class="type outline add">add</label><span class="description">A changelog is now available</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/156" target="_blank">#156</a>]<label class="category outline">Documentation</label></li>
-<li><label class="type outline add">add</label><span class="description">The extension is now on the chrome web store</span><label class="category outline">Browser</label><label class="category outline">Documentation</label></li>
+<li><label class="type outline fix">fix</label><span class="description">Fixed an issue where the card state did not properly update in certain cases.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/156" target="_blank">#156</a>]<label class="category outline">Texthighlighter</label><label class="category outline">API</label></li>
+<li><label class="type outline change">change</label><span class="description">Added the ability to move the currently active tab to the top of the list.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/108" target="_blank">#108</a>]<label class="category outline">Parser</label></li>
+<li><label class="type outline change">change</label><span class="description">Added the ability to reduce the list of tabs to only the active tab.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/109" target="_blank">#109</a>]<label class="category outline">Parser</label></li>
+<li><label class="type outline change">change</label><span class="description">Updated the settings page.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/110" target="_blank">#110</a>]<label class="category outline">Settings</label></li>
+<li><label class="type outline change">change</label><span class="description">Added the ability to assign two keyboard shortcuts to actions.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/134" target="_blank">#134</a>]<label class="category outline">Parser</label><label class="category outline">Texthighlighter</label></li>
+<li><label class="type outline change">change</label><span class="description">Added the ability to change the states for card state rotation.</span><label class="category outline">Texthighlighter</label><label class="category outline">API</label></li>
+<li><label class="type outline add">add</label><span class="description">Added a parse page control to web pages.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/133" target="_blank">#133</a>]<label class="category outline">Parser</label></li>
+<li><label class="type outline add">add</label><span class="description">Added support for suspended cards and decks.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/133" target="_blank">#133</a>]<label class="category outline">API</label><label class="category outline">Texthighlighter</label><label class="category outline">Parser</label></li>
+<li><label class="type outline add">add</label><span class="description">Added the ability to change the position of deck and mining actions on the popup.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/151" target="_blank">#151</a>]<label class="category outline">Popup</label></li>
+<li><label class="type outline add">add</label><span class="description">Added a changelog.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/156" target="_blank">#156</a>]<label class="category outline">Documentation</label></li>
+<li><label class="type outline add">add</label><span class="description">Published the extension on the Chrome Web Store.</span><label class="category outline">Browser</label><label class="category outline">Documentation</label></li>
 </ul>
 <h5>0.4.0 (2025.02.10)</h5>
 <ul>
-<li><label class="type outline fix">fix</label><span class="description">Fix hosts configuration</span><label class="category outline">Hosts</label><label class="category outline">Parser</label></li>
-<li><label class="type outline change">change</label><span class="description">Update app styles injection</span><label class="category outline">Texthighlighter</label></li>
-<li><label class="type outline change">change</label><span class="description">Update styling documentation</span><label class="category outline">Texthighlighter</label><label class="category outline">Documentation</label></li>
-<li><label class="type outline add">add</label><span class="description">Allow styling based on the current parser</span><label class="category outline">Texthighlighter</label><label class="category outline">Parser</label></li>
+<li><label class="type outline fix">fix</label><span class="description">Fixed hosts configuration.</span><label class="category outline">Hosts</label><label class="category outline">Parser</label></li>
+<li><label class="type outline change">change</label><span class="description">Changed app styles injection.</span><label class="category outline">Texthighlighter</label></li>
+<li><label class="type outline change">change</label><span class="description">Updated styling documentation.</span><label class="category outline">Texthighlighter</label><label class="category outline">Documentation</label></li>
+<li><label class="type outline add">add</label><span class="description">Added the ability to style based on the current parser.</span><label class="category outline">Texthighlighter</label><label class="category outline">Parser</label></li>
 </ul>
 <h5>0.3.1 (2025.02.09)</h5>
 <ul>
-<li><label class="type outline chore">chore</label><span class="description">Fix release references</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/58" target="_blank">#58</a>]<label class="category outline">Browser</label></li>
+<li><label class="type outline chore">chore</label><span class="description">Fixed release references.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/58" target="_blank">#58</a>]<label class="category outline">Browser</label></li>
 </ul>
 <h5>0.3.0 (2025.02.09)</h5>
 <ul>
-<li><label class="type outline fix">fix</label><span class="description">Furigana will no longer be copied when looking up a word</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/56" target="_blank">#56</a>]<label class="category outline">Texthighlighter</label><label class="category outline">API</label></li>
-<li><label class="type outline add">add</label><span class="description">Added support for Pitch Accent</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/55" target="_blank">#55</a>]<label class="category outline">Texthighlighter</label></li>
-<li><label class="type outline add">add</label><span class="description">Words can now be added to FORQ</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/64" target="_blank">#64</a>]<label class="category outline">API</label></li>
-<li><label class="type outline add">add</label><span class="description">Sentences can now be set on JPDB</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/65" target="_blank">#65</a>]<label class="category outline">API</label></li>
+<li><label class="type outline fix">fix</label><span class="description">Furigana will no longer be copied when looking up a word.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/56" target="_blank">#56</a>]<label class="category outline">Texthighlighter</label><label class="category outline">API</label></li>
+<li><label class="type outline add">add</label><span class="description">Added support for pitch accent.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/55" target="_blank">#55</a>]<label class="category outline">Texthighlighter</label></li>
+<li><label class="type outline add">add</label><span class="description">Added the ability to add words to FORQ.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/64" target="_blank">#64</a>]<label class="category outline">API</label></li>
+<li><label class="type outline add">add</label><span class="description">Added the ability to set sentences on JPDB.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/65" target="_blank">#65</a>]<label class="category outline">API</label></li>
 </ul>
 <h5>0.2.1 (2025.02.09)</h5>
 <ul>
-<li><label class="type outline chore">chore</label><span class="description">Prepare extension store releases</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/58" target="_blank">#58</a>]<label class="category outline">Browser</label></li>
+<li><label class="type outline chore">chore</label><span class="description">Prepared extension store releases.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/58" target="_blank">#58</a>]<label class="category outline">Browser</label></li>
 </ul>
 <h5>0.2.0 (2025.02.09)</h5>
 <ul>
-<li><label class="type outline add">add</label><span class="description">Added support for firefox</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/58" target="_blank">#58</a>]<label class="category outline">Browser</label></li>
+<li><label class="type outline add">add</label><span class="description">Added support for Firefox.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/58" target="_blank">#58</a>]<label class="category outline">Browser</label></li>
 </ul>
 <h5>0.1.2 (2025.02.04)</h5>
 <ul>
-<li><label class="type outline fix">fix</label><span class="description">Single words can now be parsed</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/72" target="_blank">#72</a>]<label class="category outline">Parser</label></li>
+<li><label class="type outline fix">fix</label><span class="description">Fixed an issue where single words could not be parsed.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/72" target="_blank">#72</a>]<label class="category outline">Parser</label></li>
 </ul>
 <h5>0.1.1 (2025.02.04)</h5>
 <ul>
-<li><label class="type outline add">add</label><span class="description">Allow hiding the popup after unhovering the related token</span> [<a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/69" target="_blank">#69</a>]<label class="category outline">Popup</label></li>
-<li><label class="type outline add">add</label><span class="description">Mark linux as compatible operating system</span><label class="category outline">Platform</label></li>
+<li><label class="type outline add">add</label><span class="description">Added the ability to hide the popup after unhovering the related token.</span> [ <a href="https://github.com/Kagu-chan/anki-jpdb.reader/issues/69" target="_blank">#69</a>]<label class="category outline">Popup</label></li>
+<li><label class="type outline add">add</label><span class="description">Marked Linux as a compatible operating system.</span><label class="category outline">Platform</label></li>
 </ul>
 <h5>0.1.0 (2025.01.31)</h5>
 <ul>
-<li><label class="type outline add">add</label><span class="description">Initial release with basic functionality</span><label class="category outline">Browser</label></li>
+<li><label class="type outline add">add</label><span class="description">Initial release with basic functionality.</span><label class="category outline">Browser</label></li>
 </ul>
