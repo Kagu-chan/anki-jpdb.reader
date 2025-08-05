@@ -17,6 +17,11 @@ import { HTMLKeybindInputElement } from './elements/html-keybind-input-element';
 import { HTMLMiningInputElement } from './elements/html-mining-input-element';
 import { HTMLParsersInputElement } from './elements/html-parsers-input-element';
 
+/**
+ * SettingsController handles the logic for the settings page,
+ * including loading, saving, importing, and exporting configuration,
+ * as well as integration with JPDB and Anki APIs.
+ */
 class SettingsController {
   private _lastSavedConfiguration = new Map<
     keyof ConfigurationSchema,
@@ -247,6 +252,10 @@ class SettingsController {
     };
   }
 
+  /**
+   * Sets up the export button to allow users to download their configuration.
+   * The API token is excluded from the export for security reasons.
+   */
   private _setupExportButton(): void {
     this._exportButton.onclick = (event: Event): void => {
       event.stopPropagation();
@@ -255,7 +264,8 @@ class SettingsController {
       const downloadTitleWithDate = `configuration-${new Date().toISOString().slice(0, 10)}.json`;
       const configuration = Object.fromEntries(this._lastSavedConfiguration.entries());
 
-      delete configuration.jpdbApiToken; // Do not export the API token for security reasons
+      // Do not export the API token for security reasons
+      delete configuration.jpdbApiToken;
 
       const blob = new Blob([JSON.stringify(configuration, null, 2)], {
         type: 'application/json',

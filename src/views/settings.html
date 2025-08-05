@@ -8,7 +8,6 @@
     <meta name="theme-color" content="#181818" />
     <title>Settings - Anki JPDB Reader</title>
 
-
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/16.png" />
     <link rel="icon" type="image/png" sizes="48x48" href="../assets/48.png" />
     <link rel="stylesheet" media="screen" href="../assets/font-awesome.min.css" />
@@ -30,7 +29,7 @@
                 <div class="inline-group">
                   <input type="password" id="jpdbApiToken" name="jpdbApiToken" />
                   <div>
-                    <input type="button" id="apiTokenButton" class="button outline small" value="⭯"></input>
+                    <input type="button" id="apiTokenButton" class="button outline small" value="⭯" />
                   </div>
                 </div>
                 <p style="opacity: 0.8">
@@ -38,8 +37,7 @@
                   <a
                     href="https://jpdb.io/settings#:~:text=in%20the%20future.-,Account%20information,-Username"
                     target="_blank"
-                    >jpdb settings page</a
-                  >
+                  >JPDB settings page</a>
                   and scroll to the very bottom.
                 </p>
               </div>
@@ -54,7 +52,7 @@
                   <label for="enableAnkiIntegration">Mine into Anki instead of JPDB</label>
                 </div>
               </div>
-              <p style="opacity: 0.8">Anki will be implemented at a later point in time!</p>
+              <p style="opacity: 0.8">Anki will be implemented at a later point in time.</p>
             </div>
           </div>
         </div>
@@ -65,42 +63,41 @@
           <div class="form-box-parent">
             <div class="form-box">
               <div>
-                <label for="ankiUrl">Anki Connect Endpoint URL</label>
+                <label for="ankiUrl">AnkiConnect Endpoint URL</label>
                 <div class="inline-group">
                   <input type="text" id="ankiUrl" name="ankiUrl" />
                   <div>
-                    <input type="button" id="ankiUrlButton" class="button outline small" value="⭯"></input>
+                    <input type="button" id="ankiUrlButton" class="button outline small" value="⭯" />
                   </div>
                 </div>
                 <p style="opacity: 0.8; margin-bottom: 0;">
-                  To find your Anki Connect endpoint URL, go to Anki -> Tools -> Add-ons ->
-                  AnkiConnect -> Config.
+                  To find your AnkiConnect endpoint URL, go to Anki -> Tools -> Add-ons -> AnkiConnect -> Config.
                 </p>
                 <p style="opacity: 0.8; margin-bottom: 0;">
-                  Enter the webBindAddress as well as the webBindPort as
+                  Enter the <code>webBindAddress</code> as well as the <code>webBindPort</code> as
                   <code>webBindAddress:webBindPort</code> - the default is <code>127.0.0.1:8765</code>.
                 </p>
                 <p style="opacity: 0.8; margin-bottom: 0;">
-                  Install the <a href="https://ankiweb.net/shared/info/2055492159" target="_blank">AnkiConnect</a> Add-on if you haven't already.
+                  Install the <a href="https://ankiweb.net/shared/info/2055492159" target="_blank">AnkiConnect</a> add-on if you haven't already.
                 </p>
               </div>
             </div>
 
             <div class="form-box">
               <div>
-                <label for="ankiProxyUrl">Anki Connect Endpoint Proxy</label>
+                <label for="ankiProxyUrl">AnkiConnect Endpoint Proxy</label>
                 <div class="inline-group">
                   <input type="text" id="ankiProxyUrl" name="ankiProxyUrl" />
                   <div>
-                    <input type="button" id="ankiProxyUrlButton" class="button outline small" value="⭯"></input>
+                    <input type="button" id="ankiProxyUrlButton" class="button outline small" value="⭯" />
                   </div>
                 </div>
                 <p style="opacity: 0.8; margin-bottom: 0;">
-                  You can define an additional proxy for the Anki Connect endpoint. This is useful if
-                  you are using asbplayers <a href="https://github.com/killergerbah/asbplayer?tab=readme-ov-file#advanced-features" target="_blank">auto capture option</a> for example.
+                  You can define an additional proxy for the AnkiConnect endpoint. This is useful if
+                  you are using asbplayer's <a href="https://github.com/killergerbah/asbplayer?tab=readme-ov-file#advanced-features" target="_blank">auto capture option</a>, for example.
                 </p>
                 <p style="opacity: 0.8; margin-bottom: 0;">
-                  With this you can tunnel only a select few requests through the proxy to avoid triggering captures on blacklist items for example.
+                  With this, you can tunnel only a select few requests through the proxy to avoid triggering captures on blacklist items, for example.
                 </p>
               </div>
             </div>
@@ -110,18 +107,18 @@
             <h6>Mining</h6>
             <mining-input id="ankiMiningConfig" name="ankiMiningConfig" title="Mining Deck">
               <p>This is your <b>mining deck</b>. Cards you mine will be saved here.</p>
-              <p>Words from this deck will be displayed according to its learning state in anki.</p>
-              <p>Also the Word and Reading configuration will be used to lookup words in Anki.</p>
+              <p>Words from this deck will be displayed according to their learning state in Anki.</p>
+              <p>The Word and Reading configuration will also be used to look up words in Anki.</p>
             </mining-input>
             <mining-input id="ankiNeverForgetConfig" name="ankiNeverForgetConfig" title="Never Forget Deck">
               <p>This is your <b>never forget deck</b>. Cards you won't ever forget will be saved here.</p>
               <p>Words from this deck will be displayed as known.</p>
-              <p>Also the Word and Reading configuration will be used to lookup words in Anki.</p>
+              <p>The Word and Reading configuration will also be used to look up words in Anki.</p>
             </mining-input>
             <mining-input id="ankiBlacklistConfig" name="ankiBlacklistConfig" title="Blacklist Deck">
               <p>This is your <b>blacklist deck</b>. Cards you don't want to learn will be saved here.</p>
               <p>Words from this deck will be displayed as suspended.</p>
-              <p>Also the Word and Reading configuration will be used to lookup words in Anki.</p>
+              <p>The Word and Reading configuration will also be used to look up words in Anki.</p>
             </mining-input>
           </div>
         </div>
@@ -172,10 +169,10 @@
               <div class="rotate-flags" indent>
                 <div class="checkbox">
                   <input type="checkbox" id="jpdbRotateCycle" name="jpdbRotateCycle" />
-                  <label for="jpdbRotateCycle">Dont remove from any deck when cycling</label>
+                  <label for="jpdbRotateCycle">Don't remove from any deck when cycling</label>
                 </div>
                 <p style="opacity: 0.8" indent up>
-                  If set, a word wont be removed from any deck when cycling. Otherwise it will be removed when the last deck in the chain is reached.
+                  If set, a word won't be removed from any deck when cycling. Otherwise, it will be removed when the last deck in the chain is reached.
                 </p>
               </div>
 
@@ -241,21 +238,21 @@
               <div>
                 <div class="checkbox">
                   <input type="checkbox" id="hideInactiveTabs" name="hideInactiveTabs" hides="#hideInactiveTabsBox" />
-                  <label for="hideInactiveTabs">Only show currently opened tab in parse selection</label>
+                  <label for="hideInactiveTabs">Only show the currently opened tab in parse selection</label>
                 </div>
               </div>
 
               <div hidden id="hideInactiveTabsBox">
                 <div class="checkbox">
                   <input type="checkbox" id="showCurrentOnTop" name="showCurrentOnTop" />
-                  <label for="showCurrentOnTop">Show current tab on top of tab selection list</label>
+                  <label for="showCurrentOnTop">Show the current tab on top of the tab selection list</label>
                 </div>
               </div>
 
               <div>
                 <div class="checkbox">
                   <input type="checkbox" id="showParseButton" name="showParseButton" />
-                  <label for="showParseButton">Show small parse page button on the right bottom of manually parsed pages</label>
+                  <label for="showParseButton">Show a small parse page button at the bottom right of manually parsed pages</label>
                 </div>
               </div>
             </div>
@@ -290,8 +287,8 @@
                 style="height: 15em; margin-bottom: 0"
                 ></textarea>
                 <p style="opacity: 0.8">
-                  Additional hosts (one per line or separated by <code>,</code>, <code>;</code> and <code>[space]</code>) to parse automatically. <br />
-                  This enables only simple parsing, interaction with other extensions or custom behavior is not supported.
+                  Additional hosts (one per line or separated by <code>,</code>, <code>;</code>, or <code>[space]</code>) to parse automatically. <br />
+                  This enables only simple parsing; interaction with other extensions or custom behavior is not supported.
                 </p>
                 <p style="opacity: 0.8">
                 </p>
@@ -691,7 +688,7 @@
               <div>
                 <div class="checkbox">
                   <input type="checkbox" id="skipReleaseNotes" name="skipReleaseNotes" />
-                  <label for="skipReleaseNotes">Dont show changelog on update</label>
+                  <label for="skipReleaseNotes">Don't show changelog on update</label>
                 </div>
               </div>
 
