@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html class="dark-mode">
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
@@ -29,7 +29,12 @@
                 <div class="inline-group">
                   <input type="password" id="jpdbApiToken" name="jpdbApiToken" />
                   <div>
-                    <input type="button" id="apiTokenButton" class="button outline small" value="⭯" />
+                    <input
+                      type="button"
+                      id="apiTokenButton"
+                      class="button outline small"
+                      value="⭯"
+                    />
                   </div>
                 </div>
                 <p style="opacity: 0.8">
@@ -37,7 +42,8 @@
                   <a
                     href="https://jpdb.io/settings#:~:text=in%20the%20future.-,Account%20information,-Username"
                     target="_blank"
-                  >JPDB settings page</a>
+                    >JPDB settings page</a
+                  >
                   and scroll to the very bottom.
                 </p>
               </div>
@@ -48,7 +54,13 @@
             <div class="form-box">
               <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="enableAnkiIntegration" name="enableAnkiIntegration" disables="#mining-configuration" enables="#anki-integration" />
+                  <input
+                    type="checkbox"
+                    id="enableAnkiIntegration"
+                    name="enableAnkiIntegration"
+                    disables="#mining-configuration"
+                    enables="#anki-integration"
+                  />
                   <label for="enableAnkiIntegration">Mine into Anki instead of JPDB</label>
                 </div>
               </div>
@@ -67,18 +79,29 @@
                 <div class="inline-group">
                   <input type="text" id="ankiUrl" name="ankiUrl" />
                   <div>
-                    <input type="button" id="ankiUrlButton" class="button outline small" value="⭯" />
+                    <input
+                      type="button"
+                      id="ankiUrlButton"
+                      class="button outline small"
+                      value="⭯"
+                    />
                   </div>
                 </div>
-                <p style="opacity: 0.8; margin-bottom: 0;">
-                  To find your AnkiConnect endpoint URL, go to Anki -> Tools -> Add-ons -> AnkiConnect -> Config.
+                <p style="opacity: 0.8; margin-bottom: 0">
+                  To find your AnkiConnect endpoint URL, go to Anki -> Tools -> Add-ons ->
+                  AnkiConnect -> Config.
                 </p>
-                <p style="opacity: 0.8; margin-bottom: 0;">
+                <p style="opacity: 0.8; margin-bottom: 0">
                   Enter the <code>webBindAddress</code> as well as the <code>webBindPort</code> as
-                  <code>webBindAddress:webBindPort</code> - the default is <code>127.0.0.1:8765</code>.
+                  <code>webBindAddress:webBindPort</code> - the default is
+                  <code>127.0.0.1:8765</code>.
                 </p>
-                <p style="opacity: 0.8; margin-bottom: 0;">
-                  Install the <a href="https://ankiweb.net/shared/info/2055492159" target="_blank">AnkiConnect</a> add-on if you haven't already.
+                <p style="opacity: 0.8; margin-bottom: 0">
+                  Install the
+                  <a href="https://ankiweb.net/shared/info/2055492159" target="_blank"
+                    >AnkiConnect</a
+                  >
+                  add-on if you haven't already.
                 </p>
               </div>
             </div>
@@ -89,15 +112,26 @@
                 <div class="inline-group">
                   <input type="text" id="ankiProxyUrl" name="ankiProxyUrl" />
                   <div>
-                    <input type="button" id="ankiProxyUrlButton" class="button outline small" value="⭯" />
+                    <input
+                      type="button"
+                      id="ankiProxyUrlButton"
+                      class="button outline small"
+                      value="⭯"
+                    />
                   </div>
                 </div>
-                <p style="opacity: 0.8; margin-bottom: 0;">
+                <p style="opacity: 0.8; margin-bottom: 0">
                   You can define an additional proxy for the AnkiConnect endpoint. This is useful if
-                  you are using asbplayer's <a href="https://github.com/killergerbah/asbplayer?tab=readme-ov-file#advanced-features" target="_blank">auto capture option</a>, for example.
+                  you are using asbplayer's
+                  <a
+                    href="https://github.com/killergerbah/asbplayer?tab=readme-ov-file#advanced-features"
+                    target="_blank"
+                    >auto capture option</a
+                  >, for example.
                 </p>
-                <p style="opacity: 0.8; margin-bottom: 0;">
-                  With this, you can tunnel only a select few requests through the proxy to avoid triggering captures on blacklist items, for example.
+                <p style="opacity: 0.8; margin-bottom: 0">
+                  With this, you can tunnel only a select few requests through the proxy to avoid
+                  triggering captures on blacklist items, for example.
                 </p>
               </div>
             </div>
@@ -107,16 +141,32 @@
             <h6>Mining</h6>
             <mining-input id="ankiMiningConfig" name="ankiMiningConfig" title="Mining Deck">
               <p>This is your <b>mining deck</b>. Cards you mine will be saved here.</p>
-              <p>Words from this deck will be displayed according to their learning state in Anki.</p>
+              <p>
+                Words from this deck will be displayed according to their learning state in Anki.
+              </p>
               <p>The Word and Reading configuration will also be used to look up words in Anki.</p>
             </mining-input>
-            <mining-input id="ankiNeverForgetConfig" name="ankiNeverForgetConfig" title="Never Forget Deck">
-              <p>This is your <b>never forget deck</b>. Cards you won't ever forget will be saved here.</p>
+            <mining-input
+              id="ankiNeverForgetConfig"
+              name="ankiNeverForgetConfig"
+              title="Never Forget Deck"
+            >
+              <p>
+                This is your <b>never forget deck</b>. Cards you won't ever forget will be saved
+                here.
+              </p>
               <p>Words from this deck will be displayed as known.</p>
               <p>The Word and Reading configuration will also be used to look up words in Anki.</p>
             </mining-input>
-            <mining-input id="ankiBlacklistConfig" name="ankiBlacklistConfig" title="Blacklist Deck">
-              <p>This is your <b>blacklist deck</b>. Cards you don't want to learn will be saved here.</p>
+            <mining-input
+              id="ankiBlacklistConfig"
+              name="ankiBlacklistConfig"
+              title="Blacklist Deck"
+            >
+              <p>
+                This is your <b>blacklist deck</b>. Cards you don't want to learn will be saved
+                here.
+              </p>
               <p>Words from this deck will be displayed as suspended.</p>
               <p>The Word and Reading configuration will also be used to look up words in Anki.</p>
             </mining-input>
@@ -144,21 +194,38 @@
 
               <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="jpdbDisableReviews" name="jpdbDisableReviews" hides=".review" runlast />
+                  <input
+                    type="checkbox"
+                    id="jpdbDisableReviews"
+                    name="jpdbDisableReviews"
+                    hides=".review"
+                    runlast
+                  />
                   <label for="jpdbDisableReviews">Disable review actions</label>
                 </div>
               </div>
 
               <div class="review" indent>
                 <div class="checkbox">
-                  <input type="checkbox" id="jpdbUseTwoGrades" name="jpdbUseTwoGrades" hides=".grade-five" shows=".grade-two" />
+                  <input
+                    type="checkbox"
+                    id="jpdbUseTwoGrades"
+                    name="jpdbUseTwoGrades"
+                    hides=".grade-five"
+                    shows=".grade-two"
+                  />
                   <label for="jpdbUseTwoGrades">Use a 2-point pass/fail grading scale</label>
                 </div>
               </div>
 
               <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="jpdbRotateFlags" name="jpdbRotateFlags" shows=".rotate-flags" />
+                  <input
+                    type="checkbox"
+                    id="jpdbRotateFlags"
+                    name="jpdbRotateFlags"
+                    shows=".rotate-flags"
+                  />
                   <label for="jpdbRotateFlags">Cycle between decks</label>
                 </div>
                 <p style="opacity: 0.8" indent up>
@@ -172,14 +239,17 @@
                   <label for="jpdbRotateCycle">Don't remove from any deck when cycling</label>
                 </div>
                 <p style="opacity: 0.8" indent up>
-                  If set, a word won't be removed from any deck when cycling. Otherwise, it will be removed when the last deck in the chain is reached.
+                  If set, a word won't be removed from any deck when cycling. Otherwise, it will be
+                  removed when the last deck in the chain is reached.
                 </p>
               </div>
 
               <div class="rotate-flags" indent>
                 <div class="checkbox">
                   <input type="checkbox" id="jpdbCycleNeverForget" name="jpdbCycleNeverForget" />
-                  <label for="jpdbCycleNeverForget">Use Never Forget when cycling between decks</label>
+                  <label for="jpdbCycleNeverForget"
+                    >Use Never Forget when cycling between decks</label
+                  >
                 </div>
               </div>
 
@@ -237,22 +307,34 @@
             <div class="form-box">
               <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="hideInactiveTabs" name="hideInactiveTabs" hides="#hideInactiveTabsBox" />
-                  <label for="hideInactiveTabs">Only show the currently opened tab in parse selection</label>
+                  <input
+                    type="checkbox"
+                    id="hideInactiveTabs"
+                    name="hideInactiveTabs"
+                    hides="#hideInactiveTabsBox"
+                  />
+                  <label for="hideInactiveTabs"
+                    >Only show the currently opened tab in parse selection</label
+                  >
                 </div>
               </div>
 
               <div hidden id="hideInactiveTabsBox">
                 <div class="checkbox">
                   <input type="checkbox" id="showCurrentOnTop" name="showCurrentOnTop" />
-                  <label for="showCurrentOnTop">Show the current tab on top of the tab selection list</label>
+                  <label for="showCurrentOnTop"
+                    >Show the current tab on top of the tab selection list</label
+                  >
                 </div>
               </div>
 
               <div>
                 <div class="checkbox">
                   <input type="checkbox" id="showParseButton" name="showParseButton" />
-                  <label for="showParseButton">Show a small parse page button at the bottom right of manually parsed pages</label>
+                  <label for="showParseButton"
+                    >Show a small parse page button at the bottom right of manually parsed
+                    pages</label
+                  >
                 </div>
               </div>
             </div>
@@ -264,9 +346,9 @@
 
           <div class="form-box-parent">
             <div class="form-box">
-              <p style="opacity: 0.8; padding-top: .5em">
-                Enable or disable parsers to stop certain apps from parsing.
-                Changes here require a reload of affected tabs to take effect.
+              <p style="opacity: 0.8; padding-top: 0.5em">
+                Enable or disable parsers to stop certain apps from parsing. Changes here require a
+                reload of affected tabs to take effect.
               </p>
 
               <div>
@@ -280,28 +362,29 @@
               <div>
                 <label for="additionalHosts">Extra Hosts</label>
                 <textarea
-                id="additionalHosts"
-                name="additionalHosts"
-                placeholder="Extra Hosts"
-                spellcheck="false"
-                style="height: 15em; margin-bottom: 0"
+                  id="additionalHosts"
+                  name="additionalHosts"
+                  placeholder="Extra Hosts"
+                  spellcheck="false"
+                  style="height: 15em; margin-bottom: 0"
                 ></textarea>
                 <p style="opacity: 0.8">
-                  Additional hosts (one per line or separated by <code>,</code>, <code>;</code>, or <code>[space]</code>) to parse automatically. <br />
-                  This enables only simple parsing; interaction with other extensions or custom behavior is not supported.
+                  Additional hosts (one per line or separated by <code>,</code>, <code>;</code>, or
+                  <code>[space]</code>) to parse automatically. <br />
+                  This enables only simple parsing; interaction with other extensions or custom
+                  behavior is not supported.
                 </p>
-                <p style="opacity: 0.8">
-                </p>
+                <p style="opacity: 0.8"></p>
               </div>
-              
+
               <div>
                 <label for="additionalMeta">Extra Meta</label>
                 <textarea
-                id="additionalMeta"
-                name="additionalMeta"
-                placeholder="Extra Meta"
-                spellcheck="false"
-                style="height: 15em; margin-bottom: 0"
+                  id="additionalMeta"
+                  name="additionalMeta"
+                  placeholder="Extra Meta"
+                  spellcheck="false"
+                  style="height: 15em; margin-bottom: 0"
                 ></textarea>
                 <p style="opacity: 0.8">
                   Additional meta data (JSON) to parse automatically. <br />
@@ -316,8 +399,9 @@
 
           <div class="form-box-parent">
             <div class="form-box">
-              <p style="opacity: 0.8; padding-top: .5em">
-                Enable or disable features to change the behavior of certain apps or add functionality to the extension. <br />
+              <p style="opacity: 0.8; padding-top: 0.5em">
+                Enable or disable features to change the behavior of certain apps or add
+                functionality to the extension. <br />
                 Changes here require a reload of affected tabs to take effect.
               </p>
 
@@ -335,15 +419,31 @@
             <div class="form-box">
               <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="useLegacyHighlighter" name="useLegacyHighlighter" hides=".legacyNotSupported" />
+                  <input
+                    type="checkbox"
+                    id="useLegacyHighlighter"
+                    name="useLegacyHighlighter"
+                    hides=".legacyNotSupported"
+                  />
                   <label for="useLegacyHighlighter">Use the old text highlighting</label>
                 </div>
-                <div style="opacity: 0.8" indent up>Although the new highlighting has some advantages over the old one, it is not as thoroughly tested.</div>
-                <div style="opacity: 0.8" indent>If you experience issues with the updated version, you can switch back to the old one here.</div>
+                <div style="opacity: 0.8" indent up>
+                  Although the new highlighting has some advantages over the old one, it is not as
+                  thoroughly tested.
+                </div>
+                <div style="opacity: 0.8" indent>
+                  If you experience issues with the updated version, you can switch back to the old
+                  one here.
+                </div>
                 <ul style="opacity: 0.8" indent>
                   <li>The new highlighting is more accurate and can handle more edge cases.</li>
-                  <li>The new highlighting is less obstructive towards the original styles and functions of a website.</li>
-                  <li>The new highlighting can recognize obvious misparses and mark them as such.</li>
+                  <li>
+                    The new highlighting is less obstructive towards the original styles and
+                    functions of a website.
+                  </li>
+                  <li>
+                    The new highlighting can recognize obvious misparses and mark them as such.
+                  </li>
                 </ul>
 
                 <div class="legacyNotSupported" hidden indent>
@@ -351,16 +451,18 @@
                     <input type="checkbox" id="markTopX" name="markTopX" shows=".topX" />
                     <label for="markTopX">Mark the top X words in the text</label>
                   </div>
-                  <div style="opacity: 0.8" indent>Marks new and unminded words in a given frequency.</div>
+                  <div style="opacity: 0.8" indent>
+                    Marks new and unminded words in a given frequency.
+                  </div>
 
                   <div class="topX" hidden indent down>
                     <label for="markTopXCount">Top words to mark</label>
                     <input
-                    style="width: 100%"
-                    type="number"
-                    id="markTopXCount"
-                    name="markTopXCount"
-                    min="1000"
+                      style="width: 100%"
+                      type="number"
+                      id="markTopXCount"
+                      name="markTopXCount"
+                      min="1000"
                     />
                   </div>
 
@@ -381,36 +483,60 @@
                 </div>
 
                 <div class="checkbox legacyNotSupported" hidden indent>
-                  <input type="checkbox" id="generatePitch" name="generatePitch" shows="#explain-pitch" />
+                  <input
+                    type="checkbox"
+                    id="generatePitch"
+                    name="generatePitch"
+                    shows="#explain-pitch"
+                  />
                   <label for="generatePitch">Generate pitch accent markers</label>
                 </div>
                 <details class="accordion" id="explain-pitch" hidden indent>
                   <summary>Japanese Pitch Accent Patterns</summary>
                   <div class="pitch-accent">
-                    <p>Japanese pitch accent is a feature of the Japanese language that determines the pitch of a word. There are five main pitch accent patterns in Japanese:</p>
+                    <p>
+                      Japanese pitch accent is a feature of the Japanese language that determines
+                      the pitch of a word. There are five main pitch accent patterns in Japanese:
+                    </p>
                     <div>
                       <p>Heiban (平板型) - Low-High (L-H)</p>
-                      <p>The pitch starts low and rises, remaining high for the rest of the word, including any attached particles.</p>
+                      <p>
+                        The pitch starts low and rises, remaining high for the rest of the word,
+                        including any attached particles.
+                      </p>
                       <p>Example: あさ (asa - morning) [LHH]</p>
                     </div>
                     <div>
                       <p>Atamadaka (頭高型) - High-Low (H-L)</p>
-                      <p>The pitch starts high on the first mora and then drops to low for the rest of the word, including any attached particles.</p>
+                      <p>
+                        The pitch starts high on the first mora and then drops to low for the rest
+                        of the word, including any attached particles.
+                      </p>
                       <p>Example: いぬ (inu - dog) [HLL]</p>
                     </div>
                     <div>
                       <p>Nakadaka (中高型) - Low-High-Low (L-H-L)</p>
-                      <p>The pitch starts low, rises to high at some point within the word, and then drops back to low before any attached particles.</p>
+                      <p>
+                        The pitch starts low, rises to high at some point within the word, and then
+                        drops back to low before any attached particles.
+                      </p>
                       <p>Example: さくら (sakura - cherry blossom) [LHL]</p>
                     </div>
                     <div>
                       <p>Odaka (尾高型) - Low-High-Low (L-H-L)</p>
-                      <p>The pitch starts low, rises to high, and remains high until the end of the word. The pitch drops to low when a particle is attached.</p>
+                      <p>
+                        The pitch starts low, rises to high, and remains high until the end of the
+                        word. The pitch drops to low when a particle is attached.
+                      </p>
                       <p>Example: はし (hashi - bridge) [LHH] + が (ga) [L]</p>
                     </div>
                     <div>
                       <p>Kifuku (起伏型) - Multiple rises and falls</p>
-                      <p>This pattern involves multiple rises and falls within the word. It is less common and typically found in longer words or compounds. The pitch of attached particles depends on the specific rises and falls within the word.</p>
+                      <p>
+                        This pattern involves multiple rises and falls within the word. It is less
+                        common and typically found in longer words or compounds. The pitch of
+                        attached particles depends on the specific rises and falls within the word.
+                      </p>
                       <p>Example: おもしろい (omoshiroi - interesting) [LHLH]</p>
                     </div>
                   </div>
@@ -442,7 +568,13 @@
             <div class="form-box">
               <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="touchscreenSupport" name="touchscreenSupport" hides=".no-touch" shows=".touch" />
+                  <input
+                    type="checkbox"
+                    id="touchscreenSupport"
+                    name="touchscreenSupport"
+                    hides=".no-touch"
+                    shows=".touch"
+                  />
                   <label for="touchscreenSupport">Enable touchscreen support</label>
                 </div>
               </div>
@@ -456,7 +588,12 @@
 
               <div class="no-touch" hidden>
                 <div class="checkbox">
-                  <input type="checkbox" id="showPopupOnHover" name="showPopupOnHover" hides="#showPopupKeyBox" />
+                  <input
+                    type="checkbox"
+                    id="showPopupOnHover"
+                    name="showPopupOnHover"
+                    hides="#showPopupKeyBox"
+                  />
                   <label for="showPopupOnHover">Show the popup on hover</label>
                 </div>
               </div>
@@ -470,7 +607,23 @@
 
               <div>
                 <div class="checkbox">
-                  <input type="checkbox" id="showMiningActions" name="showMiningActions" shows="#moveMiningDown" />
+                  <input type="checkbox" id="leftAlignPopupToWord" name="leftAlignPopupToWord" />
+                  <label for="leftAlignPopupToWord">Extend the popup to the right</label>
+                </div>
+                <p style="opacity: 0.8" indent up>
+                  If enabled, the popup will be extended to the right of the word instead of
+                  gravitating towards the middle.
+                </p>
+              </div>
+
+              <div>
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    id="showMiningActions"
+                    name="showMiningActions"
+                    shows="#moveMiningDown"
+                  />
                   <label for="showMiningActions">Show mining controls in the popup</label>
                 </div>
               </div>
@@ -478,13 +631,20 @@
               <div id="moveMiningDown" hidden indent>
                 <div class="checkbox">
                   <input type="checkbox" id="moveMiningActions" name="moveMiningActions" />
-                  <label for="moveMiningActions">Move Mining actions to the bottom of the popup</label>
+                  <label for="moveMiningActions"
+                    >Move Mining actions to the bottom of the popup</label
+                  >
                 </div>
               </div>
-              
+
               <div class="rotate-flags">
                 <div class="checkbox">
-                  <input type="checkbox" id="showRotateActions" name="showRotateActions" shows="#moveRotateDown" />
+                  <input
+                    type="checkbox"
+                    id="showRotateActions"
+                    name="showRotateActions"
+                    shows="#moveRotateDown"
+                  />
                   <label for="showRotateActions">Show flag rotation controls in the popup</label>
                 </div>
               </div>
@@ -492,13 +652,20 @@
               <div id="moveRotateDown" hidden indent>
                 <div class="checkbox">
                   <input type="checkbox" id="moveRotateActions" name="moveRotateActions" />
-                  <label for="moveRotateActions">Move Rotate Flags actions to the bottom of the popup</label>
+                  <label for="moveRotateActions"
+                    >Move Rotate Flags actions to the bottom of the popup</label
+                  >
                 </div>
               </div>
 
               <div class="review">
                 <div class="checkbox">
-                  <input type="checkbox" id="showGradingActions" name="showGradingActions" shows="#moveGradingDown" />
+                  <input
+                    type="checkbox"
+                    id="showGradingActions"
+                    name="showGradingActions"
+                    shows="#moveGradingDown"
+                  />
                   <label for="showGradingActions">Show review controls in the popup</label>
                 </div>
               </div>
@@ -506,7 +673,9 @@
               <div id="moveGradingDown" hidden indent>
                 <div class="checkbox">
                   <input type="checkbox" id="moveGradingActions" name="moveGradingActions" />
-                  <label for="moveGradingActions">Move Review actions to the bottom of the popup</label>
+                  <label for="moveGradingActions"
+                    >Move Review actions to the bottom of the popup</label
+                  >
                 </div>
               </div>
 
@@ -519,11 +688,19 @@
 
               <div class="no-touch" hidden>
                 <div class="checkbox">
-                  <input type="checkbox" id="hidePopupAutomatically" name="hidePopupAutomatically" shows="#hidePopupDelayBox" />
-                  <label for="hidePopupAutomatically">Hide popup automatically after leaving it</label>
+                  <input
+                    type="checkbox"
+                    id="hidePopupAutomatically"
+                    name="hidePopupAutomatically"
+                    shows="#hidePopupDelayBox"
+                  />
+                  <label for="hidePopupAutomatically"
+                    >Hide popup automatically after leaving it</label
+                  >
                 </div>
                 <p style="opacity: 0.8" indent up>
-                  If enabled, the popup will hide itself after you move your mouse out of it or unhovering the related word.
+                  If enabled, the popup will hide itself after you move your mouse out of it or
+                  unhovering the related word.
                 </p>
               </div>
 
@@ -537,7 +714,8 @@
                   min="0"
                 />
                 <p style="opacity: 0.8">
-                  Delay to hide the popup in milliseconds. If set to 0, the popup will hide immediately.
+                  Delay to hide the popup in milliseconds. If set to 0, the popup will hide
+                  immediately.
                 </p>
               </div>
 
@@ -562,16 +740,18 @@
           <h6>Keybinds</h6>
           <div class="form-box-parent">
             <div class="form-box">
-              <p style="opacity: 0.8; padding-top: .5em">
+              <p style="opacity: 0.8; padding-top: 0.5em">
                 Press escape to clear. Holding modifiers like shift or alt is supported. <br />
                 Hotkeys are based on key position and independent of your current keyboard layout.
                 <br />
                 Note: Keybinds currently always work on the word you are hovering your mouse over,
                 even if you have the popup for another word open.
                 <br />
-                Note: Keybinds consisting of only special keys (Ctrl, Alt, Shift) should work when the window is out of focus, others do not.
+                Note: Keybinds consisting of only special keys (Ctrl, Alt, Shift) should work when
+                the window is out of focus, others do not.
                 <br />
-                Additionally, Left Mouse Click (without modifiers) as well as Right Mouse Click (no matter the modifiers) are not supported.
+                Additionally, Left Mouse Click (without modifiers) as well as Right Mouse Click (no
+                matter the modifiers) are not supported.
               </p>
             </div>
           </div>
@@ -599,7 +779,10 @@
 
             <div class="not-implemented">
               <label for="showAdvancedDialogKey">Show advanced mining dialog</label>
-              <keybind-input id="showAdvancedDialogKey" name="showAdvancedDialogKey"></keybind-input>
+              <keybind-input
+                id="showAdvancedDialogKey"
+                name="showAdvancedDialogKey"
+              ></keybind-input>
             </div>
 
             <div>
@@ -697,9 +880,7 @@
                   <input type="checkbox" id="enableDebugMode" name="enableDebugMode" />
                   <label for="enableDebugMode">Enable debug mode</label>
                 </div>
-                <p style="opacity: 0.8" indent up>
-                  Enables debug mode for host configuration.
-                </p>
+                <p style="opacity: 0.8" indent up>Enables debug mode for host configuration.</p>
               </div>
             </div>
           </div>
@@ -729,7 +910,7 @@
           </div>
         </div>
 
-        <div style="margin-top: 6em;"></div>
+        <div style="margin-top: 6em"></div>
         <div id="save-all-settings-box">
           <input
             type="submit"

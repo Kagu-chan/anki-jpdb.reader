@@ -63,6 +63,7 @@ export type ConfigurationSchema = {
   renderCloseButton: boolean;
   touchscreenSupport: boolean;
   disableFadeAnimation: boolean;
+  leftAlignPopupToWord: boolean;
 
   // Popup settings
   hideAfterAction: boolean;

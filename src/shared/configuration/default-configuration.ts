@@ -61,6 +61,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   renderCloseButton: true,
   touchscreenSupport: false,
   disableFadeAnimation: false,
+  leftAlignPopupToWord: false,
 
   // Popup settings
   hideAfterAction: true,

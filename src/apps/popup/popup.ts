@@ -89,6 +89,7 @@ export class Popup {
   private _hidePopupDelay: number;
   private _hideAfterAction: boolean;
   private _disableFadeAnimation: boolean;
+  private _leftAlignPopupToWord: boolean;
   private _moveMiningActions: boolean;
   private _moveRotationActions: boolean;
   private _moveGradingActions: boolean;
@@ -181,6 +182,7 @@ export class Popup {
     this._hidePopupDelay = await getConfiguration('hidePopupDelay', true);
     this._hideAfterAction = await getConfiguration('hideAfterAction', true);
     this._disableFadeAnimation = await getConfiguration('disableFadeAnimation', true);
+    this._leftAlignPopupToWord = await getConfiguration('leftAlignPopupToWord', true);
 
     this._renderCloseButton = await getConfiguration('renderCloseButton', true);
     this._touchscreenSupport = await getConfiguration('touchscreenSupport', false);
@@ -329,6 +331,12 @@ export class Popup {
         minLeft,
         maxLeft,
       );
+    }
+
+    if (this._leftAlignPopupToWord) {
+      // Align the popup to the left of the word
+      // Ensure the popup does not overflow the right edge of the screen, also add a bit of padding
+      popupLeft = Math.min(wordLeft, innerWidth - popupWidth - 8);
     }
 
     if (innerWidth < 450) {
