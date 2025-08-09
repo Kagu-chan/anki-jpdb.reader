@@ -13,4 +13,10 @@ export const _070: ChangelogEntry[] = [
     category: Category.Popup,
     issue: 315,
   },
+  {
+    type: 'fix',
+    description: 'Fixed a race condition where custom styles were not applied correctly.',
+    category: Category.Texthighlighter,
+    issue: 333,
+  },
 ];

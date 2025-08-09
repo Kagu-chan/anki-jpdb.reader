@@ -48,10 +48,41 @@ const remove = (
       /* noop */
     });
 
+const replaceFile = async (
+  tabId: number,
+  oldFile: string | undefined,
+  newFile: string | undefined,
+): Promise<void> => {
+  if (oldFile) {
+    // Remove the old file if it exists
+    await remove(tabId, { files: [oldFile] });
+  }
+
+  if (newFile) {
+    // Insert the new file if it exists
+    await insert(tabId, { files: [newFile] });
+  }
+};
+
+const replaceRaw = async (
+  tabId: number,
+  oldRaw: string | undefined,
+  newRaw: string | undefined,
+): Promise<void> => {
+  if (oldRaw) {
+    // Remove the old raw CSS if it exists
+    await remove(tabId, { css: oldRaw });
+  }
+
+  if (newRaw) {
+    // Insert the new raw CSS if it exists
+    await insert(tabId, { css: newRaw });
+  }
+};
+
 export const injectStyle = async (tabId: number, file?: string, raw?: string): Promise<void> => {
   const currentConfig = tabs.get(tabId) || {};
   const filePath = file?.length ? getPath(file) : undefined;
-  const awaits: Promise<void>[] = [];
 
   // If nothing changed, ignore the request
   if (currentConfig.raw === raw && currentConfig.file === filePath) {
@@ -60,25 +91,13 @@ export const injectStyle = async (tabId: number, file?: string, raw?: string): P
 
   // If the file changed, update the tabs file configuration
   if (currentConfig.file !== filePath) {
-    const remProm = currentConfig.file
-      ? remove(tabId, { files: [currentConfig.file] })
-      : Promise.resolve();
-    const addProm = filePath ? remProm.then(() => insert(tabId, { files: [filePath] })) : remProm;
-
-    awaits.push(addProm);
+    await replaceFile(tabId, currentConfig.file, filePath);
   }
 
   // If the css changed, update the tabs raw configuration
   if (currentConfig.raw !== raw) {
-    const remProm = currentConfig.raw?.length
-      ? remove(tabId, { css: currentConfig.raw })
-      : Promise.resolve();
-    const addProm = raw?.length ? remProm.then(() => insert(tabId, { css: raw })) : remProm;
-
-    awaits.push(addProm);
+    await replaceRaw(tabId, currentConfig.raw, raw);
   }
-
-  await Promise.all(awaits);
 
   // Update the tabs configuration
   tabs.set(tabId, { file: filePath, raw });
