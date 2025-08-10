@@ -9,6 +9,7 @@ import { TextHighlighter } from '../text-highlighter/text-highlighter';
 import { TextHighlighterOptions } from '../text-highlighter/types';
 import { EventCollection } from './event-collection';
 import { HostEvaluator } from './host-evaluator';
+import { SentenceManager } from './sentence-manager';
 
 export class Registry {
   public static readonly isMainFrame = window === window.top;
@@ -19,6 +20,7 @@ export class Registry {
   public static readonly parsers: BaseParser[] = [];
   public static readonly batchController = new BatchController();
   public static readonly sequenceManager = new SequenceManager();
+  public static readonly sentenceManager = new SentenceManager();
   public static skipTouchEvents = false;
   public static popupManager?: PopupManager;
 
@@ -56,6 +58,8 @@ export class Registry {
       classes.push(...state);
       element.classList.value = classes.join(' ');
     });
+
+    this.sentenceManager.updateCardState(vid, sid, state);
   }
 
   public static getCard(vid: number | string, sid: number | string): JPDBCard | undefined {

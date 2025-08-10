@@ -103,7 +103,8 @@ export abstract class BaseParser {
    * @param {string} notifyFor The selector to match the added nodes against
    * @param {string} checkNested If added elements match `checkNested`, check if they contain nested elements matching the `notifyFor` selector.
    * @param {MutationObserverInit} config The mutation observer configuration
-   * @param {(nodes: HTMLElement[]) => void} callback The callback to call when nodes are added.
+   * @param {(nodes: HTMLElement[]) => void} onAdded The callback to call when nodes are added.
+   * @param {(nodes: HTMLElement[]) => void} onRemoved The callback to call when nodes are removed.
    * @returns {MutationObserver}
    */
   protected getAddedObserver(
@@ -111,7 +112,8 @@ export abstract class BaseParser {
     notifyFor: string,
     checkNested: string | undefined,
     config: MutationObserverInit,
-    callback: (nodes: HTMLElement[]) => void,
+    onAdded: (nodes: HTMLElement[]) => void,
+    onRemoved: (nodes: HTMLElement[]) => void,
   ): MutationObserver {
     debug('getAddedObserver', { observeFrom, notifyFor, config });
 
@@ -126,54 +128,58 @@ export abstract class BaseParser {
     if (initialNodes.length) {
       debug('getAddedObserver: Initial nodes found:', initialNodes);
 
-      callback(initialNodes);
+      onAdded(initialNodes);
+      this.watchForNodeRemove(initialNodes, onRemoved);
     }
 
     const observer = new MutationObserver((mutations) => {
-      const nodes = mutations
-        .filter((mutation) => mutation.type === 'childList')
-        .map((mutation) => Array.from(mutation.addedNodes))
-        .flat()
-        .filter((node) => {
-          if (node instanceof HTMLElement) {
-            const isBreaderToken = node.matches('.jpdb-word');
+      const isAffectedNode = (node: Node | Element, mode: 'added' | 'removed'): boolean => {
+        if (node instanceof HTMLElement) {
+          const isBreaderToken = node.matches('.jpdb-word');
 
-            // If an element is a Breader token, it should be ignored
-            if (isBreaderToken) {
-              return false;
-            }
-
-            // Fetch direct matches
-            if (node.matches(notifyFor)) {
-              debug('getAddedObserver: Node added, matches notifyFor -> validate:', node);
-
-              return true;
-            }
-
-            if (!checkNested) {
-              return false;
-            }
-
-            if (node.matches(checkNested) && node.querySelector(notifyFor)) {
-              debug(
-                'getAddedObserver: Node added, matches checkNested and contains notifyFor -> validate:',
-                node,
-              );
-
-              return true;
-            }
-
+          // If an element is a Breader token, it should be ignored
+          if (isBreaderToken) {
             return false;
           }
 
-          return false;
-        }) as HTMLElement[];
+          // Fetch direct matches
+          if (node.matches(notifyFor)) {
+            debug(`getAddedObserver: Node ${mode}, matches notifyFor -> validate:`, node);
 
-      if (nodes.length) {
+            return true;
+          }
+
+          if (!checkNested) {
+            return false;
+          }
+
+          if (node.matches(checkNested) && node.querySelector(notifyFor)) {
+            debug(
+              `getAddedObserver: Node ${mode}, matches checkNested and contains notifyFor -> validate:`,
+              node,
+            );
+
+            return true;
+          }
+
+          return false;
+        }
+
+        return false;
+      };
+
+      const childList = mutations.filter((mutation) => mutation.type === 'childList');
+
+      const addedNodes = childList
+        .map((mutation) => Array.from(mutation.addedNodes))
+        .flat()
+        .filter((node) => isAffectedNode(node, 'added')) as HTMLElement[];
+
+      if (addedNodes.length) {
         // If we used checkNested, the found items may be nestend somewhere we dont want to parse directly - filter them out
         const relevantNodes = !checkNested
-          ? nodes
-          : nodes.flatMap((node) => {
+          ? addedNodes
+          : addedNodes.flatMap((node) => {
               if (node.matches(notifyFor)) {
                 return node;
               }
@@ -183,7 +189,18 @@ export abstract class BaseParser {
 
         debug('getAddedObserver: Matching nodes added:', relevantNodes);
 
-        callback(relevantNodes);
+        onAdded(relevantNodes);
+      }
+
+      const removedNodes = childList
+        .map((mutation) => Array.from(mutation.removedNodes))
+        .flat()
+        .filter((node) => isAffectedNode(node, 'removed')) as HTMLElement[];
+
+      if (removedNodes.length && onRemoved) {
+        debug('getAddedObserver: Matching nodes removed:', removedNodes);
+
+        onRemoved(removedNodes);
       }
     });
 
@@ -194,6 +211,30 @@ export abstract class BaseParser {
     }
 
     return observer;
+  }
+
+  // Nodes that are already present when opening the page - they do match any filters and are always affected
+  protected watchForNodeRemove(
+    nodes: HTMLElement[],
+    onRemoved: (nodes: HTMLElement[]) => void,
+  ): void {
+    nodes.forEach((node) => {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          mutation.removedNodes.forEach((removed) => {
+            if (removed === node) {
+              onRemoved([node]);
+              observer.disconnect();
+            }
+          });
+        });
+      });
+
+      // Observe the parent for childList changes
+      if (node.parentNode) {
+        observer.observe(node.parentNode, { childList: true });
+      }
+    });
   }
 
   /**

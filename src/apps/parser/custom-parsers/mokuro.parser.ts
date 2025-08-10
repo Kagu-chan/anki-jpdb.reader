@@ -145,6 +145,10 @@ export class MokuroParser extends AutomaticParser {
   private _mangaPanels = new Map<HTMLElement, MokuroMangaPanel>();
   private _observedElements = new Set<HTMLElement>();
 
+  protected override init(): void {
+    Registry.sentenceManager.disable();
+  }
+
   /**
    * @override we do not need a complex filter for the visible observer
    */
