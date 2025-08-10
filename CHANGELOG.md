@@ -1,4 +1,11 @@
-## 0.6.4 (2025.08.10)
+## 0.7.0 (2025.08.10)
+- fix: Fixed a race condition where sometimes a reload would not parse the page. [#306](https://github.com/Kagu-chan/anki-jpdb.reader/issues/306) [Parser]
+- fix: Fixed a race condition where custom styles were not applied correctly. [#330](https://github.com/Kagu-chan/anki-jpdb.reader/issues/330) [Texthighlighter]
+- add: Added an option to extend the popup to the right of the word. [#315](https://github.com/Kagu-chan/anki-jpdb.reader/issues/315) [Popup]
+- add: Added support for Crunchyroll subtitles removal. [Features]
+
+
+## 0.6.4 (2025.08.05)
 - fix: Added experimental support for bunpro. [#61](https://github.com/Kagu-chan/anki-jpdb.reader/issues/61) [Parser]
 - fix: Improved CSS injection and reduced flickering. [#235](https://github.com/Kagu-chan/anki-jpdb.reader/issues/235) [#272](https://github.com/Kagu-chan/anki-jpdb.reader/issues/272) [#306](https://github.com/Kagu-chan/anki-jpdb.reader/issues/306) [Texthighlighter]
 - fix: Fixed a bug where the parser would not parse nested elements. [#238](https://github.com/Kagu-chan/anki-jpdb.reader/issues/238) [Parser]
