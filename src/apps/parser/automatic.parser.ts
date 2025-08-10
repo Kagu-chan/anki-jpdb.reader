@@ -9,6 +9,7 @@ export class AutomaticParser extends BaseParser {
   constructor(meta: HostMeta) {
     super(meta);
 
+    setTimeout(() => {
     if (this._meta.parseVisibleObserver) {
       debug('AutomaticParser: Setting up visible observer', this._meta.parseVisibleObserver);
 
@@ -26,6 +27,13 @@ export class AutomaticParser extends BaseParser {
 
       this.parsePage();
     }
+
+      this.init();
+    }, 1);
+  }
+
+  protected init(): void {
+    /* NOP */
   }
 
   /** Sets up a `getParseVisibleObserver (IntersectionObserver)` for the page */

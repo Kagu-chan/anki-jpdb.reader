@@ -1,5 +1,4 @@
 import { getConfiguration } from '@shared/configuration/get-configuration';
-import { HostMeta } from '@shared/host-meta/types';
 import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
 import { Registry } from '../../integration/registry';
 import { AutomaticParser } from '../automatic.parser';
@@ -14,9 +13,7 @@ export class SatoriReaderParser extends AutomaticParser {
     this.enableBreader(useBreader);
   });
 
-  constructor(meta: HostMeta) {
-    super(meta);
-
+  protected override init(): void {
     this.desktop.setMode(true);
     this.mobile.setMode(true);
 
@@ -38,63 +35,4 @@ export class SatoriReaderParser extends AutomaticParser {
 
     Registry.skipTouchEvents = !isActive;
   }
-
-  // private initMobileMode(): void {
-  //   withElement('#nav-mobile-category-display', (container) => {
-  //     const e = createElement('div', {
-  //       class: ['tab', 'on'],
-  //       id: 'nav-mobile-category-display-jpdb-tab',
-  //       innerText: 'JPDB Reader',
-  //     });
-
-  //     container.insertAdjacentElement('afterbegin', e);
-  //     this._elements.push(e);
-  //     const all: HTMLElement[] = [];
-
-  //     withElements(container, '.tab', (el) => {
-  //       all.push(el);
-
-  //       el.addEventListener('click', () => {
-  //         if (el.classList.contains('on')) {
-  //           return;
-  //         }
-
-  //         all.forEach((e) => {
-  //           e.classList.toggle('on', false);
-  //           e.classList.toggle('off', true);
-  //         });
-
-  //         el.classList.toggle('on', true);
-  //         el.classList.toggle('off', false);
-  //       });
-  //     });
-  //   });
-
-  //   withElement('#nav-mobile-category-display-kanji-tab', (e) => {
-  //     e.classList.toggle('on', false);
-  //     e.classList.toggle('off', true);
-  //   });
-
-  //   withElement('#nav-mobile-category-display-all', (container) => {});
-  // }
-
-  // private activateBreaderEvents(): void {
-  //   withElements('.use-breader', (el) => el.classList.toggle('on', true));
-  //   withElements('.use-satori', (el) => el.classList.toggle('on', false));
-
-  //   withElements('.use-breader', (el) => el.classList.toggle('off', false));
-  //   withElements('.use-satori', (el) => el.classList.toggle('off', true));
-
-  //   this._useBreader = true;
-  // }
-
-  // private activateSatoriEvents(): void {
-  //   withElements('.use-satori', (el) => el.classList.toggle('on', true));
-  //   withElements('.use-breader', (el) => el.classList.toggle('on', false));
-
-  //   withElements('.use-satori', (el) => el.classList.toggle('off', false));
-  //   withElements('.use-breader', (el) => el.classList.toggle('off', true));
-
-  //   this._useBreader = false;
-  // }
 }
