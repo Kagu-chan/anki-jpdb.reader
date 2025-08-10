@@ -10,23 +10,23 @@ export class AutomaticParser extends BaseParser {
     super(meta);
 
     setTimeout(() => {
-    if (this._meta.parseVisibleObserver) {
-      debug('AutomaticParser: Setting up visible observer', this._meta.parseVisibleObserver);
+      if (this._meta.parseVisibleObserver) {
+        debug('AutomaticParser: Setting up visible observer', this._meta.parseVisibleObserver);
 
-      this.setupVisibleObserver();
-    }
+        this.setupVisibleObserver();
+      }
 
-    if (this._meta.addedObserver) {
-      debug('AutomaticParser: Setting up added observer', this._meta.addedObserver);
+      if (this._meta.addedObserver) {
+        debug('AutomaticParser: Setting up added observer', this._meta.addedObserver);
 
-      this.setupAddedObserver();
-    }
+        this.setupAddedObserver();
+      }
 
-    if (this._meta.parse) {
-      debug('AutomaticParser: Parsing page with parse function', this._meta.parse);
+      if (this._meta.parse) {
+        debug('AutomaticParser: Parsing page with parse function', this._meta.parse);
 
-      this.parsePage();
-    }
+        this.parsePage();
+      }
 
       this.init();
     }, 1);
