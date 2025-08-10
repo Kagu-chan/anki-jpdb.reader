@@ -30,12 +30,20 @@ export type JPDBDeck = {
 
 export type JPDBSpecialDeckNames = 'blacklist' | 'never-forget' | 'forq';
 export type JPDBGrade = 'nothing' | 'something' | 'hard' | 'okay' | 'easy' | 'fail' | 'pass';
-export type JPDBCardState =
-  | 'not-in-deck'
-  | 'blacklisted'
-  | 'suspended'
-  | 'redundant'
-  | 'never-forget';
+export enum JPDBCardState {
+  NEW = 'new',
+  LEARNING = 'learning',
+  KNOWN = 'known',
+  DUE = 'due',
+  FAILED = 'failed',
+  LOCKED = 'locked',
+  NEVER_FORGET = 'never-forget',
+  SUSPENDED = 'suspended',
+  BLACKLISTED = 'blacklisted',
+  REDUNDANT = 'redundant',
+  NOT_IN_DECK = 'not-in-deck',
+}
+
 export type JPDBRawVocabulary = [
   vid: number,
   sid: number,

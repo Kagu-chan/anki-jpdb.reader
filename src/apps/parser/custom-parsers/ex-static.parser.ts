@@ -11,7 +11,7 @@ export class ExStaticParser extends AutomaticParser {
    * @param {string} notifyFor The selector to match the added nodes against
    * @param {string} checkNested If added elements match `checkNested`, check if they contain nested elements matching the `notifyFor` selector.
    * @param {MutationObserverInit} config The mutation observer configuration
-   * @param {(nodes: HTMLElement[]) => void} callback The callback to call when nodes are added.
+   * @param {(nodes: HTMLElement[]) => void} onAdded The callback to call when nodes are added.
    * @returns {MutationObserver}
    */
   protected getAddedObserver(
@@ -19,10 +19,11 @@ export class ExStaticParser extends AutomaticParser {
     notifyFor: string,
     checkNested: string | undefined,
     config: MutationObserverInit,
-    callback: (nodes: HTMLElement[]) => void,
+    onAdded: (nodes: HTMLElement[]) => void,
+    onRemoved: (nodes: HTMLElement[]) => void,
   ): MutationObserver {
     const observer = new MutationObserver((mutations) => {
-      const nodes = mutations
+      const addedNodes = mutations
         .filter((mutation) => mutation.type === 'childList')
         .map((mutation) => Array.from(mutation.addedNodes))
         .flat()
@@ -34,8 +35,24 @@ export class ExStaticParser extends AutomaticParser {
           return false;
         }) as HTMLElement[];
 
-      if (nodes.length) {
-        callback(nodes);
+      if (addedNodes.length) {
+        onAdded(addedNodes);
+      }
+
+      const removedNodes = mutations
+        .filter((mutation) => mutation.type === 'childList')
+        .map((mutation) => Array.from(mutation.removedNodes))
+        .flat()
+        .filter((node) => {
+          if (node instanceof HTMLElement) {
+            return node.matches(notifyFor);
+          }
+
+          return false;
+        }) as HTMLElement[];
+
+      if (removedNodes.length) {
+        onRemoved(removedNodes);
       }
     });
 
@@ -49,7 +66,9 @@ export class ExStaticParser extends AutomaticParser {
       const initialNodes = Array.from<HTMLElement>(root?.querySelectorAll(notifyFor) ?? []);
 
       if (initialNodes.length) {
-        callback(initialNodes);
+        onAdded(initialNodes);
+
+        this.watchForNodeRemove(initialNodes, onRemoved);
       }
 
       if (root) {

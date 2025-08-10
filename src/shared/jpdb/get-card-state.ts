@@ -18,5 +18,5 @@ export const getCardState = async (
   const [firstWord] = result.vocabulary_info;
   const [firstField] = firstWord;
 
-  return firstField?.length ? firstField : ['not-in-deck'];
+  return firstField?.length ? firstField : [JPDBCardState.NOT_IN_DECK];
 };

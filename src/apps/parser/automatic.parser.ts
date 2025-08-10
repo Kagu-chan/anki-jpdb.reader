@@ -1,5 +1,6 @@
 import { debug } from '@shared/debug';
 import { HostMeta } from '@shared/host-meta/types';
+import { Registry } from '../integration/registry';
 import { BaseParser } from './base.parser';
 
 export class AutomaticParser extends BaseParser {
@@ -80,6 +81,7 @@ export class AutomaticParser extends BaseParser {
       this._meta.addedObserver!.checkNested,
       this._meta.addedObserver!.config ?? { childList: true, subtree: true },
       (nodes) => this.addedObserverCallback(nodes),
+      (nodes) => this.removedObserverCallback(nodes),
     );
   }
 
@@ -95,5 +97,17 @@ export class AutomaticParser extends BaseParser {
     }
 
     nodes.forEach((node) => this._visibleObserver?.observe(node));
+  }
+
+  protected removedObserverCallback(nodes: HTMLElement[]): void {
+    nodes.forEach((node) => {
+      Registry.sentenceManager.dismissContainer(node);
+    });
+
+    if (!this._visibleObserver) {
+      return;
+    }
+
+    nodes.forEach((node) => this._visibleObserver?.unobserve(node));
   }
 }
