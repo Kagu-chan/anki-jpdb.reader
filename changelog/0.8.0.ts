@@ -1,6 +1,6 @@
 import { Category, ChangelogEntry } from './types';
 
-export const _070: ChangelogEntry[] = [
+export const _080: ChangelogEntry[] = [
   {
     type: 'add',
     description: 'Added the option to highlight i+1 sentences.',
