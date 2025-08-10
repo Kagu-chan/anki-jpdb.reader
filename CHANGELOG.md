@@ -1,4 +1,4 @@
-## 0.6.4 (2025.08.05)
+## 0.6.4 (2025.08.10)
 - fix: Added experimental support for bunpro. [#61](https://github.com/Kagu-chan/anki-jpdb.reader/issues/61) [Parser]
 - fix: Improved CSS injection and reduced flickering. [#235](https://github.com/Kagu-chan/anki-jpdb.reader/issues/235) [#272](https://github.com/Kagu-chan/anki-jpdb.reader/issues/272) [#306](https://github.com/Kagu-chan/anki-jpdb.reader/issues/306) [Texthighlighter]
 - fix: Fixed a bug where the parser would not parse nested elements. [#238](https://github.com/Kagu-chan/anki-jpdb.reader/issues/238) [Parser]
