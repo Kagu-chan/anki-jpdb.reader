@@ -64,6 +64,13 @@
   color: rgb(255, 0, 0);
 }
 
+.jpdb-word.i-plus-one {
+  text-shadow:
+    0 2px 6px #359eff,
+    0 4px 12px #359eff;
+  transition: text-shadow 0.3s ease-in-out;
+}
+
 .jpdb-word.heiban {
   text-decoration: underline;
   text-decoration-color: #359eff;

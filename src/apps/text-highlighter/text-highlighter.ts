@@ -20,6 +20,8 @@ export class TextHighlighter extends BaseTextHighlighter {
     this.patchFragmentedRubyTokens();
 
     this.patchRemainingMisparses();
+
+    Registry.sentenceManager.calculateTargetSentences();
   }
 
   /**
@@ -624,6 +626,8 @@ export class TextHighlighter extends BaseTextHighlighter {
     }
 
     element.setAttribute('ajb', 'true');
+
+    Registry.sentenceManager.addElement(element, token);
 
     if (!this.options.skipFurigana) {
       element.querySelectorAll('rt').forEach((rt) => rt.classList.add('jpdb-furi'));

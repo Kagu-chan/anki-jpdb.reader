@@ -16,6 +16,8 @@ export class TtsuParser extends AutomaticParser {
 
     if (container) {
       this._pageObserver = new MutationObserver(() => {
+        Registry.sentenceManager.reset();
+
         this.parseNode(container);
       });
 
@@ -41,7 +43,7 @@ export class TtsuParser extends AutomaticParser {
         if (entry.isIntersecting) {
           this.parseNode(entry.target);
 
-          return;
+          continue;
         }
 
         Registry.batchController.dismissNode(entry.target);
