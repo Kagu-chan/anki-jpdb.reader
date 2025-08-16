@@ -7,9 +7,9 @@ export const request = async <Key extends keyof AnkiEndpoints>(
   params: AnkiEndpoints[Key][0] | undefined,
   options?: AnkiRequestOptions,
 ): Promise<AnkiEndpoints[Key][1]> => {
-  const ankiUrl = options?.ankiConnectUrl || (await getConfiguration('ankiUrl', false));
+  const ankiUrl = options?.ankiConnectUrl || (await getConfiguration('ankiUrl'));
 
-  if (!ankiUrl) {
+  if (!ankiUrl?.length) {
     displayToast('error', 'Anki URL is not set');
 
     throw new Error('Anki URL is not set');

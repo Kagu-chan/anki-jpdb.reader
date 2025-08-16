@@ -100,14 +100,14 @@ export class RotationController extends BaseController {
   }
 
   protected async applyConfiguration(): Promise<void> {
-    this._jpdbRotateFlags = await getConfiguration('jpdbRotateFlags', true);
+    this._jpdbRotateFlags = await getConfiguration('jpdbRotateFlags');
 
-    this._neverForget = await getConfiguration('jpdbCycleNeverForget', true);
-    this._blacklist = await getConfiguration('jpdbCycleBlacklist', true);
-    this._suspend = await getConfiguration('jpdbCycleSuspended', true);
+    this._neverForget = await getConfiguration('jpdbCycleNeverForget');
+    this._blacklist = await getConfiguration('jpdbCycleBlacklist');
+    this._suspend = await getConfiguration('jpdbCycleSuspended');
 
-    this._remove = !(await getConfiguration('jpdbRotateCycle', true));
+    this._remove = !(await getConfiguration('jpdbRotateCycle'));
 
-    this._showActions = await getConfiguration('showRotateActions', true);
+    this._showActions = await getConfiguration('showRotateActions');
   }
 }

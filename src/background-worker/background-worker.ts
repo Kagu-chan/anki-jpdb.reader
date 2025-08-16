@@ -59,7 +59,7 @@ addInstallListener(async ({ reason }) => {
   if (reason === OnInstalledReason.UPDATE) {
     // NOTE: OnUpdate In the future we may use this for schema updates
 
-    const skipReleaseNotes = await getConfiguration('skipReleaseNotes', false);
+    const skipReleaseNotes = await getConfiguration('skipReleaseNotes');
 
     if (skipReleaseNotes) {
       return;

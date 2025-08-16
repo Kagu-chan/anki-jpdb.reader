@@ -178,19 +178,19 @@ export class Popup {
   //#region Configuration
 
   private async applyConfiguration(): Promise<void> {
-    this._hidePopupAutomatically = await getConfiguration('hidePopupAutomatically', true);
-    this._hidePopupDelay = await getConfiguration('hidePopupDelay', true);
-    this._hideAfterAction = await getConfiguration('hideAfterAction', true);
-    this._disableFadeAnimation = await getConfiguration('disableFadeAnimation', true);
-    this._leftAlignPopupToWord = await getConfiguration('leftAlignPopupToWord', true);
+    this._hidePopupAutomatically = await getConfiguration('hidePopupAutomatically');
+    this._hidePopupDelay = await getConfiguration('hidePopupDelay');
+    this._hideAfterAction = await getConfiguration('hideAfterAction');
+    this._disableFadeAnimation = await getConfiguration('disableFadeAnimation');
+    this._leftAlignPopupToWord = await getConfiguration('leftAlignPopupToWord');
 
-    this._renderCloseButton = await getConfiguration('renderCloseButton', true);
-    this._touchscreenSupport = await getConfiguration('touchscreenSupport', false);
-    this._moveMiningActions = await getConfiguration('moveMiningActions', true);
-    this._moveRotationActions = await getConfiguration('moveRotateActions', true);
-    this._moveGradingActions = await getConfiguration('moveGradingActions', true);
+    this._renderCloseButton = await getConfiguration('renderCloseButton');
+    this._touchscreenSupport = await getConfiguration('touchscreenSupport');
+    this._moveMiningActions = await getConfiguration('moveMiningActions');
+    this._moveRotationActions = await getConfiguration('moveRotateActions');
+    this._moveGradingActions = await getConfiguration('moveGradingActions');
 
-    this._customStyles.textContent = await getConfiguration('customPopupCSS', true);
+    this._customStyles.textContent = await getConfiguration('customPopupCSS');
 
     this._closeButton.style.display =
       this._touchscreenSupport && this._renderCloseButton ? 'flex' : 'none';

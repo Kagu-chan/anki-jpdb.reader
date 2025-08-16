@@ -6,7 +6,7 @@ import { CrunchyrollFeature } from './crunchyroll-com.feature';
 
 export async function getFeatures(): Promise<FeatureImplementation[]> {
   const isMainFrame = window === window.top;
-  const enabledFeatures = await getConfiguration('enabledFeatures', true);
+  const enabledFeatures = await getConfiguration('enabledFeatures');
   const features: Record<string, [Feature, new () => FeatureImplementation]> = {
     [CRUNCHYROLL.id]: [CRUNCHYROLL, CrunchyrollFeature],
   };

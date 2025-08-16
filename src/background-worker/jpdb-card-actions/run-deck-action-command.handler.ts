@@ -21,8 +21,8 @@ export class RunDeckActionCommandHandler extends BackgroundCommandHandler<RunDec
     sentence?: string,
   ): Promise<void> {
     const deckIdOrName = await this.getDeck(sender, deck);
-    const addToForqOnAdd = await getConfiguration('jpdbAddToForq', true);
-    const addSentence = await getConfiguration('setSentences', true);
+    const addToForqOnAdd = await getConfiguration('jpdbAddToForq');
+    const addSentence = await getConfiguration('setSentences');
     const forqDeck = addToForqOnAdd ? await this.getDeck(sender, 'forq') : false;
 
     if (!deckIdOrName) {
@@ -54,7 +54,7 @@ export class RunDeckActionCommandHandler extends BackgroundCommandHandler<RunDec
       suspend: 'jpdbSuspendDeck',
     }[key] as keyof ConfigurationSchema;
 
-    const deck = await getConfiguration(deckKey, true);
+    const deck = await getConfiguration(deckKey);
 
     if (!deck) {
       await new ToastCommand('error', `No deck selected for ${key}`).call(sender.tab!.id!);

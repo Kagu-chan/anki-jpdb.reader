@@ -22,9 +22,8 @@ const OBJECT_KEYS = Object.keys(DEFAULT_CONFIGURATION).filter(
 
 export const getConfiguration = async <K extends keyof ConfigurationSchema>(
   key: K,
-  fetchDefault: boolean,
 ): Promise<ConfigurationSchema[K]> => {
-  const defaultValue = fetchDefault ? DEFAULT_CONFIGURATION[key] : undefined;
+  const defaultValue = DEFAULT_CONFIGURATION[key];
   const stringDefault =
     typeof defaultValue === 'object' ? JSON.stringify(defaultValue) : defaultValue?.toString();
   const value: string = await readStorage(key, stringDefault);
@@ -42,7 +41,7 @@ export const getConfiguration = async <K extends keyof ConfigurationSchema>(
       return JSON.parse(value) as ConfigurationSchema[K];
     } catch {
       // Catch broken persisted values and return the default value
-      return defaultValue! as ConfigurationSchema[K];
+      return defaultValue as ConfigurationSchema[K];
     }
   }
 

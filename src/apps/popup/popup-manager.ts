@@ -44,8 +44,8 @@ export class PopupManager {
     onBroadcastMessage(
       'configurationUpdated',
       async () => {
-        this._showPopupOnHover = await getConfiguration('showPopupOnHover', true);
-        this._touchscreenSupport = await getConfiguration('touchscreenSupport', false);
+        this._showPopupOnHover = await getConfiguration('showPopupOnHover');
+        this._touchscreenSupport = await getConfiguration('touchscreenSupport');
       },
       true,
     );

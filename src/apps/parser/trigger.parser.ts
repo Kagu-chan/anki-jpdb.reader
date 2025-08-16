@@ -31,7 +31,7 @@ export class TriggerParser extends BaseParser {
     onBroadcastMessage(
       'configurationUpdated',
       async () => {
-        const show = await getConfiguration('showParseButton', true);
+        const show = await getConfiguration('showParseButton');
 
         this._buttonRoot.style.display = show ? 'block' : 'none';
       },

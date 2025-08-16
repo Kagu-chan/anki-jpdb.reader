@@ -8,9 +8,9 @@ export const requestByUrl = async <Key extends keyof JPDBEndpoints>(
   params: JPDBEndpoints[Key][0] | undefined,
   options?: JPDBRequestOptions,
 ): Promise<JPDBEndpoints[Key][1]> => {
-  const apiToken = options?.apiToken || (await getConfiguration('jpdbApiToken', false));
+  const apiToken = options?.apiToken || (await getConfiguration('jpdbApiToken'));
 
-  if (!apiToken) {
+  if (!apiToken?.length) {
     displayToast('error', 'API Token is not set');
 
     throw new Error('API Token is not set');

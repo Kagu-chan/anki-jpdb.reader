@@ -33,8 +33,8 @@ export class GradingController extends BaseController {
   }
 
   protected async applyConfiguration(): Promise<void> {
-    this._useTwoPointGrading = await getConfiguration('jpdbUseTwoGrades', true);
-    this._disableReviews = await getConfiguration('jpdbDisableReviews', true);
-    this._showActions = await getConfiguration('showGradingActions', true);
+    this._useTwoPointGrading = await getConfiguration('jpdbUseTwoGrades');
+    this._disableReviews = await getConfiguration('jpdbDisableReviews');
+    this._showActions = await getConfiguration('showGradingActions');
   }
 }

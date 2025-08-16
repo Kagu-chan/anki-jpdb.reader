@@ -24,9 +24,9 @@ export async function getHostMeta(
   filter: (meta: HostMeta) => boolean = (): boolean => true,
   multiple?: boolean,
 ): Promise<HostMeta[] | HostMeta | undefined> {
-  const disabledHosts = await getConfiguration('disabledParsers', true);
-  const additionalHosts = await getConfiguration('additionalHosts', true);
-  const additionalMeta = await getConfiguration('additionalMeta', true);
+  const disabledHosts = await getConfiguration('disabledParsers');
+  const additionalHosts = await getConfiguration('additionalHosts');
+  const additionalMeta = await getConfiguration('additionalMeta');
   const hostsMeta: HostMeta[] = DEFAULT_HOSTS;
 
   const isPredefined = (meta: HostMeta): meta is PredefinedHostMeta => 'id' in meta;
