@@ -24,9 +24,9 @@ export class ParseCommandHandler extends BackgroundCommandHandler<ParseCommand> 
     sender: MessageSender,
     data: [sequenceId: number, text: string][],
   ): Promise<void> {
-    const jpdbApiKey = await getConfiguration('jpdbApiToken', false);
+    const jpdbApiKey = await getConfiguration('jpdbApiToken');
 
-    if (!jpdbApiKey) {
+    if (!jpdbApiKey?.length) {
       await this._failToast.call(sender.tab!.id!);
       await openOptionsPage();
 
@@ -36,7 +36,7 @@ export class ParseCommandHandler extends BackgroundCommandHandler<ParseCommand> 
     onBroadcastMessage(
       'configurationUpdated',
       async () => {
-        const customWordCSS = await getConfiguration('customWordCSS', true);
+        const customWordCSS = await getConfiguration('customWordCSS');
 
         await injectStyle(sender.tab!.id!, 'word', customWordCSS);
       },

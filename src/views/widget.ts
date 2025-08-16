@@ -18,8 +18,8 @@ onLoaded(async () => {
 
   const tabsFilter: Parameters<typeof chrome.tabs.query>[0] = { currentWindow: true };
 
-  const showCurrentOnTop = await getConfiguration('showCurrentOnTop', true);
-  const hideInactiveTabs = await getConfiguration('hideInactiveTabs', true);
+  const showCurrentOnTop = await getConfiguration('showCurrentOnTop');
+  const hideInactiveTabs = await getConfiguration('hideInactiveTabs');
 
   if (hideInactiveTabs) {
     tabsFilter.active = true;

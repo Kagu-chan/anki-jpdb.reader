@@ -44,10 +44,10 @@ export class MiningController extends BaseController {
   }
 
   protected async applyConfiguration(): Promise<void> {
-    this._miningDeck = await getConfiguration('jpdbMiningDeck', true);
-    this._neverForgetDeck = await getConfiguration('jpdbNeverForgetDeck', true);
-    this._blacklistDeck = await getConfiguration('jpdbBlacklistDeck', true);
-    this._suspendDeck = await getConfiguration('jpdbSuspendDeck', true);
-    this._showActions = await getConfiguration('showMiningActions', true);
+    this._miningDeck = await getConfiguration('jpdbMiningDeck');
+    this._neverForgetDeck = await getConfiguration('jpdbNeverForgetDeck');
+    this._blacklistDeck = await getConfiguration('jpdbBlacklistDeck');
+    this._suspendDeck = await getConfiguration('jpdbSuspendDeck');
+    this._showActions = await getConfiguration('showMiningActions');
   }
 }

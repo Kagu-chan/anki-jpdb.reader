@@ -46,13 +46,11 @@ export class AJB {
     onBroadcastMessage(
       'configurationUpdated',
       async (): Promise<void> => {
-        const useLegacyHighlighter = await getConfiguration('useLegacyHighlighter', true);
-        const skipFurigana = await getConfiguration('skipFurigana', false);
-        const generatePitch = await getConfiguration('generatePitch', false);
-        const markTopX = await getConfiguration('markTopX', false);
-        const markTopXCount = await getConfiguration('markTopXCount', true);
-        const markAllTypes = await getConfiguration('markAllTypes', false);
-        const markSuspended = await getConfiguration('markSuspended', false);
+        const skipFurigana = await getConfiguration('skipFurigana');
+        const generatePitch = await getConfiguration('generatePitch');
+        const markTopX = await getConfiguration('markTopX');
+        const markTopXCount = await getConfiguration('markTopXCount');
+        const markAllTypes = await getConfiguration('markAllTypes');
 
         Registry.textHighlighter = useLegacyHighlighter ? LegacyTextHighlighter : TextHighlighter;
         Registry.textHighlighterOptions = {

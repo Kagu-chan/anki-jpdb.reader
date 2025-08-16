@@ -76,7 +76,7 @@ export class KeybindManager {
     this._sortedKeylist = [];
 
     for (const key of this._events) {
-      const raw = await getConfiguration(key, true);
+      const raw = await getConfiguration(key);
       const value = (Array.isArray(raw) ? raw.filter((v) => v?.code) : raw.code ? [raw] : null) as
         | Keybind[]
         | null;

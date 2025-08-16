@@ -23,10 +23,10 @@ export class RotationActions {
     onBroadcastMessage(
       'configurationUpdated',
       async (): Promise<void> => {
-        this._rotateCycle = await getConfiguration('jpdbRotateCycle', true);
-        this._cycleNeverForget = await getConfiguration('jpdbCycleNeverForget', true);
-        this._cycleBlacklist = await getConfiguration('jpdbCycleBlacklist', true);
-        this._cycleSuspended = await getConfiguration('jpdbCycleSuspended', true);
+        this._rotateCycle = await getConfiguration('jpdbRotateCycle');
+        this._cycleNeverForget = await getConfiguration('jpdbCycleNeverForget');
+        this._cycleBlacklist = await getConfiguration('jpdbCycleBlacklist');
+        this._cycleSuspended = await getConfiguration('jpdbCycleSuspended');
       },
       true,
     );

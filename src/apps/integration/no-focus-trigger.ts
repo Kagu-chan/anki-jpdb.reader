@@ -52,7 +52,7 @@ export class NoFocusTrigger {
     onBroadcastMessage(
       'configurationUpdated',
       async () => {
-        this._touchscreenSupport = await getConfiguration('touchscreenSupport', true);
+        this._touchscreenSupport = await getConfiguration('touchscreenSupport');
 
         if (this._touchscreenSupport) {
           document.removeEventListener('mousemove', handler);

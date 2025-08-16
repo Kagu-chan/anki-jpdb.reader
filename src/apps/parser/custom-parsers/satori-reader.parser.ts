@@ -20,7 +20,7 @@ export class SatoriReaderParser extends AutomaticParser {
     onBroadcastMessage(
       'configurationUpdated',
       async () => {
-        const touchActive = await getConfiguration('touchscreenSupport', true);
+        const touchActive = await getConfiguration('touchscreenSupport');
 
         this.desktop.setDisplay(touchActive);
         this.mobile.setDisplay(touchActive);
