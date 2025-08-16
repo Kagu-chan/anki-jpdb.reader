@@ -1,3 +1,4 @@
+import { JPDBCardState } from '../jpdb/types';
 import { ConfigurationSchema } from './types';
 
 export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
@@ -44,11 +45,14 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   //#endregion
   //#region Texthighlighting
 
-  useLegacyHighlighter: false,
+  newStates: [JPDBCardState.NOT_IN_DECK, JPDBCardState.NEW],
+
   markTopX: false,
-  markSuspended: false,
   markAllTypes: false,
   markTopXCount: 10_000,
+  markIPlus1: false,
+  minSentenceLength: 3,
+  markOnlyFrequent: false,
   skipFurigana: false,
   generatePitch: false,
 

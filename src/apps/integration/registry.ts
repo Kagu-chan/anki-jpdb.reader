@@ -1,11 +1,8 @@
-import { JPDBCard, JPDBCardState, JPDBToken } from '@shared/jpdb/types';
+import { JPDBCard, JPDBCardState } from '@shared/jpdb/types';
 import { BatchController } from '../batches/batch-controller';
-import { Fragment } from '../batches/types';
 import { BaseParser } from '../parser/base.parser';
 import { PopupManager } from '../popup/popup-manager';
 import { SequenceManager } from '../sequence/sequence-manager';
-import { BaseTextHighlighter } from '../text-highlighter/base.text-highlighter';
-import { TextHighlighter } from '../text-highlighter/text-highlighter';
 import { TextHighlighterOptions } from '../text-highlighter/types';
 import { EventCollection } from './event-collection';
 import { HostEvaluator } from './host-evaluator';
@@ -21,21 +18,19 @@ export class Registry {
   public static readonly batchController = new BatchController();
   public static readonly sequenceManager = new SequenceManager();
   public static readonly sentenceManager = new SentenceManager();
-  public static skipTouchEvents = false;
-  public static popupManager?: PopupManager;
-
-  public static textHighlighter: new (
-    fragments: Fragment[],
-    tokens: JPDBToken[],
-    options: TextHighlighterOptions,
-  ) => BaseTextHighlighter = TextHighlighter;
-  public static textHighlighterOptions: TextHighlighterOptions = {
+  public static readonly textHighlighterOptions: TextHighlighterOptions = {
     skipFurigana: false,
     generatePitch: false,
     markFrequency: false,
     markAll: false,
-    markSuspended: false,
+    markIPlus1: false,
+    minSentenceLength: 3,
+    markOnlyFrequent: false,
+    newStates: [],
   };
+
+  public static skipTouchEvents = false;
+  public static popupManager?: PopupManager;
 
   private static readonly cards = new Map<string, JPDBCard>();
 

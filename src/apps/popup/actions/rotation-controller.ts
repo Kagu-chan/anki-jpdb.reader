@@ -1,5 +1,5 @@
 import { getConfiguration } from '@shared/configuration/get-configuration';
-import { JPDBCard } from '@shared/jpdb/types';
+import { JPDBCard, JPDBCardState } from '@shared/jpdb/types';
 import { RunDeckActionCommand } from '@shared/messages/background/run-deck-action.command';
 import { BaseController } from './base-controller';
 
@@ -90,11 +90,11 @@ export class RotationController extends BaseController {
   protected getCurrentCardState(card: JPDBCard): string | undefined {
     const state = card.cardState ?? [];
 
-    return state.includes('never-forget')
+    return state.includes(JPDBCardState.NEVER_FORGET)
       ? 'neverForget'
-      : state.includes('blacklisted')
+      : state.includes(JPDBCardState.BLACKLISTED)
         ? 'blacklist'
-        : state.includes('suspended')
+        : state.includes(JPDBCardState.SUSPENDED)
           ? 'suspend'
           : undefined;
   }
