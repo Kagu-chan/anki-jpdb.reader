@@ -15,8 +15,6 @@ import { getCustomParser } from './parser/get-custom-parser';
 import { NoParser } from './parser/no.parser';
 import { TriggerParser } from './parser/trigger.parser';
 import { PopupManager } from './popup/popup-manager';
-import { LegacyTextHighlighter } from './text-highlighter/legacy-text-highlighter';
-import { TextHighlighter } from './text-highlighter/text-highlighter';
 
 export class AJB {
   private _lookupKeyManager = new KeybindManager(['lookupSelectionKey']);
@@ -51,15 +49,19 @@ export class AJB {
         const markTopX = await getConfiguration('markTopX');
         const markTopXCount = await getConfiguration('markTopXCount');
         const markAllTypes = await getConfiguration('markAllTypes');
+        const markIPlus1 = await getConfiguration('markIPlus1');
+        const minSentenceLength = await getConfiguration('minSentenceLength');
+        const markOnlyFrequent = await getConfiguration('markOnlyFrequent');
+        const newStates = await getConfiguration('newStates');
 
-        Registry.textHighlighter = useLegacyHighlighter ? LegacyTextHighlighter : TextHighlighter;
-        Registry.textHighlighterOptions = {
-          skipFurigana,
-          generatePitch,
-          markFrequency: markTopX ? markTopXCount : false,
-          markSuspended,
-          markAll: markAllTypes,
-        };
+        Registry.textHighlighterOptions.skipFurigana = skipFurigana;
+        Registry.textHighlighterOptions.generatePitch = generatePitch;
+        Registry.textHighlighterOptions.markIPlus1 = markIPlus1;
+        Registry.textHighlighterOptions.markAll = markAllTypes;
+        Registry.textHighlighterOptions.markFrequency = markTopX ? markTopXCount : false;
+        Registry.textHighlighterOptions.minSentenceLength = minSentenceLength;
+        Registry.textHighlighterOptions.markOnlyFrequent = markOnlyFrequent;
+        Registry.textHighlighterOptions.newStates = newStates;
       },
       true,
     );

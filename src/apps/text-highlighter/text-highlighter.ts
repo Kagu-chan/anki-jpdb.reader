@@ -21,7 +21,9 @@ export class TextHighlighter extends BaseTextHighlighter {
 
     this.patchRemainingMisparses();
 
-    Registry.sentenceManager.calculateTargetSentences();
+    if (Registry.textHighlighterOptions.markIPlus1) {
+      Registry.sentenceManager.calculateTargetSentences();
+    }
   }
 
   /**
@@ -294,7 +296,7 @@ export class TextHighlighter extends BaseTextHighlighter {
   ): void {
     const newRuby = this.wrapElement(fragment.node, token);
 
-    if (this.options.skipFurigana) {
+    if (Registry.textHighlighterOptions.skipFurigana) {
       return;
     }
 
@@ -390,7 +392,7 @@ export class TextHighlighter extends BaseTextHighlighter {
     if (sharedParentNode && anyHasRuby) {
       const clone = sharedParentNode.cloneNode(true) as HTMLElement;
 
-      if (!this.options.skipFurigana) {
+      if (!Registry.textHighlighterOptions.skipFurigana) {
         clone.querySelectorAll('rt').forEach((rt) => rt.remove());
       }
 
@@ -578,7 +580,7 @@ export class TextHighlighter extends BaseTextHighlighter {
     if (fragmentsParent.childNodes.length > 1) {
       const element = this.wrapElement(node, token);
 
-      if (!this.options.skipFurigana) {
+      if (!Registry.textHighlighterOptions.skipFurigana) {
         element.querySelectorAll('rt').forEach((rt) => rt.classList.add('jpdb-furi'));
       }
 
@@ -618,6 +620,8 @@ export class TextHighlighter extends BaseTextHighlighter {
   }
 
   protected patchElement(element: HTMLElement, token: JPDBToken | undefined): void {
+    const { skipFurigana, markFrequency, markAll, generatePitch, markIPlus1, newStates } =
+      Registry.textHighlighterOptions;
     const { card, pitchClass, sentence } = token ?? {};
 
     // do not apply the same card twice
@@ -627,9 +631,11 @@ export class TextHighlighter extends BaseTextHighlighter {
 
     element.setAttribute('ajb', 'true');
 
-    Registry.sentenceManager.addElement(element, token);
+    if (markIPlus1) {
+      Registry.sentenceManager.addElement(element, token);
+    }
 
-    if (!this.options.skipFurigana) {
+    if (!skipFurigana) {
       element.querySelectorAll('rt').forEach((rt) => rt.classList.add('jpdb-furi'));
     }
 
@@ -638,17 +644,16 @@ export class TextHighlighter extends BaseTextHighlighter {
 
       element.classList.add('jpdb-word', ...card.cardState);
 
-      if (this.options.markFrequency && card.frequencyRank <= this.options.markFrequency) {
-        const states = card.cardState as string[];
-        const isSuspended = states.includes('suspended');
-        const isNew = states.includes('new') || states.includes('not-in-deck');
+      if (markFrequency && card.frequencyRank <= markFrequency) {
+        const states = card.cardState;
+        const isNew = states.some((s) => newStates.includes(s));
 
-        if (this.options.markAll || isNew || (this.options.markSuspended && isSuspended)) {
+        if (markAll || isNew) {
           element.classList.add('frequent');
         }
       }
 
-      if (pitchClass && this.options.generatePitch) {
+      if (pitchClass && generatePitch) {
         element.classList.add(pitchClass);
       }
 

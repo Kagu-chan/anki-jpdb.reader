@@ -1,4 +1,5 @@
 import { JPDBCardState, JPDBToken } from '@shared/jpdb/types';
+import { Registry } from './registry';
 
 export class SentenceManager {
   private _sentenceToCards = new Map<string, string[]>();
@@ -7,6 +8,7 @@ export class SentenceManager {
   private _cardToState = new Map<string, JPDBCardState[]>(); // CHECK
   private _cardToSentence = new Map<string, string[]>();
   private _cardToElements = new Map<string, Node[]>();
+  private _cardToFrequency = new Map<string, number>();
 
   private _elementToCard = new Map<Node, string>();
   private _elementsToSentence = new Map<Node, string>();
@@ -39,7 +41,7 @@ export class SentenceManager {
     }
 
     const { sentence, card } = token;
-    const { vid, sid, cardState } = card;
+    const { vid, sid, cardState, frequencyRank } = card;
     const vidSid = `${vid}/${sid}`;
 
     this.addToMap(this._sentenceToCards, sentence, vidSid);
@@ -50,6 +52,7 @@ export class SentenceManager {
     this._elementToCard.set(element, vidSid);
     this._elementsToSentence.set(element, sentence);
     this._cardToState.set(vidSid, cardState);
+    this._cardToFrequency.set(vidSid, frequencyRank);
   }
 
   public calculateTargetSentences(): void {
@@ -82,6 +85,7 @@ export class SentenceManager {
     this._cardToState.clear();
     this._cardToSentence.clear();
     this._cardToElements.clear();
+    this._cardToFrequency.clear();
     this._elementToCard.clear();
     this._elementsToSentence.clear();
     this._processedSentences.clear();
@@ -130,6 +134,7 @@ export class SentenceManager {
       this._cardToElements.delete(card);
       this._cardToSentence.delete(card);
       this._cardToState.delete(card);
+      this._cardToFrequency.delete(card);
     }
   }
 
@@ -191,22 +196,31 @@ export class SentenceManager {
   }
 
   protected calculateSentence(sentence: string): void {
+    const { markOnlyFrequent, markFrequency, minSentenceLength, newStates } =
+      Registry.textHighlighterOptions;
+
     this._processedSentences.add(sentence);
 
     const cards = this._sentenceToCards.get(sentence) ?? [];
     const unknownCards = cards.filter((card) => {
       const states = this._cardToState.get(card)!;
 
-      return ![
-        JPDBCardState.KNOWN,
-        JPDBCardState.NEVER_FORGET,
-        JPDBCardState.REDUNDANT,
-        JPDBCardState.BLACKLISTED,
-        JPDBCardState.SUSPENDED,
-      ].some((state) => states.includes(state));
+      return states.some((s) => newStates.includes(s));
     });
 
-    if (unknownCards.length === 0 || unknownCards.length > 1 || cards.length < 2) {
+    let notIPlusOne =
+      unknownCards.length === 0 || unknownCards.length > 1 || cards.length < minSentenceLength;
+
+    if (markFrequency && markOnlyFrequent && !notIPlusOne) {
+      // Apply frequency-based filtering
+      const relevantFrequency = this._cardToFrequency.get(unknownCards[0])!;
+
+      if (relevantFrequency > markFrequency) {
+        notIPlusOne = true;
+      }
+    }
+
+    if (notIPlusOne) {
       // Force remove i+1 class if it was previously set
       this._sentenceToElements.get(sentence)?.forEach((element) => {
         (element as HTMLElement).classList.remove('i-plus-one');

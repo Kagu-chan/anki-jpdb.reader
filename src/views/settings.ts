@@ -15,6 +15,7 @@ import { ConfigurationUpdatedCommand } from '@shared/messages/broadcast/configur
 import { HTMLFeaturesInputElement } from './elements/html-features-input-element';
 import { HTMLKeybindInputElement } from './elements/html-keybind-input-element';
 import { HTMLMiningInputElement } from './elements/html-mining-input-element';
+import { HTMLNewStateInputElement } from './elements/html-new-state-input-element';
 import { HTMLParsersInputElement } from './elements/html-parsers-input-element';
 
 /**
@@ -58,6 +59,7 @@ class SettingsController {
     customElements.define('keybind-input', HTMLKeybindInputElement);
     customElements.define('parsers-input', HTMLParsersInputElement);
     customElements.define('features-input', HTMLFeaturesInputElement);
+    customElements.define('new-state-input', HTMLNewStateInputElement);
 
     void this.setup();
   }
@@ -107,7 +109,7 @@ class SettingsController {
    */
   private async _setupSimpleFields(): Promise<void> {
     await this._setupFields(
-      'input, textarea, keybind-input, parsers-input, features-input',
+      'input, textarea, keybind-input, parsers-input, features-input, new-state-input',
       [''],
       (type) => (type === 'checkbox' ? 'checked' : 'value'),
     );
@@ -139,7 +141,7 @@ class SettingsController {
 
         const targetProperty: keyof HTMLInputElement = getTargetProperty(inputElement.type);
         const value = this._lastSavedConfiguration
-          .set(name, await getConfiguration(name, true))
+          .set(name, await getConfiguration(name))
           .get(name) as Exclude<ConfigurationSchema[keyof ConfigurationSchema], Keybind>;
 
         this._currentConfiguration.set(name, value);

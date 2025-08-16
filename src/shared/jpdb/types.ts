@@ -86,3 +86,9 @@ export type JPDBToken = {
   pitchClass: string;
   sentence?: string;
 };
+
+export type LabeledCardState = {
+  id: JPDBCardState;
+  name: string;
+  description: string;
+};

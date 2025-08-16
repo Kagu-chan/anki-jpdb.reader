@@ -5,9 +5,18 @@ export const _080: ChangelogEntry[] = [
     type: 'add',
     description: 'Added the option to highlight i+1 sentences.',
     category: Category.Texthighlighter,
-    issue: 317, // TODO: Enter correct issue
+    issue: 54,
   },
-  // TODO: Make Opt In
-  // TODO: Allow selecting based on frequency
-  // TODO: Make the styling simpler for that
+  {
+    type: 'remove',
+    description: 'Removed the legacy text highlighter.',
+    category: Category.Texthighlighter,
+    issue: 'N/A',
+  },
+  {
+    type: 'add',
+    description: 'Added the option to choose which card states are considered new.',
+    category: Category.Texthighlighter,
+    issue: 'N/A',
+  },
 ];

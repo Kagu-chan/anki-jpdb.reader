@@ -1,4 +1,5 @@
 import { DeckConfiguration, DiscoverWordConfiguration } from '../anki/types';
+import { JPDBCardState } from '../jpdb/types';
 
 export type Keybind = { key: string; code: string; modifiers: string[] };
 export type Keybinds = Keybind | [Keybind?, Keybind?];
@@ -46,11 +47,14 @@ export type ConfigurationSchema = {
   //#endregion
   //#region Texthighlighting
 
-  useLegacyHighlighter: boolean;
+  newStates: JPDBCardState[];
+
   markTopX: boolean;
   markTopXCount: number;
-  markSuspended: boolean;
   markAllTypes: boolean;
+  markIPlus1: boolean;
+  minSentenceLength: number;
+  markOnlyFrequent: boolean;
   skipFurigana: boolean;
   generatePitch: boolean;
 
