@@ -19,4 +19,10 @@ export const _080: ChangelogEntry[] = [
     category: Category.Texthighlighter,
     issue: 'N/A',
   },
+  {
+    type: 'change',
+    description: 'Removed the save button from the settings page and added automatic saving.',
+    category: Category.Settings,
+    issue: 'N/A',
+  },
 ];
