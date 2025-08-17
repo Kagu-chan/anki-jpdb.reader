@@ -44,7 +44,12 @@ function getOrCreateToastContainer(): HTMLDivElement {
   return shadowRoot.getElementById('ajb-toast-item-container') as HTMLDivElement;
 }
 
-export function displayToast(type: 'error' | 'success', message: string, error?: string): void {
+export function displayToast(
+  type: 'error' | 'success',
+  message: string,
+  error?: string,
+  skipMessageTimeout?: boolean,
+): void {
   if (typeof document === 'undefined') {
     // This is a background-side environment, so we can't display a toast
     // or manipulate the DOM.
@@ -54,13 +59,15 @@ export function displayToast(type: 'error' | 'success', message: string, error?:
 
   const timeoutDuration = 5000;
 
-  if (toasts.has(message)) {
-    restartMessageTimeout(message);
+  if (!skipMessageTimeout) {
+    if (toasts.has(message)) {
+      restartMessageTimeout(message);
 
-    return;
+      return;
+    }
+
+    startMessageTimeout(message);
   }
-
-  startMessageTimeout(message);
 
   const container = getOrCreateToastContainer();
   const toast: HTMLLIElement = createElement('li', {

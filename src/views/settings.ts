@@ -1,272 +1,107 @@
-import { getApiVersion } from '@shared/anki/get-api-version';
 import { getConfiguration } from '@shared/configuration/get-configuration';
 import { setConfiguration } from '@shared/configuration/set-configuration';
-import { ConfigurationSchema, Keybind } from '@shared/configuration/types';
+import { ConfigurationSchema } from '@shared/configuration/types';
 import { createElement } from '@shared/dom/create-element';
 import { displayToast } from '@shared/dom/display-toast';
 import { findElement } from '@shared/dom/find-element';
-import { findElements } from '@shared/dom/find-elements';
 import { withElement } from '@shared/dom/with-element';
 import { withElements } from '@shared/dom/with-elements';
-import { listUserDecks } from '@shared/jpdb/list-user-decks';
 import { ping } from '@shared/jpdb/ping';
 import { JPDBDeck } from '@shared/jpdb/types';
+import { FetchDecksCommand } from '@shared/messages/background/fetch-decks.command';
 import { ConfigurationUpdatedCommand } from '@shared/messages/broadcast/configuration-updated.command';
+import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
 import { HTMLFeaturesInputElement } from './elements/html-features-input-element';
 import { HTMLKeybindInputElement } from './elements/html-keybind-input-element';
 import { HTMLMiningInputElement } from './elements/html-mining-input-element';
 import { HTMLNewStateInputElement } from './elements/html-new-state-input-element';
 import { HTMLParsersInputElement } from './elements/html-parsers-input-element';
 
-/**
- * SettingsController handles the logic for the settings page,
- * including loading, saving, importing, and exporting configuration,
- * as well as integration with JPDB and Anki APIs.
- */
-class SettingsController {
-  private _lastSavedConfiguration = new Map<
-    keyof ConfigurationSchema,
-    ConfigurationSchema[keyof ConfigurationSchema]
-  >();
-  private _currentConfiguration = new Map<
-    keyof ConfigurationSchema,
-    ConfigurationSchema[keyof ConfigurationSchema]
-  >();
-  private _localChanges = new Set<keyof ConfigurationSchema>();
-  private _invalidFields = new Set<keyof ConfigurationSchema>();
+customElements.define('mining-input', HTMLMiningInputElement);
+customElements.define('keybind-input', HTMLKeybindInputElement);
+customElements.define('parsers-input', HTMLParsersInputElement);
+customElements.define('features-input', HTMLFeaturesInputElement);
+customElements.define('new-state-input', HTMLNewStateInputElement);
 
-  private _saveButton = findElement<'button'>('#save-all-settings');
-  private _importButton = findElement<'button'>('#import-settings');
-  private _exportButton = findElement<'button'>('#export-settings');
+const localConfiguration = new Map<
+  keyof ConfigurationSchema,
+  ConfigurationSchema[keyof ConfigurationSchema]
+>();
+const bindings = new Map<string, Set<HTMLElement>>();
+const validators: Partial<
+  Record<keyof ConfigurationSchema, (value: unknown) => boolean | Promise<boolean>>
+> = {
+  jpdbApiToken: validateJPDBApiKey,
+};
 
-  private _disableWhenActive: Record<string, string[]> = {
-    touchscreenSupport: ['showPopupOnHover', 'hidePopupAutomatically'],
-    jpdbDisableReviews: ['showGradingActions'],
-  };
-  private _disableWhenInactive: Record<string, string[]> = {
-    jpdbRotateFlags: ['showRotateActions'],
-  };
+const configurationUpdatedCommand = new ConfigurationUpdatedCommand();
+const fetchDecksCommand = new FetchDecksCommand();
 
-  private _configurationUpdated = new ConfigurationUpdatedCommand();
+const jpdbDeckFields = new Map<HTMLSelectElement, string>();
 
-  /**
-   * FOR DEBUGGING PURPOSES ONLY!
-   */
-  private _ENABLE_ANKI = false;
+//#region Init Interactions
 
-  constructor() {
-    customElements.define('mining-input', HTMLMiningInputElement);
-    customElements.define('keybind-input', HTMLKeybindInputElement);
-    customElements.define('parsers-input', HTMLParsersInputElement);
-    customElements.define('features-input', HTMLFeaturesInputElement);
-    customElements.define('new-state-input', HTMLNewStateInputElement);
+withElements(
+  'input, textarea, select, keybind-input, parsers-input, features-input, new-state-input',
+  (field: HTMLInputElement) => {
+    const internal = field.hasAttribute('internal');
+    const ignored = ['hidden', 'submit', 'button'];
+    const checkbox = field.type === 'checkbox';
+    const isJPDBDeck = field.getAttribute('data-type') === 'jpdb-deck';
 
-    void this.setup();
-  }
+    if (internal || ignored.includes(field.type)) {
+      return;
+    }
 
-  private async setup(): Promise<void> {
-    await this._setupSimpleFields();
+    void getConfiguration(field.name as keyof ConfigurationSchema)
+      // Load current or default configuration
+      .then((value) => {
+        if (isJPDBDeck) {
+          jpdbDeckFields.set(field as unknown as HTMLSelectElement, value as string);
 
-    await this._setupJPDB();
-    await this._setupAnki();
-
-    await this._setupApiFields();
-
-    this._setupSaveButton();
-    this._setupImportButton();
-    this._setupExportButton();
-    this._setupCollapsibleTriggers();
-
-    this.setupDependencyTriggers();
-  }
-
-  private setupDependencyTriggers(): void {
-    const runMap = (map: Record<string, string[]>, reverse: boolean): void => {
-      Object.keys(map).forEach((key) => {
-        const element = findElement<'input'>(`#${key}`);
-        const targets = map[key].map((target) => findElement<'input'>(`#${target}`));
-
-        element.addEventListener('change', () => {
-          const shouldDisable = reverse ? !element.checked : element.checked;
-
-          if (shouldDisable) {
-            targets.forEach((target) => {
-              target.checked = false;
-              target.dispatchEvent(new Event('change'));
-            });
-          }
-        });
-      });
-    };
-
-    runMap(this._disableWhenActive, false);
-    runMap(this._disableWhenInactive, true);
-  }
-
-  /**
-   * Load the configuration from the storage and populate the settings page with the values.
-   * Also, install listeners to keep track of the local changes.
-   */
-  private async _setupSimpleFields(): Promise<void> {
-    await this._setupFields(
-      'input, textarea, keybind-input, parsers-input, features-input, new-state-input',
-      [''],
-      (type) => (type === 'checkbox' ? 'checked' : 'value'),
-    );
-  }
-
-  /**
-   * Setup the fields that are dependent on the JPDB or Anki API.
-   *
-   * They require the API fields to be set up first as well as the API to be tested.
-   */
-  private async _setupApiFields(): Promise<void> {
-    await this._setupFields('select[type=jpdb], mining-input');
-  }
-
-  private async _setupFields(
-    selector: string,
-    filter: string[] = [],
-    getTargetProperty: (type: string) => keyof HTMLInputElement = (): keyof HTMLInputElement =>
-      'value',
-  ): Promise<void> {
-    await Promise.all(
-      withElements(selector, async (inputElement: HTMLInputElement) => {
-        const name = inputElement.name as keyof ConfigurationSchema;
-        const internal = inputElement.hasAttribute('internal');
-
-        if (filter.includes(name) || inputElement.type === 'hidden' || internal) {
           return;
         }
 
-        const targetProperty: keyof HTMLInputElement = getTargetProperty(inputElement.type);
-        const value = this._lastSavedConfiguration
-          .set(name, await getConfiguration(name))
-          .get(name) as Exclude<ConfigurationSchema[keyof ConfigurationSchema], Keybind>;
+        if (checkbox) {
+          field.checked = value as boolean;
+        } else {
+          field.value = value as string;
+        }
 
-        this._currentConfiguration.set(name, value);
+        return validateAndSet(field.name as keyof ConfigurationSchema, value);
+      })
+      // Apply change listeners
+      .then(() => {
+        field.onchange = (): void => {
+          const value = checkbox ? field.checked : field.value;
 
-        (inputElement[targetProperty] as ConfigurationSchema[keyof ConfigurationSchema]) = value;
+          void validateAndSet(field.name as keyof ConfigurationSchema, value, async () => {
+            await setConfiguration(field.name as keyof ConfigurationSchema, value);
+            configurationUpdatedCommand.send();
 
-        // We keep track of the local changes. We enable the save button if there are local changes.
-        inputElement.addEventListener('change', () => {
-          const lastSaved = this._lastSavedConfiguration.get(name);
-          const current = inputElement[targetProperty] as Exclude<
-            ConfigurationSchema[keyof ConfigurationSchema],
-            Keybind
-          >;
-
-          if (lastSaved === current) {
-            this._localChanges.delete(name);
-          } else {
-            this._localChanges.add(name);
-          }
-
-          this._currentConfiguration.set(name, current);
-
-          this._updateSaveButton();
-        });
-      }),
-    );
-  }
-
-  /**
-   * Setup the save button. When clicked, it will save the local changes to the storage.
-   */
-  private _setupSaveButton(): void {
-    this._saveButton.onclick = async (event: Event): Promise<void> => {
-      event.stopPropagation();
-      event.preventDefault();
-
-      // We only save the fields that are not invalid.
-      // The save button would not activate if there are invalid fields except for the ankiProxyUrl.
-      const itemsToSave = Array.from(this._localChanges).filter(
-        (key) => !this._invalidFields.has(key),
-      );
-
-      if (itemsToSave.length === 0) {
-        return;
-      }
-
-      this._saveButton.disabled = true;
-
-      for (const key of itemsToSave) {
-        const inputElement = findElement<'input'>(`[name="${key}"]`);
-        const value = inputElement.type === 'checkbox' ? inputElement.checked : inputElement.value;
-
-        await setConfiguration(key, value);
-
-        this._lastSavedConfiguration.set(key, value);
-        this._localChanges.delete(key);
-      }
-
-      displayToast('success', 'Settings saved successfully');
-
-      this._configurationUpdated.send();
-    };
-  }
-
-  private _updateSaveButton(): void {
-    // Invalid fields are not considered changed fields.
-    const localChanges = Array.from(this._localChanges).filter(
-      (key) => !this._invalidFields.has(key),
-    );
-    // We allow the ankiProxyUrl to be invalid, otherwise one would have to start the proxy every time the settings are opened.
-    const invalidFields = Array.from(this._invalidFields).filter((key) => key !== 'ankiProxyUrl');
-
-    this._saveButton.disabled = localChanges.length === 0 || invalidFields.length > 0;
-  }
-
-  //#region Import/Export
-
-  private _setupImportButton(): void {
-    this._importButton.onclick = (event: Event): void => {
-      event.stopPropagation();
-      event.preventDefault();
-
-      const fileInput = createElement('input', {
-        attributes: { type: 'file', accept: '.json' },
+            displayToast('success', 'Settings saved successfully', undefined, true);
+          });
+        };
       });
+  },
+);
 
-      fileInput.onchange = async (): Promise<void> => {
-        if (!fileInput.files?.length) {
-          return;
-        }
+withElement('#apiTokenButton', (button) => {
+  button.onclick = (): void => {
+    withElement('#jpdbApiToken', (i: HTMLInputElement) => {
+      void validateJPDBApiKey(i.value);
+    });
+  };
+});
 
-        const file = fileInput.files[0];
-        const text = await file.text();
-        const data = JSON.parse(text) as ConfigurationSchema;
+withElement('#export-settings', (button) => {
+  button.onclick = (event: Event): void => {
+    event.stopPropagation();
+    event.preventDefault();
 
-        for (const key in data) {
-          if (Object.prototype.hasOwnProperty.call(data, key)) {
-            await setConfiguration(
-              key as keyof ConfigurationSchema,
-              data[key as keyof ConfigurationSchema],
-            );
-          }
-        }
+    const downloadTitleWithDate = `configuration-${new Date().toISOString().slice(0, 10)}.json`;
 
-        this._configurationUpdated.send();
-        window.location.reload();
-      };
-
-      fileInput.click();
-    };
-  }
-
-  /**
-   * Sets up the export button to allow users to download their configuration.
-   * The API token is excluded from the export for security reasons.
-   */
-  private _setupExportButton(): void {
-    this._exportButton.onclick = (event: Event): void => {
-      event.stopPropagation();
-      event.preventDefault();
-
-      const downloadTitleWithDate = `configuration-${new Date().toISOString().slice(0, 10)}.json`;
-      const configuration = Object.fromEntries(this._lastSavedConfiguration.entries());
-
-      // Do not export the API token for security reasons
+    void chrome.storage.local.get().then((configuration) => {
       delete configuration.jpdbApiToken;
 
       const blob = new Blob([JSON.stringify(configuration, null, 2)], {
@@ -283,313 +118,270 @@ class SettingsController {
       document.body.removeChild(a);
 
       URL.revokeObjectURL(url);
-    };
-  }
-
-  //#endregion
-  //#region JPDB
-
-  private async _setupJPDB(): Promise<void> {
-    this._setupJPDBInteraction();
-
-    await this._testJPDB();
-  }
-
-  private _setupJPDBInteraction(): void {
-    this._setupInteraction(
-      'input[name="jpdbApiToken"]',
-      '#apiTokenButton',
-      (): Promise<void> => this._testJPDB(),
-    );
-  }
-
-  private async _testJPDB(): Promise<void> {
-    await this._testEndpoint(
-      '#apiTokenButton',
-      '[name="jpdbApiToken"]',
-      (apiToken) => ping({ apiToken }),
-      false,
-      async (apiToken: string): Promise<void> => {
-        const decks = await listUserDecks(['id', 'name', 'is_built_in'], { apiToken });
-        const usableDecks = decks.filter((deck) => !deck.is_built_in);
-
-        this.setJpdbDecks(usableDecks);
-      },
-      () => this.setJpdbDecks([]),
-    );
-  }
-
-  private setJpdbDecks(decks: JPDBDeck[]): void {
-    decks.unshift(
-      { id: '', name: '[None]' },
-      { id: 'blacklist', name: '[blacklist]' },
-      { id: 'never-forget', name: '[never-forget]' },
-      { id: 'forq', name: '[forq]' },
-    );
-
-    withElements('select[type=jpdb]', (element: HTMLSelectElement) => {
-      const currentValue = element.value;
-
-      element.replaceChildren(
-        ...decks.map((deck) =>
-          createElement('option', {
-            innerText: deck.name,
-            attributes: { value: deck.id!.toString() },
-          }),
-        ),
-      );
-
-      if (decks.some((deck) => deck.id === currentValue)) {
-        element.value = currentValue;
-      }
     });
-  }
+  };
+});
 
-  //#endregion
-  //#region Anki
+withElement('#import-settings', (button) => {
+  button.onclick = (event: Event): void => {
+    event.stopPropagation();
+    event.preventDefault();
 
-  private async _setupAnki(): Promise<void> {
-    if (!this._ENABLE_ANKI) {
-      // !DEBUG ONLY - Remove this condition when the feature is ready for everyone
-      return;
-    }
-    document.getElementById('DEBUG_ANKI')!.style.display = '';
-
-    this._setupAnkiInteraction();
-
-    await this._testAnki();
-    await this._testAnkiProxy();
-  }
-
-  private _setupAnkiInteraction(): void {
-    this._setupInteraction(
-      'input[name="ankiUrl"]',
-      '#ankiUrlButton',
-      (): Promise<void> => this._testAnki(),
-    );
-    this._setupInteraction(
-      'input[name="ankiProxyUrl"]',
-      '#ankiProxyUrlButton',
-      (): Promise<void> => this._testAnkiProxy(),
-    );
-  }
-
-  private async _testAnki(): Promise<void> {
-    await this._testEndpoint(
-      '#ankiUrlButton',
-      '[name="ankiUrl"]',
-      (ankiConnectUrl) => getApiVersion({ ankiConnectUrl }),
-      false,
-      (ankiConnectUrl: string): void => {
-        withElements('mining-input', (element: HTMLMiningInputElement) => {
-          element.fetchUrl = ankiConnectUrl;
-        });
-
-        this._animateMiningSection(true);
-      },
-      () => this._animateMiningSection(false),
-    );
-  }
-
-  private async _testAnkiProxy(): Promise<void> {
-    await this._testEndpoint(
-      '#ankiProxyUrlButton',
-      '[name="ankiProxyUrl"]',
-      (ankiConnectUrl) => getApiVersion({ ankiConnectUrl }),
-      true,
-    );
-  }
-
-  //#endregion
-  //#region Interaction Helpers
-
-  private _setupInteraction(
-    inputSelector: string,
-    buttonSelector: string,
-    testFunction: () => void | Promise<void>,
-  ): void {
-    withElement(inputSelector, (inputElement: HTMLInputElement) => {
-      inputElement.addEventListener('change', (): void => void testFunction());
+    const fileInput = createElement('input', {
+      attributes: { type: 'file', accept: '.json' },
     });
 
-    withElement(buttonSelector, (buttonElement: HTMLButtonElement) => {
-      buttonElement.addEventListener('click', (): void => void testFunction());
-    });
-  }
-
-  private async _testEndpoint<T>(
-    buttonSelector: string,
-    inputSelector: string,
-    testFunction: (value: string) => Promise<T>,
-    allowEmpty: boolean,
-    afterSuccess?: (value: string) => void | Promise<void>,
-    afterFail?: () => void,
-  ): Promise<void> {
-    const button = findElement<'button'>(buttonSelector);
-    const input = findElement<'input'>(inputSelector);
-
-    if (allowEmpty && !input.value) {
-      button.classList.remove('v1');
-      input.classList.remove('v1');
-
-      this._invalidFields.delete(input.name as keyof ConfigurationSchema);
-
-      this._updateSaveButton();
-
-      return;
-    }
-
-    try {
-      await testFunction(input.value);
-
-      button.classList.remove('v1');
-      input.classList.remove('v1');
-
-      this._invalidFields.delete(input.name as keyof ConfigurationSchema);
-
-      await afterSuccess?.(input.value);
-    } catch (_error) {
-      button.classList.add('v1');
-      input.classList.add('v1');
-
-      this._invalidFields.add(input.name as keyof ConfigurationSchema);
-
-      afterFail?.();
-    }
-
-    this._updateSaveButton();
-  }
-
-  private _animateMiningSection(show: boolean): void {
-    const miningElement = findElement<'div'>('#requires-anki');
-
-    if (show) {
-      miningElement.removeAttribute('hidden');
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions -- We need to trigger a reflow
-      miningElement.offsetHeight;
-
-      miningElement.classList.add('is-open');
-
-      setTimeout(() => {
-        miningElement.classList.add('rem-height');
-      }, 300);
-    } else {
-      miningElement.classList.remove('rem-height');
-
-      setTimeout(() => {
-        miningElement.classList.remove('is-open');
-
-        setTimeout(() => {
-          miningElement.setAttribute('hidden', '');
-        }, 300);
-      }, 50);
-    }
-  }
-
-  //#endregion
-  //#region Collapsible and Hideable
-
-  private _collapsible(this: void, collapsible: HTMLElement, show: boolean): void {
-    const targetHeight = Number(collapsible.getAttribute('data-height') ?? 1000);
-    const skipAnimation = collapsible.hasAttribute('skip-animation');
-
-    if (skipAnimation) {
-      if (show) {
-        collapsible.removeAttribute('hidden');
-        collapsible.style.maxHeight = 'unset';
-
+    fileInput.onchange = async (): Promise<void> => {
+      if (!fileInput.files?.length) {
         return;
       }
 
-      collapsible.setAttribute('hidden', '');
-      collapsible.style.maxHeight = '0';
+      const file = fileInput.files[0];
+      const text = await file.text();
+      const data = JSON.parse(text) as ConfigurationSchema;
+
+      data.jpdbApiToken = await getConfiguration('jpdbApiToken');
+
+      await chrome.storage.local.clear();
+      await chrome.storage.local.set(data);
+
+      configurationUpdatedCommand.send();
+
+      window.location.reload();
+    };
+
+    fileInput.click();
+  };
+});
+
+onBroadcastMessage('deckListUpdated', (decks) => {
+  const dropdownDecks: (JPDBDeck | { id: ''; name: string })[] = [
+    { id: '', name: '[None]' },
+    ...decks,
+  ];
+
+  withElements('select[data-type=jpdb-deck]', (element: HTMLSelectElement) => {
+    const currentValue = jpdbDeckFields.get(element);
+
+    element.replaceChildren(
+      ...dropdownDecks.map((deck) =>
+        createElement('option', {
+          innerText: deck.name,
+          attributes: { value: deck.id!.toString() },
+        }),
+      ),
+    );
+
+    if (dropdownDecks.some((deck) => deck.id == currentValue)) {
+      element.value = currentValue!;
+    }
+  });
+});
+
+//#endregion
+//#region Field Updates
+
+function afterValueUpdated(
+  key: keyof ConfigurationSchema,
+  value: ConfigurationSchema[keyof ConfigurationSchema],
+): void {
+  localConfiguration.set(key, value);
+
+  updateBindings(key);
+}
+
+async function validateAndSet(
+  key: keyof ConfigurationSchema,
+  value: ConfigurationSchema[keyof ConfigurationSchema],
+  afterValidate?: () => void | Promise<void>,
+): Promise<void> {
+  if (validators[key]) {
+    const isValid = await validators[key](value);
+
+    if (!isValid) {
+      updateBindings(key);
 
       return;
     }
-
-    if (show) {
-      collapsible.removeAttribute('hidden');
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions -- We need to trigger a reflow
-      collapsible.offsetHeight;
-
-      collapsible.classList.add('is-open');
-      collapsible.style.maxHeight = `${targetHeight}px`;
-
-      setTimeout(() => {
-        collapsible.classList.add('rem-height');
-        collapsible.style.maxHeight = 'unset';
-      }, 300);
-    } else {
-      collapsible.classList.remove('rem-height');
-      collapsible.style.maxHeight = `${targetHeight}px`;
-
-      setTimeout(() => {
-        collapsible.classList.remove('is-open');
-        collapsible.style.maxHeight = '0';
-
-        setTimeout(() => {
-          collapsible.setAttribute('hidden', '');
-        }, 300);
-      }, 50);
-    }
   }
 
-  private _hidable(this: void, hideable: HTMLElement, show: boolean): void {
-    if (show) {
-      hideable.removeAttribute('hidden');
-    } else {
-      hideable.setAttribute('hidden', '');
-    }
-  }
+  afterValueUpdated(key, value);
 
-  private _setupCollapsibleTriggers(): void {
-    const setupElement = (
-      key: string,
-      reverse: boolean,
-      fn: (e: HTMLDivElement, state: boolean) => void,
-    ): void => {
-      const items = findElements<'input'>(`[${key}]`).sort((a, b) => {
-        if (a.hasAttribute('runlast')) {
-          return 1;
-        }
-
-        if (b.hasAttribute('runlast')) {
-          return -1;
-        }
-
-        if (a.hasAttribute('runfirst')) {
-          return -1;
-        }
-
-        if (b.hasAttribute('runfirst')) {
-          return 1;
-        }
-
-        return 0;
-      });
-
-      items.forEach((item) => {
-        const localFn = (): void => {
-          const targets = findElements<'div'>(item.getAttribute(key)!);
-
-          targets.forEach((target) => {
-            fn(target, reverse ? !item.checked : item.checked);
-          });
-        };
-
-        item.addEventListener('change', localFn);
-
-        localFn();
-      });
-    };
-
-    setupElement('enables', false, this._collapsible);
-    setupElement('disables', true, this._collapsible);
-
-    setupElement('hides', true, this._hidable);
-    setupElement('shows', false, this._hidable);
-  }
-  //#endregion
+  await afterValidate?.();
 }
 
-new SettingsController();
+//#endregion
+//#region Field Bindings
+
+withElements('[data-show]', (element) => {
+  const attributeValue = element.getAttribute('data-show');
+
+  /**
+   * The property resembles a javascript condition - the following are valid
+   *
+   * - myProperty
+   * - !myProperty
+   * - myProperty && !myOtherProperty
+   * - myProperty || myOtherProperty
+   * - (myProperty && myOtherProperty) || !myThirdProperty
+   */
+
+  const fields =
+    attributeValue
+      ?.match(/(\w+)/g)
+      ?.map((field) => field.trim())
+      .filter(Boolean) ?? [];
+
+  for (const f of fields) {
+    if (!bindings.has(f)) {
+      bindings.set(f, new Set());
+    }
+
+    bindings.get(f)!.add(element);
+  }
+});
+
+function updateBindings(key: keyof ConfigurationSchema): void {
+  const affected = bindings.get(key);
+
+  if (!affected?.size) {
+    return;
+  }
+
+  for (const current of affected) {
+    const attributeValue = current.getAttribute('data-show');
+
+    if (!attributeValue) {
+      continue;
+    }
+
+    current.style.display = parseCondition(attributeValue) ? '' : 'none';
+  }
+}
+
+function parseCondition(expr: string): boolean {
+  // Tokenize
+  const tokens = expr
+    .replace(/([()!])/g, ' $1 ')
+    .replace(/&&/g, ' && ')
+    .replace(/\|\|/g, ' || ')
+    .split(/\s+/)
+    .filter(Boolean);
+
+  let pos = 0;
+
+  function peek(): string {
+    return tokens[pos];
+  }
+
+  function next(): string {
+    return tokens[pos++];
+  }
+
+  function parsePrimary(): boolean {
+    const token = peek();
+
+    if (token === '(') {
+      next(); // consume '('
+      const value = parseOr();
+
+      if (next() !== ')') {
+        throw new Error('Expected )');
+      }
+
+      return value;
+    }
+
+    if (token === '!') {
+      next();
+
+      return !parsePrimary();
+    }
+
+    // Property name
+    next();
+
+    const value = localConfiguration.get(token as keyof ConfigurationSchema);
+
+    if (typeof value === 'boolean') {
+      return value;
+    }
+
+    if (typeof value === 'string') {
+      return value?.length > 0;
+    }
+
+    return !!value;
+  }
+
+  function parseAnd(): boolean {
+    let value = parsePrimary();
+
+    while (peek() === '&&') {
+      next();
+
+      value = value && parsePrimary();
+    }
+
+    return value;
+  }
+
+  function parseOr(): boolean {
+    let value = parseAnd();
+
+    while (peek() === '||') {
+      next();
+
+      value = value || parseAnd();
+    }
+
+    return value;
+  }
+
+  if (!tokens.length) {
+    return false;
+  }
+
+  try {
+    const result = parseOr();
+
+    if (pos !== tokens.length) {
+      throw new Error('Unexpected token');
+    }
+
+    return result;
+  } catch {
+    return false;
+  }
+}
+
+//#endregion
+//#region Validators
+
+async function validateJPDBApiKey(value: string): Promise<boolean> {
+  let isValid = false;
+
+  if (value?.length) {
+    try {
+      await ping({ apiToken: value });
+
+      isValid = true;
+    } catch (_e) {
+      /* NOP */
+    }
+  }
+
+  const button = findElement('#apiTokenButton');
+  const input = findElement('#jpdbApiToken');
+
+  button.classList.toggle('v1', !isValid);
+  input.classList.toggle('v1', !isValid);
+
+  if (isValid) {
+    fetchDecksCommand.send();
+  }
+
+  return isValid;
+}
+
+//#endregion
