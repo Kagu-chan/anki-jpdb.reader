@@ -18,8 +18,9 @@ export type JPDBParseResult = {
   vocabulary: JPDBRawVocabulary[];
 };
 
+export type JPDBSpecialDeckNames = 'blacklist' | 'never-forget' | 'forq';
 export type JPDBDeck = {
-  id?: string | number;
+  id?: JPDBSpecialDeckNames | number;
   name?: string;
   vocabulary_count?: number;
   word_count?: number;
@@ -28,7 +29,6 @@ export type JPDBDeck = {
   is_built_in?: boolean;
 };
 
-export type JPDBSpecialDeckNames = 'blacklist' | 'never-forget' | 'forq';
 export type JPDBGrade = 'nothing' | 'something' | 'hard' | 'okay' | 'easy' | 'fail' | 'pass';
 export enum JPDBCardState {
   NEW = 'new',

@@ -5,6 +5,8 @@ import { openOptionsPage } from '@shared/extension/open-options-page';
 import { openView } from '@shared/extension/open-view';
 import { ParsePageCommand } from '@shared/messages/foreground/parse-page.command';
 import { ParseSelectionCommand } from '@shared/messages/foreground/parse-selection.command';
+import { DeckManager } from './jpdb/deck-manager';
+import { FetchDecksCommandHandler } from './jpdb/fetch-decks-command.handler';
 import { GradeCardCommandHandler } from './jpdb-card-actions/grade-card-command.handler';
 import { RunDeckActionCommandHandler } from './jpdb-card-actions/run-deck-action-command.handler';
 import { UpdateCardStateCommandHandler } from './jpdb-card-actions/update-card-state-command.handler';
@@ -36,11 +38,15 @@ const parseController = new ParseController();
 const parseCommandHandler = new ParseCommandHandler(parseController);
 const abortRequestCommandHandler = new AbortRequestCommandHandler(parseController);
 
+const deckManager = new DeckManager();
+
+const fetchDecksCommandHandler = new FetchDecksCommandHandler(deckManager);
 const updateCardStateCommandHandler = new UpdateCardStateCommandHandler();
 const gradeCardCommandHandler = new GradeCardCommandHandler();
 const runDeckActionCommandHandler = new RunDeckActionCommandHandler();
 
 const handlerCollection = new BackgroundCommandHandlerCollection(
+  fetchDecksCommandHandler,
   lookupTextCommandHandler,
   parseCommandHandler,
   abortRequestCommandHandler,
