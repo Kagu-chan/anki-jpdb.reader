@@ -25,4 +25,11 @@ export const _080: ChangelogEntry[] = [
     category: Category.Settings,
     issue: 'N/A',
   },
+  {
+    type: 'fix',
+    description:
+      'Fixed an issue where a card state update would set the wrong class on the element.',
+    category: Category.Texthighlighter,
+    issue: 314,
+  },
 ];
