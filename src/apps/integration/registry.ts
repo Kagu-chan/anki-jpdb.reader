@@ -40,6 +40,7 @@ export class Registry {
 
   public static updateCard(vid: number, sid: number, state: JPDBCardState[]): void {
     const card = this.getCard(vid, sid);
+    const managedStates = Object.values(JPDBCardState);
 
     if (!card) {
       return;
@@ -48,7 +49,9 @@ export class Registry {
     card.cardState = state;
 
     document.querySelectorAll(`[vid="${vid}"][sid="${sid}"]`).forEach((element) => {
-      const classes = Array.from(element.classList).filter((x) => x.startsWith('jpdb-'));
+      const classes = Array.from(element.classList).filter(
+        (x) => !managedStates.includes(x as JPDBCardState),
+      );
 
       classes.push(...state);
       element.classList.value = classes.join(' ');
