@@ -91,6 +91,7 @@ export type ConfigurationSchema = {
   // General keybinds
   parseKey: Keybinds;
   showPopupKey: Keybinds;
+  hidePopupKey: Keybinds;
   showAdvancedDialogKey: Keybinds;
   lookupSelectionKey: Keybinds;
 

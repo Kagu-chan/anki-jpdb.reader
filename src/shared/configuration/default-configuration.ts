@@ -89,6 +89,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   // General keybinds
   parseKey: [{ key: 'P', code: 'KeyP', modifiers: ['Alt'] }],
   showPopupKey: [{ key: 'Shift', code: 'ShiftLeft', modifiers: [] }],
+  hidePopupKey: [{ key: 'Escape', code: 'Escape', modifiers: [] }],
   showAdvancedDialogKey: [],
   lookupSelectionKey: [{ key: 'L', code: 'KeyL', modifiers: ['Alt'] }],
 
