@@ -14,6 +14,7 @@ type KeybindEvents = {
   jpdbRotateBackward: KeybindEvent;
   parseKey: KeybindEvent;
   showPopupKey: KeybindEvent;
+  hidePopupKey: KeybindEvent;
   showAdvancedDialogKey: KeybindEvent;
   lookupSelectionKey: KeybindEvent;
   addToMiningKey: KeybindEvent;

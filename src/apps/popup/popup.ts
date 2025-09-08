@@ -13,7 +13,7 @@ import { RotationController } from './actions/rotation-controller';
 import { PARTS_OF_SPEECH } from './part-of-speech';
 
 export class Popup {
-  private _keyManager = new KeybindManager([], {
+  private _keyManager = new KeybindManager(['hidePopupKey'], {
     keydown: (e: MouseEvent | KeyboardEvent): void => this.handleKeydown(e),
   });
 
@@ -842,11 +842,17 @@ export class Popup {
       return;
     }
 
-    if (e && 'key' in e && e.key === 'Escape' && this.isVisibile()) {
+    if (this._keyManager.is(e, 'hidePopupKey')) {
       e.stopPropagation();
 
       this.hide();
     }
+
+    // if (e && 'key' in e && e.key === 'Escape' && this.isVisibile()) {
+    //   e.stopPropagation();
+
+    //   this.hide();
+    // }
 
     if ('button' in e && e.button === 0 && this.isVisibile() && !this._isHover) {
       e.stopPropagation();

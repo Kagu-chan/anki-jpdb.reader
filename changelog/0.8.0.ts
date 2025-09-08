@@ -32,4 +32,10 @@ export const _080: ChangelogEntry[] = [
     category: Category.Texthighlighter,
     issue: 314,
   },
+  {
+    type: 'change',
+    description: 'The closing keybind for the popup is now configurable (default: Escape).',
+    category: Category.Popup,
+    issue: 'N/A',
+  },
 ];

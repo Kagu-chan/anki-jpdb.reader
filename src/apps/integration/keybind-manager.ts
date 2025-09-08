@@ -71,6 +71,16 @@ export class KeybindManager {
     window.removeEventListener('mouseup', this._upListener);
   }
 
+  public is(e: KeyboardEvent | MouseEvent, key: KeybindKey): boolean {
+    const keybinds = this._keyMap[key];
+
+    if (!keybinds?.length) {
+      return false;
+    }
+
+    return keybinds.some((k) => this.checkKeybind(k, e));
+  }
+
   private async buildKeyMap(): Promise<void> {
     this._keyMap = {};
     this._sortedKeylist = [];
