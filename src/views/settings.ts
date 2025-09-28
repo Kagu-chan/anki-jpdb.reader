@@ -1,3 +1,4 @@
+import { DEFAULT_CONFIGURATION } from '@shared/configuration/default-configuration';
 import { getConfiguration } from '@shared/configuration/get-configuration';
 import { setConfiguration } from '@shared/configuration/set-configuration';
 import { ConfigurationSchema } from '@shared/configuration/types';
@@ -138,7 +139,17 @@ withElement('#import-settings', (button) => {
 
       const file = fileInput.files[0];
       const text = await file.text();
-      const data = JSON.parse(text) as ConfigurationSchema;
+      const data = JSON.parse(text) as Record<keyof ConfigurationSchema, string>;
+
+      Object.keys(data).forEach((key: keyof ConfigurationSchema) => {
+        if (!Object.keys(DEFAULT_CONFIGURATION).includes(key)) {
+          delete data[key];
+        }
+
+        if (typeof data[key] !== 'string') {
+          data[key] = JSON.stringify(data[key]);
+        }
+      });
 
       data.jpdbApiToken = await getConfiguration('jpdbApiToken');
 
@@ -146,8 +157,6 @@ withElement('#import-settings', (button) => {
       await chrome.storage.local.set(data);
 
       configurationUpdatedCommand.send();
-
-      window.location.reload();
     };
 
     fileInput.click();
