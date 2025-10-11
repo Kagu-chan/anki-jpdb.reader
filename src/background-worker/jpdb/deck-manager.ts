@@ -1,8 +1,7 @@
-import { getConfiguration } from '@shared/configuration/get-configuration';
+import { ConfigurationMonitor } from '@shared/configuration/configuration-monitor';
 import { listUserDecks } from '@shared/jpdb/list-user-decks';
 import { JPDBDeck } from '@shared/jpdb/types';
 import { DeckListUpdatedCommand } from '@shared/messages/broadcast/deck-list-updated.command';
-import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
 
 export class DeckManager {
   private jpdbApiToken: string | null = null;
@@ -15,23 +14,13 @@ export class DeckManager {
   private managableDecks: JPDBDeck[] = [];
 
   constructor() {
-    onBroadcastMessage(
-      'configurationUpdated',
-      async () => {
-        const jpdbApiToken = await getConfiguration('jpdbApiToken');
+    ConfigurationMonitor.watch(['jpdbApiToken'], async ({ jpdbApiToken }) => {
+      this.jpdbApiToken = jpdbApiToken;
 
-        if (jpdbApiToken === this.jpdbApiToken) {
-          return;
-        }
-
-        this.jpdbApiToken = jpdbApiToken;
-
-        if (this.jpdbApiToken) {
-          await this.loadDecks();
-        }
-      },
-      true,
-    );
+      if (this.jpdbApiToken) {
+        await this.loadDecks();
+      }
+    });
   }
 
   public async loadDecks(): Promise<void> {
