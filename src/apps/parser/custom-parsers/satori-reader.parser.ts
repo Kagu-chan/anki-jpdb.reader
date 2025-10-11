@@ -1,5 +1,4 @@
-import { getConfiguration } from '@shared/configuration/get-configuration';
-import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
+import { ConfigurationMonitor } from '@shared/configuration/configuration-monitor';
 import { Registry } from '../../integration/registry';
 import { AutomaticParser } from '../automatic.parser';
 import { SatoriDesktop } from './satori/desktop';
@@ -17,16 +16,10 @@ export class SatoriReaderParser extends AutomaticParser {
     this.desktop.setMode(true);
     this.mobile.setMode(true);
 
-    onBroadcastMessage(
-      'configurationUpdated',
-      async () => {
-        const touchActive = await getConfiguration('touchscreenSupport');
-
-        this.desktop.setDisplay(touchActive);
-        this.mobile.setDisplay(touchActive);
-      },
-      true,
-    );
+    ConfigurationMonitor.watch(['touchscreenSupport'], ({ touchscreenSupport }) => {
+      this.desktop.setDisplay(touchscreenSupport);
+      this.mobile.setDisplay(touchscreenSupport);
+    });
   }
 
   private enableBreader(isActive: boolean): void {

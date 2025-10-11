@@ -1,5 +1,4 @@
-import { getConfiguration } from '@shared/configuration/get-configuration';
-import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
+import { ConfigurationMonitor } from '@shared/configuration/configuration-monitor';
 import { KeybindManager } from '../integration/keybind-manager';
 import { Registry } from '../integration/registry';
 import { GradingActions } from './actions/grading-actions';
@@ -41,13 +40,12 @@ export class PopupManager {
   });
 
   constructor() {
-    onBroadcastMessage(
-      'configurationUpdated',
-      async () => {
-        this._showPopupOnHover = await getConfiguration('showPopupOnHover');
-        this._touchscreenSupport = await getConfiguration('touchscreenSupport');
+    ConfigurationMonitor.watch(
+      ['showPopupOnHover', 'touchscreenSupport'],
+      ({ showPopupOnHover, touchscreenSupport }) => {
+        this._showPopupOnHover = showPopupOnHover;
+        this._touchscreenSupport = touchscreenSupport;
       },
-      true,
     );
 
     Registry.events.on('showPopupKey', () => this.handlePopup());

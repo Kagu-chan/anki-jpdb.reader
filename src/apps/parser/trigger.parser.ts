@@ -1,10 +1,9 @@
-import { getConfiguration } from '@shared/configuration/get-configuration';
+import { ConfigurationMonitor } from '@shared/configuration/configuration-monitor';
 import { debug } from '@shared/debug';
 import { createElement } from '@shared/dom/create-element';
 import { getStyleUrl } from '@shared/extension/get-style-url';
 import { isDisabled } from '@shared/host-meta/is-disabled';
 import { HostMeta } from '@shared/host-meta/types';
-import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
 import { receiveBackgroundMessage } from '@shared/messages/receiving/receive-background-message';
 import { KeybindManager } from '../integration/keybind-manager';
 import { Registry } from '../integration/registry';
@@ -28,15 +27,9 @@ export class TriggerParser extends BaseParser {
     receiveBackgroundMessage('parsePage', () => this.parsePage());
     receiveBackgroundMessage('parseSelection', () => this.parseSelection());
 
-    onBroadcastMessage(
-      'configurationUpdated',
-      async () => {
-        const show = await getConfiguration('showParseButton');
-
-        this._buttonRoot.style.display = show ? 'block' : 'none';
-      },
-      true,
-    );
+    ConfigurationMonitor.watch(['showParseButton'], ({ showParseButton }) => {
+      this._buttonRoot.style.display = showParseButton ? 'block' : 'none';
+    });
 
     void isDisabled(window.location.href).then((disabled) => {
       if (!disabled) {
