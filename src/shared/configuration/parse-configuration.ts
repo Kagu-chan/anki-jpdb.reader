@@ -25,6 +25,10 @@ export const parseConfiguration = <K extends keyof ConfigurationSchema>(
 ): ConfigurationSchema[K] => {
   const defaultValue = DEFAULT_CONFIGURATION[key];
 
+  if (value === undefined || value === null) {
+    return defaultValue as ConfigurationSchema[K];
+  }
+
   if (NUMBER_KEYS.includes(key as FilterKeys<ConfigurationSchema, number>)) {
     return parseInt(value, 10) as ConfigurationSchema[K];
   }

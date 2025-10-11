@@ -1,4 +1,3 @@
-import { getConfiguration } from '@shared/configuration/get-configuration';
 import { debug } from '@shared/debug';
 import { displayToast } from '@shared/dom/display-toast';
 import { HostMeta, PredefinedHostMeta } from '@shared/host-meta/types';
@@ -20,13 +19,20 @@ export class AJB {
   private _lookupKeyManager = new KeybindManager(['lookupSelectionKey']);
 
   constructor() {
+    void this.initialize();
+  }
+
+  protected async initialize(): Promise<void> {
     debug('Initialize AJB', { mainFrame: window === window.top });
+
+    await Registry.textHighlighterOptions.initialized;
 
     this._lookupKeyManager.activate();
 
     NoFocusTrigger.get().install();
 
     receiveBackgroundMessage('toast', displayToast);
+
     Registry.events.on('lookupSelectionKey', () => {
       this.withHiddenRT(() => {
         this.lookupText(window.getSelection()?.toString());
@@ -41,32 +47,7 @@ export class AJB {
       Registry.updateCard(vid, sid, state);
     });
 
-    onBroadcastMessage(
-      'configurationUpdated',
-      async (): Promise<void> => {
-        const skipFurigana = await getConfiguration('skipFurigana');
-        const generatePitch = await getConfiguration('generatePitch');
-        const markTopX = await getConfiguration('markTopX');
-        const markTopXCount = await getConfiguration('markTopXCount');
-        const markAllTypes = await getConfiguration('markAllTypes');
-        const markIPlus1 = await getConfiguration('markIPlus1');
-        const minSentenceLength = await getConfiguration('minSentenceLength');
-        const markOnlyFrequent = await getConfiguration('markOnlyFrequent');
-        const newStates = await getConfiguration('newStates');
-
-        Registry.textHighlighterOptions.skipFurigana = skipFurigana;
-        Registry.textHighlighterOptions.generatePitch = generatePitch;
-        Registry.textHighlighterOptions.markIPlus1 = markIPlus1;
-        Registry.textHighlighterOptions.markAll = markAllTypes;
-        Registry.textHighlighterOptions.markFrequency = markTopX ? markTopXCount : false;
-        Registry.textHighlighterOptions.minSentenceLength = minSentenceLength;
-        Registry.textHighlighterOptions.markOnlyFrequent = markOnlyFrequent;
-        Registry.textHighlighterOptions.newStates = newStates;
-      },
-      true,
-    );
-
-    void this.installFeatures();
+    await this.installFeatures();
   }
 
   protected lookupText(text: string | undefined): void {
