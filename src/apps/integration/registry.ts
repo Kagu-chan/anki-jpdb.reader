@@ -3,7 +3,7 @@ import { BatchController } from '../batches/batch-controller';
 import { BaseParser } from '../parser/base.parser';
 import { PopupManager } from '../popup/popup-manager';
 import { SequenceManager } from '../sequence/sequence-manager';
-import { TextHighlighterOptions } from '../text-highlighter/types';
+import { TextHighlighterOptions } from '../text-highlighter/text-highlighter-options';
 import { EventCollection } from './event-collection';
 import { HostEvaluator } from './host-evaluator';
 import { SentenceManager } from './sentence-manager';
@@ -18,16 +18,7 @@ export class Registry {
   public static readonly batchController = new BatchController();
   public static readonly sequenceManager = new SequenceManager();
   public static readonly sentenceManager = new SentenceManager();
-  public static readonly textHighlighterOptions: TextHighlighterOptions = {
-    skipFurigana: false,
-    generatePitch: false,
-    markFrequency: false,
-    markAll: false,
-    markIPlus1: false,
-    minSentenceLength: 3,
-    markOnlyFrequent: false,
-    newStates: [],
-  };
+  public static readonly textHighlighterOptions = new TextHighlighterOptions();
 
   public static skipTouchEvents = false;
   public static popupManager?: PopupManager;
