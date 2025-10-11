@@ -39,53 +39,27 @@ const configurationUpdatedCommand = new ConfigurationUpdatedCommand();
 const fetchDecksCommand = new FetchDecksCommand();
 
 const jpdbDeckFields = new Map<HTMLSelectElement, string>();
+let suppressChangeNotifications = false;
 
 //#region Init Interactions
 
-withElements(
-  'input, textarea, select, keybind-input, parsers-input, features-input, new-state-input',
-  (field: HTMLInputElement) => {
-    const internal = field.hasAttribute('internal');
-    const ignored = ['hidden', 'submit', 'button'];
+withFields(async (field: HTMLInputElement) => {
+  await loadField(field);
+
+  field.onchange = (): void => {
     const checkbox = field.type === 'checkbox';
-    const isJPDBDeck = field.getAttribute('data-type') === 'jpdb-deck';
+    const value = checkbox ? field.checked : field.value;
 
-    if (internal || ignored.includes(field.type)) {
-      return;
-    }
+    void validateAndSet(field.name as keyof ConfigurationSchema, value, async () => {
+      await setConfiguration(field.name as keyof ConfigurationSchema, value);
+      configurationUpdatedCommand.send();
 
-    void getConfiguration(field.name as keyof ConfigurationSchema)
-      // Load current or default configuration
-      .then((value) => {
-        if (isJPDBDeck) {
-          jpdbDeckFields.set(field as unknown as HTMLSelectElement, value as string);
-
-          return;
-        }
-
-        if (checkbox) {
-          field.checked = value as boolean;
-        } else {
-          field.value = value as string;
-        }
-
-        return validateAndSet(field.name as keyof ConfigurationSchema, value);
-      })
-      // Apply change listeners
-      .then(() => {
-        field.onchange = (): void => {
-          const value = checkbox ? field.checked : field.value;
-
-          void validateAndSet(field.name as keyof ConfigurationSchema, value, async () => {
-            await setConfiguration(field.name as keyof ConfigurationSchema, value);
-            configurationUpdatedCommand.send();
-
-            displayToast('success', 'Settings saved successfully', undefined, true);
-          });
-        };
-      });
-  },
-);
+      if (!suppressChangeNotifications) {
+        displayToast('success', 'Settings saved successfully', undefined, true);
+      }
+    });
+  };
+});
 
 withElement('#apiTokenButton', (button) => {
   button.onclick = (): void => {
@@ -94,6 +68,8 @@ withElement('#apiTokenButton', (button) => {
     });
   };
 });
+
+//#region Import / Export
 
 withElement('#export-settings', (button) => {
   button.onclick = (event: Event): void => {
@@ -157,11 +133,23 @@ withElement('#import-settings', (button) => {
       await chrome.storage.local.set(data);
 
       configurationUpdatedCommand.send();
+      suppressChangeNotifications = true;
+
+      withFields(
+        (field: HTMLInputElement) => loadField(field),
+        () => {
+          displayToast('success', 'Settings imported', undefined, true);
+
+          suppressChangeNotifications = false;
+        },
+      );
     };
 
     fileInput.click();
   };
 });
+
+//#endregion Import / Export
 
 onBroadcastMessage('deckListUpdated', (decks) => {
   const dropdownDecks: (JPDBDeck | { id: ''; name: string })[] = [
@@ -393,4 +381,46 @@ async function validateJPDBApiKey(value: string): Promise<boolean> {
   return isValid;
 }
 
+//#endregion
+//#region Helpers
+
+function withFields(cb: (field: HTMLInputElement) => Promise<void>, afterAll?: () => void): void {
+  const promises = [] as Promise<void>[];
+
+  withElements(
+    'input, textarea, select, keybind-input, parsers-input, features-input, new-state-input',
+    (field: HTMLInputElement) => {
+      const internal = field.hasAttribute('internal');
+      const ignored = ['hidden', 'submit', 'button'];
+
+      if (internal || ignored.includes(field.type)) {
+        return;
+      }
+
+      promises.push(cb(field));
+    },
+  );
+
+  void Promise.all(promises).then(() => afterAll?.());
+}
+
+async function loadField(field: HTMLInputElement): Promise<void> {
+  const value = await getConfiguration(field.name as keyof ConfigurationSchema);
+  const checkbox = field.type === 'checkbox';
+  const isJPDBDeck = field.getAttribute('data-type') === 'jpdb-deck';
+
+  if (isJPDBDeck) {
+    jpdbDeckFields.set(field as unknown as HTMLSelectElement, value as string);
+
+    return;
+  }
+
+  if (checkbox) {
+    field.checked = value as boolean;
+  } else {
+    field.value = value as string;
+  }
+
+  await validateAndSet(field.name as keyof ConfigurationSchema, value);
+}
 //#endregion
