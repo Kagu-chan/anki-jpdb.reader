@@ -1,6 +1,6 @@
+import { ConfigurationMonitor } from '@shared/configuration/configuration-monitor';
 import { getConfiguration } from '@shared/configuration/get-configuration';
 import { ConfigurationSchema, Keybind, Keybinds } from '@shared/configuration/types';
-import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
 import { FilterKeys } from '@shared/types';
 import { NoFocusTrigger } from './no-focus-trigger';
 import { Registry } from './registry';
@@ -23,7 +23,7 @@ export class KeybindManager {
     private _events: KeybindKey[],
     extraListeners?: Partial<Record<'keydown' | 'keyup', (e: MouseEvent | KeyboardEvent) => void>>,
   ) {
-    onBroadcastMessage('configurationUpdated', () => this.buildKeyMap(), true);
+    ConfigurationMonitor.watch(this._events, () => this.buildKeyMap());
 
     this._keydown = extraListeners?.keydown;
     this._keyup = extraListeners?.keyup;
