@@ -1,32 +1,29 @@
-import { getConfiguration } from '@shared/configuration/get-configuration';
+import { ConfigurationSchema } from '@shared/configuration/types';
 import { JPDBCard, JPDBCardState } from '@shared/jpdb/types';
 import { RunDeckActionCommand } from '@shared/messages/background/run-deck-action.command';
 import { BaseController } from './base-controller';
 
 export class RotationController extends BaseController {
-  private _jpdbRotateFlags = false;
-  private _neverForget: boolean;
-  private _blacklist: boolean;
-  private _suspend: boolean;
-  private _remove: boolean;
-  private _showActions: boolean;
-
   public get rotateFlags(): boolean {
-    return this._jpdbRotateFlags;
+    return this.configuration.jpdbRotateFlags;
   }
 
   public get showActions(): boolean {
-    return this._showActions && this.rotateFlags;
+    return this.configuration.showRotateActions && this.rotateFlags;
+  }
+
+  protected get remove(): boolean {
+    return !this.configuration.jpdbRotateCycle;
   }
 
   protected get states(): (string | undefined)[] {
     const states = [
-      this._neverForget ? 'neverForget' : undefined,
-      this._blacklist ? 'blacklist' : undefined,
-      this._suspend ? 'suspend' : undefined,
+      this.configuration.jpdbCycleNeverForget ? 'neverForget' : undefined,
+      this.configuration.jpdbCycleBlacklist ? 'blacklist' : undefined,
+      this.configuration.jpdbCycleSuspended ? 'suspend' : undefined,
     ].filter(Boolean);
 
-    return this._remove ? [...states, undefined] : states;
+    return this.remove ? [...states, undefined] : states;
   }
 
   public rotate(card: JPDBCard, direction: 1 | -1): void {
@@ -99,15 +96,14 @@ export class RotationController extends BaseController {
           : undefined;
   }
 
-  protected async applyConfiguration(): Promise<void> {
-    this._jpdbRotateFlags = await getConfiguration('jpdbRotateFlags');
-
-    this._neverForget = await getConfiguration('jpdbCycleNeverForget');
-    this._blacklist = await getConfiguration('jpdbCycleBlacklist');
-    this._suspend = await getConfiguration('jpdbCycleSuspended');
-
-    this._remove = !(await getConfiguration('jpdbRotateCycle'));
-
-    this._showActions = await getConfiguration('showRotateActions');
+  protected getConfigurationKeys(): (keyof ConfigurationSchema)[] {
+    return [
+      'jpdbRotateFlags',
+      'jpdbCycleNeverForget',
+      'jpdbCycleBlacklist',
+      'jpdbCycleSuspended',
+      'jpdbRotateCycle',
+      'showRotateActions',
+    ];
   }
 }

@@ -1,33 +1,27 @@
-import { getConfiguration } from '@shared/configuration/get-configuration';
+import { ConfigurationSchema } from '@shared/configuration/types';
 import { JPDBCard } from '@shared/jpdb/types';
 import { RunDeckActionCommand } from '@shared/messages/background/run-deck-action.command';
 import { BaseController } from './base-controller';
 
 export class MiningController extends BaseController {
-  private _miningDeck?: string;
-  private _neverForgetDeck?: string;
-  private _blacklistDeck?: string;
-  private _suspendDeck?: string;
-  private _showActions: boolean;
-
   public get miningDeck(): string | undefined {
-    return this._miningDeck;
+    return this.configuration.jpdbMiningDeck;
   }
 
   public get neverForgetDeck(): string | undefined {
-    return this._neverForgetDeck;
+    return this.configuration.jpdbNeverForgetDeck;
   }
 
   public get blacklistDeck(): string | undefined {
-    return this._blacklistDeck;
+    return this.configuration.jpdbBlacklistDeck;
   }
 
   public get suspendDeck(): string | undefined {
-    return this._suspendDeck;
+    return this.configuration.jpdbSuspendDeck;
   }
 
   public get showActions(): boolean {
-    return this._showActions;
+    return this.configuration.showMiningActions;
   }
 
   public addOrRemove(
@@ -43,11 +37,13 @@ export class MiningController extends BaseController {
     );
   }
 
-  protected async applyConfiguration(): Promise<void> {
-    this._miningDeck = await getConfiguration('jpdbMiningDeck');
-    this._neverForgetDeck = await getConfiguration('jpdbNeverForgetDeck');
-    this._blacklistDeck = await getConfiguration('jpdbBlacklistDeck');
-    this._suspendDeck = await getConfiguration('jpdbSuspendDeck');
-    this._showActions = await getConfiguration('showMiningActions');
+  protected getConfigurationKeys(): (keyof ConfigurationSchema)[] {
+    return [
+      'jpdbMiningDeck',
+      'jpdbNeverForgetDeck',
+      'jpdbBlacklistDeck',
+      'jpdbSuspendDeck',
+      'showMiningActions',
+    ];
   }
 }

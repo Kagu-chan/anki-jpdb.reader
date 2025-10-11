@@ -1,23 +1,19 @@
-import { getConfiguration } from '@shared/configuration/get-configuration';
+import { ConfigurationSchema } from '@shared/configuration/types';
 import { JPDBCard, JPDBGrade } from '@shared/jpdb/types';
 import { GradeCardCommand } from '@shared/messages/background/grade-card.command';
 import { BaseController } from './base-controller';
 
 export class GradingController extends BaseController {
-  private _disableReviews: boolean;
-  private _showActions: boolean;
-  private _useTwoPointGrading: boolean;
-
   public get gradingEnabled(): boolean {
-    return !this._disableReviews;
+    return !this.configuration.jpdbDisableReviews;
   }
 
   public get showActions(): boolean {
-    return this._showActions && this.gradingEnabled;
+    return this.configuration.showGradingActions && this.gradingEnabled;
   }
 
   public getGradingActions(): JPDBGrade[] {
-    return this._useTwoPointGrading
+    return this.configuration.jpdbUseTwoGrades
       ? ['fail', 'pass']
       : ['nothing', 'something', 'hard', 'okay', 'easy'];
   }
@@ -32,9 +28,7 @@ export class GradingController extends BaseController {
     new GradeCardCommand(vid, sid, grade).send(() => this.updateCardState(card));
   }
 
-  protected async applyConfiguration(): Promise<void> {
-    this._useTwoPointGrading = await getConfiguration('jpdbUseTwoGrades');
-    this._disableReviews = await getConfiguration('jpdbDisableReviews');
-    this._showActions = await getConfiguration('showGradingActions');
+  protected getConfigurationKeys(): (keyof ConfigurationSchema)[] {
+    return ['jpdbUseTwoGrades', 'jpdbDisableReviews', 'showGradingActions'];
   }
 }

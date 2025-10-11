@@ -1,14 +1,16 @@
+import { ConfigurationMonitor } from '@shared/configuration/configuration-monitor';
+import { ConfigurationSchema } from '@shared/configuration/types';
 import { JPDBCard } from '@shared/jpdb/types';
 import { UpdateCardStateCommand } from '@shared/messages/background/update-card-state.command';
-import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
 
 export abstract class BaseController {
   public abstract showActions: boolean;
+  protected configuration: ConfigurationSchema;
 
   protected static _suspendUpdateWordStates = false;
 
   constructor() {
-    onBroadcastMessage('configurationUpdated', () => this.applyConfiguration(), true);
+    this.setup();
   }
 
   public suspendUpdateWordStates(): void {
@@ -31,5 +33,15 @@ export abstract class BaseController {
     new UpdateCardStateCommand(vid, sid).send();
   }
 
-  protected abstract applyConfiguration(): Promise<void>;
+  protected setup(): void {
+    ConfigurationMonitor.watch(this.getConfigurationKeys(), (values) =>
+      this.applyConfiguration(values),
+    );
+  }
+
+  protected applyConfiguration(configuration: ConfigurationSchema): void {
+    this.configuration = configuration;
+  }
+
+  protected abstract getConfigurationKeys(): (keyof ConfigurationSchema)[];
 }
