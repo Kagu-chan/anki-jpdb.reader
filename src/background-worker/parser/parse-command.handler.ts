@@ -1,10 +1,10 @@
+import { ConfigurationMonitor } from '@shared/configuration/configuration-monitor';
 import { getConfiguration } from '@shared/configuration/get-configuration';
 import { injectStyle } from '@shared/extension/inject-style';
 import { openOptionsPage } from '@shared/extension/open-options-page';
 import { MessageSender } from '@shared/extension/types';
 import { ParseCommand } from '@shared/messages/background/parse.command';
 import { ToastCommand } from '@shared/messages/foreground/toast.command';
-import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
 import { BackgroundCommandHandler } from '../lib/background-command-handler';
 import { ParseController } from './parse.controller';
 
@@ -33,15 +33,9 @@ export class ParseCommandHandler extends BackgroundCommandHandler<ParseCommand> 
       return;
     }
 
-    onBroadcastMessage(
-      'configurationUpdated',
-      async () => {
-        const customWordCSS = await getConfiguration('customWordCSS');
-
-        await injectStyle(sender.tab!.id!, 'word', customWordCSS);
-      },
-      true,
-    );
+    ConfigurationMonitor.watch(['customWordCSS'], async ({ customWordCSS }) => {
+      await injectStyle(sender.tab!.id!, 'word', customWordCSS ?? '');
+    });
 
     this._parseController.parseSequences(sender, data);
   }
