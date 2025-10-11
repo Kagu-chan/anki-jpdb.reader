@@ -216,8 +216,6 @@ export abstract class CheckboxListInput<
       } else {
         this.disable(id);
       }
-
-      this.dispatchEvent(new Event('change'));
     });
 
     this._checkboxes[id] = checkbox;
