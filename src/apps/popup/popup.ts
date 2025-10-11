@@ -1,4 +1,5 @@
-import { getConfiguration } from '@shared/configuration/get-configuration';
+import { ConfigurationMonitor } from '@shared/configuration/configuration-monitor';
+import { ConfigurationSchema } from '@shared/configuration/types';
 import { createElement } from '@shared/dom/create-element';
 import { findElements } from '@shared/dom/find-elements';
 import { withElement } from '@shared/dom/with-element';
@@ -11,6 +12,23 @@ import { GradingController } from './actions/grading-controller';
 import { MiningController } from './actions/mining-controller';
 import { RotationController } from './actions/rotation-controller';
 import { PARTS_OF_SPEECH } from './part-of-speech';
+
+const relevantConfiguration = [
+  'hidePopupAutomatically',
+  'hidePopupDelay',
+  'hideAfterAction',
+  'disableFadeAnimation',
+  'leftAlignPopupToWord',
+  'renderCloseButton',
+  'touchscreenSupport',
+  'moveMiningActions',
+  'moveRotateActions',
+  'moveGradingActions',
+  'customPopupCSS',
+] as const;
+
+type RelevantConfiguration = Pick<ConfigurationSchema, (typeof relevantConfiguration)[number]>;
+type RelevantKeys = keyof RelevantConfiguration;
 
 export class Popup {
   private _keyManager = new KeybindManager(['hidePopupKey'], {
@@ -83,16 +101,7 @@ export class Popup {
     children: [],
   });
 
-  private _touchscreenSupport: boolean;
-  private _renderCloseButton: boolean;
-  private _hidePopupAutomatically: boolean;
-  private _hidePopupDelay: number;
-  private _hideAfterAction: boolean;
-  private _disableFadeAnimation: boolean;
-  private _leftAlignPopupToWord: boolean;
-  private _moveMiningActions: boolean;
-  private _moveRotationActions: boolean;
-  private _moveGradingActions: boolean;
+  private _configuration: RelevantConfiguration;
 
   private _hideTimer?: NodeJS.Timeout;
   private _isHover?: boolean;
@@ -112,14 +121,17 @@ export class Popup {
       setTimeout(() => {
         this._card = Registry.getCard(vid, sid);
 
-        if (this._hideAfterAction) {
+        if (this._configuration.hideAfterAction) {
           return this.hide();
         }
 
         this.rerender();
       }, 1);
     });
-    onBroadcastMessage('configurationUpdated', () => this.applyConfiguration(), true);
+
+    ConfigurationMonitor.watch(relevantConfiguration as unknown as RelevantKeys[], (values) => {
+      this.applyConfiguration(values);
+    });
   }
 
   public show(context: HTMLElement, sentence?: string): void {
@@ -133,7 +145,9 @@ export class Popup {
     this.setPosition();
 
     Object.assign<CSSStyleDeclaration, Partial<CSSStyleDeclaration>>(this._root.style, {
-      transition: this._disableFadeAnimation ? 'none' : 'opacity 60ms ease-in, visibility 60ms',
+      transition: this._configuration.disableFadeAnimation
+        ? 'none'
+        : 'opacity 60ms ease-in, visibility 60ms',
       opacity: '1',
       visibility: 'visible',
     });
@@ -143,7 +157,9 @@ export class Popup {
 
   public hide(): void {
     Object.assign<CSSStyleDeclaration, Partial<CSSStyleDeclaration>>(this._root.style, {
-      transition: this._disableFadeAnimation ? 'none' : 'opacity 200ms ease-in, visibility 20ms',
+      transition: this._configuration.disableFadeAnimation
+        ? 'none'
+        : 'opacity 200ms ease-in, visibility 20ms',
       opacity: '0',
       visibility: 'hidden',
     });
@@ -152,11 +168,13 @@ export class Popup {
   }
 
   public initHide(): void {
-    if (!this._hidePopupAutomatically) {
+    const { hidePopupAutomatically, hidePopupDelay } = this._configuration;
+
+    if (!hidePopupAutomatically) {
       return;
     }
 
-    if (!this._hidePopupDelay) {
+    if (!hidePopupDelay) {
       this.hide();
 
       return;
@@ -177,23 +195,13 @@ export class Popup {
 
   //#region Configuration
 
-  private async applyConfiguration(): Promise<void> {
-    this._hidePopupAutomatically = await getConfiguration('hidePopupAutomatically');
-    this._hidePopupDelay = await getConfiguration('hidePopupDelay');
-    this._hideAfterAction = await getConfiguration('hideAfterAction');
-    this._disableFadeAnimation = await getConfiguration('disableFadeAnimation');
-    this._leftAlignPopupToWord = await getConfiguration('leftAlignPopupToWord');
+  private applyConfiguration(configuration: RelevantConfiguration): void {
+    const { customPopupCSS, touchscreenSupport, renderCloseButton } = configuration;
 
-    this._renderCloseButton = await getConfiguration('renderCloseButton');
-    this._touchscreenSupport = await getConfiguration('touchscreenSupport');
-    this._moveMiningActions = await getConfiguration('moveMiningActions');
-    this._moveRotationActions = await getConfiguration('moveRotateActions');
-    this._moveGradingActions = await getConfiguration('moveGradingActions');
+    this._configuration = configuration;
 
-    this._customStyles.textContent = await getConfiguration('customPopupCSS');
-
-    this._closeButton.style.display =
-      this._touchscreenSupport && this._renderCloseButton ? 'flex' : 'none';
+    this._customStyles.textContent = customPopupCSS;
+    this._closeButton.style.display = touchscreenSupport && renderCloseButton ? 'flex' : 'none';
 
     this.updateMiningButtons();
     this.updateRotationButtons();
@@ -290,6 +298,7 @@ export class Popup {
   //#region Position the popup
 
   private setPosition(): void {
+    const { leftAlignPopupToWord } = this._configuration;
     const clamp = (value: number, min: number, max: number): number =>
       Math.min(Math.max(value, min), max);
 
@@ -333,7 +342,7 @@ export class Popup {
       );
     }
 
-    if (this._leftAlignPopupToWord) {
+    if (leftAlignPopupToWord) {
       // Align the popup to the left of the word
       // Ensure the popup does not overflow the right edge of the screen, also add a bit of padding
       popupLeft = Math.min(wordLeft, innerWidth - popupWidth - 8);
@@ -494,13 +503,14 @@ export class Popup {
   }
 
   private applyPositions(): void {
+    const { moveMiningActions, moveRotateActions, moveGradingActions } = this._configuration;
     const sections = [this._closeButton, this._context, this._details];
     const before: HTMLElement[] = [];
     const after: HTMLElement[] = [];
 
-    const miningTarget = this._moveMiningActions ? after : before;
-    const rotationTarget = this._moveRotationActions ? after : before;
-    const gradingTarget = this._moveGradingActions ? after : before;
+    const miningTarget = moveMiningActions ? after : before;
+    const rotationTarget = moveRotateActions ? after : before;
+    const gradingTarget = moveGradingActions ? after : before;
 
     miningTarget.push(this._mineButtons);
     rotationTarget.push(this._rotateButtons);
@@ -818,17 +828,15 @@ export class Popup {
   }
 
   private stopHover(): void {
+    const { hidePopupAutomatically, hidePopupDelay } = this._configuration;
+
     this._isHover = false;
 
-    if (!this.isVisibile()) {
+    if (!this.isVisibile() || !hidePopupAutomatically) {
       return;
     }
 
-    if (!this._hidePopupAutomatically) {
-      return;
-    }
-
-    if (!this._hidePopupDelay) {
+    if (!hidePopupDelay) {
       this.hide();
 
       return;
@@ -870,7 +878,7 @@ export class Popup {
   private startTimer(): void {
     this.clearTimer();
 
-    this._hideTimer = setTimeout(() => this.hide(), this._hidePopupDelay);
+    this._hideTimer = setTimeout(() => this.hide(), this._configuration.hidePopupDelay);
   }
 
   //#endregion
