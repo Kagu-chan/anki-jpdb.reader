@@ -5,12 +5,18 @@ import { UpdateCardStateCommand } from '@shared/messages/background/update-card-
 
 export abstract class BaseController {
   public abstract showActions: boolean;
+  public readonly initialized: Promise<ConfigurationMonitor<keyof ConfigurationSchema>>;
+
   protected configuration: ConfigurationSchema;
 
   protected static _suspendUpdateWordStates = false;
 
   constructor() {
-    this.setup();
+    this.initialized = ConfigurationMonitor.watch(
+      this.getConfigurationKeys(),
+      (values) => this.applyConfiguration(values),
+      true,
+    );
   }
 
   public suspendUpdateWordStates(): void {
@@ -31,12 +37,6 @@ export abstract class BaseController {
     }
 
     new UpdateCardStateCommand(vid, sid).send();
-  }
-
-  protected setup(): void {
-    ConfigurationMonitor.watch(this.getConfigurationKeys(), (values) =>
-      this.applyConfiguration(values),
-    );
   }
 
   protected applyConfiguration(configuration: ConfigurationSchema): void {

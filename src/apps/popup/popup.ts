@@ -129,9 +129,14 @@ export class Popup {
       }, 1);
     });
 
-    ConfigurationMonitor.watch(relevantConfiguration as unknown as RelevantKeys[], (values) => {
-      this.applyConfiguration(values);
-    });
+    // We wait for the controllers to have the configuration loaded, a race condition may otherwise initialize the popup incorrectly
+    void Promise.all([_mining.initialized, _rotation.initialized, _grading.initialized]).then(
+      () => {
+        ConfigurationMonitor.watch(relevantConfiguration as unknown as RelevantKeys[], (values) => {
+          this.applyConfiguration(values);
+        });
+      },
+    );
   }
 
   public show(context: HTMLElement, sentence?: string): void {

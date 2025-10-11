@@ -1,5 +1,4 @@
-import { getConfiguration } from '@shared/configuration/get-configuration';
-import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
+import { ConfigurationMonitor } from '@shared/configuration/configuration-monitor';
 import { KeybindManager } from './keybind-manager';
 
 export class NoFocusTrigger {
@@ -49,27 +48,23 @@ export class NoFocusTrigger {
     });
 
     // We monitor touchscreen support. When it changes, we check and may install the mouse event listener
-    onBroadcastMessage(
-      'configurationUpdated',
-      async () => {
-        this._touchscreenSupport = await getConfiguration('touchscreenSupport');
+    ConfigurationMonitor.watch(['touchscreenSupport'], ({ touchscreenSupport }) => {
+      this._touchscreenSupport = touchscreenSupport;
 
-        if (this._touchscreenSupport) {
-          document.removeEventListener('mousemove', handler);
-          hasEvent = false;
+      if (this._touchscreenSupport) {
+        document.removeEventListener('mousemove', handler);
+        hasEvent = false;
 
-          return;
-        }
+        return;
+      }
 
-        if (hasEvent || document.hasFocus()) {
-          return;
-        }
+      if (hasEvent || document.hasFocus()) {
+        return;
+      }
 
-        document.addEventListener('mousemove', handler);
-        hasEvent = true;
-      },
-      true,
-    );
+      document.addEventListener('mousemove', handler);
+      hasEvent = true;
+    });
   }
 
   private onMouseMove(e: MouseEvent): void {
