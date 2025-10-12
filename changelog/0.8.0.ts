@@ -56,4 +56,10 @@ export const _080: ChangelogEntry[] = [
     category: Category.Popup,
     issue: 331,
   },
+  {
+    type: 'fix',
+    description: 'Fixed an issue where words without frequency would be marked as frequent.',
+    category: Category.Texthighlighter,
+    issue: 364,
+  },
 ];

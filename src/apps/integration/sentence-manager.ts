@@ -8,7 +8,7 @@ export class SentenceManager {
   private _cardToState = new Map<string, JPDBCardState[]>(); // CHECK
   private _cardToSentence = new Map<string, string[]>();
   private _cardToElements = new Map<string, Node[]>();
-  private _cardToFrequency = new Map<string, number>();
+  private _cardToFrequency = new Map<string, number | null>();
 
   private _elementToCard = new Map<Node, string>();
   private _elementsToSentence = new Map<Node, string>();
@@ -213,9 +213,9 @@ export class SentenceManager {
 
     if (markFrequency && markOnlyFrequent && !notIPlusOne) {
       // Apply frequency-based filtering
-      const relevantFrequency = this._cardToFrequency.get(unknownCards[0])!;
+      const relevantFrequency: number | null = this._cardToFrequency.get(unknownCards[0])!;
 
-      if (relevantFrequency > markFrequency) {
+      if (!relevantFrequency && relevantFrequency > markFrequency) {
         notIPlusOne = true;
       }
     }

@@ -63,7 +63,7 @@ export type JPDBCard = {
   rid: number;
   spelling: string;
   reading: string;
-  frequencyRank: number;
+  frequencyRank: number | null;
   partOfSpeech: string[];
   meanings: JPDBMeaning[];
   cardState: JPDBCardState[];

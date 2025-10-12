@@ -644,7 +644,7 @@ export class TextHighlighter extends BaseTextHighlighter {
 
       element.classList.add('jpdb-word', ...card.cardState);
 
-      if (markFrequency && card.frequencyRank <= markFrequency) {
+      if (markFrequency && card.frequencyRank && card.frequencyRank <= markFrequency) {
         const states = card.cardState;
         const isNew = states.some((s) => newStates.includes(s));
 

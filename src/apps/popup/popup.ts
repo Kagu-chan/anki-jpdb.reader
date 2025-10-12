@@ -713,7 +713,9 @@ export class Popup {
 
     return createElement('div', {
       id: 'pitch-accent',
-      children: pitchAccent.map((pitch) => this.renderPitch(reading, pitch)),
+      children: pitchAccent.length
+        ? pitchAccent.map((pitch) => this.renderPitch(reading, pitch))
+        : [createElement('span', { innerText: 'No pitch accent data' })],
     });
   }
 
@@ -722,7 +724,7 @@ export class Popup {
 
     return createElement('div', {
       id: 'frequency',
-      innerText: `Top ${frequencyRank}`,
+      innerText: frequencyRank ? `Top ${frequencyRank}` : 'No frequency data',
     });
   }
 
