@@ -3,6 +3,7 @@ export default {
   ignores: [
     (commit) => commit.toLowerCase().startsWith('chore(deps): bump'),
     (commit) => /^v?\d+\.\d+\.\d+/.test(commit), // Ignores version commits like "v1.2.3" or "1.2.3"
+    (commit) => commit.startsWith('Merge '), // Ignores merge commits
   ],
   rules: {
     'header-max-length': [2, 'always', 200],
