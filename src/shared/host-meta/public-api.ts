@@ -115,4 +115,11 @@ export type CustomHostMeta = {
    * Optional class to add to the document body to indicate that the parser is active and to style its elements.
    */
   parserClass?: string;
+
+  /**
+   * Optional delay to initialize a parser after the page is loaded. Only used if `auto` is true.
+   *
+   * @default 1 (ms)
+   */
+  initDelay?: number;
 };

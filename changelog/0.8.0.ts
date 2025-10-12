@@ -62,4 +62,10 @@ export const _080: ChangelogEntry[] = [
     category: Category.Texthighlighter,
     issue: 364,
   },
+  {
+    type: 'add',
+    description: 'Added a delay option for automatic parser initialization.',
+    category: Category.Hosts,
+    issue: 238,
+  },
 ];

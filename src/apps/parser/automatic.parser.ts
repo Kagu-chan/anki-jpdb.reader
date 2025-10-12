@@ -30,7 +30,7 @@ export class AutomaticParser extends BaseParser {
       }
 
       this.init();
-    }, 1);
+    }, meta.initDelay ?? 1);
   }
 
   protected init(): void {

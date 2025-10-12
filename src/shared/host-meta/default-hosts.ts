@@ -32,6 +32,7 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     auto: true,
     optOut: true,
     allFrames: false,
+    initDelay: 150,
     parserClass: 'kochounoyume-parser',
     filter: '.meaning-subsection-label',
     addedObserver: {
