@@ -6,6 +6,11 @@ import { NoFocusTrigger } from './no-focus-trigger';
 import { Registry } from './registry';
 
 type KeybindKey = FilterKeys<ConfigurationSchema, Keybinds>;
+type ExtraListeners = {
+  keydown?: (e: MouseEvent | KeyboardEvent) => void;
+  keyup?: (e: MouseEvent | KeyboardEvent) => void;
+  click?: (e: MouseEvent) => void;
+};
 
 export class KeybindManager {
   /** Map of configured keybinds */
@@ -15,18 +20,21 @@ export class KeybindManager {
   /** Reference which can be added or removed as event listener */
   private _downListener = this.handleKeydown.bind(this) as (e: KeyboardEvent | MouseEvent) => void;
   private _upListener = this.handleKeyUp.bind(this) as (e: KeyboardEvent | MouseEvent) => void;
+  private _clickListener = this.handleClick.bind(this) as (e: MouseEvent) => void;
 
   private _keydown?: (e: MouseEvent | KeyboardEvent) => void;
   private _keyup?: (e: MouseEvent | KeyboardEvent) => void;
+  private _click?: (e: MouseEvent) => void;
 
   constructor(
     private _events: KeybindKey[],
-    extraListeners?: Partial<Record<'keydown' | 'keyup', (e: MouseEvent | KeyboardEvent) => void>>,
+    extraListeners?: ExtraListeners,
   ) {
     ConfigurationMonitor.watch(this._events, () => this.buildKeyMap());
 
     this._keydown = extraListeners?.keydown;
     this._keyup = extraListeners?.keyup;
+    this._click = extraListeners?.click;
   }
 
   public addKeys(keys: KeybindKey[], skipBuild?: false): Promise<void>;
@@ -54,6 +62,8 @@ export class KeybindManager {
   public activate(): void {
     NoFocusTrigger.get().register(this, this._downListener);
 
+    window.addEventListener('click', this._clickListener);
+
     window.addEventListener('keydown', this._downListener);
     window.addEventListener('mousedown', this._downListener);
 
@@ -63,6 +73,8 @@ export class KeybindManager {
 
   public deactivate(): void {
     NoFocusTrigger.get().unregister(this);
+
+    window.removeEventListener('click', this._clickListener);
 
     window.removeEventListener('keydown', this._downListener);
     window.removeEventListener('mousedown', this._downListener);
@@ -159,6 +171,28 @@ export class KeybindManager {
       e.stopImmediatePropagation();
 
       events.emit(`${keybind}Released` as KeybindKey, e);
+    }
+  }
+
+  private handleClick(e: MouseEvent): void {
+    const { events } = Registry;
+
+    if (this.shouldCancel()) {
+      // Ignore events on input elements! Otherwise we may interfere with typing.
+      return;
+    }
+
+    events.emit('click', e);
+    this._click?.(e);
+
+    const keybind = this.getActiveKeybind(e);
+
+    if (keybind) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+
+      events.emit(keybind, e);
     }
   }
 

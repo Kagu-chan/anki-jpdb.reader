@@ -31,8 +31,11 @@ type RelevantConfiguration = Pick<ConfigurationSchema, (typeof relevantConfigura
 type RelevantKeys = keyof RelevantConfiguration;
 
 export class Popup {
+  //#region Properties
+
   private _keyManager = new KeybindManager(['hidePopupKey'], {
     keydown: (e: MouseEvent | KeyboardEvent): void => this.handleKeydown(e),
+    click: (e: MouseEvent): void => this.handleClick(e), // FastClick workaround
   });
 
   /**
@@ -87,7 +90,7 @@ export class Popup {
   /** Contains the various meanings of a word */
   private _details = createElement('section', { id: 'details' });
 
-  //#endregion
+  //#endregion Utility Accessors
 
   /**
    * The rendered popup content itself
@@ -109,6 +112,9 @@ export class Popup {
   private _cardContext?: HTMLElement;
   private _card?: JPDBCard;
   private _sentence?: string;
+
+  //#endregion Properties
+  //#region Constructor
 
   constructor(
     private _mining: MiningController,
@@ -138,6 +144,9 @@ export class Popup {
       },
     );
   }
+
+  //#endregion Constructor
+  //#region Public API
 
   public show(context: HTMLElement, sentence?: string): void {
     this._cardContext = context;
@@ -198,6 +207,7 @@ export class Popup {
     this._root.style.userSelect = '';
   }
 
+  //#endregion Public API
   //#region Configuration
 
   private applyConfiguration(configuration: RelevantConfiguration): void {
@@ -861,13 +871,19 @@ export class Popup {
       this.hide();
     }
 
-    // if (e && 'key' in e && e.key === 'Escape' && this.isVisibile()) {
-    //   e.stopPropagation();
-
-    //   this.hide();
-    // }
-
     if ('button' in e && e.button === 0 && this.isVisibile() && !this._isHover) {
+      e.stopPropagation();
+
+      this.hide();
+    }
+  }
+
+  private handleClick(e: MouseEvent): void {
+    if (!document.hasFocus()) {
+      return;
+    }
+
+    if (this.isVisibile() && !this._isHover) {
       e.stopPropagation();
 
       this.hide();

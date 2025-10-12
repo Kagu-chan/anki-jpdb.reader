@@ -50,4 +50,10 @@ export const _080: ChangelogEntry[] = [
     category: Category.Parser,
     issue: 307,
   },
+  {
+    type: 'fix',
+    description: 'Improved interaction between the extension and FastClick.',
+    category: Category.Popup,
+    issue: 331,
+  },
 ];

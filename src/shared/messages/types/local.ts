@@ -36,6 +36,7 @@ export type LocalEvents = KeybindEvents &
   ReleaseKeybindEvents & {
     keydown: KeybindEvent;
     keyup: KeybindEvent;
+    click: KeybindEvent;
   };
 
 export type LocalEventArgs<T extends keyof LocalEvents> = LocalEvents[T][0];
