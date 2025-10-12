@@ -71,6 +71,14 @@ export class KeybindManager {
     window.removeEventListener('mouseup', this._upListener);
   }
 
+  public setActive(active: boolean): void {
+    if (active) {
+      this.activate();
+    } else {
+      this.deactivate();
+    }
+  }
+
   public is(e: KeyboardEvent | MouseEvent, key: KeybindKey): boolean {
     const keybinds = this._keyMap[key];
 

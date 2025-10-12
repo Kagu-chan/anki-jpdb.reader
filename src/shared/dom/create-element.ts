@@ -28,8 +28,21 @@ export function createElement(
   }
 
   if (options.handler) {
-    e.onclick = options.handler;
-    e.ontouchstart = (e): void => options.handler!(e);
+    let lastEventTime = 0;
+    const bufferMs = 100; // adjust as needed
+
+    const wrappedHandler = (ev: Event): void => {
+      const now = Date.now();
+
+      if (now - lastEventTime > bufferMs) {
+        lastEventTime = now;
+
+        options.handler!(ev as MouseEvent | TouchEvent | undefined);
+      }
+    };
+
+    e.onclick = wrappedHandler;
+    e.ontouchstart = wrappedHandler;
   }
 
   if (options.events) {

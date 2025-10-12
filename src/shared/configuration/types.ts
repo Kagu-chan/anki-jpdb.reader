@@ -115,6 +115,12 @@ export type ConfigurationSchema = {
   jpdbRotateBackward: Keybinds;
 
   //#endregion
+  //#region Satori Reader
+
+  satoriReaderShowToggleOverlayButton: boolean;
+  satoriReaderToggleEventSource: Keybinds;
+
+  //#endregion
   //#region Anki Integration (not implemented!)
 
   enableAnkiIntegration: boolean;

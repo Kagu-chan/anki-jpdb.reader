@@ -218,6 +218,7 @@ withElements('[data-show]', (element) => {
    *
    * - myProperty
    * - !myProperty
+   * - myProperty['includeString']
    * - myProperty && !myOtherProperty
    * - myProperty || myOtherProperty
    * - (myProperty && myOtherProperty) || !myThirdProperty
@@ -225,8 +226,8 @@ withElements('[data-show]', (element) => {
 
   const fields =
     attributeValue
-      ?.match(/(\w+)/g)
-      ?.map((field) => field.trim())
+      ?.match(/(\w+(\['[^']+'\])?)/g)
+      ?.map((field) => field.replace(/\['[^']+'\]/g, '').trim())
       .filter(Boolean) ?? [];
 
   for (const f of fields) {
@@ -295,10 +296,19 @@ function parseCondition(expr: string): boolean {
       return !parsePrimary();
     }
 
-    // Property name
-    next();
+    // Property name or Array access
+    next(); // consume and shift pointer
 
-    const value = localConfiguration.get(token as keyof ConfigurationSchema);
+    const match = /^(\w+)(\['([^']+)'\])?$/.exec(token);
+    // match will contain [ entire match, key, full prop access (if any), prop (if any) ] - key replaces token
+    const [, key, , prop] = match!;
+
+    let value = localConfiguration.get(key as keyof ConfigurationSchema);
+
+    // If array access and value is array, value equals whether prop is in array
+    if (prop && Array.isArray(value)) {
+      value = (value as string[]).includes(prop);
+    }
 
     if (typeof value === 'boolean') {
       return value;

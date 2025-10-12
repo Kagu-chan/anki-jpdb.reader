@@ -20,24 +20,24 @@ export class SatoriDesktop implements ISatori {
           {
             tag: 'span',
             class: ['radio', 'use-breader'],
-            handler: (): void => this.activeBreaderEvents(),
+            handler: (): void => this.activateBreaderEvents(),
           },
           {
             tag: 'span',
             class: ['label', 'use-breader'],
-            handler: (): void => this.activeBreaderEvents(),
+            handler: (): void => this.activateBreaderEvents(),
             innerText: 'Enable Lookup Events',
           },
           { tag: 'br' },
           {
             tag: 'span',
             class: ['radio', 'use-satori'],
-            handler: (): void => this.activeSatoriEvents(),
+            handler: (): void => this.activateSatoriEvents(),
           },
           {
             tag: 'span',
             class: ['label', 'use-satori'],
-            handler: (): void => this.activeSatoriEvents(),
+            handler: (): void => this.activateSatoriEvents(),
             innerText: 'Enable Satori Events',
           },
           { tag: 'br' },
@@ -54,16 +54,16 @@ export class SatoriDesktop implements ISatori {
     this.setClasses(breader);
   }
 
-  public setDisplay(touchActive: boolean): void {
-    this.breaderSection.style.display = touchActive ? 'block' : 'none';
+  public setDisplay(touchActive: boolean, overlayActive: boolean): void {
+    this.breaderSection.style.display = touchActive && !overlayActive ? 'block' : 'none';
   }
 
-  private activeBreaderEvents(): void {
+  private activateBreaderEvents(): void {
     this.switchMode(true);
     this.setClasses(true);
   }
 
-  private activeSatoriEvents(): void {
+  private activateSatoriEvents(): void {
     this.switchMode(false);
     this.setClasses(false);
   }

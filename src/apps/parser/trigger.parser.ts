@@ -12,7 +12,7 @@ import { BaseParser } from './base.parser';
 export class TriggerParser extends BaseParser {
   protected _parseKeyManager = new KeybindManager(['parseKey']);
   protected _buttonRoot = createElement('div', {
-    id: 'ajb-parse-button',
+    id: 'ajb-overlay-control-button',
   });
 
   constructor(meta: HostMeta) {
@@ -57,7 +57,7 @@ export class TriggerParser extends BaseParser {
 
     shadowRoot.append(
       createElement('link', {
-        attributes: { rel: 'stylesheet', href: getStyleUrl('parse') },
+        attributes: { rel: 'stylesheet', href: getStyleUrl('overlay-control') },
       }),
       createElement('div', { innerText: 'Parse', handler: () => this.initParse() }),
     );

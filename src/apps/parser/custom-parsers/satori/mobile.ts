@@ -26,14 +26,14 @@ export class SatoriMobile implements ISatori {
         class: ['selection', 'on'],
         id: 'nav-mobile-touch-breader',
         innerText: 'Enable Lookup Events',
-        handler: (): void => this.activeBreaderEvents(),
+        handler: (): void => this.activateBreaderEvents(),
       },
       {
         tag: 'div',
         class: ['selection', 'off'],
         id: 'nav-mobile-touch-satori',
         innerText: 'Enable Satori Events',
-        handler: (): void => this.activeSatoriEvents(),
+        handler: (): void => this.activateSatoriEvents(),
       },
     ],
   });
@@ -50,10 +50,10 @@ export class SatoriMobile implements ISatori {
     this.setClasses(breader);
   }
 
-  public setDisplay(touchActive: boolean): void {
-    this.displayCategoryBreader.style.display = touchActive ? '' : 'none';
+  public setDisplay(touchActive: boolean, overlayActive: boolean): void {
+    this.displayCategoryBreader.style.display = touchActive && !overlayActive ? '' : 'none';
 
-    if (!touchActive) {
+    if (!touchActive || overlayActive) {
       if (this.displayCategoryBreader.classList.contains('on')) {
         this.activateTab(this.displayCategoryAll[0].id);
       }
@@ -83,12 +83,12 @@ export class SatoriMobile implements ISatori {
     });
   }
 
-  private activeBreaderEvents(): void {
+  private activateBreaderEvents(): void {
     this.switchMode(true);
     this.setClasses(true);
   }
 
-  private activeSatoriEvents(): void {
+  private activateSatoriEvents(): void {
     this.switchMode(false);
     this.setClasses(false);
   }

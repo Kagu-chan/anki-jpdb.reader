@@ -38,4 +38,10 @@ export const _080: ChangelogEntry[] = [
     category: Category.Popup,
     issue: 'N/A',
   },
+  {
+    type: 'add',
+    description: 'Allow setting a keybind to switch between satori event sources.',
+    category: Category.Parser,
+    issue: 307,
+  },
 ];
