@@ -215,7 +215,8 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     parserClass: 'bunpro-parser',
     parseVisibleObserver: true,
     addedObserver: {
-      notifyFor: 'div.mx-auto',
+      notifyFor: 'div.mx-auto, [id^="study-question-"]',
+      checkNested: 'article',
     },
   },
   {

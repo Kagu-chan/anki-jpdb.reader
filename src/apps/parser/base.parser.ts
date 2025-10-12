@@ -115,7 +115,7 @@ export abstract class BaseParser {
     onAdded: (nodes: HTMLElement[]) => void,
     onRemoved: (nodes: HTMLElement[]) => void,
   ): MutationObserver {
-    debug('getAddedObserver', { observeFrom, notifyFor, config });
+    debug('getAddedObserver', { observeFrom, notifyFor, checkNested, config });
 
     const observeTargets = Array.isArray(observeFrom) ? observeFrom : [observeFrom];
     let root: HTMLElement | null | undefined;
@@ -150,6 +150,11 @@ export abstract class BaseParser {
           }
 
           if (!checkNested) {
+            debug(
+              `getAddedObserver: Node ${mode}, does not match notifyFor and no checkNested set -> ignore:`,
+              node,
+            );
+
             return false;
           }
 

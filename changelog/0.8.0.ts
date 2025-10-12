@@ -68,4 +68,10 @@ export const _080: ChangelogEntry[] = [
     category: Category.Hosts,
     issue: 238,
   },
+  {
+    type: 'fix',
+    description: 'Fixed bunpro not parsing on lessons.',
+    category: Category.Hosts,
+    issue: 61,
+  },
 ];

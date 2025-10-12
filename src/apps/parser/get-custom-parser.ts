@@ -1,7 +1,6 @@
 import { debug } from '@shared/debug';
 import { HostMeta, PredefinedHostMeta } from '@shared/host-meta/types';
 import { BaseParser } from './base.parser';
-import { BunproParser } from './custom-parsers/bunpro.parser';
 import { ExStaticParser } from './custom-parsers/ex-static.parser';
 import { MokuroLegacyParser } from './custom-parsers/mokuro-legacy.parser';
 import { MokuroParser } from './custom-parsers/mokuro.parser';
@@ -17,7 +16,6 @@ export const getCustomParser = (
     Exclude<PredefinedHostMeta['custom'], undefined>,
     new (meta: HostMeta) => BaseParser
   > = {
-    BunproParser,
     MokuroParser,
     MokuroLegacyParser,
     ReadwokParser,
