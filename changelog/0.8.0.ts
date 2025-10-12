@@ -44,4 +44,10 @@ export const _080: ChangelogEntry[] = [
     category: Category.Parser,
     issue: 307,
   },
+  {
+    type: 'add',
+    description: 'Allow showing an overlay for satori event sources.',
+    category: Category.Parser,
+    issue: 307,
+  },
 ];
