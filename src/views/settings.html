@@ -334,6 +334,19 @@
               <div>
                 <parsers-input id="disabledParsers" name="disabledParsers"></parsers-input>
               </div>
+
+              <div data-show="!disabledParsers['satori-reader-parser']">
+                <div class="checkbox">
+                  <input
+                    type="checkbox"
+                    id="satoriReaderShowToggleOverlayButton"
+                    name="satoriReaderShowToggleOverlayButton"
+                  />
+                  <label for="satoriReaderShowToggleOverlayButton"
+                    >Show Satori Reader Event Source toggle as overlay</label
+                  >
+                </div>
+              </div>
             </div>
           </div>
 
@@ -822,6 +835,18 @@
             <div>
               <label for="jpdbRotateBackward">Rotate flags backward</label>
               <keybind-input id="jpdbRotateBackward" name="jpdbRotateBackward"></keybind-input>
+            </div>
+          </details>
+
+          <details data-show="!disabledParsers['satori-reader-parser']" class="accordion">
+            <summary>Satori Reader Parser</summary>
+
+            <div>
+              <label for="satoriReaderToggleEventSource">Toggle Event Source</label>
+              <keybind-input
+                id="satoriReaderToggleEventSource"
+                name="satoriReaderToggleEventSource"
+              ></keybind-input>
             </div>
           </details>
         </div>

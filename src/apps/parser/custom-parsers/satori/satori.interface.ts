@@ -1,4 +1,4 @@
 export interface ISatori {
   setMode(breader: boolean): void;
-  setDisplay(touchActive: boolean): void;
+  setDisplay(touchActive: boolean, overlayActive: boolean): void;
 }

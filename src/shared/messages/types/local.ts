@@ -21,6 +21,7 @@ type KeybindEvents = {
   addToBlacklistKey: KeybindEvent;
   addToNeverForgetKey: KeybindEvent;
   addToSuspendedKey: KeybindEvent;
+  satoriReaderToggleEventSource: KeybindEvent;
 };
 
 type ReleaseKeybindEvents = {
