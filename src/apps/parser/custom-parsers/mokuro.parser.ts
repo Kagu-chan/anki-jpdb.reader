@@ -5,197 +5,200 @@ import { Registry } from '../../integration/registry';
 import { AutomaticParser } from '../automatic.parser';
 import { getMokuroParagraphs } from './mokuro/get-mokuro-paragraphs';
 
-class MokuroMangaPanel {
-  private _imageContainerId = 'popupAbout';
-  private _imageContainer: HTMLElement;
-  private _imageObserver: MutationObserver;
-
-  private _debounceTimeout: NodeJS.Timeout | undefined;
-  private _debounceTime = 500;
-  private _currentId = 0;
-
-  private _pages = new Set<HTMLElement>();
-
-  constructor(private _panel: HTMLElement) {
-    this.setupImageObserver();
-
-    this.triggerParse();
-  }
-
-  public destroy(): void {
-    this.cancelParse();
-
-    this._imageObserver.disconnect();
-  }
-
-  private setupImageObserver(): void {
-    this._imageContainer = document.getElementById(this._imageContainerId)!;
-    this._imageObserver = new MutationObserver(() => {
-      this._currentId++;
-
-      this.triggerParse();
-    });
-
-    this._imageObserver.observe(this._imageContainer, {
-      attributes: true,
-      attributeFilter: ['style'],
-    });
-  }
-
-  /**
-   * This is a simple debouncing mechanism to avoid parsing the page multiple times
-   * The flow is as follows:
-   * 1. The page changes
-   * 2. The observer triggers
-   * 3. The trigger function is called
-   * 4. The trigger function checks if the last parse attempt was less than this._debounceTime MS ago
-   * 5. If it was, the current parse attempt is cancelled and a new one is scheduled
-   * 6. If it wasn't, the current parse attempt is permitted
-   * This allows the user to navigate to another page without triggering a parse attempt
-   */
-  private triggerParse(): void {
-    if (this._debounceTimeout) {
-      clearTimeout(this._debounceTimeout);
-
-      this.cancelParse();
-
-      this._debounceTimeout = setTimeout(() => {
-        this._debounceTimeout = undefined;
-
-        this.initParse();
-      }, this._debounceTime);
-
-      return;
-    }
-
-    this.initParse();
-
-    this._debounceTimeout = setTimeout(() => {
-      this._debounceTimeout = undefined;
-    }, this._debounceTime);
-  }
-
-  private initParse(): void {
-    this.cleanup();
-    this.parse();
-  }
-
-  private cancelParse(): void {
-    this._pages.forEach((page) => {
-      Registry.batchController.dismissNode(page);
-
-      this._pages.delete(page);
-    });
-  }
-
-  /**
-   * Remove all jpdb elements from the page
-   * This is necessary to avoid duplication of words when the page changes
-   * The jpdb elements are not removed by mokuro itself
-   */
-  private cleanup(): void {
-    [...this._panel.querySelectorAll('.textBox p')].forEach((p) => {
-      if (p.firstChild instanceof Text) {
-        return;
-      }
-
-      const { firstChild: firstJpdbChild } = p;
-      const { firstChild: textContext } = firstJpdbChild!;
-
-      p.replaceChildren(textContext!);
-    });
-  }
-
-  private parse(): void {
-    this._panel.querySelectorAll<HTMLElement>(':scope > div').forEach((page) => {
-      if (this._pages.has(page)) {
-        return;
-      }
-
-      const currentId = this._currentId;
-
-      this._pages.add(page);
-      Registry.batchController.registerNode(page, {
-        // We create fragments manually, since mokuro puts every line in a separate <p>aragraph and hides them
-        getParagraphsFn: getMokuroParagraphs,
-        // Because mokuro reuses nodes, a token may already be altered when the data from jpdb return.
-        // Thus we track on which page change cycle we are and don't apply tokens to the wrong page
-        applyFn: (paragraph: Paragraph, tokens: JPDBToken[]) => {
-          if (currentId === this._currentId) {
-            applyTokens(paragraph, tokens);
-          }
-        },
-      });
-    });
-
-    Registry.batchController.parseBatches(() => this._pages.clear());
-  }
-}
-
 /**
- * Mokuro only adds or removes one element we can properly observe, which is the manga panel.
- * The manga panel contains everything we need to read text from the page.
- *
- * Because mokuro reuses every html element it creates inside the manga panel, a simple observer is not enough.
- *
- * For this the `MokuroParser` serves as a controller instance for `MokuroMangaPanel` instances,
- * of which there should theoretically only be one.
+ * Custom Parser for the Mokuro Manga Reader.
+ * * This parser handles unique challenges presented by Mokuro's Svelte-based SPA architecture:
+ * 1. **Lifecycle Management**: The main content panel (#manga-panel) is destroyed and recreated 
+ * when navigating between pages or the library, requiring a persistent "Lifecycle Observer".
+ * 2. **Infinite Loops**: The parser modifies the DOM (highlighting text), which triggers the 
+ * MutationObserver again. A "Smart Filter" is used to distinguish between page turns and highlighting.
+ * 3. **Race Conditions**: Rapid page turning is handled by ID tracking to prevent applying 
+ * stale tokens to a new page.
  */
 export class MokuroParser extends AutomaticParser {
-  private _mangaPanels = new Map<HTMLElement, MokuroMangaPanel>();
-  private _observedElements = new Set<HTMLElement>();
+    // Observer for the specific, currently active manga panel (detects page turns)
+    private _panelObserver: MutationObserver | undefined;
+    
+    // Observer for the document body (detects when the manga panel is destroyed/created)
+    private _lifecycleObserver: MutationObserver | undefined;
+    
+    private _debounceTimer: ReturnType<typeof setTimeout> | undefined;
+    private _currentParserId = 0;
+    
+    // Lock used to prevent the parser from reacting to its own changes (though Smart Filter handles most of this)
+    private _isParsing = false;
 
-  protected override init(): void {
-    Registry.sentenceManager.disable();
-  }
-
-  /**
-   * @override we do not need a complex filter for the visible observer
-   */
-  protected setupVisibleObserver(): void {
-    this._visibleObserver = this.getParseVisibleObserver();
-  }
-
-  /**
-   * Visible elements should always be manga panels, so we convert them to instances of `MokuroMangaPanel`
-   *
-   * @param {HTMLElement[]} elements The manga panels that were added
-   */
-  protected visibleObserverOnEnter(elements: HTMLElement[]): void {
-    for (const element of elements) {
-      this._mangaPanels.set(element, new MokuroMangaPanel(element));
+    /**
+     * Entry point. Disables default sentence logic and starts monitoring the global application state.
+     */
+    protected override init(): void {
+        console.log('[Mokuro] Parser Initialized.');
+        Registry.sentenceManager.disable();
+        this.monitorLifecycle();
     }
 
-    this.installAppStyles();
-  }
+    /**
+     * Permanently watches the document body to handle SPA navigation.
+     * * If the user goes to the Library and back to the Reader, the #manga-panel is destroyed 
+     * and a new one is created. This observer ensures we always attach to the *live* panel.
+     */
+    private monitorLifecycle(): void {
+        const checkPanel = () => {
+            const panel = document.getElementById('manga-panel');
+            // Check if we found a new panel (e.g., initial load or return from library)
+            if (panel && !this._panelObserver) {
+                console.log('[Mokuro] Panel detected. Attaching.');
+                this.attachToPanel(panel);
+            } 
+            // Check if our current panel died (e.g., navigated away)
+            else if (this._panelObserver && !document.body.contains(panel)) {
+                console.log('[Mokuro] Panel lost. Detaching.');
+                this.disconnectPanelObserver();
+            }
+        };
 
-  /**
-   * Manga panels are removed when the manga is closed, so we destroy the instances of `MokuroMangaPanel`
-   * This does not always happen, sometimes the page just reloads. In that case we do not care at all...
-   *
-   * @param {HTMLElement[]} elements The exited manga panels
-   */
-  protected visibleObserverOnExit(elements: HTMLElement[]): void {
-    for (const element of elements) {
-      this._mangaPanels.get(element)?.destroy();
-      this._mangaPanels.delete(element);
+        checkPanel();
+        this._lifecycleObserver = new MutationObserver(checkPanel);
+        this._lifecycleObserver.observe(document.body, { childList: true, subtree: true });
     }
-  }
 
-  /**
-   * Added elements are always manga panels, so we observe them with the visible observer
-   * However, as Mokuro reuses a lot of elements and removes them just to add later, we keep track of what we already encountered
-   *
-   * @param {HTMLElement[]} elements The manga panels that were added
-   */
-  protected addedObserverCallback(elements: HTMLElement[]): void {
-    for (const element of elements) {
-      if (this._observedElements.has(element)) {
-        continue;
-      }
+    /**
+     * Attaches the "Smart Observer" to the active manga panel.
+     * This observer is responsible for detecting when the user turns a page.
+     */
+    private attachToPanel(panel: HTMLElement): void {
+        console.log('[Mokuro] Attaching Smart Observer.');
 
-      this._visibleObserver?.observe(element);
-      this._observedElements.add(element);
+        this._panelObserver = new MutationObserver((mutations) => {
+            if (this._isParsing) return;
+
+            // --- SMART FILTER ---
+            // The critical optimization: We must ignore mutations caused by our own highlighter.
+            // When we highlight words, we add <span class="..."> tags.
+            // When the user turns a page, Mokuro adds <div class="textBox"> tags.
+            const isStructuralChange = mutations.some(m => {
+                // 1. Ignore attribute changes (usually class updates for highlighting/hover effects)
+                if (m.type === 'attributes') return false;
+
+                // 2. Check added nodes to see if this looks like a "Content Update"
+                if (m.type === 'childList') {
+                    for (const node of Array.from(m.addedNodes)) {
+                        if (node instanceof HTMLElement) {
+                            // If a DIV or P is added, it's likely a new page/text bubble -> TRIGGER PARSE
+                            if (node.tagName === 'DIV' || node.tagName === 'P') {
+                                return true;
+                            }
+                            // If it's a SPAN, it's likely just a highlighter update -> IGNORE
+                            if (node.tagName === 'SPAN') {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                return false;
+            });
+
+            // Only parse if we found a real structural change (page turn)
+            if (isStructuralChange) {
+                console.log('[Mokuro] Structural change detected. Scheduling parse.');
+                this.scheduleParse(panel);
+            }
+        });
+
+        this._panelObserver.observe(panel, {
+            childList: true,
+            subtree: true,
+            attributes: true, 
+            attributeFilter: ['style', 'class'] // We monitor these but filter them out in the callback
+        });
+
+        // Trigger initial parse immediately upon attachment
+        this.scheduleParse(panel);
     }
-  }
+
+    /**
+     * Helper to cleanly disconnect the panel observer (used during navigation).
+     */
+    private disconnectPanelObserver(): void {
+        if (this._panelObserver) {
+            this._panelObserver.disconnect();
+            this._panelObserver = undefined;
+        }
+    }
+
+    /**
+     * Debounces the parse execution to prevent double-firing during complex DOM transitions.
+     */
+    private scheduleParse(panel: HTMLElement): void {
+        if (this._debounceTimer) clearTimeout(this._debounceTimer);
+        this._debounceTimer = setTimeout(() => this.executeParse(panel), 150);
+    }
+
+    /**
+     * The Core Parsing Logic.
+     * Finds the text container, registers it for batch processing, and handles locks.
+     */
+    private executeParse(panel: HTMLElement): void {
+        // Safety check: Don't parse a zombie panel
+        if (!document.body.contains(panel)) return;
+
+        const pageId = ++this._currentParserId;
+        
+        // Use querySelectorAll to find ALL page containers.
+        // Mokuro renders 2-page spreads as two sibling div.relative elements.
+        const pageContainers = panel.querySelectorAll<HTMLElement>(':scope > div > div.relative');
+
+        if (pageContainers.length === 0) return;
+
+        // Validations: Filter out containers that don't have text (e.g. image-only pages)
+        const validContainers = Array.from(pageContainers).filter(container => 
+            container.querySelector('.textBox') !== null
+        );
+
+        if (validContainers.length === 0) return;
+
+        console.log(`[Mokuro] Executing Parse Run #${pageId} on ${validContainers.length} pages`);
+        this._isParsing = true;
+
+        try {
+            // Loop through all found pages (left and right) and register them
+            validContainers.forEach(container => {
+                Registry.batchController.registerNode(container, {
+                    // Delegate the actual text extraction to the helper function
+                    getParagraphsFn: getMokuroParagraphs,
+                    
+                    // Callback when tokens arrive from the backend
+                    applyFn: (paragraph: Paragraph, tokens: JPDBToken[]) => {
+                        // Race Condition Check: 
+                        // Only apply tokens if the user hasn't turned the page since we requested them.
+                        if (pageId === this._currentParserId) {
+                            applyTokens(paragraph, tokens);
+                        }
+                    }
+                });
+            });
+
+            // Parse all registered batches at once
+            Registry.batchController.parseBatches();
+        } finally {
+            // Extended timeout releases the lock only after async highlighting is likely finished
+            setTimeout(() => { this._isParsing = false; }, 500);
+        }
+    }
+
+    /**
+     * Cleanup method called when the extension is disabled.
+     */
+    public destroy(): void {
+        console.log('[Mokuro] Parser destroyed');
+        this.disconnectPanelObserver();
+        this._lifecycleObserver?.disconnect();
+        if (this._debounceTimer) clearTimeout(this._debounceTimer);
+    }
+
+    // --- Override Default Behavior ---
+    // We disable the default AutomaticParser observers because Mokuro requires the custom logic above.
+    protected override setupVisibleObserver(): void {}
+    protected override setupAddedObserver(): void {}
+    protected override addedObserverCallback(nodes: HTMLElement[]): void {}
 }
