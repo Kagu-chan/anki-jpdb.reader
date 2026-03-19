@@ -15,11 +15,11 @@
   text-decoration: underline;
 }
 
-.jpdb-word:not(.unknown, .not-in-deck, .new) rt {
+.jpdb-word:not(.unknown, .not-in-deck) rt {
     opacity: 0;
 }
 
-.jpdb-word:not(.unknown, .not-in-deck, .new):hover rt {
+.jpdb-word:not(.unknown, .not-in-deck):hover rt {
     opacity: unset;
 }
 
