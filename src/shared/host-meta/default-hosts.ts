@@ -220,6 +220,34 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     },
   },
   {
+    id: 'bunpro-quiz-question-parser',
+    name: 'Bunpro Quiz Question Parser',
+    description: 'Parses questions in the Bunpro quiz area.',
+    host: '*://bunpro.jp/*',
+    auto: true,
+    optOut: true,
+    allFrames: false,
+    parserClass: 'bunpro-parser',
+    parseVisibleObserver: true,
+    addedObserver: {
+      notifyFor: '.bp-ddw.wrap-anywhere',
+      checkNested: '.bp-quiz-question',
+    },
+  },
+  {
+    id: 'jpdb-review-sentence-parser',
+    name: 'JPDB Review Sentence Parser',
+    description: 'Parses sentences in JPDB reviews.',
+    host: '*://jpdb.io/review*',
+    auto: true,
+    optOut: true,
+    allFrames: false,
+    addedObserver: {
+      notifyFor: '.sentence',
+      checkNested: ':has(.card-sentence)',
+    }
+  },
+  {
     id: 'asbplayer-parser',
     name: 'asbplayer Parser',
     description: 'Parses asbplayer subtitles',

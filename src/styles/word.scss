@@ -15,6 +15,14 @@
   text-decoration: underline;
 }
 
+.jpdb-word:not(.unknown, .not-in-deck, .new) rt {
+    opacity: 0;
+}
+
+.jpdb-word:not(.unknown, .not-in-deck, .new):hover rt {
+    opacity: unset;
+}
+
 .jpdb-word.misparsed {
   color: rgb(255, 0, 0);
   background-color: lightgray;
@@ -40,12 +48,12 @@
   color: rgba(75, 141, 255, 0.5);
 }
 
-.jpdb-word.new {
-  color: rgb(75, 141, 255);
-}
-
 .jpdb-word.frequent {
   color: rgb(75, 141, 127);
+}
+
+.jpdb-word.new {
+  color: rgb(75, 141, 255);
 }
 
 .jpdb-word.learning {
