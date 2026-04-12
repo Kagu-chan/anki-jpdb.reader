@@ -24,11 +24,24 @@ jobs:
 
       - run: npm i
       - run: npm run lint
-      - run: npm run pack --if-present
+      - name: Build all targets
+        run: node scripts/build.mjs --pack
+
+      - name: Sign Firefox extension
+        run: npx web-ext sign --source-dir anki-jpdb.reader --artifacts-dir packages --channel unlisted --api-key "$JWT_ISSUER" --api-secret "$JWT_SECRET"
+        env:
+          JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
+      - name: Rename signed XPI to predictable filename
+        run: |
+          signed=$(find packages -name "*.xpi" ! -name "anki-jpdb.reader-*" | head -1)
+          mv "$signed" packages/anki-jpdb.reader-firefox-signed.xpi
 
       - uses: softprops/action-gh-release@v2
         with:
           files: |
             packages/anki-jpdb.reader-chromium.zip
             packages/anki-jpdb.reader-firefox.xpi
+            packages/anki-jpdb.reader-firefox-signed.xpi
             packages/LICENSE.md
