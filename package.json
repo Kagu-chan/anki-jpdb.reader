@@ -15,7 +15,8 @@
     "release": "node scripts/build.mjs --pack --ff-submission",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
-    "lint:ff": "node scripts/build.mjs firefox && web-ext lint --source-dir anki-jpdb.reader"
+    "lint:ff": "node scripts/build.mjs firefox && web-ext lint --source-dir anki-jpdb.reader",
+    "sign": "node scripts/build.mjs --pack firefox && web-ext sign --source-dir anki-jpdb.reader --artifacts-dir packages --channel unlisted --api-key $JWT_ISSUER --api-secret $JWT_SECRET"
   },
   "simple-git-hooks": {
     "commit-msg": "npx --no-install commitlint --edit $1"
