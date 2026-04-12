@@ -26,12 +26,9 @@ jobs:
       - run: npm run lint
       - run: npm run pack --if-present
 
-      - uses: 'marvinpinto/action-automatic-releases@latest'
+      - uses: softprops/action-gh-release@v2
         with:
-          repo_token: '${{ secrets.GITHUB_TOKEN }}'
-          prerelease: false
           files: |
             packages/anki-jpdb.reader-chromium.zip
             packages/anki-jpdb.reader-firefox.xpi
             packages/LICENSE.md
-        id: 'automatic_releases'
