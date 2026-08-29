@@ -7,7 +7,7 @@ import { SatoriMobile } from './satori/mobile';
 import { SatoriOverlay } from './satori/overlay';
 
 export class SatoriReaderParser extends AutomaticParser {
-  private _keybindManager = new KeybindManager(['satoriReaderToggleEventSource']);
+  private _keybindManager = new KeybindManager(['parserTouchEventsToggleEventSource']);
 
   private desktop = new SatoriDesktop((useBreader: boolean) => {
     this.enableBreader(useBreader);
@@ -30,17 +30,17 @@ export class SatoriReaderParser extends AutomaticParser {
     this.overlay.setMode();
 
     ConfigurationMonitor.watch(
-      ['touchscreenSupport', 'satoriReaderShowToggleOverlayButton', 'disabledParsers'],
-      ({ touchscreenSupport, satoriReaderShowToggleOverlayButton }) => {
-        this.desktop.setDisplay(touchscreenSupport, satoriReaderShowToggleOverlayButton);
-        this.mobile.setDisplay(touchscreenSupport, satoriReaderShowToggleOverlayButton);
-        this.overlay.setDisplay(touchscreenSupport, satoriReaderShowToggleOverlayButton);
+      ['touchscreenSupport', 'parserTouchEventsShowToggleOverlayButton', 'disabledParsers'],
+      ({ touchscreenSupport, parserTouchEventsShowToggleOverlayButton }) => {
+        this.desktop.setDisplay(touchscreenSupport, parserTouchEventsShowToggleOverlayButton);
+        this.mobile.setDisplay(touchscreenSupport, parserTouchEventsShowToggleOverlayButton);
+        this.overlay.setDisplay(touchscreenSupport, parserTouchEventsShowToggleOverlayButton);
 
         this._keybindManager.setActive(touchscreenSupport);
       },
     );
 
-    Registry.events.on('satoriReaderToggleEventSource', () => {
+    Registry.events.on('parserTouchEventsToggleEventSource', () => {
       this.enableBreader(!this._lastState);
     });
   }

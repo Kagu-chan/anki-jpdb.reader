@@ -113,10 +113,10 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   jpdbRotateBackward: [],
 
   //#endregion
-  //#region Satori Reader
+  //#region Parsers
 
-  satoriReaderShowToggleOverlayButton: false,
-  satoriReaderToggleEventSource: [],
+  parserTouchEventsShowToggleOverlayButton: false,
+  parserTouchEventsToggleEventSource: [],
 
   //#endregion
   //#region Anki Integration (not implemented!)

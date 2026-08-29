@@ -228,10 +228,14 @@ withElements('[data-show]', (element) => {
    */
 
   const fields =
-    attributeValue
-      ?.match(/(\w+(\['[^']+'\])?)/g)
-      ?.map((field) => field.replace(/\['[^']+'\]/g, '').trim())
-      .filter(Boolean) ?? [];
+    Array.from(
+      new Set(
+        attributeValue
+          ?.match(/(\w+(\['[^']+'\])?)/g)
+          ?.map((field) => field.replace(/\['[^']+'\]/g, '').trim())
+          .filter(Boolean),
+      ),
+    ) ?? [];
 
   for (const f of fields) {
     if (!bindings.has(f)) {
@@ -286,6 +290,7 @@ function parseCondition(expr: string): boolean {
       next(); // consume '('
       const value = parseOr();
 
+      // consume ')'
       if (next() !== ')') {
         throw new Error('Expected )');
       }
@@ -294,19 +299,25 @@ function parseCondition(expr: string): boolean {
     }
 
     if (token === '!') {
-      next();
+      next(); // consume '!'
+      const value = parsePrimary();
 
-      return !parsePrimary();
+      return !value;
     }
 
-    // Property name or Array access
+    // Load and validate configuration key
     next(); // consume and shift pointer
 
     const match = /^(\w+)(\['([^']+)'\])?$/.exec(token);
     // match will contain [ entire match, key, full prop access (if any), prop (if any) ] - key replaces token
     const [, key, , prop] = match!;
 
-    let value = localConfiguration.get(key as keyof ConfigurationSchema);
+    const fallback = DEFAULT_CONFIGURATION[key as keyof ConfigurationSchema]; // fallback used for unset values or unknown keys
+    let value = localConfiguration.get(key as keyof ConfigurationSchema) ?? fallback;
+
+    if (fallback === undefined) {
+      throw new Error(`Unknown configuration key: ${key}`);
+    }
 
     // If array access and value is array, value equals whether prop is in array
     if (prop && Array.isArray(value)) {
@@ -329,8 +340,9 @@ function parseCondition(expr: string): boolean {
 
     while (peek() === '&&') {
       next();
+      const comperand = parsePrimary(); // While left side may already be false, right side needs to be evaluated to be consumed correctly
 
-      value = value && parsePrimary();
+      value = value && comperand;
     }
 
     return value;
@@ -341,8 +353,9 @@ function parseCondition(expr: string): boolean {
 
     while (peek() === '||') {
       next();
+      const comperand = parseAnd(); // While left side may already be true, right side needs to be evaluated to be consumed correctly
 
-      value = value || parseAnd();
+      value = value || comperand;
     }
 
     return value;
@@ -360,7 +373,10 @@ function parseCondition(expr: string): boolean {
     }
 
     return result;
-  } catch {
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('Parser', 'Error during parsing', e);
+
     return false;
   }
 }

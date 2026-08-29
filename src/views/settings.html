@@ -335,17 +335,27 @@
                 <parsers-input id="disabledParsers" name="disabledParsers"></parsers-input>
               </div>
 
-              <div data-show="!disabledParsers['satori-reader-parser']">
+              <div
+                data-show="(!disabledParsers['satori-reader-parser'] || !disabledParsers['bunpro-parser']) && touchscreenSupport"
+                indent
+              >
                 <div class="checkbox">
                   <input
                     type="checkbox"
-                    id="satoriReaderShowToggleOverlayButton"
-                    name="satoriReaderShowToggleOverlayButton"
+                    id="parserTouchEventsShowToggleOverlayButton"
+                    name="parserTouchEventsShowToggleOverlayButton"
                   />
-                  <label for="satoriReaderShowToggleOverlayButton"
-                    >Show Satori Reader Event Source toggle as overlay</label
-                  >
+                  <label for="parserTouchEventsShowToggleOverlayButton">
+                    Show Touch Event Source toggle as overlay
+                  </label>
                 </div>
+                <p style="opacity: 0.8" indent up>
+                  For interactive learning apps like Bunpro or Satori Reader, a touch event normally
+                  shows further information. <br />
+                  As those conflict with the extension's popup, you can toggle the event source with
+                  this button. <br />
+                  If unchecked, the toggle will be integrated in the apps layout instead.
+                </p>
               </div>
             </div>
           </div>
@@ -838,14 +848,17 @@
             </div>
           </details>
 
-          <details data-show="!disabledParsers['satori-reader-parser']" class="accordion">
-            <summary>Satori Reader Parser</summary>
+          <details
+            data-show="(!disabledParsers['satori-reader-parser'] || !disabledParsers['bunpro-parser']) && touchscreenSupport"
+            class="accordion"
+          >
+            <summary>Parsers</summary>
 
             <div>
-              <label for="satoriReaderToggleEventSource">Toggle Event Source</label>
+              <label for="parserTouchEventsToggleEventSource">Toggle Event Source</label>
               <keybind-input
-                id="satoriReaderToggleEventSource"
-                name="satoriReaderToggleEventSource"
+                id="parserTouchEventsToggleEventSource"
+                name="parserTouchEventsToggleEventSource"
               ></keybind-input>
             </div>
           </details>
