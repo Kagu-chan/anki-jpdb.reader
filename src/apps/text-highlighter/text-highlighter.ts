@@ -21,7 +21,7 @@ export class TextHighlighter extends BaseTextHighlighter {
 
     this.patchRemainingMisparses();
 
-    if (Registry.textHighlighterOptions.markIPlus1) {
+    if (Registry.textHighlighterOptions.iPlus1Mark) {
       Registry.sentenceManager.calculateTargetSentences();
     }
   }
@@ -620,7 +620,7 @@ export class TextHighlighter extends BaseTextHighlighter {
   }
 
   protected patchElement(element: HTMLElement, token: JPDBToken | undefined): void {
-    const { skipFurigana, markFrequency, markAll, generatePitch, markIPlus1 } =
+    const { skipFurigana, topXMark, topXMarkCount, topXMarkAll, generatePitch, iPlus1Mark } =
       Registry.textHighlighterOptions;
     const { card, pitchClass, sentence } = token ?? {};
 
@@ -631,7 +631,7 @@ export class TextHighlighter extends BaseTextHighlighter {
 
     element.setAttribute('ajb', 'true');
 
-    if (markIPlus1) {
+    if (iPlus1Mark) {
       Registry.sentenceManager.addElement(element, token);
     }
 
@@ -650,10 +650,10 @@ export class TextHighlighter extends BaseTextHighlighter {
         ...categories.map((category) => `cat-${category}`),
       );
 
-      if (markFrequency && card.frequencyRank && card.frequencyRank <= markFrequency) {
-        const isNew = Registry.cardStates.isNew(card.cardState);
+      if (topXMark && card.frequencyRank && card.frequencyRank <= topXMarkCount) {
+        const isUnmined = Registry.cardStates.isUnmined(card.cardState);
 
-        if (markAll || isNew) {
+        if (topXMarkAll || isUnmined) {
           element.classList.add('frequent');
         }
       }

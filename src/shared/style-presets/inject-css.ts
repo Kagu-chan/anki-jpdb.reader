@@ -5,7 +5,7 @@ import { iPlusOnePreset } from './presets/i-plus-one.preset';
 
 export type InjectCssConfig = Pick<
   ConfigurationSchema,
-  'markTopX' | 'frequentColor' | 'markIPlus1' | 'iPlusOneColor' | 'customWordCSS'
+  'topXMark' | 'frequentColor' | 'iPlus1Mark' | 'iPlusOneColor' | 'customWordCSS'
 >;
 
 const ALWAYS_PRESETS: ((config: InjectCssConfig) => string)[] = [

@@ -271,15 +271,16 @@ function updateBindings(key: keyof ConfigurationSchema): void {
 
 function parseCondition(expr: string): boolean {
   // Tokenize
-  const tokens = expr
-    .replace(/!=/g, ' != ')
-    .replace(/([()])/g, ' $1 ')
-    .replace(/!(?!=)/g, ' ! ')
-    .replace(/(?<!!)=/g, ' = ')
-    .replace(/&&/g, ' && ')
-    .replace(/\|\|/g, ' || ')
-    .match(/'[^']*'|\S+/g)
-    ?.filter(Boolean) ?? [];
+  const tokens =
+    expr
+      .replace(/!=/g, ' != ')
+      .replace(/([()])/g, ' $1 ')
+      .replace(/!(?!=)/g, ' ! ')
+      .replace(/(?<!!)=/g, ' = ')
+      .replace(/&&/g, ' && ')
+      .replace(/\|\|/g, ' || ')
+      .match(/'[^']*'|\S+/g)
+      ?.filter(Boolean) ?? [];
 
   let pos = 0;
 

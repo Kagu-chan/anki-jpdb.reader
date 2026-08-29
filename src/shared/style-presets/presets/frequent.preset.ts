@@ -2,9 +2,9 @@ import { ConfigurationSchema } from '@shared/configuration/types';
 import { resolveColorRule } from '../color';
 
 export const frequentPreset = (
-  config: Pick<ConfigurationSchema, 'markTopX' | 'frequentColor'>,
+  config: Pick<ConfigurationSchema, 'topXMark' | 'frequentColor'>,
 ): string => {
-  if (!config.markTopX) {
+  if (!config.topXMark) {
     return '';
   }
 

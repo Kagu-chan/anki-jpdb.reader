@@ -17,6 +17,7 @@ export enum FuriganaVisibility {
   HOVER = 'hover',
   NEVER = 'never',
 }
+
 export type ConfigurationSchema = {
   schemaVersion: number;
 
@@ -63,12 +64,13 @@ export type ConfigurationSchema = {
 
   stateCategories: StateCategories;
 
-  markTopX: boolean;
-  markTopXCount: number;
-  markAllTypes: boolean;
-  markIPlus1: boolean;
-  minSentenceLength: number;
-  markOnlyFrequent: boolean;
+  topXMark: boolean;
+  topXMarkAll: boolean;
+  topXMarkCount: number;
+  iPlus1Mark: boolean;
+  iPlus1MarkOnlyFrequent: boolean;
+  iPlus1EvalAgainstKnown: boolean;
+  iPlus1MinSentenceLen: number;
   skipFurigana: boolean;
   generatePitch: boolean;
 

@@ -54,12 +54,14 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
     [JPDBCardState.NEVER_FORGET]: WordStateCategory.KNOWN,
   },
 
-  markTopX: false,
-  markAllTypes: false,
-  markTopXCount: 10_000,
-  markIPlus1: false,
-  minSentenceLength: 3,
-  markOnlyFrequent: false,
+  topXMark: false,
+  topXMarkAll: false,
+  topXMarkCount: 10_000,
+
+  iPlus1Mark: false,
+  iPlus1MarkOnlyFrequent: false,
+  iPlus1EvalAgainstKnown: true,
+  iPlus1MinSentenceLen: 3,
   skipFurigana: false,
   generatePitch: false,
 

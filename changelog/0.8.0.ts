@@ -16,7 +16,7 @@ export const _080: ChangelogEntry[] = [
   {
     type: 'add',
     description:
-      'Added the option to classify card states into New, Learning, and Known categories.',
+      'Added the option to classify card states into Unmined, New, Learning, and Known categories.',
     category: Category.Texthighlighter,
     issue: 'N/A',
   },
@@ -121,7 +121,7 @@ export const _080: ChangelogEntry[] = [
   },
   {
     type: 'add',
-    description: 'Added per-category (New/Learning/Known) furigana visibility settings.',
+    description: 'Added per-category furigana visibility settings.',
     category: Category.Texthighlighter,
     issue: 'N/A',
   },
@@ -129,6 +129,13 @@ export const _080: ChangelogEntry[] = [
     type: 'add',
     description: 'Added the ability to customize every word/furigana style preset color.',
     category: Category.Settings,
+    issue: 'N/A',
+  },
+  {
+    type: 'change',
+    description:
+      'Reworked "Mark the top X words" and "Mark I+1 sentences" to key off unmined words instead of new words, with separate options to also include all other states.',
+    category: Category.Texthighlighter,
     issue: 'N/A',
   },
 ];

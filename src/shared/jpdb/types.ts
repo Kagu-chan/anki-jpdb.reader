@@ -94,7 +94,7 @@ export type LabeledCardState = {
 };
 
 export enum WordStateCategory {
-  UNMINED = 'unminded',
+  UNMINED = 'unmined',
   NEW = 'new',
   LEARNING = 'learning',
   KNOWN = 'known',

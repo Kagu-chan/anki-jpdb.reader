@@ -36,9 +36,9 @@ export class ParseCommandHandler extends BackgroundCommandHandler<ParseCommand> 
 
     ConfigurationMonitor.watch(
       [
-        'markTopX',
+        'topXMark',
         'frequentColor',
-        'markIPlus1',
+        'iPlus1Mark',
         'iPlusOneColor',
         'customWordCSS',
         'enableStylePresets',

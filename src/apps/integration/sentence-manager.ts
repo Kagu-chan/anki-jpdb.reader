@@ -196,25 +196,45 @@ export class SentenceManager {
   }
 
   protected calculateSentence(sentence: string): void {
-    const { markOnlyFrequent, markFrequency, minSentenceLength } = Registry.textHighlighterOptions;
+    const {
+      iPlus1MarkOnlyFrequent,
+      iPlus1MinSentenceLen,
+      iPlus1EvalAgainstKnown,
+      topXMark,
+      topXMarkCount,
+    } = Registry.textHighlighterOptions;
 
     this._processedSentences.add(sentence);
 
     const cards = this._sentenceToCards.get(sentence) ?? [];
-    const unknownCards = cards.filter((card) => {
+    const candidates: string[] = [];
+    const blockers: string[] = [];
+
+    cards.forEach((card) => {
       const states = this._cardToState.get(card)!;
 
-      return Registry.cardStates.isNew(states);
+      if (Registry.cardStates.isUnmined(states)) {
+        candidates.push(card);
+
+        return;
+      }
+
+      if (iPlus1EvalAgainstKnown && !Registry.cardStates.isKnown(states)) {
+        blockers.push(card);
+      }
     });
 
     let notIPlusOne =
-      unknownCards.length === 0 || unknownCards.length > 1 || cards.length < minSentenceLength;
+      candidates.length === 0 ||
+      candidates.length > 1 ||
+      cards.length < iPlus1MinSentenceLen ||
+      blockers.length > 0;
 
-    if (markFrequency && markOnlyFrequent && !notIPlusOne) {
+    if (topXMark && topXMarkCount && iPlus1MarkOnlyFrequent && !notIPlusOne) {
       // Apply frequency-based filtering
-      const relevantFrequency: number | null = this._cardToFrequency.get(unknownCards[0])!;
+      const relevantFrequency: number | null = this._cardToFrequency.get(candidates[0])!;
 
-      if (!relevantFrequency && relevantFrequency > markFrequency) {
+      if (!relevantFrequency || relevantFrequency > topXMarkCount) {
         notIPlusOne = true;
       }
     }
@@ -228,7 +248,7 @@ export class SentenceManager {
       return; // No i+1 sentence or too many unknown cards
     }
 
-    const [vid, sid] = unknownCards[0].split('/');
+    const [vid, sid] = candidates[0].split('/');
 
     // If we have exactly one unknown card, mark the element as i+1
     this._sentenceToElements.get(sentence)?.forEach((element) => {
