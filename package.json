@@ -62,7 +62,7 @@
     "prettier": "^3.6.2",
     "rimraf": "^6.0.1",
     "sass": "^1.93.2",
-    "sass-loader": "^16.0.5",
+    "sass-loader": "^16.0.6",
     "simple-git-hooks": "^2.13.1",
     "ts-loader": "^9.5.4",
     "typescript": "^5.8.3",
