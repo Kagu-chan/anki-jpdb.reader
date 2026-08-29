@@ -92,4 +92,23 @@ export const _080: ChangelogEntry[] = [
     category: Category.Parser,
     issue: 397,
   },
+  {
+    type: 'add',
+    description: 'Added parsing for the Bunpro quiz/review question area.',
+    category: Category.Hosts,
+    issue: 400,
+  },
+  {
+    type: 'add',
+    description: 'Added automatic parsing of the example sentence shown during JPDB reviews.',
+    category: Category.Hosts,
+    issue: 'N/A',
+  },
+  {
+    type: 'change',
+    description:
+      'Updated documentation for the current set of automatically parsed apps and sites.',
+    category: [Category.Hosts, Category.Documentation],
+    issue: 'N/A',
+  },
 ];
