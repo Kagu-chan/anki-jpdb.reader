@@ -48,10 +48,11 @@ Some web apps and sites require special attention to work properly; therefore, t
 | Satori Reader | [satorireader.com](https://www.satorireader.com/) |
 | NHK News | [nhk.or.jp](https://www3.nhk.or.jp/news/) |
 | Wikipedia | [ja.wikipedia.org](https://ja.wikipedia.org/) |
-| Bunpro | [bunpro.jp](https://bunpro.jp) (Experimental) |
+| Bunpro | [bunpro.jp](https://bunpro.jp) — graded reader and quiz/review sessions (Experimental) |
+| JPDB Reviews | [jpdb.io/review](https://jpdb.io/review) — auto-parses the example sentence shown during a review |
 | asbplayer | [github.com/killergerbah/asbplayer](https://github.com/killergerbah/asbplayer) |
 | YouTube comments | [youtube.com](https://youtube.com/) |
-| Custom Dictionaries | [CDM by Nakura Nakamoto](https://gitlab.com/nakura/jpdb_cdm) |
+| Custom Dictionaries | [CDM by Nakura Nakamoto](https://gitlab.com/nakura/jpdb_cdm) — integrates with this separate third-party extension's UI on jpdb.io pages |
 | LunaTranslator | [Luna Translator](https://docs.lunatranslator.org/en/) with WebView2 enabled |
 
 ## Installation
