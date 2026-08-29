@@ -231,7 +231,7 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     parserClass: 'bunpro-parser',
     parseVisibleObserver: true,
     addedObserver: {
-      notifyFor: '.bp-ddw.wrap-anywhere',
+      notifyFor: '.bp-ddw',
       checkNested: '.bp-quiz-question',
     },
   },
