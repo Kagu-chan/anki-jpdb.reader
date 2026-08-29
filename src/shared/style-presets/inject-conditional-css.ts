@@ -31,6 +31,7 @@ export type InjectConditionalCssConfig = Pick<
   | 'pitchColorNakadaka'
   | 'pitchColorOdaka'
   | 'pitchColorKifuku'
+  | 'furiganaUnminedWords'
   | 'furiganaNewWords'
   | 'furiganaLearningWords'
   | 'furiganaKnownWords'

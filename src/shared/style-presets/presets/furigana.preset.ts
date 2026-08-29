@@ -3,10 +3,15 @@ import { css } from '../css';
 
 type FuriganaConfig = Pick<
   ConfigurationSchema,
-  'furiganaNewWords' | 'furiganaLearningWords' | 'furiganaKnownWords' | 'skipFurigana'
+  | 'furiganaUnminedWords'
+  | 'furiganaNewWords'
+  | 'furiganaLearningWords'
+  | 'furiganaKnownWords'
+  | 'skipFurigana'
 >;
 
 const CATEGORY_CONFIG_KEYS = {
+  'cat-unmined': 'furiganaUnminedWords',
   'cat-new': 'furiganaNewWords',
   'cat-learning': 'furiganaLearningWords',
   'cat-known': 'furiganaKnownWords',

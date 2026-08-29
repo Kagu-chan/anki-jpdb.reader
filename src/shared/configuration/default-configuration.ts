@@ -128,6 +128,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
     style: 'text-decoration: underline; text-decoration-color: ${color};',
   },
 
+  furiganaUnminedWords: FuriganaVisibility.ALWAYS,
   furiganaNewWords: FuriganaVisibility.ALWAYS,
   furiganaLearningWords: FuriganaVisibility.HOVER,
   furiganaKnownWords: FuriganaVisibility.NEVER,

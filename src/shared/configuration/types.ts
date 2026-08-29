@@ -101,6 +101,7 @@ export type ConfigurationSchema = {
   pitchColorOdaka: PresetColor;
   pitchColorKifuku: PresetColor;
 
+  furiganaUnminedWords: FuriganaVisibility;
   furiganaNewWords: FuriganaVisibility;
   furiganaLearningWords: FuriganaVisibility;
   furiganaKnownWords: FuriganaVisibility;

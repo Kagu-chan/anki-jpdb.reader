@@ -589,8 +589,23 @@
                       <div class="col">
                         <select id="baseStylingMode" name="baseStylingMode">
                           <option value="jpdb">JPDB (mpv plugin colors)</option>
-                          <option value="category">Category (new / learning / known)</option>
+                          <option value="category">
+                            Category (unmined / new / learning / known)
+                          </option>
                           <option value="none">None</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div data-show="!skipFurigana" class="row">
+                      <div class="col flex-col">
+                        <label for="furiganaUnminedWords">Furigana on unmined words</label>
+                      </div>
+                      <div class="col">
+                        <select id="furiganaUnminedWords" name="furiganaUnminedWords">
+                          <option value="always">Always</option>
+                          <option value="hover">On hover</option>
+                          <option value="never">Never</option>
                         </select>
                       </div>
                     </div>
