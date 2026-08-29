@@ -23,3 +23,5 @@ submission/
 
 *.bak
 *.bak.*
+
+.claude
