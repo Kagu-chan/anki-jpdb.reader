@@ -1,18 +1,18 @@
-import { Paragraph } from '../../../batches/types';
+import { Fragment, Paragraph } from '../../../batches/types';
 
 export const getMokuroParagraphs = (page: HTMLElement): Paragraph[] => {
   return [...page.querySelectorAll('.textBox')].map((box) => {
-    const fragments = [];
+    const fragments: Fragment[] = [];
     let offset = 0;
 
-    for (const p of box.children) {
-      if (p.tagName !== 'P') {
-        continue;
-      }
+    // Mokuro wraps each visual line in its own text node (nested inside a `.ocr-line` span),
+    // interspersed with empty Svelte anchor comments - walk text nodes directly instead of
+    // assuming a single text node per paragraph, so both are naturally skipped/collected.
+    const walker = document.createTreeWalker(box, NodeFilter.SHOW_TEXT);
+    let text: Text | null;
 
-      const text = p.firstChild as Text;
-
-      if (!text?.data?.length) {
+    while ((text = walker.nextNode() as Text | null)) {
+      if (!text.data.length) {
         continue;
       }
 
@@ -20,7 +20,7 @@ export const getMokuroParagraphs = (page: HTMLElement): Paragraph[] => {
         .replaceAll('．．．', '…')
         .replaceAll('．．', '…')
         .replaceAll('！！', '‼')
-        .replaceAll('！？', '“⁉');
+        .replaceAll('！？', '⁉');
 
       const start = offset;
       const length = text.length;

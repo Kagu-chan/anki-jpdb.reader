@@ -148,6 +148,7 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     parseVisibleObserver: true,
     addedObserver: {
       notifyFor: '#manga-panel',
+      checkNested: '.flex',
     },
   },
   {

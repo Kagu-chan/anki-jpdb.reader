@@ -6,9 +6,7 @@ import { AutomaticParser } from '../automatic.parser';
 import { getMokuroParagraphs } from './mokuro/get-mokuro-paragraphs';
 
 class MokuroMangaPanel {
-  private _imageContainerId = 'popupAbout';
-  private _imageContainer: HTMLElement;
-  private _imageObserver: MutationObserver;
+  private _panelObserver: MutationObserver;
 
   private _debounceTimeout: NodeJS.Timeout | undefined;
   private _debounceTime = 500;
@@ -17,7 +15,7 @@ class MokuroMangaPanel {
   private _pages = new Set<HTMLElement>();
 
   constructor(private _panel: HTMLElement) {
-    this.setupImageObserver();
+    this.setupPanelObserver();
 
     this.triggerParse();
   }
@@ -25,20 +23,24 @@ class MokuroMangaPanel {
   public destroy(): void {
     this.cancelParse();
 
-    this._imageObserver.disconnect();
+    this._panelObserver.disconnect();
   }
 
-  private setupImageObserver(): void {
-    this._imageContainer = document.getElementById(this._imageContainerId)!;
-    this._imageObserver = new MutationObserver(() => {
+  /**
+   * Mokuro fully replaces the panel's content (page image + text boxes) with fresh elements on
+   * every page turn instead of mutating them in place, while `this._panel` itself stays mounted -
+   * so a childList/subtree observer on the panel is what reliably signals a page change.
+   */
+  private setupPanelObserver(): void {
+    this._panelObserver = new MutationObserver(() => {
       this._currentId++;
 
       this.triggerParse();
     });
 
-    this._imageObserver.observe(this._imageContainer, {
-      attributes: true,
-      attributeFilter: ['style'],
+    this._panelObserver.observe(this._panel, {
+      childList: true,
+      subtree: true,
     });
   }
 
@@ -62,22 +64,17 @@ class MokuroMangaPanel {
       this._debounceTimeout = setTimeout(() => {
         this._debounceTimeout = undefined;
 
-        this.initParse();
+        this.parse();
       }, this._debounceTime);
 
       return;
     }
 
-    this.initParse();
+    this.parse();
 
     this._debounceTimeout = setTimeout(() => {
       this._debounceTimeout = undefined;
     }, this._debounceTime);
-  }
-
-  private initParse(): void {
-    this.cleanup();
-    this.parse();
   }
 
   private cancelParse(): void {
@@ -85,24 +82,6 @@ class MokuroMangaPanel {
       Registry.batchController.dismissNode(page);
 
       this._pages.delete(page);
-    });
-  }
-
-  /**
-   * Remove all jpdb elements from the page
-   * This is necessary to avoid duplication of words when the page changes
-   * The jpdb elements are not removed by mokuro itself
-   */
-  private cleanup(): void {
-    [...this._panel.querySelectorAll('.textBox p')].forEach((p) => {
-      if (p.firstChild instanceof Text) {
-        return;
-      }
-
-      const { firstChild: firstJpdbChild } = p;
-      const { firstChild: textContext } = firstJpdbChild!;
-
-      p.replaceChildren(textContext!);
     });
   }
 
@@ -116,10 +95,11 @@ class MokuroMangaPanel {
 
       this._pages.add(page);
       Registry.batchController.registerNode(page, {
-        // We create fragments manually, since mokuro puts every line in a separate <p>aragraph and hides them
+        // We create fragments manually, since mokuro splits each line's text across multiple
+        // nested elements instead of a single text node per paragraph
         getParagraphsFn: getMokuroParagraphs,
-        // Because mokuro reuses nodes, a token may already be altered when the data from jpdb return.
-        // Thus we track on which page change cycle we are and don't apply tokens to the wrong page
+        // A page turn replaces the panel content while a parse is still in flight, so we track
+        // which page-change cycle we are on and don't apply stale tokens to the wrong page
         applyFn: (paragraph: Paragraph, tokens: JPDBToken[]) => {
           if (currentId === this._currentId) {
             applyTokens(paragraph, tokens);
@@ -134,9 +114,8 @@ class MokuroMangaPanel {
 
 /**
  * Mokuro only adds or removes one element we can properly observe, which is the manga panel.
- * The manga panel contains everything we need to read text from the page.
- *
- * Because mokuro reuses every html element it creates inside the manga panel, a simple observer is not enough.
+ * The manga panel contains everything we need to read text from the page, but is replaced
+ * wholesale on every page turn, so a childList/subtree observer on it is what signals a page change.
  *
  * For this the `MokuroParser` serves as a controller instance for `MokuroMangaPanel` instances,
  * of which there should theoretically only be one.

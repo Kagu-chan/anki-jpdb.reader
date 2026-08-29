@@ -86,4 +86,10 @@ export const _080: ChangelogEntry[] = [
     category: Category.Parser,
     issue: 'N/A',
   },
+  {
+    type: 'fix',
+    description: 'Fixed the Mokuro parser no longer working after a Mokuro website update.',
+    category: Category.Parser,
+    issue: 397,
+  },
 ];
