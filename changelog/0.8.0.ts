@@ -74,4 +74,16 @@ export const _080: ChangelogEntry[] = [
     category: Category.Hosts,
     issue: 61,
   },
+  {
+    type: 'add',
+    description: 'Show the extension version in the popup and settings page.',
+    category: Category.Settings,
+    issue: 'N/A',
+  },
+  {
+    type: 'chore',
+    description: 'Prepare the Satori event source toggle to be reused across parsers.',
+    category: Category.Parser,
+    issue: 'N/A',
+  },
 ];
