@@ -1,5 +1,5 @@
 import { ConfigurationMonitor } from '@shared/configuration/configuration-monitor';
-import { BaseStylingMode, ConfigurationSchema } from '@shared/configuration/types';
+import { BaseStylingMode, ConfigurationSchema, PresetColor } from '@shared/configuration/types';
 import { createElement } from '@shared/dom/create-element';
 import {
   JPDBCardState,
@@ -8,6 +8,7 @@ import {
   WordStateCategory,
 } from '@shared/jpdb/types';
 import { toColorString } from '@shared/style-presets/color';
+import { FilterKeys } from '@shared/types';
 
 const observedAttributes = ['value', 'name'] as const;
 
@@ -15,6 +16,7 @@ type ObservedAttributes = (typeof observedAttributes)[number];
 
 const CATEGORY_OPTIONS: { value: WordStateCategory | ''; label: string }[] = [
   { value: '', label: 'None' },
+  { value: WordStateCategory.UNMINED, label: 'Unmined' },
   { value: WordStateCategory.NEW, label: 'New' },
   { value: WordStateCategory.LEARNING, label: 'Learning' },
   { value: WordStateCategory.KNOWN, label: 'Known' },
@@ -23,9 +25,11 @@ const CATEGORY_OPTIONS: { value: WordStateCategory | ''; label: string }[] = [
 const WATCHED_KEYS = [
   'enableStylePresets',
   'baseStylingMode',
+  'jpdbColorNotInDeck',
   'jpdbColorNew',
   'jpdbColorLearning',
   'jpdbColorKnown',
+  'categoryColorUnmined',
   'categoryColorNew',
   'categoryColorLearning',
   'categoryColorKnown',
@@ -33,13 +37,17 @@ const WATCHED_KEYS = [
 
 type WatchedConfig = Pick<ConfigurationSchema, (typeof WATCHED_KEYS)[number]>;
 
-const JPDB_CATEGORY_COLOR_KEYS: Record<WordStateCategory, keyof WatchedConfig> = {
+type ColorKey = FilterKeys<WatchedConfig, PresetColor>;
+
+const JPDB_CATEGORY_COLOR_KEYS: Record<WordStateCategory, ColorKey> = {
+  [WordStateCategory.UNMINED]: 'jpdbColorNotInDeck',
   [WordStateCategory.NEW]: 'jpdbColorNew',
   [WordStateCategory.LEARNING]: 'jpdbColorLearning',
   [WordStateCategory.KNOWN]: 'jpdbColorKnown',
 };
 
-const CATEGORY_COLOR_KEYS: Record<WordStateCategory, keyof WatchedConfig> = {
+const CATEGORY_COLOR_KEYS: Record<WordStateCategory, ColorKey> = {
+  [WordStateCategory.UNMINED]: 'categoryColorUnmined',
   [WordStateCategory.NEW]: 'categoryColorNew',
   [WordStateCategory.LEARNING]: 'categoryColorLearning',
   [WordStateCategory.KNOWN]: 'categoryColorKnown',
@@ -141,7 +149,7 @@ export class HTMLStateCategoryInputElement extends HTMLElement {
     this.buildInput();
     this.renderList();
 
-    this._colorMonitor = ConfigurationMonitor.watch(WATCHED_KEYS, (config) => {
+    this._colorMonitor = ConfigurationMonitor.watch([...WATCHED_KEYS], (config) => {
       this._colorConfig = config;
 
       this.updateSelects();

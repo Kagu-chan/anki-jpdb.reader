@@ -86,6 +86,7 @@ export type ConfigurationSchema = {
   jpdbColorDue: PresetColor;
   jpdbColorFailed: PresetColor;
 
+  categoryColorUnmined: PresetColor;
   categoryColorNew: PresetColor;
   categoryColorLearning: PresetColor;
   categoryColorKnown: PresetColor;

@@ -3,7 +3,11 @@ import { resolveColorRule } from '../color';
 
 type CategoryPresetConfig = Pick<
   ConfigurationSchema,
-  'baseStylingMode' | 'categoryColorNew' | 'categoryColorLearning' | 'categoryColorKnown'
+  | 'baseStylingMode'
+  | 'categoryColorUnmined'
+  | 'categoryColorNew'
+  | 'categoryColorLearning'
+  | 'categoryColorKnown'
 >;
 
 export const categoryPreset = (config: CategoryPresetConfig): string => {
@@ -12,6 +16,7 @@ export const categoryPreset = (config: CategoryPresetConfig): string => {
   }
 
   const rules: [string, PresetColor][] = [
+    ['.jpdb-word.cat-unmined', config.categoryColorUnmined],
     ['.jpdb-word.cat-new', config.categoryColorNew],
     ['.jpdb-word.cat-learning', config.categoryColorLearning],
     ['.jpdb-word.cat-known', config.categoryColorKnown],

@@ -19,6 +19,7 @@ export type InjectConditionalCssConfig = Pick<
   | 'jpdbColorKnown'
   | 'jpdbColorDue'
   | 'jpdbColorFailed'
+  | 'categoryColorUnmined'
   | 'categoryColorNew'
   | 'categoryColorLearning'
   | 'categoryColorKnown'

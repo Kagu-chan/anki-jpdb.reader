@@ -46,7 +46,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   //#region Texthighlighting
 
   stateCategories: {
-    [JPDBCardState.NOT_IN_DECK]: WordStateCategory.NEW,
+    [JPDBCardState.NOT_IN_DECK]: WordStateCategory.UNMINED,
     [JPDBCardState.NEW]: WordStateCategory.NEW,
     [JPDBCardState.LEARNING]: WordStateCategory.LEARNING,
     [JPDBCardState.FAILED]: WordStateCategory.LEARNING,
@@ -77,6 +77,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   jpdbColorDue: { r: 255, g: 69, b: 0 },
   jpdbColorFailed: { r: 255, g: 0, b: 0 },
 
+  categoryColorUnmined: { r: 75, g: 141, b: 255, a: 0.5 },
   categoryColorNew: { r: 75, g: 141, b: 255 },
   categoryColorLearning: { r: 255, g: 69, b: 0 },
   categoryColorKnown: { r: 112, g: 192, b: 0 },

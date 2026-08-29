@@ -8,6 +8,10 @@ export class CardStates {
     return [...new Set(states.map((state) => categories[state]).filter((c) => c !== undefined))];
   }
 
+  public isUnmined(states: JPDBCardState[]): boolean {
+    return this.getCategories(states).includes(WordStateCategory.UNMINED);
+  }
+
   public isNew(states: JPDBCardState[]): boolean {
     return this.getCategories(states).includes(WordStateCategory.NEW);
   }
