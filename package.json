@@ -9,7 +9,7 @@
     "watch": "node scripts/build.mjs --watch",
     "pack": "node scripts/build.mjs --pack",
     "preversion": "eslint src && npm run lint:ff && npm run build",
-    "version": "node scripts/version.mjs && npm run changelog && git add src/manifest.json",
+    "version": "node scripts/verify-changelog.mjs && node scripts/version.mjs && npm run changelog && git add src/manifest.json",
     "postversion": "npm run release",
     "changelog": "tsc changelog/changelog.ts && node scripts/changelog.mjs && git add CHANGELOG.md src/views/changelog.html",
     "release": "node scripts/build.mjs --pack --ff-submission",
