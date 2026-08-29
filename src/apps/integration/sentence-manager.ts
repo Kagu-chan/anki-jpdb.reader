@@ -196,8 +196,7 @@ export class SentenceManager {
   }
 
   protected calculateSentence(sentence: string): void {
-    const { markOnlyFrequent, markFrequency, minSentenceLength, newStates } =
-      Registry.textHighlighterOptions;
+    const { markOnlyFrequent, markFrequency, minSentenceLength } = Registry.textHighlighterOptions;
 
     this._processedSentences.add(sentence);
 
@@ -205,7 +204,7 @@ export class SentenceManager {
     const unknownCards = cards.filter((card) => {
       const states = this._cardToState.get(card)!;
 
-      return states.some((s) => newStates.includes(s));
+      return Registry.cardStates.isNew(states);
     });
 
     let notIPlusOne =

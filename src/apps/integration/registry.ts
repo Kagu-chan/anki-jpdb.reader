@@ -4,6 +4,7 @@ import { BaseParser } from '../parser/base.parser';
 import { PopupManager } from '../popup/popup-manager';
 import { SequenceManager } from '../sequence/sequence-manager';
 import { TextHighlighterOptions } from '../text-highlighter/text-highlighter-options';
+import { CardStates } from './card-state';
 import { EventCollection } from './event-collection';
 import { HostEvaluator } from './host-evaluator';
 import { SentenceManager } from './sentence-manager';
@@ -19,6 +20,7 @@ export class Registry {
   public static readonly sequenceManager = new SequenceManager();
   public static readonly sentenceManager = new SentenceManager();
   public static readonly textHighlighterOptions = new TextHighlighterOptions();
+  public static readonly cardStates = new CardStates();
 
   public static skipTouchEvents = false;
   public static popupManager?: PopupManager;
@@ -32,6 +34,7 @@ export class Registry {
   public static updateCard(vid: number, sid: number, state: JPDBCardState[]): void {
     const card = this.getCard(vid, sid);
     const managedStates = Object.values(JPDBCardState);
+    const categories = this.cardStates.getCategories(state).map((category) => `cat-${category}`);
 
     if (!card) {
       return;
@@ -41,10 +44,10 @@ export class Registry {
 
     document.querySelectorAll(`[vid="${vid}"][sid="${sid}"]`).forEach((element) => {
       const classes = Array.from(element.classList).filter(
-        (x) => !managedStates.includes(x as JPDBCardState),
+        (x) => !managedStates.includes(x as JPDBCardState) && !x.startsWith('cat-'),
       );
 
-      classes.push(...state);
+      classes.push(...state, ...categories);
       element.classList.value = classes.join(' ');
     });
 

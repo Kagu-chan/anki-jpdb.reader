@@ -1,5 +1,6 @@
 import { ConfigurationMonitor } from '@shared/configuration/configuration-monitor';
 import { ConfigurationSchema } from '@shared/configuration/types';
+import { StateCategories } from '@shared/jpdb/types';
 
 export class TextHighlighterOptions {
   public readonly initialized = ConfigurationMonitor.watch(
@@ -12,7 +13,7 @@ export class TextHighlighterOptions {
       'markIPlus1',
       'minSentenceLength',
       'markOnlyFrequent',
-      'newStates',
+      'stateCategories',
     ],
     (values) => {
       this.configuration = values;
@@ -30,7 +31,7 @@ export class TextHighlighterOptions {
     | 'markIPlus1'
     | 'minSentenceLength'
     | 'markOnlyFrequent'
-    | 'newStates'
+    | 'stateCategories'
   >;
 
   public get skipFurigana(): boolean {
@@ -65,7 +66,7 @@ export class TextHighlighterOptions {
     return this.configuration?.minSentenceLength ?? 3;
   }
 
-  public get newStates(): string[] {
-    return this.configuration?.newStates ?? [];
+  public get stateCategories(): StateCategories {
+    return this.configuration?.stateCategories ?? {};
   }
 }

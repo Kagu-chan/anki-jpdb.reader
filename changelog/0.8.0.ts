@@ -15,7 +15,8 @@ export const _080: ChangelogEntry[] = [
   },
   {
     type: 'add',
-    description: 'Added the option to choose which card states are considered new.',
+    description:
+      'Added the option to classify card states into New, Learning, and Known categories.',
     category: Category.Texthighlighter,
     issue: 'N/A',
   },
@@ -108,7 +109,7 @@ export const _080: ChangelogEntry[] = [
     type: 'change',
     description:
       'Updated documentation for the current set of automatically parsed apps and sites.',
-    category: [Category.Hosts, Category.Documentation],
+    category: Category.Documentation,
     issue: 'N/A',
   },
 ];

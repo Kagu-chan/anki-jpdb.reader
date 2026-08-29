@@ -620,7 +620,7 @@ export class TextHighlighter extends BaseTextHighlighter {
   }
 
   protected patchElement(element: HTMLElement, token: JPDBToken | undefined): void {
-    const { skipFurigana, markFrequency, markAll, generatePitch, markIPlus1, newStates } =
+    const { skipFurigana, markFrequency, markAll, generatePitch, markIPlus1 } =
       Registry.textHighlighterOptions;
     const { card, pitchClass, sentence } = token ?? {};
 
@@ -642,11 +642,16 @@ export class TextHighlighter extends BaseTextHighlighter {
     if (card) {
       Registry.addCard(card);
 
-      element.classList.add('jpdb-word', ...card.cardState);
+      const categories = Registry.cardStates.getCategories(card.cardState);
+
+      element.classList.add(
+        'jpdb-word',
+        ...card.cardState,
+        ...categories.map((category) => `cat-${category}`),
+      );
 
       if (markFrequency && card.frequencyRank && card.frequencyRank <= markFrequency) {
-        const states = card.cardState;
-        const isNew = states.some((s) => newStates.includes(s));
+        const isNew = Registry.cardStates.isNew(card.cardState);
 
         if (markAll || isNew) {
           element.classList.add('frequent');

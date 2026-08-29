@@ -1,4 +1,4 @@
-import { JPDBCardState } from '../jpdb/types';
+import { JPDBCardState, WordStateCategory } from '../jpdb/types';
 import { ConfigurationSchema } from './types';
 
 export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
@@ -45,7 +45,14 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   //#endregion
   //#region Texthighlighting
 
-  newStates: [JPDBCardState.NOT_IN_DECK, JPDBCardState.NEW],
+  stateCategories: {
+[JPDBCardState.NOT_IN_DECK]: WordStateCategory.NEW,
+    [JPDBCardState.NEW]: WordStateCategory.NEW,
+    [JPDBCardState.LEARNING]: WordStateCategory.LEARNING,
+    [JPDBCardState.FAILED]: WordStateCategory.LEARNING,
+    [JPDBCardState.KNOWN]: WordStateCategory.KNOWN,
+    [JPDBCardState.NEVER_FORGET]: WordStateCategory.KNOWN,
+  },
 
   markTopX: false,
   markAllTypes: false,
