@@ -13,17 +13,19 @@ import { JPDBDeck } from '@shared/jpdb/types';
 import { FetchDecksCommand } from '@shared/messages/background/fetch-decks.command';
 import { ConfigurationUpdatedCommand } from '@shared/messages/broadcast/configuration-updated.command';
 import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
+import { HTMLColorInputElement } from './elements/html-color-input-element';
 import { HTMLFeaturesInputElement } from './elements/html-features-input-element';
 import { HTMLKeybindInputElement } from './elements/html-keybind-input-element';
 import { HTMLMiningInputElement } from './elements/html-mining-input-element';
-import { HTMLNewStateInputElement } from './elements/html-new-state-input-element';
 import { HTMLParsersInputElement } from './elements/html-parsers-input-element';
+import { HTMLStateCategoryInputElement } from './elements/html-state-category-input-element';
 
 customElements.define('mining-input', HTMLMiningInputElement);
 customElements.define('keybind-input', HTMLKeybindInputElement);
 customElements.define('parsers-input', HTMLParsersInputElement);
 customElements.define('features-input', HTMLFeaturesInputElement);
-customElements.define('new-state-input', HTMLNewStateInputElement);
+customElements.define('state-category-input', HTMLStateCategoryInputElement);
+customElements.define('color-input', HTMLColorInputElement);
 
 const localConfiguration = new Map<
   keyof ConfigurationSchema,
@@ -222,6 +224,8 @@ withElements('[data-show]', (element) => {
    * - myProperty
    * - !myProperty
    * - myProperty['includeString']
+   * - myProperty = 'someValue'
+   * - myProperty != 'someValue'
    * - myProperty && !myOtherProperty
    * - myProperty || myOtherProperty
    * - (myProperty && myOtherProperty) || !myThirdProperty
@@ -231,7 +235,8 @@ withElements('[data-show]', (element) => {
     Array.from(
       new Set(
         attributeValue
-          ?.match(/(\w+(\['[^']+'\])?)/g)
+          ?.replace(/'[^']*'/g, '')
+          .match(/(\w+(\['[^']+'\])?)/g)
           ?.map((field) => field.replace(/\['[^']+'\]/g, '').trim())
           .filter(Boolean),
       ),
@@ -267,11 +272,14 @@ function updateBindings(key: keyof ConfigurationSchema): void {
 function parseCondition(expr: string): boolean {
   // Tokenize
   const tokens = expr
-    .replace(/([()!])/g, ' $1 ')
+    .replace(/!=/g, ' != ')
+    .replace(/([()])/g, ' $1 ')
+    .replace(/!(?!=)/g, ' ! ')
+    .replace(/(?<!!)=/g, ' = ')
     .replace(/&&/g, ' && ')
     .replace(/\|\|/g, ' || ')
-    .split(/\s+/)
-    .filter(Boolean);
+    .match(/'[^']*'|\S+/g)
+    ?.filter(Boolean) ?? [];
 
   let pos = 0;
 
@@ -283,7 +291,15 @@ function parseCondition(expr: string): boolean {
     return tokens[pos++];
   }
 
-  function parsePrimary(): boolean {
+  function toBoolean(value: string | boolean): boolean {
+    if (typeof value === 'boolean') {
+      return value;
+    }
+
+    return value.length > 0;
+  }
+
+  function parseAtom(): string | boolean {
     const token = peek();
 
     if (token === '(') {
@@ -300,13 +316,17 @@ function parseCondition(expr: string): boolean {
 
     if (token === '!') {
       next(); // consume '!'
-      const value = parsePrimary();
+      const value = parseAtom();
 
-      return !value;
+      return !toBoolean(value);
     }
 
     // Load and validate configuration key
     next(); // consume and shift pointer
+
+    if (/^'[^']*'$/.test(token)) {
+      return token.slice(1, -1);
+    }
 
     const match = /^(\w+)(\['([^']+)'\])?$/.exec(token);
     // match will contain [ entire match, key, full prop access (if any), prop (if any) ] - key replaces token
@@ -324,23 +344,29 @@ function parseCondition(expr: string): boolean {
       value = (value as string[]).includes(prop);
     }
 
-    if (typeof value === 'boolean') {
-      return value;
+    return value as string | boolean;
+  }
+
+  function parseComparison(): boolean {
+    const left = parseAtom();
+    const operator = peek();
+
+    if (operator === '=' || operator === '!=') {
+      next();
+      const right = parseAtom();
+
+      return operator === '=' ? left === right : left !== right;
     }
 
-    if (typeof value === 'string') {
-      return value?.length > 0;
-    }
-
-    return !!value;
+    return toBoolean(left);
   }
 
   function parseAnd(): boolean {
-    let value = parsePrimary();
+    let value = parseComparison();
 
     while (peek() === '&&') {
       next();
-      const comperand = parsePrimary(); // While left side may already be false, right side needs to be evaluated to be consumed correctly
+      const comperand = parseComparison(); // While left side may already be false, right side needs to be evaluated to be consumed correctly
 
       value = value && comperand;
     }
@@ -417,7 +443,7 @@ function withFields(cb: (field: HTMLInputElement) => Promise<void>, afterAll?: (
   const promises = [] as Promise<void>[];
 
   withElements(
-    'input, textarea, select, keybind-input, parsers-input, features-input, new-state-input',
+    'input, textarea, select, keybind-input, parsers-input, features-input, state-category-input, color-input',
     (field: HTMLInputElement) => {
       const internal = field.hasAttribute('internal');
       const ignored = ['hidden', 'submit', 'button'];

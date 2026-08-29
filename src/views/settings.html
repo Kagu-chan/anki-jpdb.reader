@@ -421,11 +421,16 @@
           <div class="form-box-parent">
             <div class="form-box">
               <p style="opacity: 0.8; padding-top: 0.5em">
-                Select the card states considered new cards - those are used to evaluate the options
-                below.
+                Assign each card state to a category. Those are used to evaluate the options below,
+                and word-styling features can target a category instead of individual card states.
               </p>
 
-              <div>              </div>
+              <div>
+                <state-category-input
+                  id="stateCategories"
+                  name="stateCategories"
+                ></state-category-input>
+              </div>
             </div>
           </div>
 
@@ -547,6 +552,322 @@
                   </div>
                 </div>
               </details>
+            </div>
+          </div>
+
+          <div class="form-box-parent">
+            <div class="form-box">
+              <div>
+                <div class="checkbox">
+                  <input type="checkbox" id="enableStylePresets" name="enableStylePresets" />
+                  <label for="enableStylePresets">Enable style presets</label>
+                </div>
+                <div style="opacity: 0.8" indent up>
+                  Enables the presets below that control how words and furigana are styled.
+                </div>
+
+                <div data-show="enableStylePresets" indent down>
+                  <div class="checkbox">
+                    <input type="checkbox" id="highlightMisparsed" name="highlightMisparsed" />
+                    <label for="highlightMisparsed">Highlight misparsed words</label>
+                  </div>
+                </div>
+
+                <div data-show="enableStylePresets && generatePitch" indent>
+                  <div data-show="generatePitch" class="checkbox">
+                    <input type="checkbox" id="highlightPitchAccent" name="highlightPitchAccent" />
+                    <label for="highlightPitchAccent">Highlight pitch accent patterns</label>
+                  </div>
+                </div>
+
+                <div data-show="enableStylePresets" indent>
+                  <div class="table-box dense">
+                    <div class="row">
+                      <div class="col flex-col">
+                        <label for="baseStylingMode">Base Style</label>
+                      </div>
+                      <div class="col">
+                        <select id="baseStylingMode" name="baseStylingMode">
+                          <option value="jpdb">JPDB (mpv plugin colors)</option>
+                          <option value="category">Category (new / learning / known)</option>
+                          <option value="none">None</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div data-show="!skipFurigana" class="row">
+                      <div class="col flex-col">
+                        <label for="furiganaNewWords">Furigana on new words</label>
+                      </div>
+                      <div class="col">
+                        <select id="furiganaNewWords" name="furiganaNewWords">
+                          <option value="always">Always</option>
+                          <option value="hover">On hover</option>
+                          <option value="never">Never</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div data-show="!skipFurigana" class="row">
+                      <div class="col flex-col">
+                        <label for="furiganaLearningWords">Furigana on learning words</label>
+                      </div>
+                      <div class="col">
+                        <select id="furiganaLearningWords" name="furiganaLearningWords">
+                          <option value="always">Always</option>
+                          <option value="hover">On hover</option>
+                          <option value="never">Never</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div data-show="!skipFurigana" class="row">
+                      <div class="col flex-col">
+                        <label for="furiganaKnownWords">Furigana on known words</label>
+                      </div>
+                      <div class="col">
+                        <select id="furiganaKnownWords" name="furiganaKnownWords">
+                          <option value="always">Always</option>
+                          <option value="hover">On hover</option>
+                          <option value="never">Never</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  data-show="enableStylePresets && (baseStylingMode != 'none' || markTopX || markIPlus1 || highlightMisparsed || (generatePitch && highlightPitchAccent))"
+                  indent
+                >
+                  <div class="table-box dense">
+                    <div data-show="baseStylingMode = 'jpdb'" style="display: contents">
+                      <div class="row">
+                        <div class="col flex-col">
+                          <label for="jpdbColorNotInDeck">JPDB: Not in deck</label>
+                        </div>
+                        <div class="col flex-col">
+                          <color-input
+                            id="jpdbColorNotInDeck"
+                            name="jpdbColorNotInDeck"
+                          ></color-input>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col flex-col">
+                          <label for="jpdbColorNew">JPDB: New</label>
+                        </div>
+                        <div class="col flex-col">
+                          <color-input id="jpdbColorNew" name="jpdbColorNew"></color-input>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col flex-col">
+                          <label for="jpdbColorLearning">JPDB: Learning</label>
+                        </div>
+                        <div class="col flex-col">
+                          <color-input
+                            id="jpdbColorLearning"
+                            name="jpdbColorLearning"
+                          ></color-input>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col flex-col">
+                          <label for="jpdbColorKnown">JPDB: Known</label>
+                        </div>
+                        <div class="col flex-col">
+                          <color-input id="jpdbColorKnown" name="jpdbColorKnown"></color-input>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col flex-col">
+                          <label for="jpdbColorDue">JPDB: Due</label>
+                        </div>
+                        <div class="col flex-col">
+                          <color-input id="jpdbColorDue" name="jpdbColorDue"></color-input>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col flex-col">
+                          <label for="jpdbColorFailed">JPDB: Failed</label>
+                        </div>
+                        <div class="col flex-col">
+                          <color-input id="jpdbColorFailed" name="jpdbColorFailed"></color-input>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col flex-col">
+                          <label for="jpdbColorLocked">JPDB: Locked</label>
+                        </div>
+                        <div class="col flex-col">
+                          <color-input id="jpdbColorLocked" name="jpdbColorLocked"></color-input>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col flex-col">
+                          <label for="jpdbColorNeverForget">JPDB: Never forget</label>
+                        </div>
+                        <div class="col flex-col">
+                          <color-input
+                            id="jpdbColorNeverForget"
+                            name="jpdbColorNeverForget"
+                          ></color-input>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col flex-col">
+                          <label for="jpdbColorSuspended">JPDB: Suspended</label>
+                        </div>
+                        <div class="col flex-col">
+                          <color-input
+                            id="jpdbColorSuspended"
+                            name="jpdbColorSuspended"
+                          ></color-input>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col flex-col">
+                          <label for="jpdbColorBlacklisted">JPDB: Blacklisted</label>
+                        </div>
+                        <div class="col flex-col">
+                          <color-input
+                            id="jpdbColorBlacklisted"
+                            name="jpdbColorBlacklisted"
+                          ></color-input>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div data-show="baseStylingMode = 'category'" style="display: contents">
+                      <div class="row">
+                        <div class="col flex-col">
+                          <label for="categoryColorNew">Category: New</label>
+                        </div>
+                        <div class="col flex-col">
+                          <color-input id="categoryColorNew" name="categoryColorNew"></color-input>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col flex-col">
+                          <label for="categoryColorLearning">Category: Learning</label>
+                        </div>
+                        <div class="col flex-col">
+                          <color-input
+                            id="categoryColorLearning"
+                            name="categoryColorLearning"
+                          ></color-input>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col flex-col">
+                          <label for="categoryColorKnown">Category: Known</label>
+                        </div>
+                        <div class="col flex-col">
+                          <color-input
+                            id="categoryColorKnown"
+                            name="categoryColorKnown"
+                          ></color-input>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div data-show="markTopX" class="row">
+                      <div class="col flex-col">
+                        <label for="frequentColor">Frequent Word Highlight</label>
+                      </div>
+                      <div class="col flex-col">
+                        <color-input id="frequentColor" name="frequentColor"></color-input>
+                      </div>
+                    </div>
+
+                    <div data-show="markIPlus1" class="row">
+                      <div class="col flex-col">
+                        <label for="iPlusOneColor">I+1 Word Highlight</label>
+                      </div>
+                      <div class="col flex-col">
+                        <color-input id="iPlusOneColor" name="iPlusOneColor"></color-input>
+                      </div>
+                    </div>
+
+                    <div data-show="highlightMisparsed" class="row">
+                      <div class="col flex-col">
+                        <label for="misparsedColor">Misparsed Word Highlight</label>
+                      </div>
+                      <div class="col flex-col">
+                        <color-input id="misparsedColor" name="misparsedColor"></color-input>
+                      </div>
+                    </div>
+
+                    <div
+                      data-show="generatePitch && highlightPitchAccent"
+                      style="display: contents"
+                    >
+                      <div class="row">
+                        <div class="col flex-col">
+                          <label for="pitchColorHeiban">Pitch Accent: Heiban</label>
+                        </div>
+                        <div class="col flex-col">
+                          <color-input id="pitchColorHeiban" name="pitchColorHeiban"></color-input>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col flex-col">
+                          <label for="pitchColorAtamadaka">Pitch Accent: Atamadaka</label>
+                        </div>
+                        <div class="col flex-col">
+                          <color-input
+                            id="pitchColorAtamadaka"
+                            name="pitchColorAtamadaka"
+                          ></color-input>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col flex-col">
+                          <label for="pitchColorNakadaka">Pitch Accent: Nakadaka</label>
+                        </div>
+                        <div class="col flex-col">
+                          <color-input
+                            id="pitchColorNakadaka"
+                            name="pitchColorNakadaka"
+                          ></color-input>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col flex-col">
+                          <label for="pitchColorOdaka">Pitch Accent: Odaka</label>
+                        </div>
+                        <div class="col flex-col">
+                          <color-input id="pitchColorOdaka" name="pitchColorOdaka"></color-input>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col flex-col">
+                          <label for="pitchColorKifuku">Pitch Accent: Kifuku</label>
+                        </div>
+                        <div class="col flex-col">
+                          <color-input id="pitchColorKifuku" name="pitchColorKifuku"></color-input>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

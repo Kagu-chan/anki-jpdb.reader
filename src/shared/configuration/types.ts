@@ -3,6 +3,20 @@ import { StateCategories } from '../jpdb/types';
 
 export type Keybind = { key: string; code: string; modifiers: string[] };
 export type Keybinds = Keybind | [Keybind?, Keybind?];
+
+export type PresetColor = { r?: number; g?: number; b?: number; a?: number; style?: string };
+
+export enum BaseStylingMode {
+  JPDB = 'jpdb',
+  CATEGORY = 'category',
+  NONE = 'none',
+}
+
+export enum FuriganaVisibility {
+  ALWAYS = 'always',
+  HOVER = 'hover',
+  NEVER = 'never',
+}
 export type ConfigurationSchema = {
   schemaVersion: number;
 
@@ -57,6 +71,41 @@ export type ConfigurationSchema = {
   markOnlyFrequent: boolean;
   skipFurigana: boolean;
   generatePitch: boolean;
+
+  enableStylePresets: boolean;
+  baseStylingMode: BaseStylingMode;
+
+  jpdbColorLocked: PresetColor;
+  jpdbColorSuspended: PresetColor;
+  jpdbColorBlacklisted: PresetColor;
+  jpdbColorNeverForget: PresetColor;
+  jpdbColorNotInDeck: PresetColor;
+  jpdbColorNew: PresetColor;
+  jpdbColorLearning: PresetColor;
+  jpdbColorKnown: PresetColor;
+  jpdbColorDue: PresetColor;
+  jpdbColorFailed: PresetColor;
+
+  categoryColorNew: PresetColor;
+  categoryColorLearning: PresetColor;
+  categoryColorKnown: PresetColor;
+
+  frequentColor: PresetColor;
+  iPlusOneColor: PresetColor;
+  misparsedColor: PresetColor;
+
+  pitchColorHeiban: PresetColor;
+  pitchColorAtamadaka: PresetColor;
+  pitchColorNakadaka: PresetColor;
+  pitchColorOdaka: PresetColor;
+  pitchColorKifuku: PresetColor;
+
+  furiganaNewWords: FuriganaVisibility;
+  furiganaLearningWords: FuriganaVisibility;
+  furiganaKnownWords: FuriganaVisibility;
+
+  highlightMisparsed: boolean;
+  highlightPitchAccent: boolean;
 
   customWordCSS: string;
 

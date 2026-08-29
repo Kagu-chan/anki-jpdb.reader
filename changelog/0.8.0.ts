@@ -112,4 +112,23 @@ export const _080: ChangelogEntry[] = [
     category: Category.Documentation,
     issue: 'N/A',
   },
+  {
+    type: 'add',
+    description:
+      'Added configurable style presets for word coloring, frequent/i+1/misparsed/pitch-accent highlighting.',
+    category: Category.Texthighlighter,
+    issue: 143,
+  },
+  {
+    type: 'add',
+    description: 'Added per-category (New/Learning/Known) furigana visibility settings.',
+    category: Category.Texthighlighter,
+    issue: 'N/A',
+  },
+  {
+    type: 'add',
+    description: 'Added the ability to customize every word/furigana style preset color.',
+    category: Category.Settings,
+    issue: 'N/A',
+  },
 ];

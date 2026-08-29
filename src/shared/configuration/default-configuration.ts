@@ -1,5 +1,5 @@
 import { JPDBCardState, WordStateCategory } from '../jpdb/types';
-import { ConfigurationSchema } from './types';
+import { BaseStylingMode, ConfigurationSchema, FuriganaVisibility } from './types';
 
 export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   schemaVersion: 1,
@@ -46,7 +46,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   //#region Texthighlighting
 
   stateCategories: {
-[JPDBCardState.NOT_IN_DECK]: WordStateCategory.NEW,
+    [JPDBCardState.NOT_IN_DECK]: WordStateCategory.NEW,
     [JPDBCardState.NEW]: WordStateCategory.NEW,
     [JPDBCardState.LEARNING]: WordStateCategory.LEARNING,
     [JPDBCardState.FAILED]: WordStateCategory.LEARNING,
@@ -62,6 +62,77 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   markOnlyFrequent: false,
   skipFurigana: false,
   generatePitch: false,
+
+  enableStylePresets: true,
+  baseStylingMode: BaseStylingMode.JPDB,
+
+  jpdbColorLocked: { r: 119, g: 119, b: 119 },
+  jpdbColorSuspended: { r: 119, g: 119, b: 119 },
+  jpdbColorBlacklisted: { r: 119, g: 119, b: 119 },
+  jpdbColorNeverForget: { r: 112, g: 192, b: 0 },
+  jpdbColorNotInDeck: { r: 75, g: 141, b: 255, a: 0.5 },
+  jpdbColorNew: { r: 75, g: 141, b: 255 },
+  jpdbColorLearning: { r: 94, g: 167, b: 128 },
+  jpdbColorKnown: { r: 112, g: 192, b: 0 },
+  jpdbColorDue: { r: 255, g: 69, b: 0 },
+  jpdbColorFailed: { r: 255, g: 0, b: 0 },
+
+  categoryColorNew: { r: 75, g: 141, b: 255 },
+  categoryColorLearning: { r: 255, g: 69, b: 0 },
+  categoryColorKnown: { r: 112, g: 192, b: 0 },
+
+  frequentColor: { r: 75, g: 141, b: 127 },
+  iPlusOneColor: {
+    r: 53,
+    g: 158,
+    b: 255,
+    style:
+      'text-shadow: 0 2px 6px ${color}, 0 4px 12px ${color}; transition: text-shadow 0.3s ease-in-out;',
+  },
+  misparsedColor: {
+    r: 255,
+    g: 0,
+    b: 0,
+    style: 'color: ${color}; background-color: lightgray;',
+  },
+
+  pitchColorHeiban: {
+    r: 53,
+    g: 158,
+    b: 255,
+    style: 'text-decoration: underline; text-decoration-color: ${color};',
+  },
+  pitchColorAtamadaka: {
+    r: 254,
+    g: 75,
+    b: 116,
+    style: 'text-decoration: underline; text-decoration-color: ${color};',
+  },
+  pitchColorNakadaka: {
+    r: 251,
+    g: 168,
+    b: 64,
+    style: 'text-decoration: underline; text-decoration-color: ${color};',
+  },
+  pitchColorOdaka: {
+    r: 87,
+    g: 204,
+    b: 183,
+    style: 'text-decoration: underline; text-decoration-color: ${color};',
+  },
+  pitchColorKifuku: {
+    r: 144,
+    g: 80,
+    b: 246,
+    style: 'text-decoration: underline; text-decoration-color: ${color};',
+  },
+
+  furiganaNewWords: FuriganaVisibility.ALWAYS,
+  furiganaLearningWords: FuriganaVisibility.HOVER,
+  furiganaKnownWords: FuriganaVisibility.NEVER,
+
+  highlightMisparsed: true,
+  highlightPitchAccent: true,
 
   customWordCSS: '',
 

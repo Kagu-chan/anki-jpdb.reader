@@ -5,6 +5,7 @@ import { openOptionsPage } from '@shared/extension/open-options-page';
 import { MessageSender } from '@shared/extension/types';
 import { ParseCommand } from '@shared/messages/background/parse.command';
 import { ToastCommand } from '@shared/messages/foreground/toast.command';
+import { computeWordCss } from '@shared/style-presets/compute-word-css';
 import { BackgroundCommandHandler } from '../lib/background-command-handler';
 import { ParseController } from './parse.controller';
 
@@ -33,9 +34,45 @@ export class ParseCommandHandler extends BackgroundCommandHandler<ParseCommand> 
       return;
     }
 
-    ConfigurationMonitor.watch(['customWordCSS'], async ({ customWordCSS }) => {
-      await injectStyle(sender.tab!.id!, 'word', customWordCSS ?? '');
-    });
+    ConfigurationMonitor.watch(
+      [
+        'markTopX',
+        'frequentColor',
+        'markIPlus1',
+        'iPlusOneColor',
+        'customWordCSS',
+        'enableStylePresets',
+        'baseStylingMode',
+        'jpdbColorLocked',
+        'jpdbColorSuspended',
+        'jpdbColorBlacklisted',
+        'jpdbColorNeverForget',
+        'jpdbColorNotInDeck',
+        'jpdbColorNew',
+        'jpdbColorLearning',
+        'jpdbColorKnown',
+        'jpdbColorDue',
+        'jpdbColorFailed',
+        'categoryColorNew',
+        'categoryColorLearning',
+        'categoryColorKnown',
+        'highlightMisparsed',
+        'misparsedColor',
+        'highlightPitchAccent',
+        'pitchColorHeiban',
+        'pitchColorAtamadaka',
+        'pitchColorNakadaka',
+        'pitchColorOdaka',
+        'pitchColorKifuku',
+        'furiganaNewWords',
+        'furiganaLearningWords',
+        'furiganaKnownWords',
+        'skipFurigana',
+      ],
+      async (config) => {
+        await injectStyle(sender.tab!.id!, 'word', computeWordCss(config));
+      },
+    );
 
     this._parseController.parseSequences(sender, data);
   }
