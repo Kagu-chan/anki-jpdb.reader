@@ -7,6 +7,7 @@ import { displayToast } from '@shared/dom/display-toast';
 import { findElement } from '@shared/dom/find-element';
 import { withElement } from '@shared/dom/with-element';
 import { withElements } from '@shared/dom/with-elements';
+import { getVersion } from '@shared/extension/get-version';
 import { ping } from '@shared/jpdb/ping';
 import { JPDBDeck } from '@shared/jpdb/types';
 import { FetchDecksCommand } from '@shared/messages/background/fetch-decks.command';
@@ -42,6 +43,8 @@ const jpdbDeckFields = new Map<HTMLSelectElement, string>();
 let suppressChangeNotifications = false;
 
 //#region Init Interactions
+
+findElement('#version').innerText = `v${getVersion()}`;
 
 withFields(async (field: HTMLInputElement) => {
   await loadField(field);

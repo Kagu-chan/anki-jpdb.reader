@@ -47,6 +47,10 @@ body {
 
     a {
       cursor: pointer;
+
+      #changelog-version {
+        opacity: 0.6;
+      }
     }
   }
 }

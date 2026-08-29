@@ -2,6 +2,7 @@ import { getConfiguration } from '@shared/configuration/get-configuration';
 import { appendElement } from '@shared/dom/append-element';
 import { onLoaded } from '@shared/dom/on-loaded';
 import { getTabs } from '@shared/extension/get-tabs';
+import { getVersion } from '@shared/extension/get-version';
 import { openOptionsPage } from '@shared/extension/open-options-page';
 import { openView } from '@shared/extension/open-view';
 import { isDisabled } from '@shared/host-meta/is-disabled';
@@ -11,6 +12,8 @@ onLoaded(async () => {
   document.getElementById('settings')?.addEventListener('click', () => {
     void openOptionsPage();
   });
+
+  document.getElementById('changelog-version')!.innerText = `(v${getVersion()})`;
 
   document.getElementById('changelog')?.addEventListener('click', () => {
     void openView('changelog');
