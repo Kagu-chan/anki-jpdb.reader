@@ -29,7 +29,10 @@ class MokuroMangaPanel {
   /**
    * Mokuro fully replaces the panel's content (page image + text boxes) with fresh elements on
    * every page turn instead of mutating them in place, while `this._panel` itself stays mounted -
-   * so a childList/subtree observer on the panel is what reliably signals a page change.
+   * so a childList observer on the panel is what reliably signals a page change. This must stay
+   * non-subtree: our own highlighting mutates nodes nested inside the page divs (never the
+   * panel's own child list), so observing the subtree would also fire on our own highlighting
+   * writes and cancel/restart an in-flight parse against itself.
    */
   private setupPanelObserver(): void {
     this._panelObserver = new MutationObserver(() => {
@@ -40,7 +43,7 @@ class MokuroMangaPanel {
 
     this._panelObserver.observe(this._panel, {
       childList: true,
-      subtree: true,
+      subtree: false,
     });
   }
 
@@ -115,7 +118,7 @@ class MokuroMangaPanel {
 /**
  * Mokuro only adds or removes one element we can properly observe, which is the manga panel.
  * The manga panel contains everything we need to read text from the page, but is replaced
- * wholesale on every page turn, so a childList/subtree observer on it is what signals a page change.
+ * wholesale on every page turn, so a childList observer on it is what signals a page change.
  *
  * For this the `MokuroParser` serves as a controller instance for `MokuroMangaPanel` instances,
  * of which there should theoretically only be one.
