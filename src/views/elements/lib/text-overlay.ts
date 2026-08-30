@@ -4,7 +4,7 @@ import { findElement } from '@shared/dom/find-element';
 
 export const showTextOverlay = (host: HTMLElement, title: string, content: string): void => {
   const backdrop = createElement('div', {
-    class: 'backdrop',
+    class: ['backdrop', 'is-open'],
     attributes: {
       role: 'dialog',
       'aria-modal': 'true',
@@ -17,7 +17,7 @@ export const showTextOverlay = (host: HTMLElement, title: string, content: strin
   host.appendChild(backdrop);
 
   const overlay = createElement('div', {
-    class: 'overlay',
+    class: ['overlay', 'is-open'],
     children: [
       {
         tag: 'div',
@@ -45,8 +45,14 @@ export const showTextOverlay = (host: HTMLElement, title: string, content: strin
         ],
       },
       {
-        tag: 'pre',
-        innerText: content,
+        tag: 'div',
+        class: 'overlay-body',
+        children: [
+          {
+            tag: 'pre',
+            innerText: content,
+          },
+        ],
       },
     ],
   });

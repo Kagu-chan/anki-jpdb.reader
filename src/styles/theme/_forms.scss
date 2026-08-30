@@ -1,5 +1,6 @@
 @use 'sass:map';
 @use '../variables/_colors' as colors;
+@use 'lib/_patterns';
 
 .button,
 button,
@@ -188,6 +189,113 @@ input[type='radio'] {
 
 form > .checkbox:first-child {
   margin-top: 0.5em;
+}
+
+// Compact on/off control for enabling/disabling one part of a bigger control (e.g. one field
+// of a picker), as an alternative to the boxy default `input[type='checkbox']` above.
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  cursor: pointer;
+  font-size: 0.82em;
+  opacity: 0.75;
+  user-select: none;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    margin: 0;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  .track {
+    width: 2.1em;
+    height: 1.2em;
+    border-radius: 1em;
+    background-color: map.get(colors.$inputs, checkbox-background-color);
+    border: 1px solid map.get(colors.$inputs, checkbox-border-color);
+    position: relative;
+    flex-shrink: 0;
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0.1em;
+      left: 0.1em;
+      width: 0.9em;
+      height: 0.9em;
+      border-radius: 50%;
+      background-color: map.get(colors.$surfaces, border-color);
+      transition:
+        transform 0.15s ease,
+        background-color 0.15s ease;
+    }
+  }
+
+  input:checked + .track {
+    background-color: rgba(map.get(colors.$inputs, checkbox-color), 0.16);
+    border-color: map.get(colors.$inputs, checkbox-color);
+
+    &::after {
+      transform: translateX(0.9em);
+      background-color: map.get(colors.$inputs, checkbox-color);
+    }
+  }
+
+  input:focus-visible + .track {
+    outline: 2px solid map.get(colors.$inputs, checkbox-color);
+    outline-offset: 2px;
+  }
+}
+
+// Native range slider, restyled to match the rest of the input palette. `.checker-track`
+// layers the checkerboard behind a slider's own background-image (e.g. an alpha gradient).
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 0.9em;
+  width: 100%;
+  border-radius: 0.45em;
+  border: 1px solid map.get(colors.$surfaces, border-soft-color);
+  background-color: map.get(colors.$inputs, input-background-color);
+  margin-bottom: 0;
+
+  &.checker-track {
+    @include patterns.checker-pattern(10px);
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 1.05em;
+    height: 1.05em;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 2px solid map.get(colors.$surfaces, raised-color);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4);
+  }
+
+  &::-moz-range-thumb {
+    width: 1.05em;
+    height: 1.05em;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 2px solid map.get(colors.$surfaces, raised-color);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4);
+  }
+
+  &:focus-visible {
+    outline: 2px solid map.get(colors.$inputs, checkbox-color);
+    outline-offset: 2px;
+  }
 }
 
 .checkbox {

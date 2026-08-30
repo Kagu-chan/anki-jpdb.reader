@@ -1,0 +1,236 @@
+@use 'sass:map';
+@use '@styles/variables/_colors' as colors;
+@use '@styles/theme/lib/_patterns' as patterns;
+
+color-input {
+  display: flex;
+  justify-content: flex-end;
+
+  .swatch-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    background-color: map.get(colors.$surfaces, inset-color);
+    border: 1px solid map.get(colors.$inputs, input-border-color);
+    border-radius: 0.5em;
+    padding: 0.4em 0.7em 0.4em 0.4em;
+    cursor: pointer;
+    font-family: monospace;
+    font-size: 0.82em;
+    color: map.get(colors.$surfaces, muted-text-color);
+    transition:
+      border-color 0.15s ease,
+      background-color 0.15s ease;
+
+    &:hover {
+      border-color: map.get(colors.$inputs, input-focused-border-color);
+      background-color: map.get(colors.$surfaces, inset-hover-color);
+    }
+
+    &:focus-visible {
+      outline: 2px solid map.get(colors.$inputs, input-focused-border-color);
+      outline-offset: 2px;
+    }
+  }
+
+  .swatch {
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 0.4em;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    flex-shrink: 0;
+    position: relative;
+    @include patterns.checker-pattern(8px);
+
+    .fill {
+      position: absolute;
+      inset: 0;
+      border-radius: 0.35em;
+    }
+
+    .style-badge {
+      position: absolute;
+      bottom: -0.3em;
+      right: -0.3em;
+      width: 0.85em;
+      height: 0.85em;
+      border-radius: 0.2em;
+      background-color: map.get(colors.$inputs, checkbox-color);
+      color: #fff;
+      font-size: 0.55em;
+      line-height: 0.85em;
+      text-align: center;
+      box-shadow: 0 0 0 2px map.get(colors.$surfaces, inset-color);
+    }
+  }
+
+  .swatch-hex.is-empty {
+    color: map.get(colors.$surfaces, dim-text-color);
+    font-style: italic;
+  }
+}
+
+// Rendered detached from `<color-input>` itself, appended to <body> like every other overlay.
+
+.color-picker-overlay {
+  .sv-square {
+    width: 100%;
+    aspect-ratio: 1.5 / 1;
+    border-radius: 0.5em;
+    border: 1px solid map.get(colors.$surfaces, border-soft-color);
+    position: relative;
+    cursor: crosshair;
+    overflow: hidden;
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+
+  .sv-thumb {
+    position: absolute;
+    width: 0.9em;
+    height: 0.9em;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.5),
+      0 1px 3px rgba(0, 0, 0, 0.4);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8em;
+    margin-top: 1em;
+
+    label {
+      width: 3.4em;
+      font-size: 0.76em;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.6;
+      flex-shrink: 0;
+      padding-top: 0;
+    }
+
+    input[type='range'] {
+      flex: 1;
+    }
+  }
+
+  .num-input {
+    width: 4.6em;
+    height: auto;
+    padding: 0.3em 0.4em;
+    font-family: monospace;
+    font-size: 0.82em;
+    text-align: right;
+    margin-bottom: 0;
+  }
+
+  .rgb-hex-row {
+    display: flex;
+    gap: 0.7em;
+    margin-top: 1.3em;
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35em;
+
+      label {
+        font-size: 0.72em;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        opacity: 0.6;
+        padding-top: 0;
+      }
+
+      input {
+        margin-bottom: 0;
+        font-family: monospace;
+        font-size: 0.9em;
+        height: auto;
+        padding: 0.4em 0.55em;
+      }
+    }
+
+    .field.hex {
+      flex: 1.3;
+    }
+
+    .field.rgb {
+      flex: 1;
+
+      input {
+        text-align: center;
+        padding: 0.4em 0.3em;
+      }
+    }
+  }
+
+  .style-textarea {
+    width: 100%;
+    min-height: 7em;
+    font-family: monospace;
+    font-size: 0.84em;
+    line-height: 1.5;
+  }
+
+  .style-hint {
+    font-size: 0.78em;
+    opacity: 0.7;
+    line-height: 1.5;
+    margin-top: 0.8em;
+
+    code {
+      font-family: monospace;
+      color: map.get(colors.$inputs, checkbox-color);
+      background-color: rgba(map.get(colors.$inputs, checkbox-color), 0.16);
+      border: none;
+      padding: 0.05em 0.35em;
+    }
+  }
+
+  .resolved-label {
+    font-size: 0.72em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.6;
+    margin: 1.3em 0 0.4em;
+  }
+
+  .resolved-css {
+    background-color: map.get(colors.$surfaces, inset-color);
+    border: 1px solid map.get(colors.$surfaces, border-soft-color);
+    border-radius: 0.4em;
+    padding: 0.65em 0.75em;
+    font-family: monospace;
+    font-size: 0.78em;
+    opacity: 0.8;
+    white-space: pre-wrap;
+    word-break: break-word;
+    min-height: 2.6em;
+  }
+
+  .preview-strip {
+    flex: 1;
+    min-width: 0;
+    background-color: map.get(colors.$surfaces, inset-color);
+    border: 1px solid map.get(colors.$surfaces, border-soft-color);
+    border-radius: 0.5em;
+    padding: 0.8em 1.1em;
+    font-size: 1.1em;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+
+    .context {
+      opacity: 0.45;
+    }
+  }
+}

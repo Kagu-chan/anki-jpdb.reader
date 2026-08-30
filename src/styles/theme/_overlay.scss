@@ -1,0 +1,206 @@
+@use 'sass:map';
+@use '../variables/_colors' as colors;
+
+// Generalized modal chrome shared by every overlay dialog (read-only CSS preview, the color
+// picker, and future dialogs) - `.overlay` alone renders a single-column dialog; add
+// `.split-panes` to lay `.pane` children out side by side.
+
+.backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+
+  &.is-open {
+    display: block;
+  }
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+
+  width: 80%;
+  max-width: 800px;
+  max-height: 80vh;
+
+  background-color: map.get(colors.$surfaces, raised-color);
+  border: 1px solid map.get(colors.$surfaces, border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+
+  flex-direction: column;
+  overflow: hidden;
+
+  &.is-open {
+    display: flex;
+  }
+
+  &.split-panes {
+    width: min(880px, 94vw);
+  }
+
+  .overlay-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1em;
+    flex-shrink: 0;
+    padding: 1.1em 1.4em;
+    border-bottom: 1px solid map.get(colors.$surfaces, border-soft-color);
+
+    h3 {
+      margin: 0;
+      font-size: 1.05em;
+    }
+
+    .overlay-key {
+      font-family: monospace;
+      font-size: 0.78em;
+      color: map.get(colors.$surfaces, border-color);
+      font-weight: normal;
+      margin-left: 0.6em;
+    }
+
+    .overlay-copy,
+    .overlay-close {
+      all: unset;
+      cursor: pointer;
+      opacity: 0.8;
+      font-size: 1.2em;
+      line-height: 1;
+      padding: 0.1em 0.3em;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &:focus-visible {
+        outline: 2px solid map.get(colors.$inputs, checkbox-color);
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  .overlay-body {
+    padding: 0 0;
+    overflow-y: auto;
+    min-height: 0;
+
+    pre {
+      margin: 1.4em;
+      overflow-y: auto;
+      min-height: 0;
+    }
+  }
+
+  &.split-panes .overlay-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .pane {
+    padding: 1.4em;
+
+    + .pane {
+      border-left: 1px solid map.get(colors.$surfaces, border-soft-color);
+
+      @media (max-width: 640px) {
+        border-left: none;
+        border-top: 1px solid map.get(colors.$surfaces, border-soft-color);
+      }
+    }
+
+    .pane-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1em;
+
+      span {
+        font-size: 0.78em;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        opacity: 0.6;
+      }
+    }
+
+    // Disabling a pane only dims the controls the toggle actually turns off - anything marked
+    // `.always-visible` (e.g. a resolved-rule readout) keeps showing what the default behaves
+    // like even while its override is off.
+    &[data-disabled='true'] .pane-body > :not(.always-visible) {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .pane-body > * {
+      transition: opacity 0.15s ease;
+    }
+  }
+
+  .overlay-footer {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5em;
+    flex-wrap: wrap;
+    padding: 1.1em 1.4em;
+    border-top: 1px solid map.get(colors.$surfaces, border-soft-color);
+
+    .actions {
+      display: flex;
+      gap: 0.7em;
+      flex-shrink: 0;
+    }
+
+    // Generalized flat footer button, reset from the global shiny/lifting button style further
+    // down the cascade so it reads as a secondary dialog action, not a page-level CTA.
+    .btn {
+      all: unset;
+      box-sizing: border-box;
+      cursor: pointer;
+      font-size: 0.86em;
+      font-weight: 500;
+      border-radius: 7px;
+      padding: 0.55em 1.15em;
+      border: 1px solid map.get(colors.$surfaces, border-color);
+      background-color: map.get(colors.$surfaces, inset-color);
+      color: map.get(colors.$colors, text-color);
+      transition:
+        border-color 0.15s ease,
+        background-color 0.15s ease;
+
+      &:hover {
+        border-color: map.get(colors.$inputs, input-focused-border-color);
+      }
+
+      &:focus-visible {
+        outline: 2px solid map.get(colors.$inputs, checkbox-color);
+        outline-offset: 2px;
+      }
+
+      &.primary {
+        background-color: map.get(colors.$buttons, button-background-color);
+        border-color: #2c56a3;
+        color: #e4ecff;
+
+        &:hover {
+          background-color: #26498a;
+        }
+      }
+    }
+  }
+}

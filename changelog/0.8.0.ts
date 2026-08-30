@@ -172,4 +172,10 @@ export const _080: ChangelogEntry[] = [
     category: Category.Settings,
     issue: 'N/A',
   },
+  {
+    type: 'add',
+    description: 'Added a color picker for style-preset colors.',
+    category: Category.Settings,
+    issue: 142,
+  },
 ];

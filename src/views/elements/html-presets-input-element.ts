@@ -6,7 +6,6 @@ import { CheckboxListInput } from './lib/checkbox-list.input';
 export class HTMLPresetsInputElement extends CheckboxListInput<StylePreset> {
   protected allowInspect = true;
   protected invertList = false;
-  protected dense = true;
 
   protected getRows(): StylePreset[] {
     return STATIC_PRESETS;

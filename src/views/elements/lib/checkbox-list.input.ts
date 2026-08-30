@@ -16,7 +16,6 @@ export abstract class CheckboxListInput<
 
   protected abstract allowInspect?: boolean;
   protected abstract invertList?: boolean;
-  protected abstract dense?: boolean;
   protected _input: HTMLInputElement;
   protected _checkboxes: Record<string, HTMLInputElement> = {};
 
@@ -104,12 +103,8 @@ export abstract class CheckboxListInput<
     }
 
     const tableHost = createElement('div', {
-      class: 'table-box',
+      class: ['table-box', 'dense'],
     });
-
-    if (this.dense) {
-      tableHost.classList.add('dense');
-    }
 
     this.appendChild(tableHost);
 

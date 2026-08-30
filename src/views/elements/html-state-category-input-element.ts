@@ -206,7 +206,7 @@ export class HTMLStateCategoryInputElement extends HTMLElement {
   }
 
   private renderList(): void {
-    const tableHost = createElement('div', { class: 'table-box' });
+    const tableHost = createElement('div', { class: ['table-box', 'dense'] });
 
     this.appendChild(tableHost);
 

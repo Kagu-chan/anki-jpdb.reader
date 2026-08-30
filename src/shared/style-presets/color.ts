@@ -4,7 +4,9 @@ const DEFAULT_STYLE = 'color: ${color}';
 
 const toHex = (value: number): string => value.toString(16).padStart(2, '0');
 
-const hasColor = (color: PresetColor): color is PresetColor & { r: number; g: number; b: number } =>
+export const hasColor = (
+  color: PresetColor,
+): color is PresetColor & { r: number; g: number; b: number } =>
   color.r !== undefined && color.g !== undefined && color.b !== undefined;
 
 export const toColorString = (color: PresetColor): string => {

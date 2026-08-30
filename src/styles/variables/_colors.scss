@@ -78,3 +78,17 @@ $colors: (
 
   accordion-border-color: #444,
 );
+
+// Raised/inset surfaces used by modals and picker-style controls, layered on top of
+// $colors' background-color rather than introducing a parallel palette.
+$surfaces: (
+  raised-color: #202020,
+  inset-color: #191919,
+  inset-hover-color: #1d1d1d,
+  border-color: #3a3a3a,
+  border-soft-color: #2a2a2a,
+  muted-text-color: #8a8a8a,
+  dim-text-color: #5a5a5a,
+  checker-a-color: #2b2b2b,
+  checker-b-color: #383838,
+);

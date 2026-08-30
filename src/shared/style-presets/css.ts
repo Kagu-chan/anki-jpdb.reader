@@ -2,7 +2,7 @@ const dedent = (text: string): string => {
   const lines = text.split('\n');
   const indents = lines
     .filter((line) => line.trim().length > 0)
-    .map((line) => line.match(/^ */)![0].length);
+    .map((line) => /^ */.exec(line)![0].length);
   const minIndent = indents.length ? Math.min(...indents) : 0;
 
   return lines
