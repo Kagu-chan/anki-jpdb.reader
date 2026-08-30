@@ -30,7 +30,7 @@ export const debug = (message: string, ...optionalParams: unknown[]): void => {
   }
 
   // eslint-disable-next-line no-console
-  console.log(`[DEBUG] ${message}`, ...optionalParams);
+  console.log(`[DEBUG ${new Date().toISOString()}] ${message}`, ...optionalParams);
 };
 
 const drainBufferedDebugMessages = (): void => {
@@ -40,7 +40,7 @@ const drainBufferedDebugMessages = (): void => {
 
   for (const [message, ...optionalParams] of bufferedDebugMessages) {
     // eslint-disable-next-line no-console
-    console.log(`[DEBUG] ${message}`, ...optionalParams);
+    console.log(`[DEBUG ${new Date().toISOString()}] ${message}`, ...optionalParams);
   }
 
   bufferedDebugMessages.length = 0; // Clear the buffer
