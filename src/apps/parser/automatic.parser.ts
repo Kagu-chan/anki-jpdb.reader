@@ -1,5 +1,5 @@
 import { debug } from '@shared/debug';
-import { HostMeta } from '@shared/host-meta/types';
+import { FlatHostMeta } from '@shared/host-meta/types';
 import { Registry } from '../integration/registry';
 import { BaseParser } from './base.parser';
 
@@ -7,7 +7,7 @@ export class AutomaticParser extends BaseParser {
   protected _visibleObserver: IntersectionObserver | undefined;
   protected _addedObserver: MutationObserver | undefined;
 
-  constructor(meta: HostMeta) {
+  constructor(meta: FlatHostMeta) {
     super(meta);
 
     setTimeout(() => {

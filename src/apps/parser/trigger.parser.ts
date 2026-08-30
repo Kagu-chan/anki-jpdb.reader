@@ -3,7 +3,7 @@ import { debug } from '@shared/debug';
 import { createElement } from '@shared/dom/create-element';
 import { getStyleUrl } from '@shared/extension/get-style-url';
 import { isDisabled } from '@shared/host-meta/is-disabled';
-import { HostMeta } from '@shared/host-meta/types';
+import { FlatHostMeta } from '@shared/host-meta/types';
 import { receiveBackgroundMessage } from '@shared/messages/receiving/receive-background-message';
 import { KeybindManager } from '../integration/keybind-manager';
 import { Registry } from '../integration/registry';
@@ -15,7 +15,7 @@ export class TriggerParser extends BaseParser {
     id: 'ajb-overlay-control-button',
   });
 
-  constructor(meta: HostMeta) {
+  constructor(meta: FlatHostMeta) {
     super(meta);
 
     this._parseKeyManager.activate();

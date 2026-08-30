@@ -49,6 +49,51 @@ export type VisibleObserverOptions =
       exclude?: string;
     };
 
+/**
+ * Defines a single parsing behavior: what to parse, when to parse it, and how to style it.
+ *
+ * A `CustomHostMeta` (or `PredefinedHostMeta`) entry has exactly one of these, unless it declares
+ * a `parsers` list, in which case one independent parser is created per entry in that list.
+ */
+export type ObserverDefinition = {
+  /**
+   * The entry point for parsing, defaults to `body`.
+   *
+   * @default 'body'
+   */
+  parse?: string;
+
+  /**
+   * Optional selector to filter the elements to parse. If not set, all elements will be parsed.
+   * If parseVisibleObserver is set to `true`, this will be used as a filter for the visible observer as well.
+   * If parseVisibleObserver is set to `false` or not set, this will be used as a filter for the added observer.
+   */
+  filter?: string;
+
+  /**
+   * Optional class to add to the document body to indicate that the parser is active and to style its elements.
+   */
+  parserClass?: string;
+
+  /**
+   * `true` or an object defining the behavior further to automatically parse elements becoming visible.
+   */
+  parseVisibleObserver?: VisibleObserverOptions;
+
+  /**
+   * Configuration object defining a MutationObserver waiting for added elements.
+   * If used in conjunction with `parseVisibleObserver`, the `MutationObserver` will add all added elements to the created `IntersectionObserver`.
+   */
+  addedObserver?: AddedObserverOptions;
+
+  /**
+   * Optional delay to initialize a parser after the page is loaded. Only used if `auto` is true.
+   *
+   * @default 1 (ms)
+   */
+  initDelay?: number;
+};
+
 export type CustomHostMeta = {
   /**
    * A host or list of hosts this configuration applies to.
@@ -82,44 +127,7 @@ export type CustomHostMeta = {
   disabled?: boolean;
 
   /**
-   * The entry point for parsing, defaults to `body`.
-   *
-   * @default 'body'
-   */
-  parse?: string;
-
-  /**
-   * Optional selector to filter the elements to parse. If not set, all elements will be parsed.
-   * If parseVisibleObserver is set to `true`, this will be used as a filter for the visible observer as well.
-   * If parseVisibleObserver is set to `false` or not set, this will be used as a filter for the added observer.
-   */
-  filter?: string;
-
-  /**
    * Optional CSS to inject upon first parse trigger. `word.css` will always be injected.
    */
   css?: string;
-
-  /**
-   * `true` or an object defining the behavior further to automatically parse elements becoming visible.
-   */
-  parseVisibleObserver?: VisibleObserverOptions;
-
-  /**
-   * Configuration object defining a MutationObserver waiting for added elements.
-   * If used in conjunction with `parseVisibleObserver`, the `MutationObserver` will add all added elements to the created `IntersectionObserver`.
-   */
-  addedObserver?: AddedObserverOptions;
-
-  /**
-   * Optional class to add to the document body to indicate that the parser is active and to style its elements.
-   */
-  parserClass?: string;
-
-  /**
-   * Optional delay to initialize a parser after the page is loaded. Only used if `auto` is true.
-   *
-   * @default 1 (ms)
-   */
-  initDelay?: number;
-};
+} & ObserverDefinition;

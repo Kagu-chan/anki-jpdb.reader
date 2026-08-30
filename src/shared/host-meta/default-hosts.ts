@@ -41,6 +41,32 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     },
   },
   {
+    id: 'jpdb-sentence-parser',
+    name: 'JPDB Sentence Parser',
+    description: 'Parses sentences in JPDB reviews and on vocabulary pages.',
+    host: ['*://jpdb.io/vocabulary/*', '*://jpdb.io/review*'],
+    auto: true,
+    optOut: true,
+    allFrames: false,
+    css: `
+      #show-checkbox-examples-label { display: none !important; }
+      .review-reveal .hidden-body { visibility: visible !important; max-height: unset !important; padding-top: .5em; }
+    `,
+    parsers: [
+      {
+        addedObserver: {
+          notifyFor: '.sentence',
+          checkNested: ':has(.card-sentence)',
+        },
+      },
+      {
+        addedObserver: {
+          notifyFor: 'div:has( > #show-checkbox-examples), .subsection',
+        },
+      },
+    ],
+  },
+  {
     id: 'luna-translator-parser',
     name: 'Luna Translator Parser',
     description: 'Parse lunatranslator span content from local HTML file',
@@ -210,45 +236,29 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
   {
     id: 'bunpro-parser',
     name: 'Bunpro Parser',
-    description: 'Parses Bunpro graded reader sections',
+    description: 'Parses Bunpro graded reader and quiz sections.',
     host: '*://bunpro.jp/*',
     auto: true,
     optOut: true,
     allFrames: false,
-    parserClass: 'bunpro-parser',
-    parseVisibleObserver: true,
-    addedObserver: {
-      notifyFor: 'div.mx-auto, [id^="study-question-"]',
-      checkNested: 'article',
-    },
-  },
-  {
-    id: 'bunpro-quiz-question-parser',
-    name: 'Bunpro Quiz Question Parser',
-    description: 'Parses questions in the Bunpro quiz area.',
-    host: '*://bunpro.jp/*',
-    auto: true,
-    optOut: true,
-    allFrames: false,
-    parserClass: 'bunpro-parser',
-    parseVisibleObserver: true,
-    addedObserver: {
-      notifyFor: '.bp-ddw',
-      checkNested: '.bp-quiz-question',
-    },
-  },
-  {
-    id: 'jpdb-review-sentence-parser',
-    name: 'JPDB Review Sentence Parser',
-    description: 'Parses sentences in JPDB reviews.',
-    host: '*://jpdb.io/review*',
-    auto: true,
-    optOut: true,
-    allFrames: false,
-    addedObserver: {
-      notifyFor: '.sentence',
-      checkNested: ':has(.card-sentence)',
-    },
+    parsers: [
+      {
+        parserClass: 'bunpro-parser',
+        parseVisibleObserver: true,
+        addedObserver: {
+          notifyFor: 'div.mx-auto, [id^="study-question-"]',
+          checkNested: 'article',
+        },
+      },
+      {
+        parserClass: 'bunpro-parser',
+        parseVisibleObserver: true,
+        addedObserver: {
+          notifyFor: '.bp-ddw',
+          checkNested: '.bp-quiz-question',
+        },
+      },
+    ],
   },
   {
     id: 'asbplayer-parser',

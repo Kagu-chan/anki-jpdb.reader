@@ -1,5 +1,5 @@
 import { debug } from '@shared/debug';
-import { HostMeta, PredefinedHostMeta } from '@shared/host-meta/types';
+import { FlatHostMeta, SingleParserHostMeta } from '@shared/host-meta/types';
 import { BaseParser } from './base.parser';
 import { ExStaticParser } from './custom-parsers/ex-static.parser';
 import { MokuroLegacyParser } from './custom-parsers/mokuro-legacy.parser';
@@ -9,12 +9,12 @@ import { SatoriReaderParser } from './custom-parsers/satori-reader.parser';
 import { TtsuParser } from './custom-parsers/ttsu.parser';
 
 export const getCustomParser = (
-  name: Exclude<PredefinedHostMeta['custom'], undefined>,
-  meta: HostMeta,
+  name: Exclude<SingleParserHostMeta['custom'], undefined>,
+  meta: FlatHostMeta,
 ): BaseParser => {
   const parsers: Record<
-    Exclude<PredefinedHostMeta['custom'], undefined>,
-    new (meta: HostMeta) => BaseParser
+    Exclude<SingleParserHostMeta['custom'], undefined>,
+    new (meta: FlatHostMeta) => BaseParser
   > = {
     MokuroParser,
     MokuroLegacyParser,

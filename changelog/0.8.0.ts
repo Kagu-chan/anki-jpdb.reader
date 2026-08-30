@@ -102,7 +102,7 @@ export const _080: ChangelogEntry[] = [
   },
   {
     type: 'add',
-    description: 'Added automatic parsing of the example sentence shown during JPDB reviews.',
+    description: 'Added parsing of JPDB example sentences on review and vocabulary pages.',
     category: Category.Hosts,
     issue: 'N/A',
     coauthor: 'tomboblombo',

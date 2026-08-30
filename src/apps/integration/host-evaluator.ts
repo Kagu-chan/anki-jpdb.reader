@@ -1,19 +1,19 @@
 import { getHostMeta } from '@shared/host-meta/get-host-meta';
-import { HostMeta } from '@shared/host-meta/types';
+import { FlatHostMeta } from '@shared/host-meta/types';
 
 export class HostEvaluator {
   private _isMainFrame = window === window.top;
 
-  private _targetedTriggerMeta: HostMeta | undefined;
-  private _targetedAutomaticMeta: HostMeta[];
+  private _targetedTriggerMeta: FlatHostMeta | undefined;
+  private _targetedAutomaticMeta: FlatHostMeta[];
 
-  private _defaultTriggerMeta: HostMeta | undefined;
-  private _defaultAutomaticMeta: HostMeta[];
+  private _defaultTriggerMeta: FlatHostMeta | undefined;
+  private _defaultAutomaticMeta: FlatHostMeta[];
 
   private _host: string;
 
-  public get relevantMeta(): HostMeta[] {
-    const result: HostMeta[] = [];
+  public get relevantMeta(): FlatHostMeta[] {
+    const result: FlatHostMeta[] = [];
 
     if (this._targetedTriggerMeta) {
       result.push(this._targetedTriggerMeta);
@@ -32,13 +32,15 @@ export class HostEvaluator {
     const seen = new Set<string>();
 
     return result.filter((meta) => {
-      const id = ('id' in meta && meta.id) || JSON.stringify(meta);
+      // Deduped by full content rather than `id` alone, since a `MultiParserHostMeta` entry is
+      // flattened into multiple `FlatHostMeta` entries sharing the same `id` but otherwise distinct.
+      const key = JSON.stringify(meta);
 
-      if (seen.has(id)) {
+      if (seen.has(key)) {
         return false;
       }
 
-      seen.add(id);
+      seen.add(key);
 
       return true;
     });
@@ -52,7 +54,7 @@ export class HostEvaluator {
     return !!this.relevantMeta.length;
   }
 
-  public get rejectionReason(): HostMeta {
+  public get rejectionReason(): FlatHostMeta {
     return this._targetedTriggerMeta!;
   }
 

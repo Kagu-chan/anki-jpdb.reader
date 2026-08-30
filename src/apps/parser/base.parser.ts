@@ -1,5 +1,5 @@
 import { debug } from '@shared/debug';
-import { HostMeta } from '@shared/host-meta/types';
+import { FlatHostMeta } from '@shared/host-meta/types';
 import { getParagraphs } from '../batches/get-paragraphs';
 import { Registry } from '../integration/registry';
 
@@ -28,8 +28,8 @@ export abstract class BaseParser {
       : (): boolean => true;
   }
 
-  /** @param {HostMeta} _meta The host meta */
-  constructor(protected _meta: HostMeta) {}
+  /** @param {FlatHostMeta} _meta The host meta */
+  constructor(protected _meta: FlatHostMeta) {}
 
   /**
    * Parse the currently selected text
