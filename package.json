@@ -65,7 +65,7 @@
     "ts-loader": "^9.5.4",
     "typescript": "^5.8.3",
     "web-ext": "^10.6.0",
-    "webpack": "^5.101.2",
+    "webpack": "^5.110.2",
     "webpack-cli": "^6.0.1",
     "zip-a-folder": "^4.0.4"
   },
