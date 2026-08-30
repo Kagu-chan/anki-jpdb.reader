@@ -1,18 +1,57 @@
-# Custom CSS
+# Customize Text Colors and Furigana
 
-Customization is currently done with custom CSS, because it's the simplest way to offer a flexible framework.
+Customization is done in two layers:
 
-Here are some common customizations you might want. Feel free to use multiple of them, and modify them to your liking.
+1. **Style Presets** (Settings → Text Highlighting) — the primary, settings-driven way to control word colors and furigana visibility. No CSS knowledge required.
+2. **Custom CSS** — a power-user escape hatch layered on top of the presets, for anything the settings don't expose directly.
+
+## Style Presets
+
+Enable them via the **Enable style presets** checkbox in Settings → Text Highlighting. With this on, the extension injects CSS for you based on the options below; you don't need to write any CSS at all unless you want something the presets don't cover.
+
+### State categories
+
+Every word carries one or more raw JPDB card states (`Not in Deck`, `New`, `Learning`, `Known`, `Due`, `Failed`, `Locked`, `Never Forget`, `Suspended`, `Blacklisted`, `Redundant`). The **State Categories** table lets you assign each of these states to one of four categories — `Unmined`, `New`, `Learning`, `Known` — or `None` to leave a state uncategorized. Categories, not raw states, are what most of the options below (furigana visibility, frequency marking, i+1 marking) actually key off, so this table controls how those features apply to your states.
+
+The default mapping:
+
+| Card state | Category |
+| --- | --- |
+| Not in Deck | Unmined |
+| New | New |
+| Learning | Learning |
+| Failed | Learning |
+| Known | Known |
+| Never Forget | Known |
+
+### Base Style
+
+Choose how words are colored:
+
+- **JPDB** — colors words by their raw JPDB state (Not in deck, New, Learning, Known, Due, Failed, Locked, Never forget, Suspended, Blacklisted), matching the coloring used by the jpdb mpv plugin.
+- **Category** — colors words by their assigned category instead (Unmined, New, Learning, Known), so states you've mapped to the same category share one color.
+- **None** — disables the built-in coloring entirely; use Custom CSS below if you still want word colors.
+
+Each mode shows its own color table once selected, plus a color option for each other word-highlighting features.
+
+Each color field is a full color control: pick a color and alpha via the color picker, or expand it for a custom CSS style override (e.g. an underline or text-shadow instead of a plain text color) if you need more than a flat color.
+
+### Furigana visibility
+
+Independently of coloring, you can set furigana visibility per category — **Always**, **On hover**, or **Never** — for Unmined, New, Learning, and Known words. This lets you, for example, always show furigana on words you haven't mined yet while hiding it for words you already know.
+
+## Custom CSS (advanced)
+
+For anything the style presets don't cover, `customWordCSS` (Settings → Text Highlighting) and `customPopupCSS` let you write raw CSS that's injected alongside — and after — the preset-generated CSS.
 
 > **Important:**  
-> In most cases, you will need to use `!important` in your CSS rules to override the extension's default styles and the website's own styles. For example:  
+> You will usually need `!important` in your rules to override the extension's preset styles and the website's own styles. For example:  
 > ```css
 > .jpdb-word { color: red !important; }
 > ```
 > Without `!important`, your custom styles may not be applied.
-> 
-> **Note:**  
-> We are aware that requiring `!important` for most customizations is inconvenient. A fix is in the works, but due to the complexity and scale of the extension's styling system, it will take some time to be rolled out.
+
+Here are some common customizations. Feel free to use multiple of them, and modify them to your liking.
 
 Don't color words:
 ```css
@@ -79,7 +118,15 @@ Add extra styles only for asbplayer subtitles:
 }
 ```
 
-## Notes if you aren't super familiar with CSS
+Color by category instead of raw state (matches the "Category" base style, so this is only useful if you want to override individual colors rather than use the built-in color pickers):
+```css
+.jpdb-word.cat-unmined { color: rgb(75, 141, 255) !important; }
+.jpdb-word.cat-new { color: rgb(75, 141, 255) !important; }
+.jpdb-word.cat-learning { color: rgb(255, 69, 0) !important; }
+.jpdb-word.cat-known { color: rgb(112, 192, 0) !important; }
+```
+
+### Notes if you aren't super familiar with CSS
 
 - **You will usually need to use `!important`** to override the extension's and website's styles.
 - CSS supports many color formats, like color names (`green`), hex `#a2ff0e`, or `rgb(126, 230, 17)`. Pick whichever you find most convenient.
@@ -111,7 +158,17 @@ Add extra styles only for asbplayer subtitles:
 - `.failed` - Failed words.
 - `.suspended` - Suspended words (for example, through the "Suspend words outside of a given top most common words" feature).
 - `.blacklisted` - Blacklisted words (either individually, or through settings like "Blacklist particles", "Blacklist katakana loanwords", etc.).
-- `.frequent` - Words in a top most frequency range. Only applied if enabled in the settings.
+- `.frequent` - Words in a top most frequency range. Only applied if enabled in the settings, and by default only for words in the `Unmined` category.
+- `.i-plus-one` - The single unmined word in an otherwise-understood sentence. Only applied if i+1 marking is enabled.
+
+### List of state category classes
+
+- `.cat-unmined` - Words whose card state is mapped to the `Unmined` category.
+- `.cat-new` - Words whose card state is mapped to the `New` category.
+- `.cat-learning` - Words whose card state is mapped to the `Learning` category.
+- `.cat-known` - Words whose card state is mapped to the `Known` category.
+
+These are added alongside the raw state classes above (a word can carry both `.new` and `.cat-unmined`, for example, depending on how you've configured the State Categories table), and are what the "Category" base style and the per-category furigana visibility settings target.
 
 ### List of pitch pattern classes
 

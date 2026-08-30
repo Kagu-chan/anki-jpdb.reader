@@ -110,7 +110,7 @@ Additionally, you can add complete meta definitions in JSON format - refer to [t
 
 ## Customize text colors and furigana
 
-Customization is currently done with custom CSS, as it is the simplest way to offer a flexible framework. [See the docs on it here](docs/custom-css.md).
+Customization can be done through a combination of Style Presets and custom CSS — [see the docs on it here](docs/custom-css.md).
 
 ## Building
 
