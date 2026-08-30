@@ -98,12 +98,14 @@ export const _080: ChangelogEntry[] = [
     description: 'Added parsing for the Bunpro quiz/review question area.',
     category: Category.Hosts,
     issue: 400,
+    coauthor: 'tomboblombo',
   },
   {
     type: 'add',
     description: 'Added automatic parsing of the example sentence shown during JPDB reviews.',
     category: Category.Hosts,
     issue: 'N/A',
+    coauthor: 'tomboblombo',
   },
   {
     type: 'change',
@@ -142,6 +144,13 @@ export const _080: ChangelogEntry[] = [
     type: 'add',
     description: 'Add textfeed and textlog as parser pattern.',
     category: Category.Parser,
+    issue: 'N/A',
+    coauthor: 'bpwhelan',
+  },
+  {
+    type: 'chore',
+    description: 'Credit coauthors in the changelog.',
+    category: Category.Documentation,
     issue: 'N/A',
   },
 ];

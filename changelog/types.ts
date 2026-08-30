@@ -34,5 +34,6 @@ export type ChangelogEntry = {
   description: string;
   category: Category | [Category, ...Category[]];
   issue: number | [number, ...number[]] | 'N/A';
+  coauthor?: string;
 };
 export type Changelog = Record<Version, ChangelogEntry[]>;

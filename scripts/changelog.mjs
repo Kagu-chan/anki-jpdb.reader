@@ -65,7 +65,7 @@ for (const key of Object.keys(changelog).reverse()) {
   HTML.push('<ul>');
 
   itemsSorted.forEach((item) => {
-    const { type, description, issue, category } = item;
+    const { type, description, issue, category, coauthor } = item;
 
     let linkMD = '';
     if (issue !== 'N/A') {
@@ -81,7 +81,8 @@ for (const key of Object.keys(changelog).reverse()) {
       }
     }
     const catMD = Array.isArray(category) ? category.join(', ') : category;
-    const lineMD = `- ${type}: ${description}${linkMD} [${catMD}]`;
+    const coauthorMD = coauthor ? ` ([@${coauthor}](https://github.com/${coauthor}))` : '';
+    const lineMD = `- ${type}: ${description}${linkMD} [${catMD}]${coauthorMD}`;
 
     let linkTextHtml = '';
     if (issue !== 'N/A') {
@@ -103,7 +104,10 @@ for (const key of Object.keys(changelog).reverse()) {
     const catHtml = (Array.isArray(category) ? category : [category])
       .map((c) => `<label class="category outline">${c}</label>`)
       .join('');
-    const lineHTML = `<li><label class="type outline ${type}">${type}</label><span class="description">${description}</span>${linkTextHtml}${catHtml}</li>`;
+    const coauthorHtml = coauthor
+      ? ` <a href="https://github.com/${coauthor}" target="_blank">@${coauthor}</a>`
+      : '';
+    const lineHTML = `<li><label class="type outline ${type}">${type}</label><span class="description">${description}</span>${linkTextHtml}${catHtml}${coauthorHtml}</li>`;
     HTML.push(lineHTML);
 
     MD.push(lineMD);
