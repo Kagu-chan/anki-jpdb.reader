@@ -114,7 +114,7 @@ Customization can be done through a combination of Style Presets and custom CSS 
 
 ## Building
 
-Node version 22.x is used!
+Node version 24.x is used!
 
 You can run the following commands to build the extension locally:
 
