@@ -22,16 +22,35 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - run: npm i
-      - run: npm run lint
-      - name: Build, lint, and publish Firefox to AMO (listed) + package Chromium
+      - name: Install dependencies
+        run: npm i
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build all targets
+        run: node scripts/build.mjs --pack --ff-submission
+
+      - name: Publish Firefox to AMO (listed)
         run: npm run publish:ff
         env:
           JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
-      - uses: softprops/action-gh-release@v2
+      - name: Publish Chrome to Chrome Web Store
+        uses: mnao305/chrome-extension-upload-action@v2
         with:
+          file-name: 'packages/anki-jpdb.reader-chromium.zip'
+          app-id: ${{ secrets.CHROME_EXTENSION_ID }}
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          publish: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: packages/CURRENT_VERSION.md
           files: |
             packages/anki-jpdb.reader-chromium.zip
             packages/anki-jpdb.reader-firefox.xpi

@@ -16,7 +16,6 @@ const run = (cmd, args) =>
   });
 
 try {
-  await run('node', ['scripts/build.mjs', '--pack', '--ff-submission']);
   await run('npx', ['web-ext', 'lint', '--source-dir', 'anki-jpdb.reader']);
   await run('npx', [
     'web-ext',
