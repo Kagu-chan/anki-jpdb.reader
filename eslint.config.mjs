@@ -1,7 +1,5 @@
 import typescriptEslint from '@typescript-eslint/eslint-plugin';
 import jsdoc from 'eslint-plugin-jsdoc';
-import _import from 'eslint-plugin-import';
-import { fixupPluginRules } from '@eslint/compat';
 import globals from 'globals';
 import tsParser from '@typescript-eslint/parser';
 import path from 'node:path';
@@ -52,7 +50,6 @@ export default [
     plugins: {
       '@typescript-eslint': typescriptEslint,
       jsdoc,
-      import: fixupPluginRules(_import),
     },
 
     languageOptions: {
@@ -67,15 +64,6 @@ export default [
 
       parserOptions: {
         project: './tsconfig.json',
-      },
-    },
-
-    settings: {
-      'import/resolver': {
-        node: {
-          extensions: ['.ts'],
-          moduleDirectory: ['node_modules', 'src/'],
-        },
       },
     },
 
@@ -109,28 +97,6 @@ export default [
 
       'comma-dangle': ['error', 'always-multiline'],
       'no-plusplus': ['off'],
-      'import/extensions': ['off'],
-      'import/prefer-default-export': ['off'],
-
-      'import/order': [
-        'warn',
-        {
-          groups: ['builtin', 'external', 'index', 'internal', 'parent', 'sibling', 'type'],
-
-          alphabetize: {
-            order: 'asc',
-            caseInsensitive: true,
-          },
-
-          pathGroups: [
-            {
-              pattern: '@/**',
-              group: 'internal',
-            },
-          ],
-        },
-      ],
-
       'no-parameter-properties': ['off'],
       'no-unused-vars': ['off'],
       'lines-between-class-members': ['off'],

@@ -1,4 +1,4 @@
-import { CustomHostMeta, AddedObserverOptions, VisibleObserverOptions } from './public-api';
+import { AddedObserverOptions, CustomHostMeta, VisibleObserverOptions } from './public-api';
 
 export { AddedObserverOptions, VisibleObserverOptions };
 
