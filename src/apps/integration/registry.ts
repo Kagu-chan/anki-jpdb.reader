@@ -49,6 +49,12 @@ export class Registry {
 
       classes.push(...state, ...categories);
       element.classList.value = classes.join(' ');
+
+      if (this.cardStates.isFrequent(card)) {
+        element.classList.add('frequent');
+      } else {
+        element.classList.remove('frequent');
+      }
     });
 
     this.sentenceManager.updateCardState(vid, sid, state);

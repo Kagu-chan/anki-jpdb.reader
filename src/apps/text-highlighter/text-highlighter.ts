@@ -620,8 +620,7 @@ export class TextHighlighter extends BaseTextHighlighter {
   }
 
   protected patchElement(element: HTMLElement, token: JPDBToken | undefined): void {
-    const { skipFurigana, topXMark, topXMarkCount, topXMarkAll, generatePitch, iPlus1Mark } =
-      Registry.textHighlighterOptions;
+    const { skipFurigana, generatePitch, iPlus1Mark } = Registry.textHighlighterOptions;
     const { card, pitchClass, sentence } = token ?? {};
 
     // do not apply the same card twice
@@ -650,12 +649,8 @@ export class TextHighlighter extends BaseTextHighlighter {
         ...categories.map((category) => `cat-${category}`),
       );
 
-      if (topXMark && card.frequencyRank && card.frequencyRank <= topXMarkCount) {
-        const isUnmined = Registry.cardStates.isUnmined(card.cardState);
-
-        if (topXMarkAll || isUnmined) {
-          element.classList.add('frequent');
-        }
+      if (Registry.cardStates.isFrequent(card)) {
+        element.classList.add('frequent');
       }
 
       if (pitchClass && generatePitch) {

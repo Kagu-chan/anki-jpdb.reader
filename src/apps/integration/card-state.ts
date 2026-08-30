@@ -1,4 +1,4 @@
-import { JPDBCardState, WordStateCategory } from '@shared/jpdb/types';
+import { JPDBCard, JPDBCardState, WordStateCategory } from '@shared/jpdb/types';
 import { Registry } from './registry';
 
 export class CardStates {
@@ -22,5 +22,19 @@ export class CardStates {
 
   public isKnown(states: JPDBCardState[]): boolean {
     return this.getCategories(states).includes(WordStateCategory.KNOWN);
+  }
+
+  public isFrequent({ frequencyRank, cardState }: JPDBCard): boolean {
+    const { topXMark, topXMarkCount, topXMarkAll } = Registry.textHighlighterOptions;
+
+    if (!topXMark) {
+      return false;
+    }
+
+    if (!frequencyRank || frequencyRank > topXMarkCount) {
+      return false;
+    }
+
+    return topXMarkAll || this.isUnmined(cardState);
   }
 }

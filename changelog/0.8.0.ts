@@ -184,4 +184,10 @@ export const _080: ChangelogEntry[] = [
     category: Category.Parser,
     issue: 'N/A',
   },
+  {
+    type: 'fix',
+    description: 'Frequency rank is now reevaluated on card state changes.',
+    category: Category.Texthighlighter,
+    issue: 383,
+  },
 ];
