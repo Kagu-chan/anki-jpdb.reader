@@ -1,3 +1,4 @@
+import { debug } from '@shared/debug';
 import { Registry } from '../../integration/registry';
 import { AutomaticParser } from '../automatic.parser';
 
@@ -6,6 +7,8 @@ export class TtsuParser extends AutomaticParser {
   protected _chapterObserver?: IntersectionObserver;
 
   protected setupVisibleObserver(): void {
+    debug('TtsuParser: setupVisibleObserver called');
+
     this._visibleObserver = this.getParseVisibleObserver();
   }
 
@@ -14,8 +17,21 @@ export class TtsuParser extends AutomaticParser {
     const container = element.querySelector('.book-content-container');
     const chapters = element.querySelectorAll('[id^="ttu');
 
+    debug(
+      'TtsuParser: visibleObserverOnEnter called, container found:',
+      !!container,
+      'chapters found:',
+      chapters.length,
+      'element:',
+      element,
+    );
+
     if (container) {
-      this._pageObserver = new MutationObserver(() => {
+      debug('TtsuParser: using pageObserver branch on container:', container);
+
+      this._pageObserver = new MutationObserver((mutations) => {
+        debug('TtsuParser: pageObserver fired, mutations:', mutations);
+
         Registry.sentenceManager.reset();
 
         this.parseNode(container);
@@ -26,13 +42,21 @@ export class TtsuParser extends AutomaticParser {
         attributeFilter: ['id'],
       });
 
+      debug('TtsuParser: parsing container on setup:', container);
+
+      this.parseNode(container);
+
       return;
     }
+
+    debug('TtsuParser: using chapterObserver branch, chapters:', chapters);
 
     this.setupChapterObservers(chapters);
   }
 
   protected visibleObserverOnExit(): void {
+    debug('TtsuParser: visibleObserverOnExit called, disconnecting observers');
+
     this._pageObserver?.disconnect();
     this._chapterObserver?.disconnect();
   }
@@ -41,10 +65,14 @@ export class TtsuParser extends AutomaticParser {
     this._chapterObserver = new IntersectionObserver((entries) => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
+          debug('TtsuParser: chapterObserver intersecting, parsing:', entry.target);
+
           this.parseNode(entry.target);
 
           continue;
         }
+
+        debug('TtsuParser: chapterObserver leaving, dismissing:', entry.target);
 
         Registry.batchController.dismissNode(entry.target);
       }

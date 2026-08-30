@@ -178,4 +178,10 @@ export const _080: ChangelogEntry[] = [
     category: Category.Settings,
     issue: 142,
   },
+  {
+    type: 'fix',
+    description: 'Fixed the ttsu parser not parsing the book content after a page reload.',
+    category: Category.Parser,
+    issue: 'N/A',
+  },
 ];
