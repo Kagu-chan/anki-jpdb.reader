@@ -190,4 +190,10 @@ export const _080: ChangelogEntry[] = [
     category: Category.Texthighlighter,
     issue: 383,
   },
+  {
+    type: 'fix',
+    description: 'Fixed YouTube comments no longer being parsed.',
+    category: Category.Hosts,
+    issue: 391,
+  },
 ];

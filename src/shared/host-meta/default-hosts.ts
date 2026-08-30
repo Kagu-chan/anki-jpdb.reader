@@ -153,7 +153,7 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
   {
     id: 'youtube-comments-parser',
     name: 'YouTube Comments Parser',
-    description: 'Parses YouTube comments',
+    description: 'Parses YouTube Video titles and comments',
     host: ['*://*.youtube.com/*', '*://*.youtu.be/*'],
     auto: true,
     optOut: true,
@@ -161,7 +161,8 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     parseVisibleObserver: true,
     parserClass: 'youtube-parser',
     addedObserver: {
-      notifyFor: 'ytd-comment-view-model',
+      notifyFor:
+        'ytd-comment-thread-renderer, yt-lockup-view-model, ytd-rich-section-renderer, #above-the-fold',
     },
   },
   {
