@@ -138,4 +138,10 @@ export const _080: ChangelogEntry[] = [
     category: Category.Texthighlighter,
     issue: 'N/A',
   },
+  {
+    type: 'add',
+    description: 'Add textfeed and textlog as parser pattern.',
+    category: Category.Parser,
+    issue: 'N/A',
+  },
 ];

@@ -68,6 +68,8 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
       '*://learnjapanese.moe/texthooker.html',
       '*://renji-xd.github.io/texthooker-ui/',
       '*://*/texthooker$',
+      '*://*/textfeed$',
+      '*://*/textlog$',
     ],
     auto: true,
     optOut: true,
@@ -246,7 +248,7 @@ export const DEFAULT_HOSTS: PredefinedHostMeta[] = [
     addedObserver: {
       notifyFor: '.sentence',
       checkNested: ':has(.card-sentence)',
-    }
+    },
   },
   {
     id: 'asbplayer-parser',
