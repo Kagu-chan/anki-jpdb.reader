@@ -1,25 +1,9 @@
-import { readFileSync } from 'fs';
 import { spawn } from 'child_process';
-
-// Load .env if present
-try {
-  const env = readFileSync('.env', 'utf8');
-
-  for (const line of env.split('\n')) {
-    const match = line.match(/^([^#\s][^=]*)=(.*)$/);
-
-    if (match) {
-      process.env[match[1].trim()] = match[2].trim();
-    }
-  }
-} catch {
-  // No .env file — rely on environment variables already being set
-}
 
 const { JWT_ISSUER, JWT_SECRET } = process.env;
 
 if (!JWT_ISSUER || !JWT_SECRET) {
-  console.error('Error: JWT_ISSUER and JWT_SECRET must be set in .env or the environment.');
+  console.error('Error: JWT_ISSUER and JWT_SECRET must be set in the environment.');
   process.exit(1);
 }
 
@@ -32,7 +16,8 @@ const run = (cmd, args) =>
   });
 
 try {
-  await run('node', ['scripts/build.mjs', '--pack', 'firefox']);
+  await run('node', ['scripts/build.mjs', '--pack', '--ff-submission']);
+  await run('npx', ['web-ext', 'lint', '--source-dir', 'anki-jpdb.reader']);
   await run('npx', [
     'web-ext',
     'sign',
@@ -41,7 +26,13 @@ try {
     '--artifacts-dir',
     'packages',
     '--channel',
-    'unlisted',
+    'listed',
+    '--amo-metadata',
+    'packages/amo-metadata.json',
+    '--upload-source-code',
+    'packages/anki-jpdb.reader-firefox-submission.zip',
+    '--approval-timeout',
+    '0',
     '--api-key',
     JWT_ISSUER,
     '--api-secret',

@@ -74,14 +74,14 @@ Some web apps and sites require special attention to work properly; therefore, t
 
 [Firefox Browser Extension](https://addons.mozilla.org/firefox/addon/anki-jpdb-reader/), or install it via Firefox for Android **or**
 
-1. Download the latest `*-firefox-signed.xpi` file from the releases page.
+1. Download the signed [anki_jpdb_reader-0.7.1.xpi](https://addons.mozilla.org/firefox/downloads/file/4554049/anki_jpdb_reader-0.7.1.xpi) directly. This link may take a few minutes to a few hours to update after a new release while Mozilla reviews it — it always resolves to the latest reviewed version in the meantime.
 2. Open your browser and navigate to `about:addons`.
 3. Click the gear icon and choose `Install Add-on From File...`.
 4. In the file picker dialog, select the downloaded `.xpi` file.
 5. Click `Add` when prompted to confirm the installation.
 6. Continue with the [Setup](#setup) section.
 
-The released XPI is signed (unlisted channel), so the extension will persist across browser restarts.
+To test an unreviewed pre-release build instead, download the `*-firefox.xpi` file from the releases page and load it temporarily via `about:debugging` → `This Firefox` → `Load Temporary Add-on` — this build is unsigned, so it's unloaded again the next time Firefox restarts.
 
 ### Edge Canary
 

@@ -9,14 +9,14 @@
     "watch": "node scripts/build.mjs --watch",
     "pack": "node scripts/build.mjs --pack",
     "preversion": "eslint src && npm run lint:ff && npm run build",
-    "version": "node scripts/verify-changelog.mjs && node scripts/version.mjs && npm run changelog && git add src/manifest.json",
+    "version": "node scripts/verify-changelog.mjs && node scripts/version.mjs && npm run changelog && git add src/manifest.json README.md",
     "postversion": "npm run release",
     "changelog": "tsc changelog/changelog.ts && node scripts/changelog.mjs && git add CHANGELOG.md src/views/changelog.html",
     "release": "node scripts/build.mjs --pack --ff-submission",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "lint:ff": "node scripts/build.mjs firefox && web-ext lint --source-dir anki-jpdb.reader",
-    "sign": "node scripts/sign.mjs"
+    "publish:ff": "node scripts/publish-ff.mjs"
   },
   "simple-git-hooks": {
     "commit-msg": "npx --no-install commitlint --edit $1"

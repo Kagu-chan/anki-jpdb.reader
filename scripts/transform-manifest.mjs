@@ -15,8 +15,12 @@ export const transformManifest = (content, env) => {
       browser_specific_settings: {
         gecko: {
           id: '{67e602c3-7324-4b00-85cd-b652eb47b0f9}',
-          strict_min_version: '126.0',
+          strict_min_version: '140.0',
+          data_collection_permissions: {
+            required: ['none'],
+          },
         },
+        gecko_android: { strict_min_version: '142.0' },
       },
     });
   }

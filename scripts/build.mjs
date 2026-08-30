@@ -188,5 +188,14 @@ function createReleaseNotes() {
 
   writeFileSync(`${dist}/CURRENT_VERSION.md`, releaseNotesText);
 
+  const amoMetadata = {
+    version: {
+      release_notes: { 'en-US': releaseNotesText },
+      approval_notes: NOTE_FOR_REVIEWERS,
+    },
+  };
+
+  writeFileSync(`${dist}/amo-metadata.json`, JSON.stringify(amoMetadata, null, 2));
+
   console.log('Release notes for current version created');
 }

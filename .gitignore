@@ -25,7 +25,3 @@ submission/
 *.bak.*
 
 .claude
-
-# Environment variables
-.env
-.env.*
