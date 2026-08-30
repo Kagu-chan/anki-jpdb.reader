@@ -153,4 +153,23 @@ export const _080: ChangelogEntry[] = [
     category: Category.Documentation,
     issue: 'N/A',
   },
+  {
+    type: 'add',
+    description: 'Added static style presets.',
+    category: Category.Texthighlighter,
+    issue: 'N/A',
+  },
+  {
+    type: 'add',
+    description: 'Added a button to preview the fully computed word CSS in Settings.',
+    category: Category.Settings,
+    issue: 'N/A',
+  },
+  {
+    type: 'fix',
+    description:
+      'Fixed the settings preview overlay overflowing the screen and not blocking the page behind it, and added a copy-to-clipboard button to it.',
+    category: Category.Settings,
+    issue: 'N/A',
+  },
 ];

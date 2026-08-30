@@ -5,6 +5,7 @@ import { CheckboxListInput } from './lib/checkbox-list.input';
 export class HTMLParsersInputElement extends CheckboxListInput<PredefinedHostMeta> {
   protected allowInspect = true;
   protected invertList = true;
+  protected dense = false;
 
   protected getRows(): PredefinedHostMeta[] {
     return DEFAULT_HOSTS.filter((host) => host.optOut);

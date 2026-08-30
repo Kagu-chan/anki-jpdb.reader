@@ -66,6 +66,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   generatePitch: false,
 
   enableStylePresets: true,
+  stylePresets: [],
   baseStylingMode: BaseStylingMode.JPDB,
 
   jpdbColorLocked: { r: 119, g: 119, b: 119 },

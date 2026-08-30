@@ -578,7 +578,17 @@
                   <label for="enableStylePresets">Enable style presets</label>
                 </div>
                 <div style="opacity: 0.8" indent up>
-                  Enables the presets below that control how words and furigana are styled.
+                  Enables the presets below that control how words in text and subs is styled.
+                </div>
+
+                <div data-show="enableStylePresets" indent>
+                  <input
+                    type="button"
+                    class="outline"
+                    style="font-weight: bold"
+                    value="Show computed style"
+                    id="show-computed-style"
+                  />
                 </div>
 
                 <div data-show="enableStylePresets" indent down>
@@ -596,6 +606,10 @@
                 </div>
 
                 <div data-show="enableStylePresets" indent>
+                  <preset-input id="stylePresets" name="stylePresets"></preset-input>
+                </div>
+
+                <div data-show="enableStylePresets" indent up>
                   <div class="table-box dense">
                     <div class="row">
                       <div class="col flex-col">
@@ -669,6 +683,7 @@
                 <div
                   data-show="enableStylePresets && (baseStylingMode != 'none' || topXMark || iPlus1Mark || highlightMisparsed || (generatePitch && highlightPitchAccent))"
                   indent
+                  up
                 >
                   <div class="table-box dense">
                     <div data-show="baseStylingMode = 'jpdb'" style="display: contents">

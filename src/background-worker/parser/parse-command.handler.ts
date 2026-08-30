@@ -42,6 +42,7 @@ export class ParseCommandHandler extends BackgroundCommandHandler<ParseCommand> 
         'iPlusOneColor',
         'customWordCSS',
         'enableStylePresets',
+        'stylePresets',
         'baseStylingMode',
         'jpdbColorLocked',
         'jpdbColorSuspended',

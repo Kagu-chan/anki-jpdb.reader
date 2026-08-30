@@ -174,6 +174,7 @@ keybind-input {
 
   width: 80%;
   max-width: 800px;
+  max-height: 80vh;
   padding: 2em;
 
   background-color: #181818;
@@ -182,6 +183,32 @@ keybind-input {
 
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+
+  .overlay-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+
+    h3 {
+      margin: 0;
+    }
+
+    .overlay-copy {
+      cursor: pointer;
+      opacity: 0.8;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  pre {
+    overflow-y: auto;
+    min-height: 0;
+  }
 }
 
 .fa-code:not(:hover) {

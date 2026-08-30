@@ -75,6 +75,7 @@ export type ConfigurationSchema = {
   generatePitch: boolean;
 
   enableStylePresets: boolean;
+  stylePresets: string[];
   baseStylingMode: BaseStylingMode;
 
   jpdbColorLocked: PresetColor;

@@ -1,5 +1,5 @@
 import { DEFAULT_CONFIGURATION } from '@shared/configuration/default-configuration';
-import { getConfiguration } from '@shared/configuration/get-configuration';
+import { getConfiguration, getFullConfiguration } from '@shared/configuration/get-configuration';
 import { setConfiguration } from '@shared/configuration/set-configuration';
 import { ConfigurationSchema } from '@shared/configuration/types';
 import { createElement } from '@shared/dom/create-element';
@@ -13,16 +13,20 @@ import { JPDBDeck } from '@shared/jpdb/types';
 import { FetchDecksCommand } from '@shared/messages/background/fetch-decks.command';
 import { ConfigurationUpdatedCommand } from '@shared/messages/broadcast/configuration-updated.command';
 import { onBroadcastMessage } from '@shared/messages/receiving/on-broadcast-message';
+import { computeWordCss } from '@shared/style-presets/compute-word-css';
 import { HTMLColorInputElement } from './elements/html-color-input-element';
 import { HTMLFeaturesInputElement } from './elements/html-features-input-element';
 import { HTMLKeybindInputElement } from './elements/html-keybind-input-element';
 import { HTMLMiningInputElement } from './elements/html-mining-input-element';
 import { HTMLParsersInputElement } from './elements/html-parsers-input-element';
+import { HTMLPresetsInputElement } from './elements/html-presets-input-element';
 import { HTMLStateCategoryInputElement } from './elements/html-state-category-input-element';
+import { showTextOverlay } from './elements/lib/text-overlay';
 
 customElements.define('mining-input', HTMLMiningInputElement);
 customElements.define('keybind-input', HTMLKeybindInputElement);
 customElements.define('parsers-input', HTMLParsersInputElement);
+customElements.define('preset-input', HTMLPresetsInputElement);
 customElements.define('features-input', HTMLFeaturesInputElement);
 customElements.define('state-category-input', HTMLStateCategoryInputElement);
 customElements.define('color-input', HTMLColorInputElement);
@@ -70,6 +74,14 @@ withElement('#apiTokenButton', (button) => {
   button.onclick = (): void => {
     withElement('#jpdbApiToken', (i: HTMLInputElement) => {
       void validateJPDBApiKey(i.value);
+    });
+  };
+});
+
+withElement('#show-computed-style', (button) => {
+  button.onclick = (): void => {
+    void getFullConfiguration().then((config) => {
+      showTextOverlay(document.body, 'Computed word CSS', computeWordCss(config));
     });
   };
 });
@@ -444,7 +456,7 @@ function withFields(cb: (field: HTMLInputElement) => Promise<void>, afterAll?: (
   const promises = [] as Promise<void>[];
 
   withElements(
-    'input, textarea, select, keybind-input, parsers-input, features-input, state-category-input, color-input',
+    'input, textarea, select, keybind-input, parsers-input, preset-input, features-input, state-category-input, color-input',
     (field: HTMLInputElement) => {
       const internal = field.hasAttribute('internal');
       const ignored = ['hidden', 'submit', 'button'];

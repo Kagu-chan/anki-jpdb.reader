@@ -1,5 +1,5 @@
 import { createElement } from '@shared/dom/create-element';
-import { findElement } from '@shared/dom/find-element';
+import { hideTextOverlay, showTextOverlay } from './text-overlay';
 
 const observedAttributes = ['value', 'name'] as const;
 
@@ -16,6 +16,7 @@ export abstract class CheckboxListInput<
 
   protected abstract allowInspect?: boolean;
   protected abstract invertList?: boolean;
+  protected abstract dense?: boolean;
   protected _input: HTMLInputElement;
   protected _checkboxes: Record<string, HTMLInputElement> = {};
 
@@ -75,6 +76,9 @@ export abstract class CheckboxListInput<
   //#region DOM
 
   protected abstract getRows(): T[];
+  protected getInspectContent(item: T): Promise<string> {
+    return Promise.resolve(JSON.stringify(item, null, 2));
+  }
 
   protected buildInput(): void {
     this._input = document.createElement('input');
@@ -93,44 +97,19 @@ export abstract class CheckboxListInput<
   protected renderList(): void {
     const items = this.getRows();
 
+    this.hidden = items.length === 0;
+
     if (items.length === 0) {
-      this.innerHTML = '<p>No items available.</p>';
-
-      return;
-    }
-
-    if (items.length === 1) {
-      this.appendChild(
-        createElement('div', {
-          class: 'checkbox',
-          children: [
-            this.createCheckbox(items[0].id),
-            {
-              tag: 'label',
-              attributes: {
-                for: items[0].id,
-              },
-              innerText: items[0].name,
-            },
-          ],
-        }),
-      );
-
-      const description = createElement('div', {
-        style: { opacity: '0.8' },
-        innerText: items[0].description,
-      });
-
-      description.setAttribute('indent', '');
-
-      this.appendChild(description);
-
       return;
     }
 
     const tableHost = createElement('div', {
       class: 'table-box',
     });
+
+    if (this.dense) {
+      tableHost.classList.add('dense');
+    }
 
     this.appendChild(tableHost);
 
@@ -255,41 +234,13 @@ export abstract class CheckboxListInput<
     this.value = this.value.filter((value) => value !== id);
   }
 
-  protected showCodeOverlay(host: T): void {
-    const backdrop = createElement('div', {
-      class: 'backdrop',
-      attributes: {
-        role: 'dialog',
-        'aria-modal': 'true',
-        'aria-labelledby': host.id,
-        'aria-describedby': host.id,
-      },
-      handler: (): void => {
-        this.hideCodeOverlay();
-      },
+  protected showCodeOverlay(item: T): void {
+    void this.getInspectContent(item).then((content: string) => {
+      showTextOverlay(this, item.name, content);
     });
-
-    this.appendChild(backdrop);
-
-    const overlay = createElement('div', {
-      class: 'overlay',
-      children: [
-        {
-          tag: 'h3',
-          innerText: host.name,
-        },
-        {
-          tag: 'pre',
-          innerText: JSON.stringify(host, null, 2),
-        },
-      ],
-    });
-
-    this.appendChild(overlay);
   }
 
   protected hideCodeOverlay(): void {
-    findElement(this, '.backdrop')?.remove();
-    findElement(this, '.overlay')?.remove();
+    hideTextOverlay(this);
   }
 }
