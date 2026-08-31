@@ -67,7 +67,7 @@
     "web-ext": "^10.6.0",
     "webpack": "^5.110.2",
     "webpack-cli": "^6.0.1",
-    "zip-a-folder": "^4.0.4"
+    "zip-a-folder": "^7.0.0"
   },
   "allowScripts": {
     "simple-git-hooks@2.13.1": true,
