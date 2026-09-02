@@ -6,8 +6,8 @@
 
 ```
 OS: Windows 11  
-Node: 22.13.1  
-npm: 10.9.2
+node 24.20.0
+npm 11.19.0
 ```
 
 **Build steps:**
