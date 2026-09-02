@@ -6,7 +6,7 @@ export class ParagraphReader extends BaseParagraphReader {
     const fragments: Fragment[] = [];
     const paragraphs: Paragraph[] = [];
 
-    this.recurse(paragraphs, fragments, 0, this.node, false, this.filter);
+    this.recurse(paragraphs, fragments, 0, 0, this.node, false, this.filter);
 
     if (!paragraphs.length && fragments.length) {
       paragraphs.push(fragments);
@@ -19,31 +19,42 @@ export class ParagraphReader extends BaseParagraphReader {
     paragraphs: Paragraph[],
     fragments: Fragment[],
     offset: number,
+    byteLen: number,
     node: Element | Node,
     hasRuby: boolean,
     filter?: (node: Element | Node) => boolean,
-  ): number {
+  ): [number, number] {
     if (node instanceof Element && node.hasAttribute('ajb')) {
-      return offset;
+      return [offset, byteLen];
     }
 
     const display = this.displayCategory(node);
+    const reset = (): void => {
+      [offset, byteLen] = this.breakParagraph(paragraphs, fragments);
+
+      fragments.length = 0;
+    };
     const breakIfBlock = (): void => {
       if (display === 'block') {
-        offset = this.breakParagraph(paragraphs, fragments);
-
-        fragments = [];
+        reset();
+      }
+    };
+    const breakIfOverflow = (): void => {
+      if (byteLen > 15000) {
+        reset();
       }
     };
 
     breakIfBlock();
 
     if (display === 'none' || display === 'ruby-text' || filter?.(node) === false) {
-      return offset;
+      return [offset, byteLen];
     }
 
     if (display === 'text') {
-      return this.pushText(fragments, offset, node as Text | CDATASection, hasRuby);
+      breakIfOverflow();
+
+      return this.pushText(fragments, offset, byteLen, node as Text | CDATASection, hasRuby);
     }
 
     if (display === 'ruby') {
@@ -51,17 +62,25 @@ export class ParagraphReader extends BaseParagraphReader {
     }
 
     for (const child of node.childNodes) {
-      offset = this.recurse(paragraphs, fragments, offset, child, hasRuby, filter);
+      [offset, byteLen] = this.recurse(
+        paragraphs,
+        fragments,
+        offset,
+        byteLen,
+        child,
+        hasRuby,
+        filter,
+      );
     }
 
     if (display === 'block') {
       breakIfBlock();
     }
 
-    return offset;
+    return [offset, byteLen];
   }
 
-  protected breakParagraph(paragraphs: Paragraph[], fragments: Fragment[]): number {
+  protected breakParagraph(paragraphs: Paragraph[], fragments: Fragment[]): [number, number] {
     // Remove fragments from the end that are just whitespace
     // (the ones from the start have already been ignored)
     let end = fragments.length - 1;
@@ -78,15 +97,16 @@ export class ParagraphReader extends BaseParagraphReader {
       paragraphs.push(trimmedFragments);
     }
 
-    return 0;
+    return [0, 0];
   }
 
   protected pushText(
     fragments: Fragment[],
     offset: number,
+    byteLen: number,
     text: Text | CDATASection,
     hasRuby: boolean,
-  ): number {
+  ): [number, number] {
     // Ignore empty text nodes, as well as whitespace at the beginning of the run
     if (text.data.length > 0 && !(fragments.length === 0 && text.data.trim().length === 0)) {
       fragments.push({
@@ -96,9 +116,11 @@ export class ParagraphReader extends BaseParagraphReader {
         node: text,
         hasRuby,
       });
+
+      byteLen += text.length * 2;
     }
 
-    return offset;
+    return [offset, byteLen];
   }
 
   protected displayCategory(node: Element | Node): DisplayCategory {

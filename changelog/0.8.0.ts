@@ -196,4 +196,10 @@ export const _080: ChangelogEntry[] = [
     category: Category.Hosts,
     issue: 391,
   },
+  {
+    type: 'fix',
+    description: 'Fix parsing of long text segments.',
+    category: Category.Parser,
+    issue: 308,
+  },
 ];
