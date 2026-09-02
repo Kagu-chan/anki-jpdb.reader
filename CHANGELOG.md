@@ -1,3 +1,38 @@
+## 0.8.0 (2026.09.02)
+- fix: Fixed bunpro not parsing on lessons. [#61](https://github.com/Kagu-chan/anki-jpdb.reader/issues/61) [Hosts]
+- fix: Fix parsing of long text segments. [#308](https://github.com/Kagu-chan/anki-jpdb.reader/issues/308) [Parser]
+- fix: Fixed an issue where a card state update would set the wrong class on the element. [#314](https://github.com/Kagu-chan/anki-jpdb.reader/issues/314) [Texthighlighter]
+- fix: Improved interaction between the extension and FastClick. [#331](https://github.com/Kagu-chan/anki-jpdb.reader/issues/331) [Popup]
+- fix: Fixed an issue where words without frequency would be marked as frequent. [#364](https://github.com/Kagu-chan/anki-jpdb.reader/issues/364) [Texthighlighter]
+- fix: Frequency rank is now reevaluated on card state changes. [#383](https://github.com/Kagu-chan/anki-jpdb.reader/issues/383) [Texthighlighter]
+- fix: Fixed YouTube comments no longer being parsed. [#391](https://github.com/Kagu-chan/anki-jpdb.reader/issues/391) [Hosts]
+- fix: Fixed the Mokuro parser no longer working after a Mokuro website update. [#397](https://github.com/Kagu-chan/anki-jpdb.reader/issues/397) [Parser]
+- fix: Fixed the settings preview overlay overflowing the screen and not blocking the page behind it, and added a copy-to-clipboard button to it. [Settings]
+- fix: Fixed the ttsu parser not parsing the book content after a page reload. [Parser]
+- change: Removed the save button from the settings page and added automatic saving. [Settings]
+- change: Reworked "Mark the top X words" and "Mark I+1 sentences" to key off unmined words instead of new words, with separate options to also include all other states. [Texthighlighter]
+- change: The closing keybind for the popup is now configurable (default: Escape). [Popup]
+- change: Updated documentation for the current set of automatically parsed apps and sites. [Documentation]
+- add: Added the option to highlight i+1 sentences. [#54](https://github.com/Kagu-chan/anki-jpdb.reader/issues/54) [Texthighlighter]
+- add: Added a color picker for style-preset colors. [#142](https://github.com/Kagu-chan/anki-jpdb.reader/issues/142) [Settings]
+- add: Added configurable style presets for word coloring, frequent/i+1/misparsed/pitch-accent highlighting. [#143](https://github.com/Kagu-chan/anki-jpdb.reader/issues/143) [Texthighlighter]
+- add: Added a delay option for automatic parser initialization. [#238](https://github.com/Kagu-chan/anki-jpdb.reader/issues/238) [Hosts]
+- add: Allow setting a keybind to switch between satori event sources. [#307](https://github.com/Kagu-chan/anki-jpdb.reader/issues/307) [Parser]
+- add: Allow showing an overlay for satori event sources. [#307](https://github.com/Kagu-chan/anki-jpdb.reader/issues/307) [Parser]
+- add: Added parsing for the Bunpro quiz/review question area. [#400](https://github.com/Kagu-chan/anki-jpdb.reader/issues/400) [Hosts] ([@tomboblombo](https://github.com/tomboblombo))
+- add: Add textfeed and textlog as parser pattern. [Parser] ([@bpwhelan](https://github.com/bpwhelan))
+- add: Added a button to preview the fully computed word CSS in Settings. [Settings]
+- add: Added parsing of JPDB example sentences on review and vocabulary pages. [Hosts] ([@tomboblombo](https://github.com/tomboblombo))
+- add: Added per-category furigana visibility settings. [Texthighlighter]
+- add: Added static style presets. [Texthighlighter]
+- add: Added the ability to customize every word/furigana style preset color. [Settings]
+- add: Added the option to classify card states into Unmined, New, Learning, and Known categories. [Texthighlighter]
+- add: Show the extension version in the popup and settings page. [Settings]
+- remove: Removed the legacy text highlighter. [Texthighlighter]
+- chore: Credit coauthors in the changelog. [Documentation]
+- chore: Prepare the Satori event source toggle to be reused across parsers. [Parser]
+
+
 ## 0.7.0 (2025.08.10)
 - fix: Fixed a race condition where sometimes a reload would not parse the page. [#306](https://github.com/Kagu-chan/anki-jpdb.reader/issues/306) [Parser]
 - fix: Fixed a race condition where custom styles were not applied correctly. [#330](https://github.com/Kagu-chan/anki-jpdb.reader/issues/330) [Texthighlighter]

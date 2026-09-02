@@ -74,7 +74,7 @@ Some web apps and sites require special attention to work properly; therefore, t
 
 [Firefox Browser Extension](https://addons.mozilla.org/firefox/addon/anki-jpdb-reader/), or install it via Firefox for Android **or**
 
-1. Download the signed [anki_jpdb_reader-0.7.1.xpi](https://addons.mozilla.org/firefox/downloads/file/4554049/anki_jpdb_reader-0.7.1.xpi) directly. This link may take a few minutes to a few hours to update after a new release while Mozilla reviews it — it always resolves to the latest reviewed version in the meantime.
+1. Download the signed [anki_jpdb_reader-0.8.0.xpi](https://addons.mozilla.org/firefox/downloads/file/4554049/anki_jpdb_reader-0.8.0.xpi) directly. This link may take a few minutes to a few hours to update after a new release while Mozilla reviews it — it always resolves to the latest reviewed version in the meantime.
 2. Open your browser and navigate to `about:addons`.
 3. Click the gear icon and choose `Install Add-on From File...`.
 4. In the file picker dialog, select the downloaded `.xpi` file.
