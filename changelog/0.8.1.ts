@@ -50,4 +50,10 @@ export const _081: ChangelogEntry[] = [
     category: Category.Texthighlighter,
     issue: 'N/A',
   },
+  {
+    type: 'fix',
+    description: "Fixed the color picker's toggle switches looking permanently dim/disabled.",
+    category: Category.Settings,
+    issue: 'N/A',
+  },
 ];
