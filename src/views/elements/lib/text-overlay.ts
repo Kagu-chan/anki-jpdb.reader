@@ -8,6 +8,7 @@ export const showTextOverlay = (host: HTMLElement, title: string, content: strin
     attributes: {
       role: 'dialog',
       'aria-modal': 'true',
+      'data-text-overlay': '',
     },
     handler: (): void => {
       hideTextOverlay(host);
@@ -18,6 +19,9 @@ export const showTextOverlay = (host: HTMLElement, title: string, content: strin
 
   const overlay = createElement('div', {
     class: ['overlay', 'is-open'],
+    attributes: {
+      'data-text-overlay': '',
+    },
     children: [
       {
         tag: 'div',
@@ -62,7 +66,7 @@ export const showTextOverlay = (host: HTMLElement, title: string, content: strin
 };
 
 export const hideTextOverlay = (host: HTMLElement): void => {
-  findElement(host, '.backdrop')?.remove();
-  findElement(host, '.overlay')?.remove();
+  findElement(host, '.backdrop[data-text-overlay]')?.remove();
+  findElement(host, '.overlay[data-text-overlay]')?.remove();
   document.body.style.overflow = '';
 };

@@ -13,4 +13,10 @@ export const _081: ChangelogEntry[] = [
     category: Category.Settings,
     issue: 'N/A',
   },
+  {
+    type: 'fix',
+    description: 'Fixed the color picker sometimes failing to reopen after closing it.',
+    category: Category.Settings,
+    issue: 'N/A',
+  },
 ];
