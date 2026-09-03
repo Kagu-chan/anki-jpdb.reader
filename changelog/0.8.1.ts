@@ -32,4 +32,10 @@ export const _081: ChangelogEntry[] = [
     category: Category.Texthighlighter,
     issue: 'N/A',
   },
+  {
+    type: 'add',
+    description: 'Added a furigana visibility setting for unclassified words.',
+    category: Category.Texthighlighter,
+    issue: 'N/A',
+  },
 ];

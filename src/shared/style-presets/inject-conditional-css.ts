@@ -39,6 +39,7 @@ export type InjectConditionalCssConfig = Pick<
   | 'furiganaNewWords'
   | 'furiganaLearningWords'
   | 'furiganaKnownWords'
+  | 'furiganaUnrelatedWords'
   | 'skipFurigana'
 >;
 

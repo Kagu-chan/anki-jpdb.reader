@@ -13,6 +13,7 @@ export enum BaseStylingMode {
 }
 
 export enum FuriganaVisibility {
+  UNSET = 'unset',
   ALWAYS = 'always',
   HOVER = 'hover',
   NEVER = 'never',
@@ -110,6 +111,7 @@ export type ConfigurationSchema = {
   furiganaNewWords: FuriganaVisibility;
   furiganaLearningWords: FuriganaVisibility;
   furiganaKnownWords: FuriganaVisibility;
+  furiganaUnrelatedWords: FuriganaVisibility;
 
   highlightMisparsed: boolean;
   highlightPitchAccent: boolean;

@@ -72,6 +72,7 @@ export class ParseCommandHandler extends BackgroundCommandHandler<ParseCommand> 
         'furiganaNewWords',
         'furiganaLearningWords',
         'furiganaKnownWords',
+        'furiganaUnrelatedWords',
         'skipFurigana',
       ],
       async (config) => {

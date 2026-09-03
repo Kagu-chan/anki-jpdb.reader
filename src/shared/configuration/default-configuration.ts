@@ -137,6 +137,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   furiganaNewWords: FuriganaVisibility.ALWAYS,
   furiganaLearningWords: FuriganaVisibility.HOVER,
   furiganaKnownWords: FuriganaVisibility.NEVER,
+  furiganaUnrelatedWords: FuriganaVisibility.UNSET,
 
   highlightMisparsed: true,
   highlightPitchAccent: true,
