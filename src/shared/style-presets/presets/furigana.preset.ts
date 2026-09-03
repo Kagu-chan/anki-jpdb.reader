@@ -20,7 +20,12 @@ const CATEGORY_CONFIG_KEYS = {
 
 const furiganaRule = (categoryClass: string, visibility: FuriganaVisibility): string => {
   if (visibility === FuriganaVisibility.ALWAYS) {
-    return '';
+    return css`
+      .jpdb-word.${categoryClass} rt {
+        display: ruby-text;
+        opacity: 1;
+      }
+    `;
   }
 
   if (visibility === FuriganaVisibility.NEVER) {

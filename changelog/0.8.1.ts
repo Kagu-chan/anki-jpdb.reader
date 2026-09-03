@@ -44,4 +44,10 @@ export const _081: ChangelogEntry[] = [
     category: Category.Texthighlighter,
     issue: 'N/A',
   },
+  {
+    type: 'fix',
+    description: 'Fixed "Always" show furigana not overriding a page that hides furigana itself.',
+    category: Category.Texthighlighter,
+    issue: 'N/A',
+  },
 ];
