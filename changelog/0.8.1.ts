@@ -56,4 +56,10 @@ export const _081: ChangelogEntry[] = [
     category: Category.Settings,
     issue: 'N/A',
   },
+  {
+    type: 'change',
+    description: 'Underlining a word on hover is now a configurable style preset.',
+    category: Category.Texthighlighter,
+    issue: 'N/A',
+  },
 ];

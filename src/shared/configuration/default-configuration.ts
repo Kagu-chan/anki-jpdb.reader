@@ -1,8 +1,9 @@
 import { JPDBCardState, WordStateCategory } from '../jpdb/types';
+import { CURRENT_SCHEMA_VERSION } from './schema-version';
 import { BaseStylingMode, ConfigurationSchema, FuriganaVisibility } from './types';
 
 export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
-  schemaVersion: 1,
+  schemaVersion: CURRENT_SCHEMA_VERSION,
 
   //#region JPDB Integration
 
@@ -66,7 +67,7 @@ export const DEFAULT_CONFIGURATION = Object.freeze<ConfigurationSchema>({
   generatePitch: false,
 
   enableStylePresets: true,
-  stylePresets: [],
+  stylePresets: ['underline-words-on-hover'],
   baseStylingMode: BaseStylingMode.JPDB,
 
   baseColor: {},

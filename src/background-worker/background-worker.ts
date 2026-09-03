@@ -1,4 +1,7 @@
 import { getConfiguration } from '@shared/configuration/get-configuration';
+import { migrateConfiguration } from '@shared/configuration/migrate-configuration';
+import { CURRENT_SCHEMA_VERSION } from '@shared/configuration/schema-version';
+import { setConfiguration } from '@shared/configuration/set-configuration';
 import { addContextMenu } from '@shared/extension/add-context-menu';
 import { addInstallListener, OnInstalledReason } from '@shared/extension/add-install-listener';
 import { openOptionsPage } from '@shared/extension/open-options-page';
@@ -59,11 +62,12 @@ handlerCollection.listen();
 
 addInstallListener(async ({ reason }) => {
   if (reason === OnInstalledReason.INSTALL) {
+    await setConfiguration('schemaVersion', CURRENT_SCHEMA_VERSION);
     await openOptionsPage();
   }
 
   if (reason === OnInstalledReason.UPDATE) {
-    // NOTE: OnUpdate In the future we may use this for schema updates
+    await migrateConfiguration();
 
     const skipReleaseNotes = await getConfiguration('skipReleaseNotes');
 

@@ -1,6 +1,7 @@
 import { hoverColorsPreset } from './static-presets/hover-colors.preset';
 import { plainKnownWordsPreset } from './static-presets/plain-known-words.preset';
 import { underlineColorsPreset } from './static-presets/underline-colors.preset';
+import { underlineWordsOnHoverPreset } from './static-presets/underline-words-on-hover.preset';
 import { StylePreset } from './types';
 
 export const STATIC_PRESETS: StylePreset[] = [
@@ -21,5 +22,11 @@ export const STATIC_PRESETS: StylePreset[] = [
     name: 'Colors on hover',
     description: 'Hides all word state colors until you hover over the word.',
     css: hoverColorsPreset,
+  },
+  {
+    id: 'underline-words-on-hover',
+    name: 'Underline words on hover',
+    description: 'Underlines a word while you hover over it.',
+    css: underlineWordsOnHoverPreset,
   },
 ];
