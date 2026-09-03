@@ -78,6 +78,8 @@ export type ConfigurationSchema = {
   stylePresets: string[];
   baseStylingMode: BaseStylingMode;
 
+  baseColor: PresetColor;
+
   jpdbColorLocked: PresetColor;
   jpdbColorSuspended: PresetColor;
   jpdbColorBlacklisted: PresetColor;

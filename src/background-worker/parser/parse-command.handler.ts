@@ -45,6 +45,7 @@ export class ParseCommandHandler extends BackgroundCommandHandler<ParseCommand> 
         'stylePresets',
         'stateCategories',
         'baseStylingMode',
+        'baseColor',
         'jpdbColorLocked',
         'jpdbColorSuspended',
         'jpdbColorBlacklisted',

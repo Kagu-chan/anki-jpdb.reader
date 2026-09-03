@@ -26,4 +26,10 @@ export const _081: ChangelogEntry[] = [
     category: Category.Texthighlighter,
     issue: 'N/A',
   },
+  {
+    type: 'add',
+    description: 'Added a base word color setting.',
+    category: Category.Texthighlighter,
+    issue: 'N/A',
+  },
 ];

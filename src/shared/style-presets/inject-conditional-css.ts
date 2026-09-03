@@ -1,4 +1,5 @@
 import { ConfigurationSchema } from '@shared/configuration/types';
+import { basePreset } from './presets/base.preset';
 import { categoryPreset } from './presets/category.preset';
 import { furiganaPreset } from './presets/furigana.preset';
 import { jpdbPreset } from './presets/jpdb.preset';
@@ -8,7 +9,10 @@ import { pitchAccentPreset } from './presets/pitch-accent.preset';
 export type InjectConditionalCssConfig = Pick<
   ConfigurationSchema,
   | 'enableStylePresets'
+  | 'stylePresets'
+  | 'stateCategories'
   | 'baseStylingMode'
+  | 'baseColor'
   | 'jpdbColorLocked'
   | 'jpdbColorSuspended'
   | 'jpdbColorBlacklisted'
@@ -39,6 +43,7 @@ export type InjectConditionalCssConfig = Pick<
 >;
 
 const CONDITIONAL_PRESETS: ((config: InjectConditionalCssConfig) => string)[] = [
+  basePreset,
   jpdbPreset,
   categoryPreset,
   misparsedPreset,

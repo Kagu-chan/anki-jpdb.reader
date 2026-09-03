@@ -3,7 +3,7 @@ import { getJpdbColorRules } from '../jpdb-color-rules';
 import { StylePresetCssConfig } from '../types';
 
 export const getActiveColorRules = (config: StylePresetCssConfig): [string, PresetColor][] => {
-  const rules: [string, PresetColor][] = [];
+  const rules: [string, PresetColor][] = [['.jpdb-word', config.baseColor]];
   const plainKnownWords = config.stylePresets.includes('plain-known-words');
 
   if (config.baseStylingMode === BaseStylingMode.JPDB) {
