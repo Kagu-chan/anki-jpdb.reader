@@ -45,5 +45,14 @@ export const resolveColorStyle = (color: PresetColor): string => {
 export const resolveColorRule = (selector: string, color: PresetColor): string => {
   const style = resolveColorStyle(color);
 
-  return style ? `${selector} {\n  ${style}\n}` : '';
+  if (!style) {
+    return '';
+  }
+
+  const indented = style
+    .split('\n')
+    .map((line) => `  ${line}`)
+    .join('\n');
+
+  return `${selector} {\n${indented}\n}`;
 };

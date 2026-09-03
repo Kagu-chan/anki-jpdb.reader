@@ -7,4 +7,10 @@ export const _081: ChangelogEntry[] = [
     category: Category.Settings,
     issue: 'N/A',
   },
+  {
+    type: 'fix',
+    description: 'Fixed multi-line custom color styles generating broken CSS.',
+    category: Category.Settings,
+    issue: 'N/A',
+  },
 ];
