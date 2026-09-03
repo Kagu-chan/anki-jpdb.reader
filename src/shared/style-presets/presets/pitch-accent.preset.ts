@@ -3,6 +3,7 @@ import { resolveColorRule } from '../color';
 
 type PitchAccentPresetConfig = Pick<
   ConfigurationSchema,
+  | 'generatePitch'
   | 'highlightPitchAccent'
   | 'pitchColorHeiban'
   | 'pitchColorAtamadaka'
@@ -12,7 +13,7 @@ type PitchAccentPresetConfig = Pick<
 >;
 
 export const pitchAccentPreset = (config: PitchAccentPresetConfig): string => {
-  if (!config.highlightPitchAccent) {
+  if (!config.generatePitch || !config.highlightPitchAccent) {
     return '';
   }
 

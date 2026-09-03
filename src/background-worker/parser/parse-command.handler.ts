@@ -62,6 +62,7 @@ export class ParseCommandHandler extends BackgroundCommandHandler<ParseCommand> 
         'categoryColorKnown',
         'highlightMisparsed',
         'misparsedColor',
+        'generatePitch',
         'highlightPitchAccent',
         'pitchColorHeiban',
         'pitchColorAtamadaka',

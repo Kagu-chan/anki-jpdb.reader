@@ -29,6 +29,7 @@ export type InjectConditionalCssConfig = Pick<
   | 'categoryColorKnown'
   | 'highlightMisparsed'
   | 'misparsedColor'
+  | 'generatePitch'
   | 'highlightPitchAccent'
   | 'pitchColorHeiban'
   | 'pitchColorAtamadaka'

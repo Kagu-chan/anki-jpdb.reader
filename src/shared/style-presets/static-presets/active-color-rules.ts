@@ -26,7 +26,7 @@ export const getActiveColorRules = (config: StylePresetCssConfig): [string, Pres
     rules.push(['.jpdb-word.misparsed', config.misparsedColor]);
   }
 
-  if (config.highlightPitchAccent) {
+  if (config.generatePitch && config.highlightPitchAccent) {
     rules.push(
       ['.jpdb-word.heiban', config.pitchColorHeiban],
       ['.jpdb-word.atamadaka', config.pitchColorAtamadaka],

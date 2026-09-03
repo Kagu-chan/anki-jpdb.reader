@@ -38,4 +38,10 @@ export const _081: ChangelogEntry[] = [
     category: Category.Texthighlighter,
     issue: 'N/A',
   },
+  {
+    type: 'fix',
+    description: 'Fixed pitch accent CSS being generated while pitch accent markers are disabled.',
+    category: Category.Texthighlighter,
+    issue: 'N/A',
+  },
 ];
