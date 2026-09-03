@@ -43,6 +43,7 @@ export class ParseCommandHandler extends BackgroundCommandHandler<ParseCommand> 
         'customWordCSS',
         'enableStylePresets',
         'stylePresets',
+        'stateCategories',
         'baseStylingMode',
         'jpdbColorLocked',
         'jpdbColorSuspended',

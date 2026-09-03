@@ -686,7 +686,10 @@
                 >
                   <div class="table-box dense">
                     <div data-show="baseStylingMode = 'jpdb'" style="display: contents">
-                      <div class="row">
+                      <div
+                        class="row"
+                        data-show="!(stylePresets['plain-known-words'] && stateCategories['not-in-deck'] = 'known')"
+                      >
                         <div class="col flex-col">
                           <label for="jpdbColorNotInDeck">JPDB: Not in deck</label>
                         </div>
@@ -698,7 +701,10 @@
                         </div>
                       </div>
 
-                      <div class="row">
+                      <div
+                        class="row"
+                        data-show="!(stylePresets['plain-known-words'] && stateCategories['new'] = 'known')"
+                      >
                         <div class="col flex-col">
                           <label for="jpdbColorNew">JPDB: New</label>
                         </div>
@@ -707,7 +713,10 @@
                         </div>
                       </div>
 
-                      <div class="row">
+                      <div
+                        class="row"
+                        data-show="!(stylePresets['plain-known-words'] && stateCategories['learning'] = 'known')"
+                      >
                         <div class="col flex-col">
                           <label for="jpdbColorLearning">JPDB: Learning</label>
                         </div>
@@ -719,7 +728,10 @@
                         </div>
                       </div>
 
-                      <div class="row">
+                      <div
+                        class="row"
+                        data-show="!(stylePresets['plain-known-words'] && stateCategories['known'] = 'known')"
+                      >
                         <div class="col flex-col">
                           <label for="jpdbColorKnown">JPDB: Known</label>
                         </div>
@@ -728,7 +740,10 @@
                         </div>
                       </div>
 
-                      <div class="row">
+                      <div
+                        class="row"
+                        data-show="!(stylePresets['plain-known-words'] && stateCategories['due'] = 'known')"
+                      >
                         <div class="col flex-col">
                           <label for="jpdbColorDue">JPDB: Due</label>
                         </div>
@@ -737,7 +752,10 @@
                         </div>
                       </div>
 
-                      <div class="row">
+                      <div
+                        class="row"
+                        data-show="!(stylePresets['plain-known-words'] && stateCategories['failed'] = 'known')"
+                      >
                         <div class="col flex-col">
                           <label for="jpdbColorFailed">JPDB: Failed</label>
                         </div>
@@ -746,7 +764,10 @@
                         </div>
                       </div>
 
-                      <div class="row">
+                      <div
+                        class="row"
+                        data-show="!(stylePresets['plain-known-words'] && stateCategories['locked'] = 'known')"
+                      >
                         <div class="col flex-col">
                           <label for="jpdbColorLocked">JPDB: Locked</label>
                         </div>
@@ -755,7 +776,10 @@
                         </div>
                       </div>
 
-                      <div class="row">
+                      <div
+                        class="row"
+                        data-show="!(stylePresets['plain-known-words'] && stateCategories['never-forget'] = 'known')"
+                      >
                         <div class="col flex-col">
                           <label for="jpdbColorNeverForget">JPDB: Never forget</label>
                         </div>
@@ -767,7 +791,10 @@
                         </div>
                       </div>
 
-                      <div class="row">
+                      <div
+                        class="row"
+                        data-show="!(stylePresets['plain-known-words'] && stateCategories['suspended'] = 'known')"
+                      >
                         <div class="col flex-col">
                           <label for="jpdbColorSuspended">JPDB: Suspended</label>
                         </div>
@@ -779,7 +806,10 @@
                         </div>
                       </div>
 
-                      <div class="row">
+                      <div
+                        class="row"
+                        data-show="!(stylePresets['plain-known-words'] && stateCategories['blacklisted'] = 'known')"
+                      >
                         <div class="col flex-col">
                           <label for="jpdbColorBlacklisted">JPDB: Blacklisted</label>
                         </div>
@@ -826,7 +856,7 @@
                         </div>
                       </div>
 
-                      <div class="row">
+                      <div class="row" data-show="!stylePresets['plain-known-words']">
                         <div class="col flex-col">
                           <label for="categoryColorKnown">Category: Known</label>
                         </div>

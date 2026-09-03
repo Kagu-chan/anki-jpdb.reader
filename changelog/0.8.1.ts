@@ -19,4 +19,11 @@ export const _081: ChangelogEntry[] = [
     category: Category.Settings,
     issue: 'N/A',
   },
+  {
+    type: 'fix',
+    description:
+      '"Plain known words" now hides and removes coloring for every state treated as known.',
+    category: Category.Texthighlighter,
+    issue: 'N/A',
+  },
 ];

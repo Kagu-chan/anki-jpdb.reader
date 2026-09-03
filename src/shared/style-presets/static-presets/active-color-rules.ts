@@ -1,22 +1,13 @@
 import { BaseStylingMode, PresetColor } from '@shared/configuration/types';
+import { getJpdbColorRules } from '../jpdb-color-rules';
 import { StylePresetCssConfig } from '../types';
 
 export const getActiveColorRules = (config: StylePresetCssConfig): [string, PresetColor][] => {
   const rules: [string, PresetColor][] = [];
+  const plainKnownWords = config.stylePresets.includes('plain-known-words');
 
   if (config.baseStylingMode === BaseStylingMode.JPDB) {
-    rules.push(
-      ['.jpdb-word.locked', config.jpdbColorLocked],
-      ['.jpdb-word.suspended', config.jpdbColorSuspended],
-      ['.jpdb-word.blacklisted', config.jpdbColorBlacklisted],
-      ['.jpdb-word.never-forget', config.jpdbColorNeverForget],
-      ['.jpdb-word.not-in-deck', config.jpdbColorNotInDeck],
-      ['.jpdb-word.new', config.jpdbColorNew],
-      ['.jpdb-word.learning', config.jpdbColorLearning],
-      ['.jpdb-word.known', config.jpdbColorKnown],
-      ['.jpdb-word.due', config.jpdbColorDue],
-      ['.jpdb-word.failed', config.jpdbColorFailed],
-    );
+    rules.push(...getJpdbColorRules(config, plainKnownWords));
   }
 
   if (config.baseStylingMode === BaseStylingMode.CATEGORY) {
@@ -24,8 +15,11 @@ export const getActiveColorRules = (config: StylePresetCssConfig): [string, Pres
       ['.jpdb-word.cat-unmined', config.categoryColorUnmined],
       ['.jpdb-word.cat-new', config.categoryColorNew],
       ['.jpdb-word.cat-learning', config.categoryColorLearning],
-      ['.jpdb-word.cat-known', config.categoryColorKnown],
     );
+
+    if (!plainKnownWords) {
+      rules.push(['.jpdb-word.cat-known', config.categoryColorKnown]);
+    }
   }
 
   if (config.highlightMisparsed) {

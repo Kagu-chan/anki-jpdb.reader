@@ -4,6 +4,7 @@ import { resolveColorRule } from '../color';
 type CategoryPresetConfig = Pick<
   ConfigurationSchema,
   | 'baseStylingMode'
+  | 'stylePresets'
   | 'categoryColorUnmined'
   | 'categoryColorNew'
   | 'categoryColorLearning'
@@ -15,6 +16,8 @@ export const categoryPreset = (config: CategoryPresetConfig): string => {
     return '';
   }
 
+  const plainKnownWords = config.stylePresets.includes('plain-known-words');
+
   const rules: [string, PresetColor][] = [
     ['.jpdb-word.cat-unmined', config.categoryColorUnmined],
     ['.jpdb-word.cat-new', config.categoryColorNew],
@@ -23,6 +26,7 @@ export const categoryPreset = (config: CategoryPresetConfig): string => {
   ];
 
   return rules
+    .filter(([selector]) => !(plainKnownWords && selector === '.jpdb-word.cat-known'))
     .map(([selector, color]) => resolveColorRule(selector, color))
     .filter(Boolean)
     .join('\n');

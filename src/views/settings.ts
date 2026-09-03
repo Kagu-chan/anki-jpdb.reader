@@ -235,7 +235,8 @@ withElements('[data-show]', (element) => {
    *
    * - myProperty
    * - !myProperty
-   * - myProperty['includeString']
+   * - myProperty['includeString'] (array field: whether it includes the string)
+   * - myProperty['objectKey'] (object field: the value stored at that key, e.g. for comparison)
    * - myProperty = 'someValue'
    * - myProperty != 'someValue'
    * - myProperty && !myOtherProperty
@@ -355,6 +356,10 @@ function parseCondition(expr: string): boolean {
     // If array access and value is array, value equals whether prop is in array
     if (prop && Array.isArray(value)) {
       value = (value as string[]).includes(prop);
+    } else if (prop && typeof value === 'object' && value !== null) {
+      // Plain object access (e.g. stateCategories['locked']) - value becomes the looked-up
+      // property (or '' if unset), so it can be compared with `= '...'`/`!= '...'`.
+      value = (value as Record<string, string>)[prop] ?? '';
     }
 
     return value as string | boolean;
