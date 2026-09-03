@@ -62,4 +62,11 @@ export const _081: ChangelogEntry[] = [
     category: Category.Texthighlighter,
     issue: 'N/A',
   },
+  {
+    type: 'remove',
+    description:
+      'Removed the Crunchyroll subtitle toggle, as they now force hardsubs, making subtitle removal moot.',
+    category: Category.Features,
+    issue: 'N/A',
+  },
 ];
