@@ -63,14 +63,14 @@
     "sass-loader": "^16.0.6",
     "simple-git-hooks": "^2.14.0",
     "ts-loader": "^9.6.2",
-    "typescript": "^5.8.3",
+    "typescript": "^5.9.3",
     "web-ext": "^10.6.0",
     "webpack": "^5.110.2",
     "webpack-cli": "^7.2.3",
     "zip-a-folder": "^7.0.0"
   },
   "allowScripts": {
-    "simple-git-hooks@2.13.1": true,
+    "simple-git-hooks@2.14.0": true,
     "@parcel/watcher": false
   }
 }
