@@ -1,3 +1,17 @@
+## 0.8.1 (2026.09.05)
+- fix: "Plain known words" now hides and removes coloring for every state treated as known. [Texthighlighter]
+- fix: Added the missing "Category: Unmined" color setting. [Settings]
+- fix: Fixed "Always" show furigana not overriding a page that hides furigana itself. [Texthighlighter]
+- fix: Fixed multi-line custom color styles generating broken CSS. [Settings]
+- fix: Fixed pitch accent CSS being generated while pitch accent markers are disabled. [Texthighlighter]
+- fix: Fixed the color picker sometimes failing to reopen after closing it. [Settings]
+- fix: Fixed the color picker's toggle switches looking permanently dim/disabled. [Settings]
+- change: Underlining a word on hover is now a configurable style preset. [Texthighlighter]
+- add: Added a base word color setting. [Texthighlighter]
+- add: Added a furigana visibility setting for unclassified words. [Texthighlighter]
+- remove: Removed the Crunchyroll subtitle toggle, as they now force hardsubs, making subtitle removal moot. [Features]
+
+
 ## 0.8.0 (2026.09.02)
 - fix: Fixed bunpro not parsing on lessons. [#61](https://github.com/Kagu-chan/anki-jpdb.reader/issues/61) [Hosts]
 - fix: Fix parsing of long text segments. [#308](https://github.com/Kagu-chan/anki-jpdb.reader/issues/308) [Parser]
