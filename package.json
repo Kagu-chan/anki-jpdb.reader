@@ -61,7 +61,7 @@
     "rimraf": "^6.0.1",
     "sass": "^1.93.2",
     "sass-loader": "^16.0.6",
-    "simple-git-hooks": "^2.13.1",
+    "simple-git-hooks": "^2.14.0",
     "ts-loader": "^9.6.2",
     "typescript": "^5.8.3",
     "web-ext": "^10.6.0",
