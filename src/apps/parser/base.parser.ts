@@ -1,11 +1,15 @@
 import { debug } from '@shared/debug';
 import { FlatHostMeta } from '@shared/host-meta/types';
-import { getParagraphs } from '../batches/get-paragraphs';
+import { Paragraph } from '../batches/types';
 import { Registry } from '../integration/registry';
 
 export abstract class BaseParser {
   protected _hasInjectedClass = false;
-  protected getParagraphsFn?: typeof getParagraphs;
+  protected getParagraphsFn?(
+    this: void,
+    node: Element | Node,
+    filter?: (node: Element | Node) => boolean,
+  ): Paragraph[];
 
   /** The root element to parse */
   protected get root(): HTMLElement | null {
@@ -285,11 +289,11 @@ export abstract class BaseParser {
    * Used to parse elements that may become visible at a later point in time, for example when scrolling.
    * Unlike the getVisibleObserver method, this method also parses the visible elements.
    *
-   * @param {(node: HTMLElement | Text) => boolean} filter A filter for the now visible nodes childnodes. Childnodes that do not pass the filter will not be parsed
+   * @param {(node: Element | Node) => boolean} filter A filter for the now visible nodes childnodes. Childnodes that do not pass the filter will not be parsed
    * @returns {IntersectionObserver}
    */
   protected getParseVisibleObserver(
-    filter?: (node: HTMLElement | Text) => boolean,
+    filter?: (node: Element | Node) => boolean,
   ): IntersectionObserver {
     const observer = this.getVisibleObserver(
       (elements) => this.visibleObserverOnEnter(elements, observer, filter),
@@ -307,12 +311,12 @@ export abstract class BaseParser {
    *
    * @param {Element[]} elements The element changes
    * @param {IntersectionObserver} observer The observer instance
-   * @param {(node: HTMLElement | Text) => boolean} filter A filter function to filter the childnodes of the elements
+   * @param {(node: Element | Node) => boolean} filter A filter function to filter the childnodes of the elements
    */
   protected visibleObserverOnEnter(
     elements: Element[],
     observer: IntersectionObserver,
-    filter?: (node: HTMLElement | Text) => boolean,
+    filter?: (node: Element | Node) => boolean,
   ): void {
     const { batchController } = Registry;
 

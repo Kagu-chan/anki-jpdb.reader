@@ -5,10 +5,10 @@ export class HostEvaluator {
   private _isMainFrame = window === window.top;
 
   private _targetedTriggerMeta: FlatHostMeta | undefined;
-  private _targetedAutomaticMeta: FlatHostMeta[];
+  private _targetedAutomaticMeta: FlatHostMeta[] = [];
 
   private _defaultTriggerMeta: FlatHostMeta | undefined;
-  private _defaultAutomaticMeta: FlatHostMeta[];
+  private _defaultAutomaticMeta: FlatHostMeta[] = [];
 
   private _host: string;
 

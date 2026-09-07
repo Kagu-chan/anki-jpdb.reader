@@ -6,7 +6,7 @@ import { AutomaticParser } from '../automatic.parser';
 import { getMokuroParagraphs } from './mokuro/get-mokuro-paragraphs';
 
 class MokuroMangaPanel {
-  private _panelObserver: MutationObserver;
+  private _panelObserver!: MutationObserver;
 
   private _debounceTimeout: NodeJS.Timeout | undefined;
   private _debounceTime = 500;

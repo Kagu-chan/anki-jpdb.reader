@@ -9,12 +9,12 @@ export class ReadwokParser extends AutomaticParser {
    *
    * @param {Element[]} elements The element changes
    * @param {IntersectionObserver} observer The observer instance
-   * @param {(node: HTMLElement | Text) => boolean} filter A filter function to filter the childnodes of the elements
+   * @param {(node: Element | Node) => boolean} filter A filter function to filter the childnodes of the elements
    */
   protected visibleObserverOnEnter(
     elements: Element[],
     observer: IntersectionObserver,
-    filter?: (node: HTMLElement | Text) => boolean,
+    filter?: (node: Element | Node) => boolean,
   ): void {
     elements.forEach((element) => {
       element.querySelectorAll('rt[style]').forEach((furi) => {

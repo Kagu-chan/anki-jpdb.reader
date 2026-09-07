@@ -119,7 +119,9 @@ export class KeybindManager {
     // Sort the keybinds by the number of modifiers they have, then by the key code
     // This way we can prioritize keybinds with more modifiers, as they may extend other keybinds (e.g. ALT + KEY should have a lower priority than ALT + SHIFT + KEY)
     this._sortedKeylist = Object.entries(this._keyMap)
-      .map(([key, val]: [KeybindKey, Keybind[]]) => val.map((v) => ({ key, val: v })))
+      .map(([key, val]: [string, Keybind[]]) =>
+        val.map((v) => ({ key: key as KeybindKey, val: v })),
+      )
       .flat()
       .sort((l, r) => {
         if (l.val.modifiers.length !== r.val.modifiers.length) {

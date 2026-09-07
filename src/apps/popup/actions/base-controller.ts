@@ -7,7 +7,7 @@ export abstract class BaseController {
   public abstract showActions: boolean;
   public readonly initialized: Promise<ConfigurationMonitor<keyof ConfigurationSchema>>;
 
-  protected configuration: ConfigurationSchema;
+  protected configuration!: ConfigurationSchema;
 
   protected static _suspendUpdateWordStates = false;
 

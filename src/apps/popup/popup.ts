@@ -45,9 +45,9 @@ export class Popup {
   private _root: HTMLDivElement = createElement('div', {
     id: 'ajb-popup',
     events: {
-      onmousedown: (ev: MouseEvent) => ev.stopPropagation(),
-      onclick: (ev: MouseEvent) => ev.stopPropagation(),
-      onwheel: (ev: WheelEvent) => ev.stopPropagation(),
+      onmousedown: (ev: Event) => ev.stopPropagation(),
+      onclick: (ev: Event) => ev.stopPropagation(),
+      onwheel: (ev: Event) => ev.stopPropagation(),
     },
     style: {
       all: 'initial',
@@ -104,7 +104,7 @@ export class Popup {
     children: [],
   });
 
-  private _configuration: RelevantConfiguration;
+  private _configuration!: RelevantConfiguration;
 
   private _hideTimer?: NodeJS.Timeout;
   private _isHover?: boolean;

@@ -18,7 +18,7 @@ export class SequenceManager {
     receiveBackgroundMessage('sequenceError', (sequenceId: number, error: string) =>
       this.handleBackgroundMessage(sequenceId, (request) => request.reject(new Error(error))),
     );
-    receiveBackgroundMessage('sequenceSuccess', (sequenceId: number, data: unknown[]) =>
+    receiveBackgroundMessage('sequenceSuccess', (sequenceId: number, data: unknown) =>
       this.handleBackgroundMessage(sequenceId, (request) => request.resolve(data)),
     );
   }

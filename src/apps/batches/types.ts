@@ -1,5 +1,4 @@
 import type { applyTokens } from './apply-tokens';
-import type { getParagraphs } from './get-paragraphs';
 
 export type Fragment = {
   node: Text | CDATASection;
@@ -14,6 +13,10 @@ export type DisplayCategory = 'none' | 'text' | 'ruby' | 'ruby-text' | 'block' |
 export type RegisterOptions = {
   filter?: (node: Element | Node) => boolean;
   onEmpty?: (node: Element | Node) => void;
-  getParagraphsFn?: typeof getParagraphs;
+  getParagraphsFn?(
+    this: void,
+    node: Element | Node,
+    filter?: (node: Element | Node) => boolean,
+  ): Paragraph[];
   applyFn?: typeof applyTokens;
 };

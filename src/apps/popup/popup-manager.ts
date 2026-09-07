@@ -26,8 +26,8 @@ export class PopupManager {
     this._gradingController,
   );
 
-  private _showPopupOnHover: boolean;
-  private _touchscreenSupport: boolean;
+  private _showPopupOnHover!: boolean;
+  private _touchscreenSupport!: boolean;
   private _currentHover?: HTMLElement;
   private _currentSentence?: string;
 
